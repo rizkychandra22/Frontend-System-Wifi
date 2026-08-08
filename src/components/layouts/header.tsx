@@ -16,12 +16,13 @@ import { toast } from "sonner";
 
 // Custom Label Dictionary (Opsional untuk nama khusus)
 const customLabels: Record<string, string> = {
-  "admin": "Dashboard Admin",
-  "employee": "Dashboard Pegawai",
-  "customer": "Dashboard Pelanggan",
-  "news": "News",
-  "create": "Create",
-  "edit": "Edit",
+  "users": "Data Pengguna",
+  "attendance": "Data Kehadiran",
+  "record": "Catat Kehadiran",
+  "history": "Riwayat",
+  "invoices": "Tagihan / Invoice",
+  "subscriptions": "Layanan WiFi",
+  "billing-history": "Riwayat Tagihan",
 };
 
 export function Header() {

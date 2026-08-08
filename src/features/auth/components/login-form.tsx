@@ -43,20 +43,9 @@ export const LoginForm = () => {
     try {
       setIsLoading(true);
       const data = await loginApi(values.phone);
-      
-      // Simpan token ke localStorage
-      setToken(data.token);
-      
+      setToken(data.token, data.user);
       toast.success(data.message || "Login berhasil!");
-      
-      // Redirect berdasarkan role (contoh sederhana)
-      if (data.user.role === "admin") {
-        navigate("/admin/dashboard");
-      } else if (data.user.role === "employee") {
-        navigate("/employee/dashboard");
-      } else {
-        navigate("/customer/dashboard");
-      }
+      navigate("/dashboard");
     } catch (error: any) {
       toast.error(error.message || "Terjadi kesalahan saat login.");
     } finally {

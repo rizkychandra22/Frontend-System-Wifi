@@ -4,42 +4,29 @@ import { Toaster } from "@/components/ui/sonner";
 import "./App.css";
 import { LoginPage } from "@/pages/auth/login";
 
-const DummyAdminDashboard = () => (
-  <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-    <h1 className="text-2xl font-bold text-foreground">Admin Dashboard</h1>
-    <p className="text-muted-foreground mt-2">Selamat datang di Panel Manajemen Pusat.</p>
-  </div>
-);
-
-const DummyEmployeeDashboard = () => (
-  <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-    <h1 className="text-2xl font-bold text-foreground">Dashboard Pegawai</h1>
-    <p className="text-muted-foreground mt-2">Panel untuk absen harian dan riwayat kerja.</p>
-  </div>
-);
-
-const DummyCustomerDashboard = () => (
-  <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-    <h1 className="text-2xl font-bold text-foreground">Dashboard Pelanggan</h1>
-    <p className="text-muted-foreground mt-2">Informasi tagihan WiFi Anda bulan ini.</p>
-  </div>
-);
-
 function App() {
   return (
     <BrowserRouter>
       <Toaster position="top-right" richColors />
       <Routes>
-        <Route path="/" element={<Navigate to="/admin/dashboard" replace />} />
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
         <Route path="/login" element={<LoginPage />} />
         
         <Route element={<AppLayout />}>
-          <Route path="admin/dashboard" element={<DummyAdminDashboard />} />
-          <Route path="employee/dashboard" element={<DummyEmployeeDashboard />} />
-          <Route path="customer/dashboard" element={<DummyCustomerDashboard />} />
-          <Route path="admin/employees" element={<h1 className="text-2xl font-bold">Data Pegawai</h1>} />
-          <Route path="admin/customers" element={<h1 className="text-2xl font-bold">Data Pelanggan</h1>} />
-          <Route path="admin/invoices" element={<h1 className="text-2xl font-bold">Tagihan / Invoices</h1>} />
+          <Route path="/dashboard" element={<h1 className="text-2xl font-bold capitalize">Dashboard</h1>} />
+          
+          {/* Admin Routes */}
+          <Route path="/users" element={<h1 className="text-2xl font-bold capitalize">Data Pengguna</h1>} />
+          <Route path="/attendance" element={<h1 className="text-2xl font-bold capitalize">Data Kehadiran</h1>} />
+          <Route path="/invoices" element={<h1 className="text-2xl font-bold capitalize">Tagihan / Invoice</h1>} />
+          
+          {/* Employee Routes */}
+          <Route path="/attendance/record" element={<h1 className="text-2xl font-bold">Catat Kehadiran</h1>} />
+          <Route path="/attendance/history" element={<h1 className="text-2xl font-bold">Riwayat Kehadiran</h1>} />
+          
+          {/* Customer Routes */}
+          <Route path="/subscriptions" element={<h1 className="text-2xl font-bold">Layanan WiFi Aktif</h1>} />
+          <Route path="/billing-history" element={<h1 className="text-2xl font-bold">Riwayat Tagihan</h1>} />
         </Route>
       </Routes>
     </BrowserRouter>

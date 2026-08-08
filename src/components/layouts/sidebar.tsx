@@ -40,10 +40,13 @@ import {
   LogOut,
   MapPin,
   FileText,
-  CreditCard,
   Wifi,
+  CalendarCheck,
+  Receipt,
+  ClipboardList
 } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { getUserData, removeToken } from "@/lib/auth-utils";
 
 export function AppSidebar() {
   const location = useLocation();
@@ -51,24 +54,27 @@ export function AppSidebar() {
   const navigate = useNavigate();
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 
-  // Mock User (Akan diganti dengan State Authentication nantinya)
-  const user = {
-    name: "Budi Santoso",
-    username: "budi.admin",
-    roles: ["Admin"],
+  const user = getUserData();
+  const role = user?.role?.toLowerCase() || "";
+
+  const roleNames: Record<string, string> = {
+    admin: "Admin",
+    employee: "Karyawan",
+    customer: "Pelanggan",
   };
+  const roleDisplay = roleNames[role] || role;
 
   const hasRole = (roleNames: string | string[]) => {
-    if (!user?.roles) return false;
+    if (!role) return false;
     if (Array.isArray(roleNames)) {
-      return roleNames.some((role) => user.roles?.includes(role));
+      return roleNames.map(r => r.toLowerCase()).includes(role);
     }
-    return user.roles.includes(roleNames);
+    return role === roleNames.toLowerCase();
   };
 
   const [data, setData] = useState({
     name: user?.name || "",
-    username: user?.username || "",
+    username: user?.phone || "",
     password: "",
     password_confirmation: "",
   });
@@ -89,7 +95,7 @@ export function AppSidebar() {
   return (
     <Sidebar className="border-r border-border">
       <SidebarHeader className="border-b border-border/40 px-4 py-4">
-        <Link to="/admin/dashboard" className="flex items-center gap-2.5">
+        <Link to="/dashboard" className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center">
             <Wifi className="w-4 h-4 text-white" />
           </div>
@@ -103,96 +109,124 @@ export function AppSidebar() {
       <SidebarContent className="px-2 py-2 no-scrollbar">
         <SidebarGroup>
           <SidebarGroupLabel className="px-3 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70">
-            Beranda
+            Beranda {roleDisplay}
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {hasRole("Admin") && (
+              {hasRole(["admin", "employee", "customer"]) && (
                 <SidebarMenuItem>
                   <SidebarMenuButton
                     asChild
-                    isActive={isActive("/admin/dashboard", true)}
+                    isActive={isActive("/dashboard", true)}
                     className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
                   >
-                    <Link to="/admin/dashboard">
+                    <Link to="/dashboard">
                       <LayoutDashboard className="w-[18px] h-[18px]" />
-                      <span className="text-[13px]">Dashboard Admin</span>
+                      <span className="text-[13px]">Dashboard</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               )}
 
-              {hasRole("Employee") && (
-                <SidebarMenuItem>
-                  <SidebarMenuButton
-                    asChild
-                    isActive={isActive("/employee/dashboard", true)}
-                    className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
-                  >
-                    <Link to="/employee/dashboard">
-                      <MapPin className="w-[18px] h-[18px]" />
-                      <span className="text-[13px]">Dashboard Pegawai</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
+              {hasRole("employee") && (
+                <>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={isActive("/attendance/record")}
+                      className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
+                    >
+                      <Link to="/attendance/record">
+                        <MapPin className="w-[18px] h-[18px]" />
+                        <span className="text-[13px]">Catat Kehadiran</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={isActive("/attendance/history")}
+                      className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
+                    >
+                      <Link to="/attendance/history">
+                        <ClipboardList className="w-[18px] h-[18px]" />
+                        <span className="text-[13px]">Riwayat Kehadiran</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </>
               )}
               
-              {hasRole("Customer") && (
-                <SidebarMenuItem>
-                  <SidebarMenuButton
-                    asChild
-                    isActive={isActive("/customer/dashboard", true)}
-                    className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
-                  >
-                    <Link to="/customer/dashboard">
-                      <CreditCard className="w-[18px] h-[18px]" />
-                      <span className="text-[13px]">Dashboard Pelanggan</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
+              {hasRole("customer") && (
+                <>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={isActive("/subscriptions")}
+                      className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
+                    >
+                      <Link to="/subscriptions">
+                        <Wifi className="w-[18px] h-[18px]" />
+                        <span className="text-[13px]">Layanan WiFi</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={isActive("/billing-history")}
+                      className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
+                    >
+                      <Link to="/billing-history">
+                        <Receipt className="w-[18px] h-[18px]" />
+                        <span className="text-[13px]">Riwayat Tagihan</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </>
               )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {hasRole("Admin") && (
+        {hasRole("admin") && (
           <SidebarGroup>
             <SidebarGroupLabel className="px-3 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70 mt-2">
-              Menu Pegawai & Pelanggan
+              Menu Utama
             </SidebarGroupLabel>
             <SidebarGroupContent>
                 <SidebarMenu>
                   <SidebarMenuItem>
                     <SidebarMenuButton
                     asChild
-                    isActive={isActive("/admin/employees")}
+                    isActive={isActive("/users")}
                     className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
                   >
-                    <Link to="/admin/employees">
+                    <Link to="/users">
                       <Users className="w-[18px] h-[18px]" />
-                      <span className="text-[13px]">Data Pegawai</span>
+                      <span className="text-[13px]">Data Pengguna</span>
                     </Link>
                   </SidebarMenuButton>
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton
                     asChild
-                    isActive={isActive("/admin/customers")}
+                    isActive={isActive("/attendance")}
                     className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
                   >
-                    <Link to="/admin/customers">
-                      <Users className="w-[18px] h-[18px]" />
-                      <span className="text-[13px]">Data Pelanggan WiFi</span>
+                    <Link to="/attendance">
+                      <CalendarCheck className="w-[18px] h-[18px]" />
+                      <span className="text-[13px]">Data Kehadiran</span>
                     </Link>
                   </SidebarMenuButton>
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton
                     asChild
-                    isActive={isActive("/admin/invoices")}
+                    isActive={isActive("/invoices")}
                     className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
                   >
-                    <Link to="/admin/invoices">
+                    <Link to="/invoices">
                       <FileText className="w-[18px] h-[18px]" />
                       <span className="text-[13px]">Tagihan / Invoice</span>
                     </Link>
@@ -207,17 +241,17 @@ export function AppSidebar() {
       <SidebarFooter className="border-t border-border/40 p-3">
         <div className="w-full flex items-center gap-2.5 p-1.5 h-auto">
           <Avatar className="h-8 w-8">
-            <AvatarFallback className="bg-primary/10 text-xs font-semibold text-primary">
-              {user?.name ? user.name.charAt(0) + user.name.split(" ").pop()?.charAt(0) : "BS"}
+            <AvatarFallback className="bg-primary/10 text-xs font-semibold text-primary uppercase">
+              {user?.name ? (user.name.charAt(0) + (user.name.split(" ").pop()?.charAt(0) || "")).substring(0, 2) : "US"}
             </AvatarFallback>
           </Avatar>
           <div className="flex flex-col flex-1 text-left overflow-hidden">
-            <span className="text-[13px] font-medium truncate">{user?.name || "Akun User"}</span>
-            <span className="text-[10px] text-muted-foreground truncate">
-              {user?.roles?.join(", ") + " - " + user?.username || "@username"}
+            <span className="text-[13px] font-medium truncate capitalize">{user?.name || "Akun User"}</span>
+            <span className="text-[10px] text-muted-foreground truncate uppercase">
+              {user?.phone || ""}
             </span>
           </div>
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-2">
             <Dialog open={isProfileModalOpen} onOpenChange={setIsProfileModalOpen}>
               <DialogTrigger asChild>
                 <button
@@ -306,6 +340,7 @@ export function AppSidebar() {
                   <AlertDialogAction
                     onClick={(e: React.MouseEvent) => {
                       e.preventDefault();
+                      removeToken();
                       navigate("/login");
                     }}
                     className="w-24  h-8 text-[13px] font-medium rounded-lg"
