@@ -1,13 +1,10 @@
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { Phone, Loader2 } from "lucide-react";
-
-import { loginApi } from "../api/login";
-import { setToken } from "@/lib/auth-utils";
+import { useLogin } from "../hooks/use-login";
 
 import {
   Form,
@@ -29,7 +26,7 @@ const formSchema = z.object({
 });
 
 export const LoginForm = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const { login, isLoading } = useLogin();
   const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -41,15 +38,11 @@ export const LoginForm = () => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      setIsLoading(true);
-      const data = await loginApi(values.phone);
-      setToken(data.token, data.user);
+      const data = await login(values.phone);
       toast.success(data.message || "Login berhasil!");
       navigate("/dashboard");
     } catch (error: any) {
       toast.error(error.message || "Terjadi kesalahan saat login.");
-    } finally {
-      setIsLoading(false);
     }
   }
 
