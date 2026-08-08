@@ -1,0 +1,358 @@
+import { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarFooter,
+} from "@/components/ui/sidebar";
+import {
+  LayoutDashboard,
+  Users,
+  Settings,
+  LogOut,
+  MapPin,
+  FileText,
+  Wifi,
+  CalendarCheck,
+  Receipt,
+  ClipboardList
+} from "lucide-react";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { getUserData, removeToken } from "@/lib/auth-utils";
+
+export function AppSidebar() {
+  const location = useLocation();
+  const url = location.pathname;
+  const navigate = useNavigate();
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+
+  const user = getUserData();
+  const role = user?.role?.toLowerCase() || "";
+
+  const roleNames: Record<string, string> = {
+    admin: "Admin",
+    employee: "Karyawan",
+    customer: "Pelanggan",
+  };
+  const roleDisplay = roleNames[role] || role;
+
+  const hasRole = (roleNames: string | string[]) => {
+    if (!role) return false;
+    if (Array.isArray(roleNames)) {
+      return roleNames.map(r => r.toLowerCase()).includes(role);
+    }
+    return role === roleNames.toLowerCase();
+  };
+
+  const [data, setData] = useState({
+    name: user?.name || "",
+    username: user?.phone || "",
+    password: "",
+    password_confirmation: "",
+  });
+
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsProfileModalOpen(false);
+    toast.success("Profil berhasil diperbarui");
+  };
+
+  const isActive = (path: string, exact = false) => {
+    if (exact) {
+      return url === path;
+    }
+    return url === path || url.startsWith(path + "/");
+  };
+
+  return (
+    <Sidebar className="border-r border-border">
+      <SidebarHeader className="border-b border-border/40 px-4 py-4">
+        <Link to="/dashboard" className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center">
+            <Wifi className="w-4 h-4 text-white" />
+          </div>
+          <div className="flex flex-col">
+            <span className="text-[13px] font-bold tracking-tight font-display">System WiFi</span>
+            <span className="text-[10px] text-muted-foreground uppercase">Management</span>
+          </div>
+        </Link>
+      </SidebarHeader>
+
+      <SidebarContent className="px-2 py-2 no-scrollbar">
+        <SidebarGroup>
+          <SidebarGroupLabel className="px-3 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70">
+            Beranda {roleDisplay}
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {hasRole(["admin", "employee", "customer"]) && (
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={isActive("/dashboard", true)}
+                    className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
+                  >
+                    <Link to="/dashboard">
+                      <LayoutDashboard className="w-[18px] h-[18px]" />
+                      <span className="text-[13px]">Dashboard</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              )}
+
+              {hasRole("employee") && (
+                <>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={isActive("/attendance/record")}
+                      className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
+                    >
+                      <Link to="/attendance/record">
+                        <MapPin className="w-[18px] h-[18px]" />
+                        <span className="text-[13px]">Catat Kehadiran</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={isActive("/attendance/history")}
+                      className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
+                    >
+                      <Link to="/attendance/history">
+                        <ClipboardList className="w-[18px] h-[18px]" />
+                        <span className="text-[13px]">Riwayat Kehadiran</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </>
+              )}
+              
+              {hasRole("customer") && (
+                <>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={isActive("/subscriptions")}
+                      className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
+                    >
+                      <Link to="/subscriptions">
+                        <Wifi className="w-[18px] h-[18px]" />
+                        <span className="text-[13px]">Layanan WiFi</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={isActive("/billing-history")}
+                      className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
+                    >
+                      <Link to="/billing-history">
+                        <Receipt className="w-[18px] h-[18px]" />
+                        <span className="text-[13px]">Riwayat Tagihan</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </>
+              )}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {hasRole("admin") && (
+          <SidebarGroup>
+            <SidebarGroupLabel className="px-3 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70 mt-2">
+              Menu Utama
+            </SidebarGroupLabel>
+            <SidebarGroupContent>
+                <SidebarMenu>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                    asChild
+                    isActive={isActive("/users")}
+                    className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
+                  >
+                    <Link to="/users">
+                      <Users className="w-[18px] h-[18px]" />
+                      <span className="text-[13px]">Data Pengguna</span>
+                    </Link>
+                  </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                    asChild
+                    isActive={isActive("/attendance")}
+                    className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
+                  >
+                    <Link to="/attendance">
+                      <CalendarCheck className="w-[18px] h-[18px]" />
+                      <span className="text-[13px]">Data Kehadiran</span>
+                    </Link>
+                  </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                    asChild
+                    isActive={isActive("/invoices")}
+                    className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
+                  >
+                    <Link to="/invoices">
+                      <FileText className="w-[18px] h-[18px]" />
+                      <span className="text-[13px]">Tagihan / Invoice</span>
+                    </Link>
+                  </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
+      </SidebarContent>
+
+      <SidebarFooter className="border-t border-border/40 p-3">
+        <div className="w-full flex items-center gap-2.5 p-1.5 h-auto">
+          <Avatar className="h-8 w-8">
+            <AvatarFallback className="bg-primary/10 text-xs font-semibold text-primary uppercase">
+              {user?.name ? (user.name.charAt(0) + (user.name.split(" ").pop()?.charAt(0) || "")).substring(0, 2) : "US"}
+            </AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col flex-1 text-left overflow-hidden">
+            <span className="text-[13px] font-medium truncate capitalize">{user?.name || "Akun User"}</span>
+            <span className="text-[10px] text-muted-foreground truncate uppercase">
+              {user?.phone || ""}
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Dialog open={isProfileModalOpen} onOpenChange={setIsProfileModalOpen}>
+              <DialogTrigger asChild>
+                <button
+                  className="p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+                  aria-label="Pengaturan"
+                  title="Pengaturan"
+                >
+                  <Settings className="w-[18px] h-[18px]" />
+                </button>
+              </DialogTrigger>
+              <DialogContent className="rounded-md w-[90%] sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Update Profil</DialogTitle>
+                </DialogHeader>
+                <form
+                  onSubmit={onSubmit}
+                  className="flex flex-col gap-4 py-4 max-h-[75vh] overflow-y-auto no-scrollbar px-1"
+                >
+                  <div className="flex flex-col gap-2">
+                    <Label htmlFor="name">Nama Lengkap</Label>
+                    <Input
+                      id="name"
+                      value={data.name}
+                      onChange={(e) => setData({...data, name: e.target.value})}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <Label htmlFor="username">Username</Label>
+                    <Input
+                      id="username"
+                      value={data.username}
+                      onChange={(e) => setData({...data, username: e.target.value})}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <Label htmlFor="password">Password Baru</Label>
+                    <Input
+                      id="password"
+                      type="password"
+                      value={data.password}
+                      onChange={(e) => setData({...data, password: e.target.value})}
+                      placeholder="Kosongkan jika tidak ingin diubah"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <Label htmlFor="password_confirmation">Konfirmasi Password Baru</Label>
+                    <Input
+                      id="password_confirmation"
+                      type="password"
+                      value={data.password_confirmation}
+                      onChange={(e) => setData({...data, password_confirmation: e.target.value})}
+                      placeholder="Kosongkan jika tidak ingin diubah"
+                    />
+                  </div>
+                  <div className="flex justify-end mt-4">
+                    <Button type="submit">
+                      Simpan Perubahan
+                    </Button>
+                  </div>
+                </form>
+              </DialogContent>
+            </Dialog>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <button
+                  className="p-1.5 rounded-lg text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
+                  aria-label="Keluar"
+                  title="Keluar"
+                >
+                  <LogOut className="w-[18px] h-[18px]" />
+                </button>
+              </AlertDialogTrigger>
+              <AlertDialogContent className="w-[90%] max-w-[360px] rounded-md p-6">
+                <AlertDialogHeader>
+                  <AlertDialogTitle className="text-center text-lg font-semibold">
+                    Keluar
+                  </AlertDialogTitle>
+                  <AlertDialogDescription className="text-center text-[15px] mt-2 mb-4 text-foreground/80">
+                    Apakah Anda yakin ingin keluar?
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <div className="flex flex-row justify-center gap-3 mt-2">
+                  <AlertDialogCancel className="w-24 mt-0 border border-border bg-background hover:bg-muted text-foreground rounded-lg h-8 text-[13px] font-medium">
+                    Batal
+                  </AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={(e: React.MouseEvent) => {
+                      e.preventDefault();
+                      removeToken();
+                      navigate("/login");
+                    }}
+                    className="w-24  h-8 text-[13px] font-medium rounded-lg"
+                  >
+                    Ya, Keluar
+                  </AlertDialogAction>
+                </div>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
+        </div>
+      </SidebarFooter>
+    </Sidebar>
+  );
+}
