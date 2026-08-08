@@ -4,6 +4,15 @@ import { getToken } from "./auth-utils";
 
 function resolveApiBaseUrl(): string {
   if (typeof window !== "undefined") {
+    const host = window.location.hostname;
+    
+    // Jika kita sedang membuka web dari localhost (development),
+    // selalu paksa panggil backend localhost agar tidak terjadi IP Lock di Cloud
+    if (host === "localhost" || host === "127.0.0.1") {
+      return "http://localhost:8080/api";
+    }
+
+    // Jika web dibuka dari internet (misal Vercel), gunakan URL Endpoint Deploy
     if (import.meta.env.VITE_API_URL) {
       return import.meta.env.VITE_API_URL;
     }
