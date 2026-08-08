@@ -2,16 +2,7 @@ import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { AppLayout } from "@/components/layouts/app";
 import { Toaster } from "@/components/ui/sonner";
 import "./App.css";
-
-// --- Komponen Halaman Placeholder (Sementara) ---
-const DummyLogin = () => (
-  <div className="flex h-screen items-center justify-center bg-background text-foreground">
-    <div className="text-center">
-      <h1 className="text-3xl font-display font-bold text-primary mb-2">Login</h1>
-      <p className="text-muted-foreground">Silakan masuk ke akun Anda.</p>
-    </div>
-  </div>
-);
+import { LoginPage } from "@/pages/auth/login";
 
 const DummyAdminDashboard = () => (
   <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -40,7 +31,7 @@ function App() {
       <Toaster position="top-right" richColors />
       <Routes>
         <Route path="/" element={<Navigate to="/admin/dashboard" replace />} />
-        <Route path="/login" element={<DummyLogin />} />
+        <Route path="/login" element={<LoginPage />} />
         
         <Route element={<AppLayout />}>
           <Route path="admin/dashboard" element={<DummyAdminDashboard />} />
