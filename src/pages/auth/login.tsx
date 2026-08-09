@@ -2,7 +2,14 @@ import { LoginForm } from "@/features/auth/components/login-form";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Wifi } from "lucide-react";
 
+import { Navigate } from "react-router-dom";
+import { isAuthenticated } from "@/lib/auth-utils";
+
 export const LoginPage = () => {
+  if (isAuthenticated()) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-cyan-50 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 p-4">
       

@@ -3,13 +3,18 @@ import { AppLayout } from "@/components/layouts/app";
 import { Toaster } from "@/components/ui/sonner";
 import "./App.css";
 import { LoginPage } from "@/pages/auth/login";
+import { isAuthenticated } from "@/lib/auth-utils";
+
+const RootRedirect = () => {
+  return isAuthenticated() ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />;
+};
 
 function App() {
   return (
     <BrowserRouter>
       <Toaster position="top-right" richColors />
       <Routes>
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+        <Route path="/" element={<RootRedirect />} />
         <Route path="/login" element={<LoginPage />} />
         
         <Route element={<AppLayout />}>

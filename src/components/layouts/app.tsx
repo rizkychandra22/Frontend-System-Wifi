@@ -1,10 +1,15 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { AppSidebar } from "./sidebar";
 import { Header } from "./header";
 import { ThemeProvider } from "@/components/tema-ui";
+import { isAuthenticated } from "@/lib/auth-utils";
 
 export function AppLayout() {
+  if (!isAuthenticated()) {
+    return <Navigate to="/login" replace />;
+  }
+
   return (
     <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
       <SidebarProvider>
