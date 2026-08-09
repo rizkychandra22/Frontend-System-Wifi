@@ -2,7 +2,7 @@ import axios, { type AxiosError } from "axios";
 import axiosRetry from "axios-retry";
 import { getToken } from "./auth-utils";
 
-function resolveApiBaseUrl(): string {
+export function resolveApiBaseUrl(): string {
   if (typeof window !== "undefined") {
     const host = window.location.hostname;
     

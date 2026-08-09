@@ -45,17 +45,26 @@ import {
   Receipt,
   ClipboardList
 } from "lucide-react";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getUserData, removeToken } from "@/lib/auth-utils";
+import { useUpdateProfile, useUploadFile } from "@/features/auth/hooks/use-profile";
+import { resolveApiBaseUrl } from "@/lib/api-client";
 
 export function AppSidebar() {
   const location = useLocation();
   const url = location.pathname;
   const navigate = useNavigate();
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  const { updateProfile, isUpdating } = useUpdateProfile();
+  const { uploadFile, isUploading } = useUploadFile();
 
   const user = getUserData();
   const role = user?.role?.toLowerCase() || "";
+  
+  const baseUrl = resolveApiBaseUrl().replace("/api", "");
+  const avatarUrl = user?.profile_picture ? (user.profile_picture.startsWith("http") ? user.profile_picture : `${baseUrl}${user.profile_picture}`) : "";
 
   const roleNames: Record<string, string> = {
     admin: "Admin",
@@ -74,15 +83,34 @@ export function AppSidebar() {
 
   const [data, setData] = useState({
     name: user?.name || "",
-    username: user?.phone || "",
-    password: "",
-    password_confirmation: "",
+    phone: user?.phone || "",
+    address: user?.address || "",
+    profile_picture: user?.profile_picture || "",
   });
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsProfileModalOpen(false);
-    toast.success("Profil berhasil diperbarui");
+    try {
+      let finalProfilePicture = data.profile_picture;
+      
+      if (selectedFile) {
+        const uploadRes = await uploadFile(selectedFile);
+        finalProfilePicture = uploadRes.url;
+      }
+      
+      await updateProfile({
+        name: data.name,
+        phone: data.phone,
+        address: data.address,
+        profile_picture: finalProfilePicture,
+      });
+      
+      setIsProfileModalOpen(false);
+      setSelectedFile(null);
+      toast.success("Profil berhasil diperbarui");
+    } catch (error) {
+      toast.error("Gagal memperbarui profil");
+    }
   };
 
   const isActive = (path: string, exact = false) => {
@@ -241,6 +269,7 @@ export function AppSidebar() {
       <SidebarFooter className="border-t border-border/40 p-3">
         <div className="w-full flex items-center gap-2.5 p-1.5 h-auto">
           <Avatar className="h-8 w-8">
+            <AvatarImage src={avatarUrl} alt={user?.name || "Foto Profil"} />
             <AvatarFallback className="bg-primary/10 text-xs font-semibold text-primary uppercase">
               {user?.name ? (user.name.charAt(0) + (user.name.split(" ").pop()?.charAt(0) || "")).substring(0, 2) : "US"}
             </AvatarFallback>
@@ -279,36 +308,38 @@ export function AppSidebar() {
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <Label htmlFor="username">Username</Label>
+                    <Label htmlFor="phone">Nomor HP</Label>
                     <Input
-                      id="username"
-                      value={data.username}
-                      onChange={(e) => setData({...data, username: e.target.value})}
+                      id="phone"
+                      value={data.phone}
+                      onChange={(e) => setData({...data, phone: e.target.value})}
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <Label htmlFor="password">Password Baru</Label>
+                    <Label htmlFor="address">Alamat</Label>
                     <Input
-                      id="password"
-                      type="password"
-                      value={data.password}
-                      onChange={(e) => setData({...data, password: e.target.value})}
-                      placeholder="Kosongkan jika tidak ingin diubah"
+                      id="address"
+                      value={data.address}
+                      onChange={(e) => setData({...data, address: e.target.value})}
+                      placeholder="Masukkan alamat lengkap"
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <Label htmlFor="password_confirmation">Konfirmasi Password Baru</Label>
+                    <Label htmlFor="profile_picture">Foto Profil</Label>
                     <Input
-                      id="password_confirmation"
-                      type="password"
-                      value={data.password_confirmation}
-                      onChange={(e) => setData({...data, password_confirmation: e.target.value})}
-                      placeholder="Kosongkan jika tidak ingin diubah"
+                      id="profile_picture"
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        if (e.target.files && e.target.files[0]) {
+                          setSelectedFile(e.target.files[0]);
+                        }
+                      }}
                     />
                   </div>
                   <div className="flex justify-end mt-4">
-                    <Button type="submit">
-                      Simpan Perubahan
+                    <Button type="submit" disabled={isUpdating || isUploading}>
+                      {isUpdating || isUploading ? "Menyimpan..." : "Simpan Profil"}
                     </Button>
                   </div>
                 </form>
