@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import {
@@ -9,6 +9,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import {
@@ -47,6 +48,7 @@ import {
 } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { getUserData, removeToken } from "@/lib/auth-utils";
+import { useUpdateProfile } from "@/features/auth/hooks/use-profile";
 
 export function AppSidebar() {
   const location = useLocation();
@@ -54,8 +56,18 @@ export function AppSidebar() {
   const navigate = useNavigate();
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 
-  const user = getUserData();
+  const { updateProfile, isUpdating } = useUpdateProfile();
+
+  const [user, setUser] = useState(getUserData());
   const role = user?.role?.toLowerCase() || "";
+
+  useEffect(() => {
+    const handleProfileUpdate = () => {
+      setUser(getUserData());
+    };
+    window.addEventListener("profileUpdated", handleProfileUpdate);
+    return () => window.removeEventListener("profileUpdated", handleProfileUpdate);
+  }, []);
 
   const roleNames: Record<string, string> = {
     admin: "Admin",
@@ -74,15 +86,35 @@ export function AppSidebar() {
 
   const [data, setData] = useState({
     name: user?.name || "",
-    username: user?.phone || "",
-    password: "",
-    password_confirmation: "",
+    phone: user?.phone || "",
+    address: user?.address || "",
   });
 
-  const onSubmit = (e: React.FormEvent) => {
+  // Keep form data synced with user data if it updates externally
+  useEffect(() => {
+    if (!isProfileModalOpen) {
+      setData({
+        name: user?.name || "",
+        phone: user?.phone || "",
+        address: user?.address || "",
+      });
+    }
+  }, [user, isProfileModalOpen]);
+
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsProfileModalOpen(false);
-    toast.success("Profil berhasil diperbarui");
+    try {
+      await updateProfile({
+        name: data.name,
+        phone: data.phone,
+        address: data.address,
+      });
+
+      setIsProfileModalOpen(false);
+      toast.success("Profil berhasil diperbarui");
+    } catch (error) {
+      toast.error("Gagal memperbarui profil");
+    }
   };
 
   const isActive = (path: string, exact = false) => {
@@ -156,7 +188,7 @@ export function AppSidebar() {
                   </SidebarMenuItem>
                 </>
               )}
-              
+
               {hasRole("customer") && (
                 <>
                   <SidebarMenuItem>
@@ -195,9 +227,9 @@ export function AppSidebar() {
               Menu Utama
             </SidebarGroupLabel>
             <SidebarGroupContent>
-                <SidebarMenu>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
                     asChild
                     isActive={isActive("/users")}
                     className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
@@ -207,9 +239,9 @@ export function AppSidebar() {
                       <span className="text-[13px]">Data Pengguna</span>
                     </Link>
                   </SidebarMenuButton>
-                  </SidebarMenuItem>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
                     asChild
                     isActive={isActive("/attendance")}
                     className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
@@ -219,9 +251,9 @@ export function AppSidebar() {
                       <span className="text-[13px]">Data Kehadiran</span>
                     </Link>
                   </SidebarMenuButton>
-                  </SidebarMenuItem>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
                     asChild
                     isActive={isActive("/invoices")}
                     className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
@@ -231,8 +263,8 @@ export function AppSidebar() {
                       <span className="text-[13px]">Tagihan / Invoice</span>
                     </Link>
                   </SidebarMenuButton>
-                  </SidebarMenuItem>
-                </SidebarMenu>
+                </SidebarMenuItem>
+              </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
         )}
@@ -275,40 +307,29 @@ export function AppSidebar() {
                     <Input
                       id="name"
                       value={data.name}
-                      onChange={(e) => setData({...data, name: e.target.value})}
+                      onChange={(e) => setData({ ...data, name: e.target.value })}
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <Label htmlFor="username">Username</Label>
+                    <Label htmlFor="phone">Nomor HP</Label>
                     <Input
-                      id="username"
-                      value={data.username}
-                      onChange={(e) => setData({...data, username: e.target.value})}
+                      id="phone"
+                      value={data.phone}
+                      onChange={(e) => setData({ ...data, phone: e.target.value })}
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <Label htmlFor="password">Password Baru</Label>
-                    <Input
-                      id="password"
-                      type="password"
-                      value={data.password}
-                      onChange={(e) => setData({...data, password: e.target.value})}
-                      placeholder="Kosongkan jika tidak ingin diubah"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <Label htmlFor="password_confirmation">Konfirmasi Password Baru</Label>
-                    <Input
-                      id="password_confirmation"
-                      type="password"
-                      value={data.password_confirmation}
-                      onChange={(e) => setData({...data, password_confirmation: e.target.value})}
-                      placeholder="Kosongkan jika tidak ingin diubah"
+                    <Label htmlFor="address">Alamat</Label>
+                    <Textarea
+                      id="address"
+                      value={data.address}
+                      onChange={(e) => setData({ ...data, address: e.target.value })}
+                      placeholder="Masukkan alamat lengkap"
                     />
                   </div>
                   <div className="flex justify-end mt-4">
-                    <Button type="submit">
-                      Simpan Perubahan
+                    <Button type="submit" disabled={isUpdating}>
+                      {isUpdating ? "Menyimpan..." : "Simpan Profil"}
                     </Button>
                   </div>
                 </form>
