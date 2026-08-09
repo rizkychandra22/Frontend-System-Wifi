@@ -3,6 +3,8 @@ import { AppLayout } from "@/components/layouts/app";
 import { Toaster } from "@/components/ui/sonner";
 import "./App.css";
 import { LoginPage } from "@/pages/auth/login";
+import { AttendanceRecordPage } from "@/pages/employee/attendance-record";
+import { AttendanceHistoryPage } from "@/pages/employee/attendance-history";
 import { isAuthenticated } from "@/lib/auth-utils";
 
 const RootRedirect = () => {
@@ -26,8 +28,8 @@ function App() {
           <Route path="/invoices" element={<h1 className="text-2xl font-bold capitalize">Tagihan / Invoice</h1>} />
           
           {/* Employee Routes */}
-          <Route path="/attendance/record" element={<h1 className="text-2xl font-bold">Catat Kehadiran</h1>} />
-          <Route path="/attendance/history" element={<h1 className="text-2xl font-bold">Riwayat Kehadiran</h1>} />
+          <Route path="/attendance/record" element={<AttendanceRecordPage />} />
+          <Route path="/attendance/history" element={<AttendanceHistoryPage />} />
           
           {/* Customer Routes */}
           <Route path="/subscriptions" element={<h1 className="text-2xl font-bold">Layanan WiFi Aktif</h1>} />
