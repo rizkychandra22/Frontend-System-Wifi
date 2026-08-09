@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import {
@@ -9,6 +9,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import {
@@ -45,26 +46,28 @@ import {
   Receipt,
   ClipboardList
 } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { getUserData, removeToken } from "@/lib/auth-utils";
-import { useUpdateProfile, useUploadFile } from "@/features/auth/hooks/use-profile";
-import { resolveApiBaseUrl } from "@/lib/api-client";
+import { useUpdateProfile } from "@/features/auth/hooks/use-profile";
 
 export function AppSidebar() {
   const location = useLocation();
   const url = location.pathname;
   const navigate = useNavigate();
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const { updateProfile, isUpdating } = useUpdateProfile();
-  const { uploadFile, isUploading } = useUploadFile();
 
-  const user = getUserData();
+  const [user, setUser] = useState(getUserData());
   const role = user?.role?.toLowerCase() || "";
-  
-  const baseUrl = resolveApiBaseUrl().replace("/api", "");
-  const avatarUrl = user?.profile_picture ? (user.profile_picture.startsWith("http") ? user.profile_picture : `${baseUrl}${user.profile_picture}`) : "";
+
+  useEffect(() => {
+    const handleProfileUpdate = () => {
+      setUser(getUserData());
+    };
+    window.addEventListener("profileUpdated", handleProfileUpdate);
+    return () => window.removeEventListener("profileUpdated", handleProfileUpdate);
+  }, []);
 
   const roleNames: Record<string, string> = {
     admin: "Admin",
@@ -85,28 +88,29 @@ export function AppSidebar() {
     name: user?.name || "",
     phone: user?.phone || "",
     address: user?.address || "",
-    profile_picture: user?.profile_picture || "",
   });
+
+  // Keep form data synced with user data if it updates externally
+  useEffect(() => {
+    if (!isProfileModalOpen) {
+      setData({
+        name: user?.name || "",
+        phone: user?.phone || "",
+        address: user?.address || "",
+      });
+    }
+  }, [user, isProfileModalOpen]);
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      let finalProfilePicture = data.profile_picture;
-      
-      if (selectedFile) {
-        const uploadRes = await uploadFile(selectedFile);
-        finalProfilePicture = uploadRes.url;
-      }
-      
       await updateProfile({
         name: data.name,
         phone: data.phone,
         address: data.address,
-        profile_picture: finalProfilePicture,
       });
-      
+
       setIsProfileModalOpen(false);
-      setSelectedFile(null);
       toast.success("Profil berhasil diperbarui");
     } catch (error) {
       toast.error("Gagal memperbarui profil");
@@ -184,7 +188,7 @@ export function AppSidebar() {
                   </SidebarMenuItem>
                 </>
               )}
-              
+
               {hasRole("customer") && (
                 <>
                   <SidebarMenuItem>
@@ -223,9 +227,9 @@ export function AppSidebar() {
               Menu Utama
             </SidebarGroupLabel>
             <SidebarGroupContent>
-                <SidebarMenu>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
                     asChild
                     isActive={isActive("/users")}
                     className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
@@ -235,9 +239,9 @@ export function AppSidebar() {
                       <span className="text-[13px]">Data Pengguna</span>
                     </Link>
                   </SidebarMenuButton>
-                  </SidebarMenuItem>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
                     asChild
                     isActive={isActive("/attendance")}
                     className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
@@ -247,9 +251,9 @@ export function AppSidebar() {
                       <span className="text-[13px]">Data Kehadiran</span>
                     </Link>
                   </SidebarMenuButton>
-                  </SidebarMenuItem>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
                     asChild
                     isActive={isActive("/invoices")}
                     className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
@@ -259,8 +263,8 @@ export function AppSidebar() {
                       <span className="text-[13px]">Tagihan / Invoice</span>
                     </Link>
                   </SidebarMenuButton>
-                  </SidebarMenuItem>
-                </SidebarMenu>
+                </SidebarMenuItem>
+              </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
         )}
@@ -269,7 +273,6 @@ export function AppSidebar() {
       <SidebarFooter className="border-t border-border/40 p-3">
         <div className="w-full flex items-center gap-2.5 p-1.5 h-auto">
           <Avatar className="h-8 w-8">
-            <AvatarImage src={avatarUrl} alt={user?.name || "Foto Profil"} />
             <AvatarFallback className="bg-primary/10 text-xs font-semibold text-primary uppercase">
               {user?.name ? (user.name.charAt(0) + (user.name.split(" ").pop()?.charAt(0) || "")).substring(0, 2) : "US"}
             </AvatarFallback>
@@ -304,7 +307,7 @@ export function AppSidebar() {
                     <Input
                       id="name"
                       value={data.name}
-                      onChange={(e) => setData({...data, name: e.target.value})}
+                      onChange={(e) => setData({ ...data, name: e.target.value })}
                     />
                   </div>
                   <div className="flex flex-col gap-2">
@@ -312,34 +315,21 @@ export function AppSidebar() {
                     <Input
                       id="phone"
                       value={data.phone}
-                      onChange={(e) => setData({...data, phone: e.target.value})}
+                      onChange={(e) => setData({ ...data, phone: e.target.value })}
                     />
                   </div>
                   <div className="flex flex-col gap-2">
                     <Label htmlFor="address">Alamat</Label>
-                    <Input
+                    <Textarea
                       id="address"
                       value={data.address}
-                      onChange={(e) => setData({...data, address: e.target.value})}
+                      onChange={(e) => setData({ ...data, address: e.target.value })}
                       placeholder="Masukkan alamat lengkap"
                     />
                   </div>
-                  <div className="flex flex-col gap-2">
-                    <Label htmlFor="profile_picture">Foto Profil</Label>
-                    <Input
-                      id="profile_picture"
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => {
-                        if (e.target.files && e.target.files[0]) {
-                          setSelectedFile(e.target.files[0]);
-                        }
-                      }}
-                    />
-                  </div>
                   <div className="flex justify-end mt-4">
-                    <Button type="submit" disabled={isUpdating || isUploading}>
-                      {isUpdating || isUploading ? "Menyimpan..." : "Simpan Profil"}
+                    <Button type="submit" disabled={isUpdating}>
+                      {isUpdating ? "Menyimpan..." : "Simpan Profil"}
                     </Button>
                   </div>
                 </form>

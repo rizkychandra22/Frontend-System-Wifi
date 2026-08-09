@@ -20,22 +20,9 @@ export interface UpdateProfilePayload {
   name?: string;
   phone?: string;
   address?: string;
-  profile_picture?: string;
 }
 
 export const updateProfileApi = async (data: UpdateProfilePayload) => {
   const response = await apiClient.put("/auth/profile", data);
-  return response.data;
-};
-
-export const uploadFileApi = async (file: File): Promise<{ url: string }> => {
-  const formData = new FormData();
-  formData.append("file", file);
-  
-  const response = await apiClient.post<{ url: string }>("/upload", formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
   return response.data;
 };
