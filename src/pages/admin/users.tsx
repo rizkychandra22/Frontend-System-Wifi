@@ -26,16 +26,14 @@ import {
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
-  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
-import { Edit2, Trash2, ShieldAlert, Plus, Eye } from "lucide-react";
+import { Edit2, Trash2, ShieldAlert, Plus, Eye, Search } from "lucide-react";
 
 export function UsersPage() {
   const [users, setUsers] = useState<User[]>([]);
-  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState("employee");
 
@@ -63,13 +61,10 @@ export function UsersPage() {
 
   const fetchUsers = async () => {
     try {
-      setLoading(true);
       const data = await usersApi.getUsers();
       setUsers(data);
     } catch (error) {
       toast.error("Gagal mengambil data pengguna");
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -155,7 +150,7 @@ export function UsersPage() {
   const customers = filteredUsers.filter((u) => u.role === "customer");
 
   const renderTable = (dataList: User[]) => (
-    <div className="border rounded-lg bg-card overflow-hidden">
+    <div className="rounded-xl border bg-card overflow-hidden shadow-sm">
       <Table>
         <TableHeader>
           <TableRow>
@@ -256,44 +251,52 @@ export function UsersPage() {
         </div>
       </div>
 
-      {loading ? (
-        <div className="flex items-center justify-center py-10">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-        </div>
-      ) : (
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="w-full justify-start border-b rounded-none bg-transparent h-auto p-0 mb-6 gap-6">
-            <TabsTrigger 
-              value="employee"
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:text-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none pb-2 pt-0 px-1 text-muted-foreground hover:text-foreground text-sm font-medium"
-            >
-              Karyawan ({employees.length})
-            </TabsTrigger>
-            <TabsTrigger 
-              value="customer"
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:text-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none pb-2 pt-0 px-1 text-muted-foreground hover:text-foreground text-sm font-medium"
-            >
-              Pelanggan ({customers.length})
-            </TabsTrigger>
-          </TabsList>
-
-          <div className="flex flex-col sm:flex-row gap-4 mb-6 items-center">
-            <Input 
-              placeholder="Cari nama atau no. telp..." 
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full sm:max-w-md bg-muted/50 rounded-md h-8 text-xs"
-            />
-            <Button size="sm" onClick={openAdd} className="gap-2 w-full sm:w-auto sm:ml-auto">
-              <Plus className="w-[14px] h-[14px]" />
-              Tambah {activeTab === "employee" ? "Karyawan" : "Pelanggan"}
-            </Button>
+      <div className="w-full">
+        <div className="w-full border-b border-border">
+            <div className="flex flex-col sm:flex-row gap-4 w-full items-start sm:items-center">
+              <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full sm:w-auto relative">
+                <TabsList className="grid grid-cols-2 w-full sm:flex sm:w-auto h-auto p-0 bg-transparent sm:gap-6 justify-start rounded-none border-none">
+                  <TabsTrigger 
+                    value="employee"
+                    className="rounded-none border-b-2 border-transparent px-1 pb-2.5 pt-1.5 font-medium text-muted-foreground shadow-none data-[state=active]:border-primary data-[state=active]:text-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none hover:text-foreground text-[13px]"
+                  >
+                    Karyawan ({employees.length})
+                  </TabsTrigger>
+                  <TabsTrigger 
+                    value="customer"
+                    className="rounded-none border-b-2 border-transparent px-1 pb-2.5 pt-1.5 font-medium text-muted-foreground shadow-none data-[state=active]:border-primary data-[state=active]:text-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none hover:text-foreground text-[13px]"
+                  >
+                    Pelanggan ({customers.length})
+                  </TabsTrigger>
+                </TabsList>
+              </Tabs>
+            </div>
           </div>
 
-          <TabsContent value="employee">{renderTable(employees)}</TabsContent>
-          <TabsContent value="customer">{renderTable(customers)}</TabsContent>
-        </Tabs>
-      )}
+          <div className="flex flex-col lg:flex-row justify-between items-stretch lg:items-center gap-3 mt-4 mb-4">
+            <div className="relative w-full lg:w-80">
+              <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
+              <Input 
+                placeholder="Cari nama atau no. telp..." 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-9 h-8 bg-muted/50 border border-border/60 rounded-lg text-[13px] shadow-none focus:bg-background transition-colors"
+              />
+            </div>
+            
+            <div className="flex flex-row flex-wrap sm:flex-nowrap items-center gap-2 w-full lg:w-auto">
+              <Button size="sm" onClick={openAdd} className="h-8 px-3.5 rounded-lg text-[13px] font-medium shrink-0 shadow-sm w-full sm:w-auto flex-none">
+                <Plus className="h-3.5 w-3.5 mr-1" />
+                Tambah {activeTab === "employee" ? "Karyawan" : "Pelanggan"}
+              </Button>
+            </div>
+          </div>
+
+          <Tabs value={activeTab} className="w-full">
+            <TabsContent value="employee" className="mt-0">{renderTable(employees)}</TabsContent>
+            <TabsContent value="customer" className="mt-0">{renderTable(customers)}</TabsContent>
+          </Tabs>
+        </div>
 
       {/* Dialog Tambah User */}
       <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
@@ -363,11 +366,7 @@ export function UsersPage() {
             <div className="space-y-1">
               <Label className="text-muted-foreground text-xs">Status Device (IP)</Label>
               <div className="font-medium">
-                {selectedUser?.ip_address ? (
-                  <span className="text-green-600 dark:text-green-400 font-semibold">{selectedUser.ip_address}</span>
-                ) : (
-                  <span className="text-muted-foreground">Bebas</span>
-                )}
+                {selectedUser?.ip_address || "-"}
               </div>
             </div>
           </div>
@@ -432,37 +431,37 @@ export function UsersPage() {
 
       {/* Alert Dialog Delete */}
       <AlertDialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
-        <AlertDialogContent>
+        <AlertDialogContent className="w-[90%] max-w-[360px] rounded-md p-6">
           <AlertDialogHeader>
-            <AlertDialogTitle>Hapus Pengguna?</AlertDialogTitle>
-            <AlertDialogDescription>
+            <AlertDialogTitle className="text-center text-lg font-semibold">Hapus Pengguna?</AlertDialogTitle>
+            <AlertDialogDescription className="text-center text-[15px] mt-2 mb-4 text-foreground/80">
               Tindakan ini tidak dapat dibatalkan. Data {selectedUser?.name} akan dihapus secara permanen dari sistem.
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Batal</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDelete} className="bg-destructive hover:bg-destructive/90 text-destructive-foreground">
-              Hapus
+          <div className="flex flex-row justify-center gap-3 mt-2">
+            <AlertDialogCancel className="w-24 mt-0 border border-border bg-background hover:bg-muted text-foreground rounded-lg h-8 text-[13px] font-medium">Batal</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDelete} className="w-24 h-8 text-[13px] font-medium rounded-lg bg-destructive hover:bg-destructive/90 text-destructive-foreground">
+              Ya, Hapus
             </AlertDialogAction>
-          </AlertDialogFooter>
+          </div>
         </AlertDialogContent>
       </AlertDialog>
 
       {/* Alert Dialog Reset IP */}
       <AlertDialog open={isResetOpen} onOpenChange={setIsResetOpen}>
-        <AlertDialogContent>
+        <AlertDialogContent className="w-[90%] max-w-[360px] rounded-md p-6">
           <AlertDialogHeader>
-            <AlertDialogTitle>Reset Device IP?</AlertDialogTitle>
-            <AlertDialogDescription>
+            <AlertDialogTitle className="text-center text-lg font-semibold">Reset Device IP?</AlertDialogTitle>
+            <AlertDialogDescription className="text-center text-[15px] mt-2 mb-4 text-foreground/80">
               Anda akan mereset kunci device untuk {selectedUser?.name}. Pengguna ini nantinya dapat login kembali dari perangkat baru.
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Batal</AlertDialogCancel>
-            <AlertDialogAction onClick={handleResetIP} className="bg-amber-500 hover:bg-amber-600 text-white">
-              Reset IP
+          <div className="flex flex-row justify-center gap-3 mt-2">
+            <AlertDialogCancel className="w-24 mt-0 border border-border bg-background hover:bg-muted text-foreground rounded-lg h-8 text-[13px] font-medium">Batal</AlertDialogCancel>
+            <AlertDialogAction onClick={handleResetIP} className="w-24 h-8 text-[13px] font-medium rounded-lg bg-amber-500 hover:bg-amber-600 text-white">
+              Ya, Reset
             </AlertDialogAction>
-          </AlertDialogFooter>
+          </div>
         </AlertDialogContent>
       </AlertDialog>
     </div>
