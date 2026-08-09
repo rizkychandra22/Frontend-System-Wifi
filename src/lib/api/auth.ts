@@ -35,3 +35,13 @@ export const updateProfileApi = async (data: UpdateProfilePayload) => {
   const response = await apiClient.put("/auth/profile", data);
   return response.data;
 };
+
+export interface UpdatePasswordPayload {
+  old_password: string;
+  new_password: string;
+}
+
+export const updatePasswordApi = async (data: UpdatePasswordPayload) => {
+  const response = await apiClient.put("/auth/profile/password", data);
+  return response.data;
+};
