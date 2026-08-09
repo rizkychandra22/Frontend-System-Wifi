@@ -266,7 +266,7 @@ export function AppSidebar() {
                 <SidebarMenuItem>
                   <SidebarMenuButton
                     asChild
-                    isActive={isActive("/users")}
+                    isActive={isActive("/dashboard/users")}
                     className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
                   >
                     <Link to="/dashboard/users">
@@ -278,7 +278,7 @@ export function AppSidebar() {
                 <SidebarMenuItem>
                   <SidebarMenuButton
                     asChild
-                    isActive={isActive("/attendance")}
+                    isActive={isActive("/dashboard/attendance")}
                     className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
                   >
                     <Link to="/dashboard/attendance">
@@ -290,7 +290,7 @@ export function AppSidebar() {
                 <SidebarMenuItem>
                   <SidebarMenuButton
                     asChild
-                    isActive={isActive("/invoices")}
+                    isActive={isActive("/dashboard/invoices")}
                     className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
                   >
                     <Link to="/dashboard/invoices">
