@@ -48,7 +48,7 @@ import {
 } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { getUserData, removeToken } from "@/lib/auth-utils";
-import { useUpdateProfile } from "@/features/auth/hooks/use-profile";
+import { useUpdateProfile, useUpdatePassword } from "@/features/auth/hooks/use-profile";
 
 export function AppSidebar() {
   const location = useLocation();
@@ -57,6 +57,7 @@ export function AppSidebar() {
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 
   const { updateProfile, isUpdating } = useUpdateProfile();
+  const { updatePassword, isUpdatingPassword } = useUpdatePassword();
 
   const [user, setUser] = useState(getUserData());
   const role = user?.role?.toLowerCase() || "";
@@ -90,6 +91,12 @@ export function AppSidebar() {
     address: user?.address || "",
   });
 
+  const [passwordData, setPasswordData] = useState({
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
+
   // Keep form data synced with user data if it updates externally
   useEffect(() => {
     if (!isProfileModalOpen) {
@@ -98,10 +105,15 @@ export function AppSidebar() {
         phone: user?.phone || "",
         address: user?.address || "",
       });
+      setPasswordData({
+        oldPassword: "",
+        newPassword: "",
+        confirmPassword: "",
+      });
     }
   }, [user, isProfileModalOpen]);
 
-  const onSubmit = async (e: React.FormEvent) => {
+  const onSubmitProfile = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await updateProfile({
@@ -110,10 +122,33 @@ export function AppSidebar() {
         address: data.address,
       });
 
-      setIsProfileModalOpen(false);
       toast.success("Profil berhasil diperbarui");
     } catch (error) {
       toast.error("Gagal memperbarui profil");
+    }
+  };
+
+  const onSubmitPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (passwordData.newPassword !== passwordData.confirmPassword) {
+      toast.error("Konfirmasi password baru tidak cocok!");
+      return;
+    }
+    if (passwordData.newPassword.length < 6) {
+      toast.error("Password baru minimal 6 karakter!");
+      return;
+    }
+
+    try {
+      await updatePassword({
+        old_password: passwordData.oldPassword,
+        new_password: passwordData.newPassword,
+      });
+
+      toast.success("Password berhasil diubah!");
+      setPasswordData({ oldPassword: "", newPassword: "", confirmPassword: "" });
+    } catch (error: any) {
+      toast.error(error.response?.data?.error || "Gagal mengubah password");
     }
   };
 
@@ -296,43 +331,87 @@ export function AppSidebar() {
               </DialogTrigger>
               <DialogContent className="rounded-md w-[90%] sm:max-w-[425px]">
                 <DialogHeader>
-                  <DialogTitle>Update Profil</DialogTitle>
+                  <DialogTitle>Pengaturan Akun</DialogTitle>
                 </DialogHeader>
-                <form
-                  onSubmit={onSubmit}
-                  className="flex flex-col gap-4 py-4 max-h-[75vh] overflow-y-auto no-scrollbar px-1"
-                >
-                  <div className="flex flex-col gap-2">
-                    <Label htmlFor="name">Nama Lengkap</Label>
-                    <Input
-                      id="name"
-                      value={data.name}
-                      onChange={(e) => setData({ ...data, name: e.target.value })}
-                    />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <Label htmlFor="phone">Nomor HP</Label>
-                    <Input
-                      id="phone"
-                      value={data.phone}
-                      onChange={(e) => setData({ ...data, phone: e.target.value })}
-                    />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <Label htmlFor="address">Alamat</Label>
-                    <Textarea
-                      id="address"
-                      value={data.address}
-                      onChange={(e) => setData({ ...data, address: e.target.value })}
-                      placeholder="Masukkan alamat lengkap"
-                    />
-                  </div>
-                  <div className="flex justify-end mt-4">
-                    <Button type="submit" disabled={isUpdating}>
-                      {isUpdating ? "Menyimpan..." : "Simpan Profil"}
-                    </Button>
-                  </div>
-                </form>
+                <div className="flex flex-col gap-6 py-4 max-h-[75vh] overflow-y-auto no-scrollbar px-1">
+                  
+                  {/* Form Profil Utama */}
+                  <form onSubmit={onSubmitProfile} className="flex flex-col gap-4">
+                    <h3 className="text-sm font-semibold text-primary">Informasi Profil</h3>
+                    <div className="flex flex-col gap-2">
+                      <Label htmlFor="name">Nama Lengkap</Label>
+                      <Input
+                        id="name"
+                        value={data.name}
+                        onChange={(e) => setData({ ...data, name: e.target.value })}
+                      />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <Label htmlFor="phone">Nomor HP</Label>
+                      <Input
+                        id="phone"
+                        value={data.phone}
+                        onChange={(e) => setData({ ...data, phone: e.target.value })}
+                      />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <Label htmlFor="address">Alamat</Label>
+                      <Textarea
+                        id="address"
+                        value={data.address}
+                        onChange={(e) => setData({ ...data, address: e.target.value })}
+                        placeholder="Masukkan alamat lengkap"
+                      />
+                    </div>
+                    <div className="flex justify-end mt-2">
+                      <Button type="submit" size="sm" disabled={isUpdating}>
+                        {isUpdating ? "Menyimpan..." : "Simpan Profil"}
+                      </Button>
+                    </div>
+                  </form>
+
+                  {/* Form Ganti Password Khusus Admin */}
+                  {hasRole("admin") && (
+                    <form onSubmit={onSubmitPassword} className="flex flex-col gap-4 border-t pt-4">
+                      <h3 className="text-sm font-semibold text-primary">Ganti Password Admin</h3>
+                      <div className="flex flex-col gap-2">
+                        <Label htmlFor="oldPassword">Password Lama</Label>
+                        <Input
+                          id="oldPassword"
+                          type="password"
+                          value={passwordData.oldPassword}
+                          onChange={(e) => setPasswordData({ ...passwordData, oldPassword: e.target.value })}
+                          required
+                        />
+                      </div>
+                      <div className="flex flex-col gap-2">
+                        <Label htmlFor="newPassword">Password Baru</Label>
+                        <Input
+                          id="newPassword"
+                          type="password"
+                          value={passwordData.newPassword}
+                          onChange={(e) => setPasswordData({ ...passwordData, newPassword: e.target.value })}
+                          required
+                        />
+                      </div>
+                      <div className="flex flex-col gap-2">
+                        <Label htmlFor="confirmPassword">Konfirmasi Password Baru</Label>
+                        <Input
+                          id="confirmPassword"
+                          type="password"
+                          value={passwordData.confirmPassword}
+                          onChange={(e) => setPasswordData({ ...passwordData, confirmPassword: e.target.value })}
+                          required
+                        />
+                      </div>
+                      <div className="flex justify-end mt-2">
+                        <Button type="submit" size="sm" disabled={isUpdatingPassword}>
+                          {isUpdatingPassword ? "Memperbarui..." : "Ubah Password"}
+                        </Button>
+                      </div>
+                    </form>
+                  )}
+                </div>
               </DialogContent>
             </Dialog>
             <AlertDialog>

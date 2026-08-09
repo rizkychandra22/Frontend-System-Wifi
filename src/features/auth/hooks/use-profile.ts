@@ -28,3 +28,17 @@ export function useUpdateProfile() {
     error: parseErrorMessage(mutation.error),
   };
 }
+
+import { updatePasswordApi, type UpdatePasswordPayload } from "@/lib/api/auth";
+
+export function useUpdatePassword() {
+  const mutation = useMutation<any, AxiosError<ApiErrorResponse>, UpdatePasswordPayload>({
+    mutationFn: (data) => updatePasswordApi(data),
+  });
+
+  return {
+    updatePassword: mutation.mutateAsync,
+    isUpdatingPassword: mutation.isPending,
+    passwordError: parseErrorMessage(mutation.error),
+  };
+}
