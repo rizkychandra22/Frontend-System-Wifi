@@ -269,7 +269,7 @@ export function AppSidebar() {
                     isActive={isActive("/users")}
                     className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
                   >
-                    <Link to="/users">
+                    <Link to="/dashboard/users">
                       <Users className="w-[18px] h-[18px]" />
                       <span className="text-[13px]">Data Pengguna</span>
                     </Link>
@@ -281,7 +281,7 @@ export function AppSidebar() {
                     isActive={isActive("/attendance")}
                     className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
                   >
-                    <Link to="/attendance">
+                    <Link to="/dashboard/attendance">
                       <CalendarCheck className="w-[18px] h-[18px]" />
                       <span className="text-[13px]">Data Kehadiran</span>
                     </Link>
@@ -293,7 +293,7 @@ export function AppSidebar() {
                     isActive={isActive("/invoices")}
                     className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
                   >
-                    <Link to="/invoices">
+                    <Link to="/dashboard/invoices">
                       <FileText className="w-[18px] h-[18px]" />
                       <span className="text-[13px]">Tagihan / Invoice</span>
                     </Link>

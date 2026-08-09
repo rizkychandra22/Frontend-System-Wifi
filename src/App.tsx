@@ -23,9 +23,9 @@ function App() {
           <Route path="/dashboard" element={<h1 className="text-2xl font-bold capitalize">Dashboard</h1>} />
           
           {/* Admin Routes */}
-          <Route path="/users" element={<h1 className="text-2xl font-bold capitalize">Data Pengguna</h1>} />
-          <Route path="/attendance" element={<h1 className="text-2xl font-bold capitalize">Data Kehadiran</h1>} />
-          <Route path="/invoices" element={<h1 className="text-2xl font-bold capitalize">Tagihan / Invoice</h1>} />
+          <Route path="/dashboard/users" element={<h1 className="text-2xl font-bold capitalize">Data Pengguna</h1>} />
+          <Route path="/dashboard/attendance" element={<h1 className="text-2xl font-bold capitalize">Data Kehadiran</h1>} />
+          <Route path="/dashboard/invoices" element={<h1 className="text-2xl font-bold capitalize">Tagihan / Invoice</h1>} />
           
           {/* Employee Routes */}
           <Route path="/attendance/record" element={<AttendanceRecordPage />} />
