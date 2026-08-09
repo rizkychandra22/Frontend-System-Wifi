@@ -19,7 +19,7 @@ const customLabels: Record<string, string> = {
   "users": "Data Pengguna",
   "attendance": "Data Kehadiran",
   "record": "Catat Kehadiran",
-  "history": "Riwayat",
+  "history": "Riwayat Kehadiran",
   "invoices": "Tagihan / Invoice",
   "subscriptions": "Layanan WiFi",
   "billing-history": "Riwayat Tagihan",
@@ -81,6 +81,10 @@ export function Header() {
 
               {/* Looping Segments Bertingkat */}
               {routeSegments.map((segment, index) => {
+                if (segment === "attendance" && (routeSegments[index + 1] === "record" || routeSegments[index + 1] === "history")) {
+                  return null;
+                }
+
                 const isLast = index === routeSegments.length - 1;
 
                 // Susun href URL secara bertingkat
