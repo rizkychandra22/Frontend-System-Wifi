@@ -5,6 +5,7 @@ import "./App.css";
 import { LoginPage } from "@/pages/auth/login";
 import { AttendanceRecordPage } from "@/pages/employee/attendance-record";
 import { AttendanceHistoryPage } from "@/pages/employee/attendance-history";
+import { UsersPage } from "@/pages/admin/users";
 import { isAuthenticated } from "@/lib/auth-utils";
 
 const RootRedirect = () => {
@@ -23,7 +24,7 @@ function App() {
           <Route path="/dashboard" element={<h1 className="text-2xl font-bold capitalize">Dashboard</h1>} />
           
           {/* Admin Routes */}
-          <Route path="/dashboard/users" element={<h1 className="text-2xl font-bold capitalize">Data Pengguna</h1>} />
+          <Route path="/dashboard/users" element={<UsersPage />} />
           <Route path="/dashboard/attendance" element={<h1 className="text-2xl font-bold capitalize">Data Kehadiran</h1>} />
           <Route path="/dashboard/invoices" element={<h1 className="text-2xl font-bold capitalize">Tagihan / Invoice</h1>} />
           
