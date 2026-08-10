@@ -1,21 +1,7 @@
-import { useState, useEffect } from "react";
-import { getAttendanceHistoryApi, type AttendanceRecord } from "@/lib/api/attendance";
-import { toast } from "sonner";
+import { useAttendanceHistory } from "@/features/attendance/hooks/use-attendance";
 
 export function AttendanceHistoryPage() {
-  const [history, setHistory] = useState<AttendanceRecord[]>([]);
-
-  useEffect(() => {
-    const fetchHistory = async () => {
-      try {
-        const data = await getAttendanceHistoryApi();
-        setHistory(data || []);
-      } catch (error: any) {
-        toast.error(error.message);
-      }
-    };
-    fetchHistory();
-  }, []);
+  const { history } = useAttendanceHistory();
 
   const getStatusBadgeColor = (status: string) => {
     switch (status) {

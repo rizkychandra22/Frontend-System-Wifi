@@ -1,28 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
-import { clockInApi, clockOutApi, requestIzinApi, getTodayAttendanceApi, type AttendanceRecord } from "@/lib/api/attendance";
+import { useTodayAttendance, useClockIn, useClockOut, useRequestIzin } from "@/features/attendance/hooks/use-attendance";
 import { MapPin, Clock, CalendarX2 } from "lucide-react";
 
 export function AttendanceRecordPage() {
-  const [record, setRecord] = useState<AttendanceRecord | null>(null);
+  const { todayAttendance: record } = useTodayAttendance();
+  const { mutateAsync: clockIn } = useClockIn();
+  const { mutateAsync: clockOut } = useClockOut();
+  const { mutateAsync: requestIzin } = useRequestIzin();
   const [isActionLoading, setIsActionLoading] = useState(false);
   const [izinNotes, setIzinNotes] = useState("");
   const [showIzinForm, setShowIzinForm] = useState(false);
-
-  useEffect(() => {
-    fetchTodayRecord();
-  }, []);
-
-  const fetchTodayRecord = async () => {
-    try {
-      const data = await getTodayAttendanceApi();
-      setRecord(data);
-    } catch (error: any) {
-      toast.error(error.message);
-    }
-  };
 
   const getLocation = (): Promise<GeolocationPosition> => {
     return new Promise((resolve, reject) => {
@@ -39,9 +29,7 @@ export function AttendanceRecordPage() {
     try {
       setIsActionLoading(true);
       const pos = await getLocation();
-      await clockInApi(pos.coords.latitude, pos.coords.longitude);
-      toast.success("Berhasil absen masuk!");
-      fetchTodayRecord();
+      await clockIn({ lat: pos.coords.latitude, lng: pos.coords.longitude });
     } catch (error: any) {
       toast.error(error.message || "Gagal absen masuk. Pastikan akses lokasi diizinkan.");
     } finally {
@@ -53,9 +41,7 @@ export function AttendanceRecordPage() {
     try {
       setIsActionLoading(true);
       const pos = await getLocation();
-      await clockOutApi(pos.coords.latitude, pos.coords.longitude);
-      toast.success("Berhasil absen keluar!");
-      fetchTodayRecord();
+      await clockOut({ lat: pos.coords.latitude, lng: pos.coords.longitude });
     } catch (error: any) {
       toast.error(error.message || "Gagal absen keluar. Pastikan akses lokasi diizinkan.");
     } finally {
@@ -71,18 +57,14 @@ export function AttendanceRecordPage() {
     }
     try {
       setIsActionLoading(true);
-      await requestIzinApi(izinNotes);
-      toast.success("Berhasil mengajukan izin");
+      await requestIzin(izinNotes);
       setShowIzinForm(false);
-      fetchTodayRecord();
     } catch (error: any) {
       toast.error(error.message);
     } finally {
       setIsActionLoading(false);
     }
   };
-
-
 
   return (
     <div className="space-y-6">

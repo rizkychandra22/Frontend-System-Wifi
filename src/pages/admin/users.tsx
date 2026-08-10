@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
-import { usersApi, type User } from "@/lib/api/users";
+import { useState } from "react";
+import { type User } from "@/lib/api/users";
+import { useUsers, useCreateUser, useUpdateUser, useDeleteUser, useResetUserIP } from "@/features/user/hooks/use-users";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -29,11 +30,16 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { toast } from "sonner";
+
 import { Edit2, Trash2, ShieldAlert, Plus, Eye, Search } from "lucide-react";
 
 export function UsersPage() {
-  const [users, setUsers] = useState<User[]>([]);
+  const { users } = useUsers();
+  const { mutate: createUser, isPending: isCreating } = useCreateUser();
+  const { mutate: updateUser, isPending: isUpdating } = useUpdateUser();
+  const { mutate: deleteUser, isPending: isDeleting } = useDeleteUser();
+  const { mutate: resetIP, isPending: isResetting } = useResetUserIP();
+
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState("employee");
 
@@ -55,66 +61,41 @@ export function UsersPage() {
     address: "",
   });
 
-  useEffect(() => {
-    fetchUsers();
-  }, []);
-
-  const fetchUsers = async () => {
-    try {
-      const data = await usersApi.getUsers();
-      setUsers(data);
-    } catch (error) {
-      toast.error("Gagal mengambil data pengguna");
-    }
-  };
-
-  const handleAddSubmit = async (e: React.FormEvent) => {
+  const handleAddSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      await usersApi.createUser(formData);
-      toast.success("Pengguna berhasil ditambahkan");
-      setIsAddOpen(false);
-      fetchUsers();
-    } catch (error: any) {
-      toast.error(error.response?.data?.error || "Gagal menambahkan pengguna");
-    }
+    createUser(formData, {
+      onSuccess: () => {
+        setIsAddOpen(false);
+      }
+    });
   };
 
-  const handleEditSubmit = async (e: React.FormEvent) => {
+  const handleEditSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedUser) return;
-    try {
-      await usersApi.updateUser(selectedUser.id, formData);
-      toast.success("Pengguna berhasil diperbarui");
-      setIsEditOpen(false);
-      fetchUsers();
-    } catch (error: any) {
-      toast.error(error.response?.data?.error || "Gagal memperbarui pengguna");
-    }
+    updateUser({ id: selectedUser.id, data: formData }, {
+      onSuccess: () => {
+        setIsEditOpen(false);
+      }
+    });
   };
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     if (!selectedUser) return;
-    try {
-      await usersApi.deleteUser(selectedUser.id);
-      toast.success("Pengguna berhasil dihapus");
-      setIsDeleteOpen(false);
-      fetchUsers();
-    } catch (error: any) {
-      toast.error(error.response?.data?.error || "Gagal menghapus pengguna");
-    }
+    deleteUser(selectedUser.id, {
+      onSuccess: () => {
+        setIsDeleteOpen(false);
+      }
+    });
   };
 
-  const handleResetIP = async () => {
+  const handleResetIP = () => {
     if (!selectedUser) return;
-    try {
-      await usersApi.resetUserIP(selectedUser.id);
-      toast.success("IP pengguna berhasil direset");
-      setIsResetOpen(false);
-      fetchUsers();
-    } catch (error: any) {
-      toast.error(error.response?.data?.error || "Gagal mereset IP pengguna");
-    }
+    resetIP(selectedUser.id, {
+      onSuccess: () => {
+        setIsResetOpen(false);
+      }
+    });
   };
 
   const openEdit = (user: User) => {
@@ -296,7 +277,7 @@ export function UsersPage() {
             <TabsContent value="employee" className="mt-0">{renderTable(employees)}</TabsContent>
             <TabsContent value="customer" className="mt-0">{renderTable(customers)}</TabsContent>
           </Tabs>
-        </div>
+      </div>
 
       {/* Dialog Tambah User */}
       <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
@@ -333,7 +314,9 @@ export function UsersPage() {
               />
             </div>
             <div className="flex justify-end pt-2">
-              <Button type="submit">Simpan</Button>
+              <Button type="submit" disabled={isCreating}>
+                {isCreating ? "Menyimpan..." : "Simpan"}
+              </Button>
             </div>
           </form>
         </DialogContent>
@@ -423,7 +406,9 @@ export function UsersPage() {
               />
             </div>
             <div className="flex justify-end pt-2">
-              <Button type="submit">Simpan Perubahan</Button>
+              <Button type="submit" disabled={isUpdating}>
+                {isUpdating ? "Menyimpan..." : "Simpan Perubahan"}
+              </Button>
             </div>
           </form>
         </DialogContent>
@@ -440,8 +425,8 @@ export function UsersPage() {
           </AlertDialogHeader>
           <div className="flex flex-row justify-center gap-3 mt-2">
             <AlertDialogCancel className="w-24 mt-0 border border-border bg-background hover:bg-muted text-foreground rounded-lg h-8 text-[13px] font-medium">Batal</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDelete} className="w-24 h-8 text-[13px] font-medium rounded-lg bg-destructive hover:bg-destructive/90 text-destructive-foreground">
-              Ya, Hapus
+            <AlertDialogAction onClick={handleDelete} disabled={isDeleting} className="w-24 h-8 text-[13px] font-medium rounded-lg bg-destructive hover:bg-destructive/90 text-destructive-foreground">
+              {isDeleting ? "Menghapus..." : "Ya, Hapus"}
             </AlertDialogAction>
           </div>
         </AlertDialogContent>
@@ -458,8 +443,8 @@ export function UsersPage() {
           </AlertDialogHeader>
           <div className="flex flex-row justify-center gap-3 mt-2">
             <AlertDialogCancel className="w-24 mt-0 border border-border bg-background hover:bg-muted text-foreground rounded-lg h-8 text-[13px] font-medium">Batal</AlertDialogCancel>
-            <AlertDialogAction onClick={handleResetIP} className="w-24 h-8 text-[13px] font-medium rounded-lg bg-amber-500 hover:bg-amber-600 text-white">
-              Ya, Reset
+            <AlertDialogAction onClick={handleResetIP} disabled={isResetting} className="w-24 h-8 text-[13px] font-medium rounded-lg bg-amber-500 hover:bg-amber-600 text-white">
+              {isResetting ? "Mereset..." : "Ya, Reset"}
             </AlertDialogAction>
           </div>
         </AlertDialogContent>
