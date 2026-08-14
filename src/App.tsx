@@ -31,11 +31,9 @@ function App() {
           <Route path="/dashboard/customers" element={<CustomersPage />} />
           <Route path="/dashboard/wifi-services" element={<WifiServicesPage />} />
           <Route path="/dashboard/payments" element={<PaymentsPage />} />
-          
           {/* Employee Routes */}
           <Route path="/attendance/record" element={<AttendanceRecordPage />} />
-          <Route path="/attendance/history" element={<AttendanceHistoryPage />} />
-          
+          <Route path="/attendance/history" element={<AttendanceHistoryPage />} />          
           {/* Customer Routes */}
           <Route path="/subscriptions" element={<h1 className="text-2xl font-bold">Layanan WiFi Aktif</h1>} />
           <Route path="/billing-history" element={<h1 className="text-2xl font-bold">Riwayat Tagihan</h1>} />

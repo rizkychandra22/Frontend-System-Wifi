@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { customerApi, Customer } from "@/lib/api/customer";
-import { paymentApi, Payment } from "@/lib/api/payment";
+import { customerApi } from "@/lib/api/customer";
+import type { Customer } from "@/lib/api/customer";
+import { paymentApi } from "@/lib/api/payment";
+import type { Payment } from "@/lib/api/payment";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
@@ -35,8 +37,9 @@ export function CustomersPage() {
       setPhone("");
       setAddress("");
     },
-    onError: (error: any) => {
-      toast.error(error?.response?.data?.error || "Gagal menambahkan customer");
+    onError: (error: unknown) => {
+      const err = error as { response?: { data?: { error?: string } } };
+      toast.error(err?.response?.data?.error || "Gagal menambahkan customer");
     },
   });
 

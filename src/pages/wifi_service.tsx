@@ -25,8 +25,9 @@ export function WifiServicesPage() {
       setName("");
       setPrice("");
     },
-    onError: (error: any) => {
-      toast.error(error?.response?.data?.error || "Gagal menambahkan layanan");
+    onError: (error: unknown) => {
+      const err = error as { response?: { data?: { error?: string } } };
+      toast.error(err?.response?.data?.error || "Gagal menambahkan layanan");
     },
   });
 

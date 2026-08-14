@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { customerApi, Customer } from "@/lib/api/customer";
-import { wifiServiceApi, WifiService } from "@/lib/api/wifi_service";
+import { customerApi } from "@/lib/api/customer";
+import type { Customer } from "@/lib/api/customer";
+import { wifiServiceApi } from "@/lib/api/wifi_service";
+import type { WifiService } from "@/lib/api/wifi_service";
 import { paymentApi } from "@/lib/api/payment";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -30,8 +32,9 @@ export function PaymentsPage() {
       setWifiServiceId("");
       paymentApi.downloadPaymentPDF(data.id);
     },
-    onError: (error: any) => {
-      toast.error(error?.response?.data?.error || "Gagal mencatat pembayaran");
+    onError: (error: unknown) => {
+      const err = error as { response?: { data?: { error?: string } } };
+      toast.error(err?.response?.data?.error || "Gagal mencatat pembayaran");
     },
   });
 
