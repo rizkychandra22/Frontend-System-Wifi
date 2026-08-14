@@ -12,7 +12,8 @@ export function PaymentsPage() {
   const [actionState, setActionState] = useState<ActionState>({ type: null, payment: null });
 
   const filteredPayments = payments.filter((payment) => {
-    const customerMatch = payment.customer?.name?.toLowerCase().includes(searchQuery.toLowerCase());
+    const customerName = payment.customer?.name || "";
+    const customerMatch = customerName.toLowerCase().includes(searchQuery.toLowerCase());
     const invoiceIdMatch = `INV-${payment.id.toString().padStart(4, '0')}`.toLowerCase().includes(searchQuery.toLowerCase());
     return customerMatch || invoiceIdMatch;
   });
