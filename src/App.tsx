@@ -7,6 +7,9 @@ import { AttendanceRecordPage } from "@/pages/employee/attendance-record";
 import { AttendanceHistoryPage } from "@/pages/employee/attendance-history";
 import { UsersPage } from "@/pages/admin/users";
 import { isAuthenticated } from "@/lib/auth-utils";
+import { CustomersPage } from "@/pages/admin/customer";
+import { WifiPackagesPage } from "@/pages/admin/wifi_package";
+import { PaymentsPage } from "@/pages/admin/payment";
 
 const RootRedirect = () => {
   return isAuthenticated() ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />;
@@ -22,16 +25,15 @@ function App() {
         
         <Route element={<AppLayout />}>
           <Route path="/dashboard" element={<h1 className="text-2xl font-bold capitalize">Dashboard</h1>} />
-          
           {/* Admin Routes */}
           <Route path="/dashboard/users" element={<UsersPage />} />
           <Route path="/dashboard/attendance" element={<h1 className="text-2xl font-bold capitalize">Data Kehadiran</h1>} />
-          <Route path="/dashboard/invoices" element={<h1 className="text-2xl font-bold capitalize">Tagihan / Invoice</h1>} />
-          
+          <Route path="/dashboard/customers" element={<CustomersPage />} />
+          <Route path="/dashboard/wifi-packages" element={<WifiPackagesPage />} />
+          <Route path="/dashboard/payments" element={<PaymentsPage />} />
           {/* Employee Routes */}
           <Route path="/attendance/record" element={<AttendanceRecordPage />} />
-          <Route path="/attendance/history" element={<AttendanceHistoryPage />} />
-          
+          <Route path="/attendance/history" element={<AttendanceHistoryPage />} />          
           {/* Customer Routes */}
           <Route path="/subscriptions" element={<h1 className="text-2xl font-bold">Layanan WiFi Aktif</h1>} />
           <Route path="/billing-history" element={<h1 className="text-2xl font-bold">Riwayat Tagihan</h1>} />
