@@ -17,9 +17,20 @@ export interface Payment {
 }
 
 export const paymentApi = {
+  getAllPayments: async (): Promise<Payment[]> => {
+    const response = await apiClient.get<{ data: Payment[] }>("/payments");
+    return response.data.data;
+  },
   createPayment: async (data: { customer_id: number; wifi_package_id: number }): Promise<Payment> => {
     const response = await apiClient.post<{ message: string; data: Payment }>("/payments", data);
     return response.data.data;
+  },
+  updatePayment: async (id: number, data: { customer_id: number; wifi_package_id: number }): Promise<Payment> => {
+    const response = await apiClient.put<{ message: string; data: Payment }>(`/payments/${id}`, data);
+    return response.data.data;
+  },
+  deletePayment: async (id: number): Promise<void> => {
+    await apiClient.delete(`/payments/${id}`);
   },
   getCustomerPayments: async (customerId: number | string): Promise<Payment[]> => {
     const response = await apiClient.get<{ data: Payment[] }>(`/payments/history/${customerId}`);

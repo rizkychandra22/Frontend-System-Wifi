@@ -10,23 +10,56 @@ export function useCustomerPayments(customerId: number | null) {
   });
 }
 
+export function useAllPayments() {
+  return useQuery({
+    queryKey: ["payments"],
+    queryFn: paymentApi.getAllPayments,
+  });
+}
+
 export function usePaymentMutations() {
   const queryClient = useQueryClient();
 
   const createMutation = useMutation({
     mutationFn: paymentApi.createPayment,
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["payments"] });
-      toast.success("Pembayaran berhasil dicatat");
-      paymentApi.downloadPaymentPDF(data.id);
+      toast.success("Invoice successfully recorded");
     },
     onError: (error: unknown) => {
       const err = error as { response?: { data?: { error?: string } } };
-      toast.error(err?.response?.data?.error || "Gagal mencatat pembayaran");
+      toast.error(err?.response?.data?.error || "Failed to record invoice");
+    },
+  });
+
+  const updateMutation = useMutation({
+    mutationFn: ({ id, data }: { id: number; data: { customer_id: number; wifi_package_id: number } }) => 
+      paymentApi.updatePayment(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["payments"] });
+      toast.success("Invoice successfully updated");
+    },
+    onError: (error: unknown) => {
+      const err = error as { response?: { data?: { error?: string } } };
+      toast.error(err?.response?.data?.error || "Failed to update invoice");
+    },
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: paymentApi.deletePayment,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["payments"] });
+      toast.success("Invoice successfully deleted");
+    },
+    onError: (error: unknown) => {
+      const err = error as { response?: { data?: { error?: string } } };
+      toast.error(err?.response?.data?.error || "Failed to delete invoice");
     },
   });
 
   return {
     createMutation,
+    updateMutation,
+    deleteMutation,
   };
 }

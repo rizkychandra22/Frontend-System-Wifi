@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { type User } from "@/lib/api/users";
 import { useCreateUser, useUpdateUser, useDeleteUser, useResetUserIP } from "@/features/user/hooks/use-users";
 import {
@@ -43,7 +43,9 @@ export function UserActions({ actionState, onClose }: UserActionsProps) {
     address: "",
   });
 
-  useEffect(() => {
+  const [prevActionState, setPrevActionState] = useState(actionState);
+  if (actionState !== prevActionState) {
+    setPrevActionState(actionState);
     if (actionState.type === 'edit' && actionState.user) {
       setFormData({
         name: actionState.user.name,
@@ -59,7 +61,7 @@ export function UserActions({ actionState, onClose }: UserActionsProps) {
         address: "",
       });
     }
-  }, [actionState]);
+  }
 
   const handleAddSubmit = (e: React.FormEvent) => {
     e.preventDefault();
