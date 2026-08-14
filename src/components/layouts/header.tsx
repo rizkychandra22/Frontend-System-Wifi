@@ -16,13 +16,13 @@ import { toast } from "sonner";
 
 // Custom Label Dictionary (Opsional untuk nama khusus)
 const customLabels: Record<string, string> = {
-  "users": "Data Pengguna",
-  "attendance": "Data Kehadiran",
-  "record": "Catat Kehadiran",
-  "history": "Riwayat Kehadiran",
-  "invoices": "Tagihan / Invoice",
-  "subscriptions": "Layanan WiFi",
-  "billing-history": "Riwayat Tagihan",
+  "users": "Users Data",
+  "attendance": "Attendance Data",
+  "record": "Attendance Record",
+  "history": "Attendance History",
+  "invoices": "Invoices",
+  "subscriptions": "Subscription Wifi",
+  "billing-history": "Billing History",
 };
 
 export function Header() {
@@ -120,7 +120,7 @@ export function Header() {
           <Search className="absolute left-3 w-4 h-4 text-muted-foreground" />
           <Input
             type="text"
-            placeholder="Cari data..."
+            placeholder="Search data..."
             className="pl-9 h-8 bg-muted/50 border-none rounded-lg text-[13px] cursor-pointer"
             onClick={() => toast.info("Search feature still in development process.")}
             readOnly
