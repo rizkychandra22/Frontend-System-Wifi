@@ -18,26 +18,26 @@ export interface Payment {
 
 export const paymentApi = {
   getAllPayments: async (): Promise<Payment[]> => {
-    const response = await apiClient.get<{ data: Payment[] }>("/payments");
+    const response = await apiClient.get<{ data: Payment[] }>("/payments/invoice");
     return response.data.data;
   },
   createPayment: async (data: { customer_id: number; wifi_package_id: number }): Promise<Payment> => {
-    const response = await apiClient.post<{ message: string; data: Payment }>("/payments", data);
+    const response = await apiClient.post<{ message: string; data: Payment }>("/payments/invoice", data);
     return response.data.data;
   },
   updatePayment: async (id: number, data: { customer_id: number; wifi_package_id: number }): Promise<Payment> => {
-    const response = await apiClient.put<{ message: string; data: Payment }>(`/payments/${id}`, data);
+    const response = await apiClient.put<{ message: string; data: Payment }>(`/payments/invoice/${id}`, data);
     return response.data.data;
   },
   deletePayment: async (id: number): Promise<void> => {
-    await apiClient.delete(`/payments/${id}`);
+    await apiClient.delete(`/payments/invoice/${id}`);
   },
   getCustomerPayments: async (customerId: number | string): Promise<Payment[]> => {
     const response = await apiClient.get<{ data: Payment[] }>(`/payments/history/${customerId}`);
     return response.data.data;
   },
   downloadPaymentPDF: async (paymentId: number) => {
-    const response = await apiClient.get(`/payments/${paymentId}/pdf`, { responseType: 'blob' });
+    const response = await apiClient.get(`/payments/invoice/${paymentId}/pdf`, { responseType: 'blob' });
     const url = window.URL.createObjectURL(new Blob([response.data]));
     const link = document.createElement('a');
     link.href = url;
