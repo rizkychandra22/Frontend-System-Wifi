@@ -25,13 +25,13 @@ export function UserForm({
   onChange,
   onSubmit,
   isSubmitting,
-  submitLabel = "Simpan",
+  submitLabel = "Save",
   showRoleSelect = false,
 }: UserFormProps) {
   return (
     <form onSubmit={onSubmit} className="space-y-4">
       <div className="space-y-2">
-        <Label htmlFor="name">Nama Lengkap</Label>
+        <Label htmlFor="name">Name</Label>
         <Input
           id="name"
           required
@@ -40,7 +40,7 @@ export function UserForm({
         />
       </div>
       <div className="space-y-2">
-        <Label htmlFor="phone">Nomor HP</Label>
+        <Label htmlFor="phone">Phone Number</Label>
         <Input
           id="phone"
           required
@@ -56,17 +56,17 @@ export function UserForm({
             onValueChange={(val) => onChange({ ...initialData, role: val })}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Pilih role" />
+              <SelectValue placeholder="Select Role" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="employee">Karyawan</SelectItem>
-              <SelectItem value="customer">Pelanggan</SelectItem>
+              <SelectItem value="employee">Employee</SelectItem>
+              <SelectItem value="customer">Customer</SelectItem>
             </SelectContent>
           </Select>
         </div>
       )}
       <div className="space-y-2">
-        <Label htmlFor="address">Alamat (Opsional)</Label>
+        <Label htmlFor="address">Address (Optional)</Label>
         <Textarea
           id="address"
           rows={3}
@@ -76,7 +76,7 @@ export function UserForm({
       </div>
       <div className="flex justify-end pt-2">
         <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Menyimpan..." : submitLabel}
+          {isSubmitting ? "Saving..." : submitLabel}
         </Button>
       </div>
     </form>

@@ -19,24 +19,24 @@ export function UserDetail({ user, isOpen, onOpenChange }: UserDetailProps) {
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Detail Pengguna</SheetTitle>
-          <SheetDescription>Informasi lengkap pengguna.</SheetDescription>
+          <SheetTitle>Detail User</SheetTitle>
+          <SheetDescription>Complete Information User.</SheetDescription>
         </SheetHeader>
         <div className="space-y-5 mt-6">
           <div className="space-y-1">
-            <Label className="text-muted-foreground text-xs">Nama Lengkap</Label>
+            <Label className="text-muted-foreground text-xs">Name</Label>
             <div className="font-medium">{user?.name}</div>
           </div>
           <div className="space-y-1">
-            <Label className="text-muted-foreground text-xs">Nomor HP</Label>
+            <Label className="text-muted-foreground text-xs">Phone Number</Label>
             <div className="font-medium">{user?.phone}</div>
           </div>
           <div className="space-y-1">
             <Label className="text-muted-foreground text-xs">Role</Label>
-            <div className="font-medium capitalize">{user?.role === "employee" ? "Karyawan" : "Pelanggan"}</div>
+            <div className="font-medium capitalize">{user?.role === "employee" ? "Employee" : "Customer"}</div>
           </div>
           <div className="space-y-1">
-            <Label className="text-muted-foreground text-xs">Alamat</Label>
+            <Label className="text-muted-foreground text-xs">Address</Label>
             <div className="font-medium">{user?.address || "-"}</div>
           </div>
           <div className="space-y-1">
