@@ -1,13 +1,13 @@
 import { apiClient } from "../api-client";
 import type { User } from "./users";
-import type { WifiService } from "./wifi_service";
+import type { WifiPackage } from "./wifi_package";
 
 export interface Payment {
   id: number;
   customer_id: number;
   customer?: User;
-  wifi_service_id: number;
-  wifi_service?: WifiService;
+  wifi_package_id: number;
+  wifi_package?: WifiPackage;
   package_price: number;
   ppn: number;
   total_amount: number;
@@ -17,7 +17,7 @@ export interface Payment {
 }
 
 export const paymentApi = {
-  createPayment: async (data: { customer_id: number; wifi_service_id: number }): Promise<Payment> => {
+  createPayment: async (data: { customer_id: number; wifi_package_id: number }): Promise<Payment> => {
     const response = await apiClient.post<{ message: string; data: Payment }>("/payments", data);
     return response.data.data;
   },

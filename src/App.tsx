@@ -7,9 +7,9 @@ import { AttendanceRecordPage } from "@/pages/employee/attendance-record";
 import { AttendanceHistoryPage } from "@/pages/employee/attendance-history";
 import { UsersPage } from "@/pages/admin/users";
 import { isAuthenticated } from "@/lib/auth-utils";
-import { CustomersPage } from "@/pages/customer";
-import { WifiServicesPage } from "@/pages/wifi_service";
-import { PaymentsPage } from "@/pages/payment";
+import { CustomersPage } from "@/pages/admin/customer";
+import { WifiPackagesPage } from "@/pages/admin/wifi_package";
+import { PaymentsPage } from "@/pages/admin/payment";
 
 const RootRedirect = () => {
   return isAuthenticated() ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />;
@@ -29,7 +29,7 @@ function App() {
           <Route path="/dashboard/users" element={<UsersPage />} />
           <Route path="/dashboard/attendance" element={<h1 className="text-2xl font-bold capitalize">Data Kehadiran</h1>} />
           <Route path="/dashboard/customers" element={<CustomersPage />} />
-          <Route path="/dashboard/wifi-services" element={<WifiServicesPage />} />
+          <Route path="/dashboard/wifi-packages" element={<WifiPackagesPage />} />
           <Route path="/dashboard/payments" element={<PaymentsPage />} />
           {/* Employee Routes */}
           <Route path="/attendance/record" element={<AttendanceRecordPage />} />
