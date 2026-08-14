@@ -7,10 +7,9 @@ import { MapPin, Clock, CalendarX2 } from "lucide-react";
 
 export function AttendanceRecord() {
   const { todayAttendance: record } = useTodayAttendance();
-  const { mutateAsync: clockIn } = useClockIn();
-  const { mutateAsync: clockOut } = useClockOut();
-  const { mutateAsync: requestIzin } = useRequestIzin();
-  const [isActionLoading, setIsActionLoading] = useState(false);
+  const { mutate: clockIn, isPending: isClockInLoading } = useClockIn();
+  const { mutate: clockOut, isPending: isClockOutLoading } = useClockOut();
+  const { mutate: requestIzin, isPending: isIzinLoading } = useRequestIzin();
   const [izinNotes, setIzinNotes] = useState("");
   const [showIzinForm, setShowIzinForm] = useState(false);
 
@@ -27,43 +26,35 @@ export function AttendanceRecord() {
 
   const handleClockIn = async () => {
     try {
-      setIsActionLoading(true);
       const pos = await getLocation();
-      await clockIn({ lat: pos.coords.latitude, lng: pos.coords.longitude });
-    } catch (error: any) {
-      toast.error(error.message || "Gagal absen masuk. Pastikan akses lokasi diizinkan.");
-    } finally {
-      setIsActionLoading(false);
+      clockIn({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+    } catch (error: unknown) {
+      const err = error as Error;
+      toast.error(err.message || "Gagal mendapatkan lokasi. Pastikan akses lokasi diizinkan.");
     }
   };
 
   const handleClockOut = async () => {
     try {
-      setIsActionLoading(true);
       const pos = await getLocation();
-      await clockOut({ lat: pos.coords.latitude, lng: pos.coords.longitude });
-    } catch (error: any) {
-      toast.error(error.message || "Gagal absen keluar. Pastikan akses lokasi diizinkan.");
-    } finally {
-      setIsActionLoading(false);
+      clockOut({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+    } catch (error: unknown) {
+      const err = error as Error;
+      toast.error(err.message || "Gagal mendapatkan lokasi. Pastikan akses lokasi diizinkan.");
     }
   };
 
-  const handleIzin = async (e: React.FormEvent) => {
+  const handleIzin = (e: React.FormEvent) => {
     e.preventDefault();
     if (!izinNotes.trim()) {
       toast.error("Keterangan izin harus diisi");
       return;
     }
-    try {
-      setIsActionLoading(true);
-      await requestIzin(izinNotes);
-      setShowIzinForm(false);
-    } catch (error: any) {
-      toast.error(error.message);
-    } finally {
-      setIsActionLoading(false);
-    }
+    requestIzin(izinNotes, {
+      onSuccess: () => {
+        setShowIzinForm(false);
+      }
+    });
   };
 
   if (record && record.status === "Libur") {
@@ -125,10 +116,10 @@ export function AttendanceRecord() {
               <Button 
                 className="w-full text-base h-12 shadow-blue" 
                 onClick={handleClockIn}
-                disabled={isActionLoading}
+                disabled={isClockInLoading}
               >
                 <MapPin className="w-4 h-4 mr-2" />
-                {isActionLoading ? "Memproses..." : "Catat Absen Masuk"}
+                {isClockInLoading ? "Memproses..." : "Catat Absen Masuk"}
               </Button>
               
               {!showIzinForm ? (
@@ -149,7 +140,7 @@ export function AttendanceRecord() {
                     onChange={(e) => setIzinNotes(e.target.value)}
                   />
                   <div className="flex gap-2">
-                    <Button type="submit" size="sm" className="flex-1" disabled={isActionLoading}>
+                    <Button type="submit" size="sm" className="flex-1" disabled={isIzinLoading}>
                       Kirim Izin
                     </Button>
                     <Button type="button" variant="outline" size="sm" onClick={() => setShowIzinForm(false)}>
@@ -189,10 +180,10 @@ export function AttendanceRecord() {
               variant="outline"
               className={`w-full text-base h-12 ${record ? 'border-primary text-primary hover:bg-primary/5' : ''}`}
               onClick={handleClockOut}
-              disabled={!record || isActionLoading}
+              disabled={!record || isClockOutLoading}
             >
               <MapPin className="w-4 h-4 mr-2" />
-              {isActionLoading ? "Memproses..." : "Catat Absen Keluar"}
+              {isClockOutLoading ? "Memproses..." : "Catat Absen Keluar"}
             </Button>
           )}
         </CardContent>
