@@ -87,7 +87,13 @@ export function CustomersPage() {
                     <TableCell>{c.id}</TableCell>
                     <TableCell>{c.name}</TableCell>
                     <TableCell>{c.phone}</TableCell>
-                    {isAdmin && <TableCell>{c.registered_by?.name || "-"}</TableCell>}
+                    {isAdmin && (
+                      <TableCell>
+                        {c.registered_by 
+                          ? `${c.registered_by.role === 'admin' ? 'Admin' : 'Employee'} - ${c.registered_by.name}` 
+                          : "-"}
+                      </TableCell>
+                    )}
                     <TableCell className="text-right">
                       <Button variant="outline" size="sm" onClick={() => setSelectedCustomerId(c.id)}>
                         Riwayat Tagihan

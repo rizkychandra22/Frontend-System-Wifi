@@ -9,6 +9,7 @@ export interface User {
   ip_address: string | null;
   failed_login_attempts: number;
   locked_until: string | null;
+  registered_by?: { id: number; name: string; role: string };
   created_at: string;
   updated_at: string;
 }

@@ -17,11 +17,12 @@ export function UserTable({ users, onView, onEdit, onResetIP, onDelete }: UserTa
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Nama</TableHead>
+            <TableHead>Name</TableHead>
             <TableHead>No. Telp</TableHead>
             <TableHead>Device</TableHead>
-            <TableHead>Alamat</TableHead>
-            <TableHead className="text-right">Aksi</TableHead>
+            <TableHead>Address</TableHead>
+            <TableHead>Created By User</TableHead>
+            <TableHead className="text-right">Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -48,6 +49,11 @@ export function UserTable({ users, onView, onEdit, onResetIP, onDelete }: UserTa
                   )}
                 </TableCell>
                 <TableCell>{user.address || "-"}</TableCell>
+                <TableCell>
+                  {user.registered_by 
+                    ? `${user.registered_by.role === 'admin' ? 'Admin' : 'Employee'} - ${user.registered_by.name}` 
+                    : "-"}
+                </TableCell>
                 <TableCell className="text-right">
                   <div className="flex justify-end gap-2">
                     <Button
