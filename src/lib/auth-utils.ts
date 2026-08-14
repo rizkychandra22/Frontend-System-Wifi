@@ -1,4 +1,4 @@
-export const setToken = (token: string, user: any) => {
+export const setToken = (token: string, user: unknown) => {
   localStorage.setItem("auth_token", token);
   localStorage.setItem("auth_user", JSON.stringify(user));
 };
@@ -16,7 +16,7 @@ export const isAuthenticated = () => {
   return !!getToken();
 };
 
-export const getUserData = () => {
+export const getUserData = (): Record<string, string> | null => {
   const user = localStorage.getItem("auth_user");
   return user ? JSON.parse(user) : null;
 };

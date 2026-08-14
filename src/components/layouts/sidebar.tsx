@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import {
@@ -9,6 +9,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import {
@@ -47,6 +48,7 @@ import {
 } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { getUserData, removeToken } from "@/lib/auth-utils";
+import { useUpdateProfile, useUpdatePassword } from "@/features/auth/hooks/use-profile";
 
 export function AppSidebar() {
   const location = useLocation();
@@ -54,15 +56,19 @@ export function AppSidebar() {
   const navigate = useNavigate();
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 
-  const user = getUserData();
+  const { updateProfile, isUpdating } = useUpdateProfile();
+  const { updatePassword, isUpdatingPassword } = useUpdatePassword();
+
+  const [user, setUser] = useState(getUserData());
   const role = user?.role?.toLowerCase() || "";
 
-  const roleNames: Record<string, string> = {
-    admin: "Admin",
-    employee: "Karyawan",
-    customer: "Pelanggan",
-  };
-  const roleDisplay = roleNames[role] || role;
+  useEffect(() => {
+    const handleProfileUpdate = () => {
+      setUser(getUserData());
+    };
+    window.addEventListener("profileUpdated", handleProfileUpdate);
+    return () => window.removeEventListener("profileUpdated", handleProfileUpdate);
+  }, []);
 
   const hasRole = (roleNames: string | string[]) => {
     if (!role) return false;
@@ -73,16 +79,73 @@ export function AppSidebar() {
   };
 
   const [data, setData] = useState({
-    name: user?.name || "",
-    username: user?.phone || "",
-    password: "",
-    password_confirmation: "",
+    name: (user?.name as string) || "",
+    phone: (user?.phone as string) || "",
+    address: (user?.address as string) || "",
   });
 
-  const onSubmit = (e: React.FormEvent) => {
+  const [passwordData, setPasswordData] = useState({
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
+
+  // Keep form data synced with user data if it updates externally
+  useEffect(() => {
+    if (!isProfileModalOpen) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setData({
+        name: (user?.name as string) || "",
+        phone: (user?.phone as string) || "",
+        address: (user?.address as string) || "",
+      });
+      setPasswordData({
+        oldPassword: "",
+        newPassword: "",
+        confirmPassword: "",
+      });
+    }
+  }, [user, isProfileModalOpen]);
+
+  const onSubmitProfile = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsProfileModalOpen(false);
-    toast.success("Profil berhasil diperbarui");
+    try {
+      await updateProfile({
+        name: data.name,
+        phone: data.phone,
+        address: data.address,
+      });
+
+      toast.success("Profile updated successfully");
+    } catch (error: unknown) {
+      const err = error as { response?: { data?: { error?: string } } };
+      toast.error(err.response?.data?.error || "Update profile failed");
+    }
+  };
+
+  const onSubmitPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (passwordData.newPassword !== passwordData.confirmPassword) {
+      toast.error("New password confirmation does not match!");
+      return;
+    }
+    if (passwordData.newPassword.length < 6) {
+      toast.error("New password must be at least 6 characters!");
+      return;
+    }
+
+    try {
+      await updatePassword({
+        old_password: passwordData.oldPassword,
+        new_password: passwordData.newPassword,
+      });
+
+      toast.success("Password updated successfully!");
+      setPasswordData({ oldPassword: "", newPassword: "", confirmPassword: "" });
+    } catch (error: unknown) {
+      const err = error as { response?: { data?: { error?: string } } };
+      toast.error(err.response?.data?.error || "Update password failed");
+    }
   };
 
   const isActive = (path: string, exact = false) => {
@@ -109,7 +172,7 @@ export function AppSidebar() {
       <SidebarContent className="px-2 py-2 no-scrollbar">
         <SidebarGroup>
           <SidebarGroupLabel className="px-3 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70">
-            Beranda {roleDisplay}
+            Home {user?.role}
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -138,7 +201,7 @@ export function AppSidebar() {
                     >
                       <Link to="/attendance/record">
                         <MapPin className="w-[18px] h-[18px]" />
-                        <span className="text-[13px]">Catat Kehadiran</span>
+                        <span className="text-[13px]">Attendance Record</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -150,13 +213,13 @@ export function AppSidebar() {
                     >
                       <Link to="/attendance/history">
                         <ClipboardList className="w-[18px] h-[18px]" />
-                        <span className="text-[13px]">Riwayat Kehadiran</span>
+                        <span className="text-[13px]">Attendance History</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 </>
               )}
-              
+
               {hasRole("customer") && (
                 <>
                   <SidebarMenuItem>
@@ -167,7 +230,7 @@ export function AppSidebar() {
                     >
                       <Link to="/subscriptions">
                         <Wifi className="w-[18px] h-[18px]" />
-                        <span className="text-[13px]">Layanan WiFi</span>
+                        <span className="text-[13px]">WiFi Services</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -179,7 +242,7 @@ export function AppSidebar() {
                     >
                       <Link to="/billing-history">
                         <Receipt className="w-[18px] h-[18px]" />
-                        <span className="text-[13px]">Riwayat Tagihan</span>
+                        <span className="text-[13px]">Billing History</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -192,47 +255,59 @@ export function AppSidebar() {
         {hasRole("admin") && (
           <SidebarGroup>
             <SidebarGroupLabel className="px-3 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70 mt-2">
-              Menu Utama
+              Main Menu
             </SidebarGroupLabel>
             <SidebarGroupContent>
-                <SidebarMenu>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
                     asChild
-                    isActive={isActive("/users")}
+                    isActive={isActive("/dashboard/users")}
                     className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
                   >
-                    <Link to="/users">
+                    <Link to="/dashboard/users">
                       <Users className="w-[18px] h-[18px]" />
-                      <span className="text-[13px]">Data Pengguna</span>
+                      <span className="text-[13px]">Users Data</span>
                     </Link>
                   </SidebarMenuButton>
-                  </SidebarMenuItem>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
                     asChild
-                    isActive={isActive("/attendance")}
+                    isActive={isActive("/dashboard/attendance")}
                     className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
                   >
-                    <Link to="/attendance">
+                    <Link to="/dashboard/attendance">
                       <CalendarCheck className="w-[18px] h-[18px]" />
-                      <span className="text-[13px]">Data Kehadiran</span>
+                      <span className="text-[13px]">Attendance Data</span>
                     </Link>
                   </SidebarMenuButton>
-                  </SidebarMenuItem>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
                     asChild
-                    isActive={isActive("/invoices")}
+                    isActive={isActive("/dashboard/wifi-packages")}
                     className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
                   >
-                    <Link to="/invoices">
-                      <FileText className="w-[18px] h-[18px]" />
-                      <span className="text-[13px]">Tagihan / Invoice</span>
+                    <Link to="/dashboard/wifi-packages">
+                      <Wifi className="w-[18px] h-[18px]" />
+                      <span className="text-[13px]">WiFi Packages</span>
                     </Link>
                   </SidebarMenuButton>
-                  </SidebarMenuItem>
-                </SidebarMenu>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={isActive("/dashboard/payments")}
+                    className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
+                  >
+                    <Link to="/dashboard/payments">
+                      <FileText className="w-[18px] h-[18px]" />
+                      <span className="text-[13px]">Invoices Data</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
         )}
@@ -264,54 +339,87 @@ export function AppSidebar() {
               </DialogTrigger>
               <DialogContent className="rounded-md w-[90%] sm:max-w-[425px]">
                 <DialogHeader>
-                  <DialogTitle>Update Profil</DialogTitle>
+                  <DialogTitle>Account Setting</DialogTitle>
                 </DialogHeader>
-                <form
-                  onSubmit={onSubmit}
-                  className="flex flex-col gap-4 py-4 max-h-[75vh] overflow-y-auto no-scrollbar px-1"
-                >
-                  <div className="flex flex-col gap-2">
-                    <Label htmlFor="name">Nama Lengkap</Label>
-                    <Input
-                      id="name"
-                      value={data.name}
-                      onChange={(e) => setData({...data, name: e.target.value})}
-                    />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <Label htmlFor="username">Username</Label>
-                    <Input
-                      id="username"
-                      value={data.username}
-                      onChange={(e) => setData({...data, username: e.target.value})}
-                    />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <Label htmlFor="password">Password Baru</Label>
-                    <Input
-                      id="password"
-                      type="password"
-                      value={data.password}
-                      onChange={(e) => setData({...data, password: e.target.value})}
-                      placeholder="Kosongkan jika tidak ingin diubah"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <Label htmlFor="password_confirmation">Konfirmasi Password Baru</Label>
-                    <Input
-                      id="password_confirmation"
-                      type="password"
-                      value={data.password_confirmation}
-                      onChange={(e) => setData({...data, password_confirmation: e.target.value})}
-                      placeholder="Kosongkan jika tidak ingin diubah"
-                    />
-                  </div>
-                  <div className="flex justify-end mt-4">
-                    <Button type="submit">
-                      Simpan Perubahan
-                    </Button>
-                  </div>
-                </form>
+                <div className="flex flex-col gap-6 py-4 max-h-[75vh] overflow-y-auto no-scrollbar px-1">
+                  
+                  {/* Form Profil Utama */}
+                  <form onSubmit={onSubmitProfile} className="flex flex-col gap-4">
+                    <h3 className="text-sm font-semibold text-primary">Profile Information</h3>
+                    <div className="flex flex-col gap-2">
+                      <Label htmlFor="name">Full Name</Label>
+                      <Input
+                        id="name"
+                        value={data.name}
+                        onChange={(e) => setData({ ...data, name: e.target.value })}
+                      />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <Label htmlFor="phone">Phone Number</Label>
+                      <Input
+                        id="phone"
+                        value={data.phone}
+                        onChange={(e) => setData({ ...data, phone: e.target.value })}
+                      />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <Label htmlFor="address">Address</Label>
+                      <Textarea
+                        id="address"
+                        value={data.address}
+                        onChange={(e) => setData({ ...data, address: e.target.value })}
+                        placeholder="Enter your address"
+                      />
+                    </div>
+                    <div className="flex justify-end mt-2">
+                      <Button type="submit" size="sm" disabled={isUpdating}>
+                        {isUpdating ? "Saving..." : "Save Profile"}
+                      </Button>
+                    </div>
+                  </form>
+
+                  {/* Form Ganti Password Khusus Admin */}
+                  {hasRole("admin") && (
+                    <form onSubmit={onSubmitPassword} className="flex flex-col gap-4 border-t pt-4">
+                      <h3 className="text-sm font-semibold text-primary">Change Password</h3>
+                      <div className="flex flex-col gap-2">
+                        <Label htmlFor="oldPassword">Old Password</Label>
+                        <Input
+                          id="oldPassword"
+                          type="password"
+                          value={passwordData.oldPassword}
+                          onChange={(e) => setPasswordData({ ...passwordData, oldPassword: e.target.value })}
+                          required
+                        />
+                      </div>
+                      <div className="flex flex-col gap-2">
+                        <Label htmlFor="newPassword">New Password</Label>
+                        <Input
+                          id="newPassword"
+                          type="password"
+                          value={passwordData.newPassword}
+                          onChange={(e) => setPasswordData({ ...passwordData, newPassword: e.target.value })}
+                          required
+                        />
+                      </div>
+                      <div className="flex flex-col gap-2">
+                        <Label htmlFor="confirmPassword">New Password Confirm</Label>
+                        <Input
+                          id="confirmPassword"
+                          type="password"
+                          value={passwordData.confirmPassword}
+                          onChange={(e) => setPasswordData({ ...passwordData, confirmPassword: e.target.value })}
+                          required
+                        />
+                      </div>
+                      <div className="flex justify-end mt-2">
+                        <Button type="submit" size="sm" disabled={isUpdatingPassword}>
+                          {isUpdatingPassword ? "Updating..." : "Update Password"}
+                        </Button>
+                      </div>
+                    </form>
+                  )}
+                </div>
               </DialogContent>
             </Dialog>
             <AlertDialog>
@@ -327,15 +435,15 @@ export function AppSidebar() {
               <AlertDialogContent className="w-[90%] max-w-[360px] rounded-md p-6">
                 <AlertDialogHeader>
                   <AlertDialogTitle className="text-center text-lg font-semibold">
-                    Keluar
+                    Logout
                   </AlertDialogTitle>
                   <AlertDialogDescription className="text-center text-[15px] mt-2 mb-4 text-foreground/80">
-                    Apakah Anda yakin ingin keluar?
+                    Are you sure you want to logout?
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <div className="flex flex-row justify-center gap-3 mt-2">
                   <AlertDialogCancel className="w-24 mt-0 border border-border bg-background hover:bg-muted text-foreground rounded-lg h-8 text-[13px] font-medium">
-                    Batal
+                    Cancel
                   </AlertDialogCancel>
                   <AlertDialogAction
                     onClick={(e: React.MouseEvent) => {
@@ -345,7 +453,7 @@ export function AppSidebar() {
                     }}
                     className="w-24  h-8 text-[13px] font-medium rounded-lg"
                   >
-                    Ya, Keluar
+                    Yes, Logout
                   </AlertDialogAction>
                 </div>
               </AlertDialogContent>

@@ -2,12 +2,11 @@ import axios, { type AxiosError } from "axios";
 import axiosRetry from "axios-retry";
 import { getToken } from "./auth-utils";
 
-function resolveApiBaseUrl(): string {
+export function resolveApiBaseUrl(): string {
   if (typeof window !== "undefined") {
     const host = window.location.hostname;
     
-    // Jika kita sedang membuka web dari localhost (development),
-    // selalu paksa panggil backend localhost agar tidak terjadi IP Lock di Cloud
+    // Selalu pakai localhost jika (development)
     if (host === "localhost" || host === "127.0.0.1") {
       return "http://localhost:8080/api";
     }

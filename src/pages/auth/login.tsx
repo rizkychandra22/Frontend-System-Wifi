@@ -2,7 +2,14 @@ import { LoginForm } from "@/features/auth/components/login-form";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Wifi } from "lucide-react";
 
+import { Navigate } from "react-router-dom";
+import { isAuthenticated } from "@/lib/auth-utils";
+
 export const LoginPage = () => {
+  if (isAuthenticated()) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-cyan-50 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 p-4">
       
@@ -18,7 +25,7 @@ export const LoginPage = () => {
           <div className="h-16 w-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-4 shadow-sm ring-1 ring-primary/20">
             <Wifi className="h-8 w-8 text-primary" />
           </div>
-          <h1 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">NetAdmin Pro</h1>
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">NetVerse Pro</h1>
           <p className="text-slate-500 dark:text-slate-400 mt-1">Sistem Manajemen Jaringan WiFi</p>
         </div>
 

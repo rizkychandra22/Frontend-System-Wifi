@@ -1,5 +1,10 @@
 import apiClient from "../api-client";
 
+export interface LoginPayload {
+  phone: string;
+  password?: string;
+}
+
 export interface LoginResponse {
   message: string;
   token: string;
@@ -11,7 +16,32 @@ export interface LoginResponse {
   };
 }
 
-export const loginApi = async (phone: string): Promise<LoginResponse> => {
-  const response = await apiClient.post<LoginResponse>("/auth/login", { phone });
+export const loginApi = async (phone: string, password?: string): Promise<LoginResponse> => {
+  const payload: LoginPayload = { phone };
+  if (password) {
+    payload.password = password;
+  }
+  const response = await apiClient.post<LoginResponse>("/auth/login", payload);
+  return response.data;
+};
+
+export interface UpdateProfilePayload {
+  name?: string;
+  phone?: string;
+  address?: string;
+}
+
+export const updateProfileApi = async (data: UpdateProfilePayload) => {
+  const response = await apiClient.put("/auth/profile", data);
+  return response.data;
+};
+
+export interface UpdatePasswordPayload {
+  old_password: string;
+  new_password: string;
+}
+
+export const updatePasswordApi = async (data: UpdatePasswordPayload) => {
+  const response = await apiClient.put("/auth/profile/password", data);
   return response.data;
 };
