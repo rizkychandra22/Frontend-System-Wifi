@@ -19,6 +19,10 @@ interface PaymentDetailProps {
 export function PaymentDetail({ payment, isOpen, onOpenChange }: PaymentDetailProps) {
   if (!payment) return null;
 
+  const invoiceNumber = payment.invoice_number || `INV-${payment.id.toString().padStart(4, '0')}`;
+  const customerName = payment.customer?.name || "Customer";
+  const pdfFilename = `${customerName} - ${invoiceNumber}.pdf`;
+
   return (
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
       <SheetContent className="overflow-y-auto">
@@ -29,7 +33,7 @@ export function PaymentDetail({ payment, isOpen, onOpenChange }: PaymentDetailPr
         <div className="space-y-6">
           <div className="space-y-1">
             <h3 className="text-sm font-medium text-muted-foreground">Invoice ID</h3>
-            <p className="font-medium text-base">INV-{payment.id.toString().padStart(4, '0')}</p>
+            <p className="font-medium text-base">{invoiceNumber}</p>
           </div>
 
           <div className="space-y-1">
@@ -66,7 +70,7 @@ export function PaymentDetail({ payment, isOpen, onOpenChange }: PaymentDetailPr
           <div className="pt-4 border-t">
             <Button 
               className="w-full flex items-center justify-center gap-2" 
-              onClick={() => paymentApi.downloadPaymentPDF(payment.id)}
+              onClick={() => paymentApi.downloadPaymentPDF(payment.id, pdfFilename)}
             >
               <Download className="h-4 w-4" />
               Download PDF Invoice

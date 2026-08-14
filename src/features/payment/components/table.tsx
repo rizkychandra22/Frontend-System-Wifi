@@ -42,7 +42,7 @@ export function PaymentTable({ payments, isLoading, onView, onEdit, onDelete }: 
           ) : (
             payments.map((payment) => (
               <TableRow key={payment.id}>
-                <TableCell className="font-medium">INV-{payment.id.toString().padStart(4, '0')}</TableCell>
+                <TableCell className="font-medium">{payment.invoice_number || `INV-${payment.id.toString().padStart(4, '0')}`}</TableCell>
                 <TableCell>{format(new Date(payment.created_at), "dd MMM yyyy HH:mm")}</TableCell>
                 <TableCell>{payment.customer?.name || "-"}</TableCell>
                 <TableCell>{payment.wifi_package?.name || "-"}</TableCell>

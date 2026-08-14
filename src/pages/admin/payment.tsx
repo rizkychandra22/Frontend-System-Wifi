@@ -14,7 +14,10 @@ export function PaymentsPage() {
   const filteredPayments = payments.filter((payment) => {
     const customerName = payment.customer?.name || "";
     const customerMatch = customerName.toLowerCase().includes(searchQuery.toLowerCase());
-    const invoiceIdMatch = `INV-${payment.id.toString().padStart(4, '0')}`.toLowerCase().includes(searchQuery.toLowerCase());
+    
+    const invoiceNumber = payment.invoice_number || `INV-${payment.id.toString().padStart(4, '0')}`;
+    const invoiceIdMatch = invoiceNumber.toLowerCase().includes(searchQuery.toLowerCase());
+    
     return customerMatch || invoiceIdMatch;
   });
 

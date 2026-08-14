@@ -12,6 +12,7 @@ export interface Payment {
   ppn: number;
   total_amount: number;
   status: string;
+  invoice_number?: string;
   created_at: string;
   updated_at: string;
 }
@@ -36,12 +37,12 @@ export const paymentApi = {
     const response = await apiClient.get<{ data: Payment[] }>(`/payments/history/${customerId}`);
     return response.data.data;
   },
-  downloadPaymentPDF: async (paymentId: number) => {
+  downloadPaymentPDF: async (paymentId: number, filename: string) => {
     const response = await apiClient.get(`/payments/invoice/${paymentId}/pdf`, { responseType: 'blob' });
     const url = window.URL.createObjectURL(new Blob([response.data]));
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', `invoice-${paymentId}.pdf`);
+    link.setAttribute('download', filename);
     document.body.appendChild(link);
     link.click();
     link.parentNode?.removeChild(link);
