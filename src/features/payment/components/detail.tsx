@@ -21,7 +21,7 @@ export function PaymentDetail({ payment, isOpen, onOpenChange }: PaymentDetailPr
 
   return (
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
-      <SheetContent className="w-full sm:max-w-md overflow-y-auto">
+      <SheetContent className="overflow-y-auto">
         <SheetHeader className="mb-6">
           <SheetTitle className="text-xl">Detail Invoice</SheetTitle>
         </SheetHeader>
