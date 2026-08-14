@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { type User } from "@/lib/api/users";
 import { useCreateUser, useUpdateUser, useDeleteUser, useResetUserIP } from "@/features/user/hooks/use-users";
 import {
@@ -43,7 +43,9 @@ export function UserActions({ actionState, onClose }: UserActionsProps) {
     address: "",
   });
 
-  useEffect(() => {
+  const [prevActionState, setPrevActionState] = useState(actionState);
+  if (actionState !== prevActionState) {
+    setPrevActionState(actionState);
     if (actionState.type === 'edit' && actionState.user) {
       setFormData({
         name: actionState.user.name,
@@ -59,7 +61,7 @@ export function UserActions({ actionState, onClose }: UserActionsProps) {
         address: "",
       });
     }
-  }, [actionState]);
+  }
 
   const handleAddSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -104,14 +106,14 @@ export function UserActions({ actionState, onClose }: UserActionsProps) {
       <Dialog open={actionState.type === 'add'} onOpenChange={(open) => !open && onClose()}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Tambah {formData.role === "employee" ? "Karyawan" : "Pelanggan"} Baru</DialogTitle>
+            <DialogTitle>Add New {formData.role === "employee" ? "Employee" : "Customer"}</DialogTitle>
           </DialogHeader>
           <UserForm 
             initialData={formData}
             onChange={setFormData}
             onSubmit={handleAddSubmit}
             isSubmitting={isCreating}
-            submitLabel="Simpan"
+            submitLabel="Save"
             showRoleSelect={false}
           />
         </DialogContent>
@@ -128,14 +130,14 @@ export function UserActions({ actionState, onClose }: UserActionsProps) {
       <Dialog open={actionState.type === 'edit'} onOpenChange={(open) => !open && onClose()}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Edit Pengguna</DialogTitle>
+            <DialogTitle>Edit User</DialogTitle>
           </DialogHeader>
           <UserForm 
             initialData={formData}
             onChange={setFormData}
             onSubmit={handleEditSubmit}
             isSubmitting={isUpdating}
-            submitLabel="Simpan Perubahan"
+            submitLabel="Save changes"
             showRoleSelect={true}
           />
         </DialogContent>
@@ -145,15 +147,15 @@ export function UserActions({ actionState, onClose }: UserActionsProps) {
       <AlertDialog open={actionState.type === 'delete'} onOpenChange={(open) => !open && onClose()}>
         <AlertDialogContent className="w-[90%] max-w-[360px] rounded-md p-6">
           <AlertDialogHeader>
-            <AlertDialogTitle className="text-center text-lg font-semibold">Hapus Pengguna?</AlertDialogTitle>
+            <AlertDialogTitle className="text-center text-lg font-semibold">Delete User?</AlertDialogTitle>
             <AlertDialogDescription className="text-center text-[15px] mt-2 mb-4 text-foreground/80">
-              Tindakan ini tidak dapat dibatalkan. Data {actionState.user?.name} akan dihapus secara permanen dari sistem.
+              This action cannot be undone. {actionState.user?.name}'s data will be permanently deleted from the system.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <div className="flex flex-row justify-center gap-3 mt-2">
-            <AlertDialogCancel className="w-24 mt-0 border border-border bg-background hover:bg-muted text-foreground rounded-lg h-8 text-[13px] font-medium">Batal</AlertDialogCancel>
+            <AlertDialogCancel className="w-24 mt-0 border border-border bg-background hover:bg-muted text-foreground rounded-lg h-8 text-[13px] font-medium">Cancel</AlertDialogCancel>
             <AlertDialogAction onClick={handleDelete} disabled={isDeleting} className="w-24 h-8 text-[13px] font-medium rounded-lg bg-destructive hover:bg-destructive/90 text-destructive-foreground">
-              {isDeleting ? "Menghapus..." : "Ya, Hapus"}
+              {isDeleting ? "Deleting..." : "Yes, Delete"}
             </AlertDialogAction>
           </div>
         </AlertDialogContent>
@@ -165,13 +167,13 @@ export function UserActions({ actionState, onClose }: UserActionsProps) {
           <AlertDialogHeader>
             <AlertDialogTitle className="text-center text-lg font-semibold">Reset Device IP?</AlertDialogTitle>
             <AlertDialogDescription className="text-center text-[15px] mt-2 mb-4 text-foreground/80">
-              Anda akan mereset kunci device untuk {actionState.user?.name}. Pengguna ini nantinya dapat login kembali dari perangkat baru.
+              You will reset the device key for {actionState.user?.name}. This user will be able to log in again from a new device.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <div className="flex flex-row justify-center gap-3 mt-2">
-            <AlertDialogCancel className="w-24 mt-0 border border-border bg-background hover:bg-muted text-foreground rounded-lg h-8 text-[13px] font-medium">Batal</AlertDialogCancel>
+            <AlertDialogCancel className="w-24 mt-0 border border-border bg-background hover:bg-muted text-foreground rounded-lg h-8 text-[13px] font-medium">Cancel</AlertDialogCancel>
             <AlertDialogAction onClick={handleResetIP} disabled={isResetting} className="w-24 h-8 text-[13px] font-medium rounded-lg bg-amber-500 hover:bg-amber-600 text-white">
-              {isResetting ? "Mereset..." : "Ya, Reset"}
+              {isResetting ? "Resetting..." : "Yes, Reset"}
             </AlertDialogAction>
           </div>
         </AlertDialogContent>

@@ -29,7 +29,7 @@ export function UserTable({ users, onView, onEdit, onResetIP, onDelete }: UserTa
           {users.length === 0 ? (
             <TableRow>
               <TableCell colSpan={5} className="text-center py-6 text-muted-foreground">
-                Tidak ada data pengguna.
+                No Data Users.
               </TableCell>
             </TableRow>
           ) : (
@@ -40,11 +40,11 @@ export function UserTable({ users, onView, onEdit, onResetIP, onDelete }: UserTa
                 <TableCell>
                   {user.ip_address ? (
                     <span className="text-green-600 dark:text-green-400 text-xs font-semibold px-2 py-1 bg-green-100 dark:bg-green-900/30 rounded-full">
-                      Terkunci
+                      Locked
                     </span>
                   ) : (
                     <span className="text-muted-foreground text-xs font-medium px-2 py-1 bg-muted rounded-full">
-                      Bebas
+                      Free
                     </span>
                   )}
                 </TableCell>
@@ -61,7 +61,7 @@ export function UserTable({ users, onView, onEdit, onResetIP, onDelete }: UserTa
                       size="icon"
                       className="h-8 w-8 text-slate-500 hover:text-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800"
                       onClick={() => onView(user)}
-                      title="Lihat Data"
+                      title="View Data"
                     >
                       <Eye className="h-4 w-4" />
                     </Button>
@@ -89,7 +89,7 @@ export function UserTable({ users, onView, onEdit, onResetIP, onDelete }: UserTa
                       size="icon"
                       className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
                       onClick={() => onDelete(user)}
-                      title="Hapus"
+                      title="Delete"
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>

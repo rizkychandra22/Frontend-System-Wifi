@@ -133,7 +133,7 @@ export function CustomersPage() {
                     <TableCell>{p.wifi_package?.name}</TableCell>
                     <TableCell>Rp {p.total_amount.toLocaleString("id-ID")}</TableCell>
                     <TableCell className="text-right">
-                      <Button size="sm" onClick={() => paymentApi.downloadPaymentPDF(p.id)}>
+                      <Button size="sm" onClick={() => paymentApi.downloadPaymentPDF(p.id, `invoice-${p.id}.pdf`)}>
                         <Download className="w-4 h-4 mr-2" /> Download
                       </Button>
                     </TableCell>

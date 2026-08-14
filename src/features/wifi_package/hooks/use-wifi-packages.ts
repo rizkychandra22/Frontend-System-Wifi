@@ -14,11 +14,11 @@ export function useWifiPackages() {
     mutationFn: wifiPackageApi.createWifiPackage,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["wifi-packages"] });
-      toast.success("Paket WiFi berhasil ditambahkan");
+      toast.success("WiFi Package successfully added");
     },
     onError: (error: unknown) => {
       const err = error as { response?: { data?: { error?: string } } };
-      toast.error(err?.response?.data?.error || "Gagal menambahkan paket wifi");
+      toast.error(err?.response?.data?.error || "Failed to add WiFi package");
     },
   });
 
@@ -26,17 +26,31 @@ export function useWifiPackages() {
     mutationFn: wifiPackageApi.deleteWifiPackage,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["wifi-packages"] });
-      toast.success("Paket WiFi berhasil dihapus");
+      toast.success("WiFi Package successfully deleted");
     },
     onError: (error: unknown) => {
       const err = error as { response?: { data?: { error?: string } } };
-      toast.error(err?.response?.data?.error || "Gagal menghapus paket");
+      toast.error(err?.response?.data?.error || "Failed to delete package");
+    },
+  });
+
+  const updateMutation = useMutation({
+    mutationFn: ({ id, data }: { id: number; data: { name?: string; price?: number } }) =>
+      wifiPackageApi.updateWifiPackage(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["wifi-packages"] });
+      toast.success("WiFi Package successfully updated");
+    },
+    onError: (error: unknown) => {
+      const err = error as { response?: { data?: { error?: string } } };
+      toast.error(err?.response?.data?.error || "Failed to update package");
     },
   });
 
   return {
     query,
     createMutation,
+    updateMutation,
     deleteMutation,
   };
 }

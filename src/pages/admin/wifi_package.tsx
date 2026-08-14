@@ -1,81 +1,67 @@
 import { useState } from "react";
 import { useWifiPackages } from "@/features/wifi_package/hooks/use-wifi-packages";
-import type { WifiPackage } from "@/lib/api/wifi_package";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Trash2 } from "lucide-react";
+import { Plus, Search } from "lucide-react";
+import { WifiPackageTable } from "@/features/wifi_package/components/table";
+import { WifiPackageActions, type ActionState } from "@/features/wifi_package/components/actions";
 
 export function WifiPackagesPage() {
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
+  const { query: { data: services = [], isLoading } } = useWifiPackages();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [actionState, setActionState] = useState<ActionState>({ type: null, package: null });
 
-  const { query: { data: services = [], isLoading }, createMutation, deleteMutation } = useWifiPackages();
-
-  const handleAdd = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!name || !price) return;
-    createMutation.mutate({ name, price: Number(price) }, {
-      onSuccess: () => {
-        setName("");
-        setPrice("");
-      }
-    });
-  };
+  const filteredServices = services.filter((svc) =>
+    svc.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight text-foreground">Layanan Paket WiFi</h1>
-        <p className="text-muted-foreground">Manajemen paket langganan WiFi.</p>
-      </div>
-      
-      <div className="rounded-xl border bg-card p-6 shadow-sm">
-        <form onSubmit={handleAdd} className="flex gap-4 items-end mb-6">
-          <div className="flex-1 space-y-2">
-            <label className="text-sm font-medium">Nama Paket</label>
-            <Input value={name} onChange={e => setName(e.target.value)} placeholder="Contoh: 15Mbps" required />
-          </div>
-          <div className="flex-1 space-y-2">
-            <label className="text-sm font-medium">Harga (Rp)</label>
-            <Input type="number" value={price} onChange={e => setPrice(e.target.value)} placeholder="Contoh: 150000" required />
-          </div>
-          <Button type="submit" disabled={createMutation.isPending}>Tambah Paket</Button>
-        </form>
-
-        <div className="relative w-full overflow-auto">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>ID</TableHead>
-                <TableHead>Nama Paket</TableHead>
-                <TableHead>Harga</TableHead>
-                <TableHead className="text-right">Aksi</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {isLoading ? (
-                <TableRow><TableCell colSpan={4} className="text-center">Loading...</TableCell></TableRow>
-              ) : services.length === 0 ? (
-                <TableRow><TableCell colSpan={4} className="text-center">Belum ada layanan paket wifi</TableCell></TableRow>
-              ) : (
-                services.map((svc: WifiPackage) => (
-                  <TableRow key={svc.id}>
-                    <TableCell>{svc.id}</TableCell>
-                    <TableCell>{svc.name}</TableCell>
-                    <TableCell>Rp {svc.price.toLocaleString("id-ID")}</TableCell>
-                    <TableCell className="text-right">
-                      <Button variant="destructive" size="icon" onClick={() => deleteMutation.mutate(svc.id)}>
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
+      <div className="flex justify-between items-center">
+        <div>
+          <h2 className="text-2xl font-bold tracking-tight text-foreground">WiFi Packages</h2>
+          <p className="text-muted-foreground text-sm">
+            Manage WiFi subscription packages.
+          </p>
         </div>
       </div>
+
+      <div className="w-full">
+        <div className="flex flex-col lg:flex-row justify-between items-stretch lg:items-center gap-3 mt-4 mb-4">
+          <div className="relative w-full lg:w-80">
+            <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
+            <Input 
+              placeholder="Search package name..." 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-9 h-8 bg-muted/50 border border-border/60 rounded-lg text-[13px] shadow-none focus:bg-background transition-colors"
+            />
+          </div>
+          
+          <div className="flex flex-row flex-wrap sm:flex-nowrap items-center gap-2 w-full lg:w-auto">
+            <Button 
+              size="sm" 
+              onClick={() => setActionState({ type: 'add', package: null })} 
+              className="h-8 px-3.5 rounded-lg text-[13px] font-medium shrink-0 shadow-sm w-full sm:w-auto flex-none"
+            >
+              <Plus className="h-3.5 w-3.5 mr-1" />
+              Add Package
+            </Button>
+          </div>
+        </div>
+
+        <WifiPackageTable 
+          packages={filteredServices} 
+          isLoading={isLoading}
+          onEdit={(pkg) => setActionState({ type: 'edit', package: pkg })}
+          onDelete={(pkg) => setActionState({ type: 'delete', package: pkg })}
+        />
+      </div>
+
+      <WifiPackageActions 
+        actionState={actionState} 
+        onClose={() => setActionState({ type: null, package: null })} 
+      />
     </div>
   );
 }

@@ -1,4 +1,4 @@
-export const setToken = (token: string, user: string) => {
+export const setToken = (token: string, user: unknown) => {
   localStorage.setItem("auth_token", token);
   localStorage.setItem("auth_user", JSON.stringify(user));
 };
