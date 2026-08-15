@@ -20,7 +20,6 @@ export function useUpdateProfile() {
         window.dispatchEvent(new Event("profileUpdated"));
       }
     },
-    retry: 3,
   });
 
   return {
@@ -35,7 +34,6 @@ import { updatePasswordApi, type UpdatePasswordPayload, type UpdatePasswordRespo
 export function useUpdatePassword() {
   const mutation = useMutation<UpdatePasswordResponse, AxiosError<ApiErrorResponse>, UpdatePasswordPayload>({
     mutationFn: (data) => updatePasswordApi(data),
-    retry: 3,
   });
 
   return {

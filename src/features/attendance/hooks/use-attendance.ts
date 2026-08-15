@@ -60,7 +60,6 @@ export function useClockIn() {
     onError: (error) => {
       toast.error(parseErrorMessage(error) || "Gagal absen masuk");
     },
-    retry: 3,
   });
 }
 
@@ -80,7 +79,6 @@ export function useClockOut() {
     onError: (error) => {
       toast.error(parseErrorMessage(error) || "Gagal absen keluar");
     },
-    retry: 3,
   });
 }
 
@@ -100,6 +98,5 @@ export function useRequestIzin() {
     onError: (error) => {
       toast.error(parseErrorMessage(error) || "Gagal mengajukan izin");
     },
-    retry: 3,
   });
 }

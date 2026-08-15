@@ -36,7 +36,6 @@ export function useCreateUser() {
     onError: (error) => {
       toast.error(parseErrorMessage(error) || "Gagal menambahkan pengguna");
     },
-    retry: 3,
   });
 }
 
@@ -59,7 +58,6 @@ export function useUpdateUser() {
     onError: (error) => {
       toast.error(parseErrorMessage(error) || "Gagal menyimpan perubahan");
     },
-    retry: 3,
   });
 }
 
@@ -75,7 +73,6 @@ export function useDeleteUser() {
     onError: (error) => {
       toast.error(parseErrorMessage(error) || "Gagal menghapus pengguna");
     },
-    retry: 3,
   });
 }
 
@@ -91,6 +88,5 @@ export function useResetUserIP() {
     onError: (error) => {
       toast.error(parseErrorMessage(error) || "Gagal mereset IP");
     },
-    retry: 3,
   });
 }
