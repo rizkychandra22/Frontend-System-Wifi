@@ -20,6 +20,14 @@ export function useUsers() {
   };
 }
 
+export function useAdminContact() {
+  return useQuery({
+    queryKey: ["admin-contact"],
+    queryFn: () => usersApi.getAdminContact(),
+    staleTime: 1000 * 60 * 60, // 1 hour
+  });
+}
+
 export function useCreateUser() {
   const queryClient = useQueryClient();
 

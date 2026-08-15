@@ -1,6 +1,7 @@
 import { Wifi, CalendarDays, CheckCircle2 } from "lucide-react";
 import { type WifiPackage } from "@/lib/api/wifi_package";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { useAdminContact } from "@/features/user/hooks/use-users";
 
 interface CustomerSubscriptionsProps {
   subscription: WifiPackage | null;
@@ -8,6 +9,18 @@ interface CustomerSubscriptionsProps {
 }
 
 export function CustomerSubscriptions({ subscription, availablePackages }: CustomerSubscriptionsProps) {
+  const { data: adminContact } = useAdminContact();
+
+  let waNumber = "6281234567890"; // Fallback
+  if (adminContact?.phone) {
+    waNumber = adminContact.phone;
+    if (waNumber.startsWith('0')) {
+      waNumber = '62' + waNumber.substring(1);
+    }
+  }
+
+  const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent("Halo Admin, saya tertarik untuk berlangganan/mengubah paket WiFi.")}`;
+
   return (
     <>
       {subscription ? (
@@ -50,7 +63,7 @@ export function CustomerSubscriptions({ subscription, availablePackages }: Custo
               
               <div className="pt-4 mt-4 border-t border-border">
                 <p className="text-sm text-muted-foreground">
-                  Jika Anda ingin mengubah paket langganan, silakan hubungi admin kami melalui WhatsApp.
+                  Jika Anda ingin mengubah paket langganan, silakan <a href={waLink} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-medium">hubungi admin kami melalui WhatsApp</a>.
                 </p>
               </div>
             </div>
@@ -64,7 +77,7 @@ export function CustomerSubscriptions({ subscription, availablePackages }: Custo
             Pilih salah satu paket di bawah ini dan hubungi admin kami untuk mulai berlangganan.
           </p>
           <a 
-            href="https://wa.me/6281234567890?text=Halo%20Admin%2C%20saya%20tertarik%20untuk%20berlangganan%20paket%20WiFi." 
+            href={waLink}
             target="_blank" 
             rel="noopener noreferrer" 
             className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
