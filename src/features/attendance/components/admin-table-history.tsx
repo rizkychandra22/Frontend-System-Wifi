@@ -1,17 +1,22 @@
 import { type AttendanceRecord } from "@/lib/api/attendance";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface AdminAttendanceTableProps {
   attendances: AttendanceRecord[];
 }
 
 export function AdminAttendanceTable({ attendances }: AdminAttendanceTableProps) {
-  const [dateFilter, setDateFilter] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [statusFilter, setStatusFilter] = useState("Semua Status");
 
   const filteredAttendances = attendances.filter((record) => {
-    if (!dateFilter) return true;
-    return record.date === dateFilter;
+    if (startDate && record.date < startDate) return false;
+    if (endDate && record.date > endDate) return false;
+    if (statusFilter !== "Semua Status" && record.status !== statusFilter) return false;
+    return true;
   });
 
   const getStatusBadgeColor = (status: string) => {
@@ -45,13 +50,34 @@ export function AdminAttendanceTable({ attendances }: AdminAttendanceTableProps)
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
-        <div className="relative w-full sm:w-64">
+      <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
+        <div className="w-full sm:w-40">
+          <Select value={statusFilter} onValueChange={setStatusFilter}>
+            <SelectTrigger className="h-9 text-xs w-full">
+              <SelectValue placeholder="Semua Status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Semua Status">Semua Status</SelectItem>
+              <SelectItem value="Hadir">Hadir</SelectItem>
+              <SelectItem value="Izin">Izin</SelectItem>
+              <SelectItem value="Libur">Libur</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="flex items-center gap-2 w-full sm:w-auto">
           <Input
             type="date"
-            value={dateFilter}
-            onChange={(e) => setDateFilter(e.target.value)}
-            className="h-9"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+            className="h-9 w-full sm:w-36 text-xs flex-1"
+          />
+          <span className="text-muted-foreground text-sm shrink-0">-</span>
+          <Input
+            type="date"
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+            className="h-9 w-full sm:w-36 text-xs flex-1"
           />
         </div>
       </div>
