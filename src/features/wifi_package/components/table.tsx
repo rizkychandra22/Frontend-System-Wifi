@@ -5,12 +5,11 @@ import { Edit2, Trash2 } from "lucide-react";
 
 interface WifiPackageTableProps {
   packages: WifiPackage[];
-  isLoading: boolean;
   onEdit: (pkg: WifiPackage) => void;
   onDelete: (pkg: WifiPackage) => void;
 }
 
-export function WifiPackageTable({ packages, isLoading, onEdit, onDelete }: WifiPackageTableProps) {
+export function WifiPackageTable({ packages, onEdit, onDelete }: WifiPackageTableProps) {
   return (
     <div className="rounded-xl border bg-card overflow-hidden shadow-sm">
       <Table>
@@ -23,18 +22,12 @@ export function WifiPackageTable({ packages, isLoading, onEdit, onDelete }: Wifi
           </TableRow>
         </TableHeader>
         <TableBody>
-          {isLoading ? (
-            <TableRow>
-              <TableCell colSpan={4} className="text-center py-6 text-muted-foreground">
-                Memuat...
-              </TableCell>
-            </TableRow>
-          ) : packages.length === 0 ? (
-            <TableRow>
-              <TableCell colSpan={4} className="text-center py-6 text-muted-foreground">
-                Tidak ada paket WiFi.
-              </TableCell>
-            </TableRow>
+          {packages.length === 0 ? (
+            <tr>
+              <td colSpan={4} className="px-6 py-8 text-center text-muted-foreground">
+                Belum ada paket WiFi yang ditambahkan.
+              </td>
+            </tr>
           ) : (
             packages.map((pkg) => (
               <TableRow key={pkg.id}>

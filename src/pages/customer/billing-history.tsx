@@ -8,7 +8,6 @@ import { AxiosError } from "axios";
 
 export function CustomerBillingHistoryPage() {
   const [payments, setPayments] = useState<Payment[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [downloadingId, setDownloadingId] = useState<number | null>(null);
 
@@ -18,7 +17,6 @@ export function CustomerBillingHistoryPage() {
         const user = getUser();
         if (!user) {
           setError("Silakan login kembali");
-          setIsLoading(false);
           return;
         }
 
@@ -26,8 +24,6 @@ export function CustomerBillingHistoryPage() {
         setPayments(data);
       } catch (err) {
         setError(parseErrorMessage(err as AxiosError<ApiErrorResponse>));
-      } finally {
-        setIsLoading(false);
       }
     };
 
@@ -68,11 +64,7 @@ export function CustomerBillingHistoryPage() {
         </p>
       </div>
 
-      {isLoading ? (
-        <div className="flex justify-center py-8">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-        </div>
-      ) : error ? (
+      {error ? (
         <div className="bg-destructive/10 text-destructive p-4 rounded-lg">
           {error}
         </div>

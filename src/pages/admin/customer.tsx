@@ -18,8 +18,8 @@ export function CustomersPage() {
   
   const [selectedCustomerId, setSelectedCustomerId] = useState<number | null>(null);
 
-  const { query: { data: customers = [], isLoading }, createMutation } = useCustomers();
-  const { data: payments = [], isLoading: isPaymentsLoading } = useCustomerPayments(selectedCustomerId);
+  const { query: { data: customers = [] }, createMutation } = useCustomers();
+  const { data: payments = [] } = useCustomerPayments(selectedCustomerId);
 
   const handleAdd = (e: React.FormEvent) => {
     e.preventDefault();
@@ -77,9 +77,7 @@ export function CustomersPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {isLoading ? (
-                <TableRow><TableCell colSpan={isAdmin ? 5 : 4} className="text-center">Loading...</TableCell></TableRow>
-              ) : customers.length === 0 ? (
+              {customers.length === 0 ? (
                 <TableRow><TableCell colSpan={isAdmin ? 5 : 4} className="text-center">Belum ada customer</TableCell></TableRow>
               ) : (
                 customers.map((c: Customer) => (
@@ -122,9 +120,7 @@ export function CustomersPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {isPaymentsLoading ? (
-                <TableRow><TableCell colSpan={4} className="text-center">Loading...</TableCell></TableRow>
-              ) : payments.length === 0 ? (
+              {payments.length === 0 ? (
                 <TableRow><TableCell colSpan={4} className="text-center">Belum ada riwayat</TableCell></TableRow>
               ) : (
                 payments.map((p: Payment) => (

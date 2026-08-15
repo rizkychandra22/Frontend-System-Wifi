@@ -7,7 +7,7 @@ import { WifiPackageTable } from "@/features/wifi_package/components/table";
 import { WifiPackageActions, type ActionState } from "@/features/wifi_package/components/actions";
 
 export function WifiPackagesPage() {
-  const { query: { data: services = [], isLoading } } = useWifiPackages();
+  const { query: { data: services = [] } } = useWifiPackages();
   const [searchQuery, setSearchQuery] = useState("");
   const [actionState, setActionState] = useState<ActionState>({ type: null, package: null });
 
@@ -52,7 +52,6 @@ export function WifiPackagesPage() {
 
         <WifiPackageTable 
           packages={filteredServices} 
-          isLoading={isLoading}
           onEdit={(pkg) => setActionState({ type: 'edit', package: pkg })}
           onDelete={(pkg) => setActionState({ type: 'delete', package: pkg })}
         />

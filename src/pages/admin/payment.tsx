@@ -7,7 +7,7 @@ import { PaymentActions, type ActionState } from "@/features/payment/components/
 import { Button as UIButton } from "@/components/ui/button";
 
 export function PaymentsPage() {
-  const { data: payments = [], isLoading } = useAllPayments();
+  const { data: payments = [] } = useAllPayments();
   const [searchQuery, setSearchQuery] = useState("");
   const [actionState, setActionState] = useState<ActionState>({ type: null, payment: null });
 
@@ -58,7 +58,6 @@ export function PaymentsPage() {
 
         <PaymentTable 
           payments={filteredPayments} 
-          isLoading={isLoading}
           onView={(payment) => setActionState({ type: 'view', payment })}
           onEdit={(payment) => setActionState({ type: 'edit', payment })}
           onDelete={(payment) => setActionState({ type: 'delete', payment })}

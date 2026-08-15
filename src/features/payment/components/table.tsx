@@ -6,13 +6,12 @@ import { format } from "date-fns";
 
 interface PaymentTableProps {
   payments: Payment[];
-  isLoading: boolean;
   onView: (payment: Payment) => void;
   onEdit: (payment: Payment) => void;
   onDelete: (payment: Payment) => void;
 }
 
-export function PaymentTable({ payments, isLoading, onView, onEdit, onDelete }: PaymentTableProps) {
+export function PaymentTable({ payments, onView, onEdit, onDelete }: PaymentTableProps) {
   return (
     <div className="rounded-xl border bg-card overflow-hidden shadow-sm">
       <Table>
@@ -27,18 +26,12 @@ export function PaymentTable({ payments, isLoading, onView, onEdit, onDelete }: 
           </TableRow>
         </TableHeader>
         <TableBody>
-          {isLoading ? (
-            <TableRow>
-              <TableCell colSpan={6} className="text-center py-6 text-muted-foreground">
-                Memuat...
-              </TableCell>
-            </TableRow>
-          ) : payments.length === 0 ? (
-            <TableRow>
-              <TableCell colSpan={6} className="text-center py-6 text-muted-foreground">
-                Tidak ada tagihan.
-              </TableCell>
-            </TableRow>
+          {payments.length === 0 ? (
+            <tr>
+              <td colSpan={6} className="px-6 py-8 text-center text-muted-foreground">
+                Belum ada data pembayaran.
+              </td>
+            </tr>
           ) : (
             payments.map((payment) => (
               <TableRow key={payment.id}>
