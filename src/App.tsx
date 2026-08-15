@@ -27,7 +27,7 @@ function App() {
           <Route path="/dashboard" element={<h1 className="text-2xl font-bold capitalize">Dashboard</h1>} />
           {/* Admin Routes */}
           <Route path="/dashboard/users" element={<UsersPage />} />
-          <Route path="/dashboard/attendance" element={<h1 className="text-2xl font-bold capitalize">Data Kehadiran</h1>} />
+          <Route path="/dashboard/attendance" element={<h1 className="text-2xl font-bold capitalize">Attendance Data</h1>} />
           <Route path="/dashboard/customers" element={<CustomersPage />} />
           <Route path="/dashboard/wifi-packages" element={<WifiPackagesPage />} />
           <Route path="/dashboard/payments" element={<PaymentsPage />} />
@@ -35,8 +35,8 @@ function App() {
           <Route path="/attendance/record" element={<AttendanceRecordPage />} />
           <Route path="/attendance/history" element={<AttendanceHistoryPage />} />          
           {/* Customer Routes */}
-          <Route path="/subscriptions" element={<h1 className="text-2xl font-bold">Layanan WiFi Aktif</h1>} />
-          <Route path="/billing-history" element={<h1 className="text-2xl font-bold">Riwayat Tagihan</h1>} />
+          <Route path="/subscriptions" element={<h1 className="text-2xl font-bold">Active WiFi Services</h1>} />
+          <Route path="/billing-history" element={<h1 className="text-2xl font-bold">Billing History</h1>} />
         </Route>
       </Routes>
     </BrowserRouter>
