@@ -22,7 +22,7 @@ export function PaymentTable({ payments, isLoading, onView, onEdit, onDelete }: 
             <TableHead>Tanggal</TableHead>
             <TableHead>Pelanggan</TableHead>
             <TableHead>Paket</TableHead>
-            <TableHead>Total Tagihan</TableHead>
+            <TableHead>Tagihan</TableHead>
             <TableHead className="text-right">Aksi</TableHead>
           </TableRow>
         </TableHeader>

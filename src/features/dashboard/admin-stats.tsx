@@ -29,7 +29,7 @@ export function AdminDashboardStats() {
       <Card className="border-t-4 border-t-blue-500">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Total Karyawan</CardTitle>
-          <Users className="h-4 w-4 text-muted-foreground" />
+          <Users className="h-4 w-4 text-blue-500" />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{totalEmployees}</div>
@@ -39,7 +39,7 @@ export function AdminDashboardStats() {
       <Card className="border-t-4 border-t-green-500">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Total Pelanggan</CardTitle>
-          <Wifi className="h-4 w-4 text-muted-foreground" />
+          <Wifi className="h-4 w-4 text-green-500" />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{totalCustomers}</div>
@@ -49,7 +49,7 @@ export function AdminDashboardStats() {
       <Card className="border-t-4 border-t-orange-500">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Tagihan Tertunda</CardTitle>
-          <CreditCard className="h-4 w-4 text-muted-foreground" />
+          <CreditCard className="h-4 w-4 text-orange-500" />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{pendingPayments}</div>
@@ -59,7 +59,7 @@ export function AdminDashboardStats() {
       <Card className="border-t-4 border-t-purple-500">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Kehadiran Hari Ini</CardTitle>
-          <UserCheck className="h-4 w-4 text-muted-foreground" />
+          <UserCheck className="h-4 w-4 text-purple-500" />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{totalPresent} / {totalEmployees}</div>

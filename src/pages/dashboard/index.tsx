@@ -1,9 +1,10 @@
 import { getUser } from "@/lib/auth-utils";
 import { AdminDashboardStats } from "@/features/dashboard/admin-stats";
+import { EmployeeDashboardStats } from "@/features/dashboard/employee-stats";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { Fingerprint, ReceiptText, Wifi, History } from "lucide-react";
+import { ReceiptText, Wifi } from "lucide-react";
 
 export function DashboardPage() {
   const user = getUser();
@@ -27,33 +28,13 @@ export function DashboardPage() {
       )}
 
       {user.role === "employee" && (
-        <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
-          <Card className="hover:border-primary/50 transition-colors cursor-pointer border-t-4 border-t-blue-500" onClick={() => navigate("/attendance/record")}>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-lg font-medium">Absen Hari Ini</CardTitle>
-              <Fingerprint className="h-5 w-5 text-primary" />
-            </CardHeader>
-            <CardContent>
-              <CardDescription>Catat kehadiran masuk atau keluar Anda.</CardDescription>
-              <Button variant="link" className="px-0 mt-2">Mulai Absen &rarr;</Button>
-            </CardContent>
-          </Card>
-
-          <Card className="hover:border-primary/50 transition-colors cursor-pointer border-t-4 border-t-purple-500" onClick={() => navigate("/attendance/history")}>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-lg font-medium">Riwayat Absen</CardTitle>
-              <History className="h-5 w-5 text-primary" />
-            </CardHeader>
-            <CardContent>
-              <CardDescription>Lihat rekapitulasi kehadiran Anda.</CardDescription>
-              <Button variant="link" className="px-0 mt-2">Lihat Riwayat &rarr;</Button>
-            </CardContent>
-          </Card>
+        <div className="space-y-6">
+          <EmployeeDashboardStats />
         </div>
       )}
 
       {user.role === "customer" && (
-        <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           <Card className="hover:border-primary/50 transition-colors cursor-pointer border-t-4 border-t-green-500" onClick={() => navigate("/subscriptions")}>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-lg font-medium">Paket WiFi</CardTitle>
