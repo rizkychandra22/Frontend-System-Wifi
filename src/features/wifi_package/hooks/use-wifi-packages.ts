@@ -14,11 +14,11 @@ export function useWifiPackages() {
     mutationFn: wifiPackageApi.createWifiPackage,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["wifi-packages"] });
-      toast.success("WiFi Package successfully added");
+      toast.success("Paket WiFi berhasil ditambahkan");
     },
     onError: (error: unknown) => {
       const err = error as { response?: { data?: { error?: string } } };
-      toast.error(err?.response?.data?.error || "Failed to add WiFi package");
+      toast.error(err?.response?.data?.error || "Gagal menambahkan paket WiFi");
     },
   });
 
@@ -26,11 +26,11 @@ export function useWifiPackages() {
     mutationFn: wifiPackageApi.deleteWifiPackage,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["wifi-packages"] });
-      toast.success("WiFi Package successfully deleted");
+      toast.success("Paket WiFi berhasil dihapus");
     },
     onError: (error: unknown) => {
       const err = error as { response?: { data?: { error?: string } } };
-      toast.error(err?.response?.data?.error || "Failed to delete package");
+      toast.error(err?.response?.data?.error || "Gagal menghapus paket");
     },
   });
 
@@ -39,11 +39,11 @@ export function useWifiPackages() {
       wifiPackageApi.updateWifiPackage(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["wifi-packages"] });
-      toast.success("WiFi Package successfully updated");
+      toast.success("Paket WiFi berhasil diperbarui");
     },
     onError: (error: unknown) => {
       const err = error as { response?: { data?: { error?: string } } };
-      toast.error(err?.response?.data?.error || "Failed to update package");
+      toast.error(err?.response?.data?.error || "Gagal memperbarui paket");
     },
   });
 

@@ -116,21 +116,21 @@ export function AppSidebar() {
         address: data.address,
       });
 
-      toast.success("Profile updated successfully");
+      toast.success("Profil berhasil diperbarui");
     } catch (error: unknown) {
       const err = error as { response?: { data?: { error?: string } } };
-      toast.error(err.response?.data?.error || "Update profile failed");
+      toast.error(err.response?.data?.error || "Gagal memperbarui profil");
     }
   };
 
   const onSubmitPassword = async (e: React.FormEvent) => {
     e.preventDefault();
     if (passwordData.newPassword !== passwordData.confirmPassword) {
-      toast.error("New password confirmation does not match!");
+      toast.error("Konfirmasi password baru tidak cocok!");
       return;
     }
     if (passwordData.newPassword.length < 6) {
-      toast.error("New password must be at least 6 characters!");
+      toast.error("Password baru harus minimal 6 karakter!");
       return;
     }
 
@@ -140,11 +140,11 @@ export function AppSidebar() {
         new_password: passwordData.newPassword,
       });
 
-      toast.success("Password updated successfully!");
+      toast.success("Password berhasil diperbarui!");
       setPasswordData({ oldPassword: "", newPassword: "", confirmPassword: "" });
     } catch (error: unknown) {
       const err = error as { response?: { data?: { error?: string } } };
-      toast.error(err.response?.data?.error || "Update password failed");
+      toast.error(err.response?.data?.error || "Gagal memperbarui password");
     }
   };
 
@@ -172,7 +172,7 @@ export function AppSidebar() {
       <SidebarContent className="px-2 py-2 no-scrollbar">
         <SidebarGroup>
           <SidebarGroupLabel className="px-3 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70">
-            Home {user?.role}
+            Beranda {user?.role}
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -201,7 +201,7 @@ export function AppSidebar() {
                     >
                       <Link to="/attendance/record">
                         <MapPin className="w-[18px] h-[18px]" />
-                        <span className="text-[13px]">Attendance Record</span>
+                        <span className="text-[13px]">Rekap Absensi</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -213,7 +213,7 @@ export function AppSidebar() {
                     >
                       <Link to="/attendance/history">
                         <ClipboardList className="w-[18px] h-[18px]" />
-                        <span className="text-[13px]">Attendance History</span>
+                        <span className="text-[13px]">Riwayat Absensi</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -230,7 +230,7 @@ export function AppSidebar() {
                     >
                       <Link to="/subscriptions">
                         <Wifi className="w-[18px] h-[18px]" />
-                        <span className="text-[13px]">WiFi Services</span>
+                        <span className="text-[13px]">Layanan WiFi</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -242,7 +242,7 @@ export function AppSidebar() {
                     >
                       <Link to="/billing-history">
                         <Receipt className="w-[18px] h-[18px]" />
-                        <span className="text-[13px]">Billing History</span>
+                        <span className="text-[13px]">Riwayat Tagihan</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -255,7 +255,7 @@ export function AppSidebar() {
         {hasRole("admin") && (
           <SidebarGroup>
             <SidebarGroupLabel className="px-3 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70 mt-2">
-              Main Menu
+              Menu Utama
             </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
@@ -267,7 +267,7 @@ export function AppSidebar() {
                   >
                     <Link to="/dashboard/users">
                       <Users className="w-[18px] h-[18px]" />
-                      <span className="text-[13px]">Users Data</span>
+                      <span className="text-[13px]">Data Pengguna</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -279,7 +279,7 @@ export function AppSidebar() {
                   >
                     <Link to="/dashboard/attendance">
                       <CalendarCheck className="w-[18px] h-[18px]" />
-                      <span className="text-[13px]">Attendance Data</span>
+                      <span className="text-[13px]">Data Absensi</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -291,7 +291,7 @@ export function AppSidebar() {
                   >
                     <Link to="/dashboard/wifi-packages">
                       <Wifi className="w-[18px] h-[18px]" />
-                      <span className="text-[13px]">WiFi Packages</span>
+                      <span className="text-[13px]">Paket WiFi</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -303,7 +303,7 @@ export function AppSidebar() {
                   >
                     <Link to="/dashboard/payments">
                       <FileText className="w-[18px] h-[18px]" />
-                      <span className="text-[13px]">Invoices Data</span>
+                      <span className="text-[13px]">Data Tagihan</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -339,15 +339,15 @@ export function AppSidebar() {
               </DialogTrigger>
               <DialogContent className="rounded-md w-[90%] sm:max-w-[425px]">
                 <DialogHeader>
-                  <DialogTitle>Account Setting</DialogTitle>
+                  <DialogTitle>Pengaturan Akun</DialogTitle>
                 </DialogHeader>
                 <div className="flex flex-col gap-6 py-4 max-h-[75vh] overflow-y-auto no-scrollbar px-1">
                   
                   {/* Form Profil Utama */}
                   <form onSubmit={onSubmitProfile} className="flex flex-col gap-4">
-                    <h3 className="text-sm font-semibold text-primary">Profile Information</h3>
+                    <h3 className="text-sm font-semibold text-primary">Informasi Profil</h3>
                     <div className="flex flex-col gap-2">
-                      <Label htmlFor="name">Full Name</Label>
+                      <Label htmlFor="name">Nama Lengkap</Label>
                       <Input
                         id="name"
                         value={data.name}
@@ -355,7 +355,7 @@ export function AppSidebar() {
                       />
                     </div>
                     <div className="flex flex-col gap-2">
-                      <Label htmlFor="phone">Phone Number</Label>
+                      <Label htmlFor="phone">Nomor Telepon</Label>
                       <Input
                         id="phone"
                         value={data.phone}
@@ -363,17 +363,17 @@ export function AppSidebar() {
                       />
                     </div>
                     <div className="flex flex-col gap-2">
-                      <Label htmlFor="address">Address</Label>
+                      <Label htmlFor="address">Alamat</Label>
                       <Textarea
                         id="address"
                         value={data.address}
                         onChange={(e) => setData({ ...data, address: e.target.value })}
-                        placeholder="Enter your address"
+                        placeholder="Masukkan alamat Anda"
                       />
                     </div>
                     <div className="flex justify-end mt-2">
                       <Button type="submit" size="sm" disabled={isUpdating}>
-                        {isUpdating ? "Saving..." : "Save Profile"}
+                        {isUpdating ? "Menyimpan..." : "Simpan Profil"}
                       </Button>
                     </div>
                   </form>
@@ -381,9 +381,9 @@ export function AppSidebar() {
                   {/* Form Ganti Password Khusus Admin */}
                   {hasRole("admin") && (
                     <form onSubmit={onSubmitPassword} className="flex flex-col gap-4 border-t pt-4">
-                      <h3 className="text-sm font-semibold text-primary">Change Password</h3>
+                      <h3 className="text-sm font-semibold text-primary">Ubah Password</h3>
                       <div className="flex flex-col gap-2">
-                        <Label htmlFor="oldPassword">Old Password</Label>
+                        <Label htmlFor="oldPassword">Password Lama</Label>
                         <Input
                           id="oldPassword"
                           type="password"
@@ -393,7 +393,7 @@ export function AppSidebar() {
                         />
                       </div>
                       <div className="flex flex-col gap-2">
-                        <Label htmlFor="newPassword">New Password</Label>
+                        <Label htmlFor="newPassword">Password Baru</Label>
                         <Input
                           id="newPassword"
                           type="password"
@@ -403,7 +403,7 @@ export function AppSidebar() {
                         />
                       </div>
                       <div className="flex flex-col gap-2">
-                        <Label htmlFor="confirmPassword">New Password Confirm</Label>
+                        <Label htmlFor="confirmPassword">Konfirmasi Password Baru</Label>
                         <Input
                           id="confirmPassword"
                           type="password"
@@ -414,7 +414,7 @@ export function AppSidebar() {
                       </div>
                       <div className="flex justify-end mt-2">
                         <Button type="submit" size="sm" disabled={isUpdatingPassword}>
-                          {isUpdatingPassword ? "Updating..." : "Update Password"}
+                          {isUpdatingPassword ? "Memperbarui..." : "Perbarui Password"}
                         </Button>
                       </div>
                     </form>
@@ -435,15 +435,15 @@ export function AppSidebar() {
               <AlertDialogContent className="w-[90%] max-w-[360px] rounded-md p-6">
                 <AlertDialogHeader>
                   <AlertDialogTitle className="text-center text-lg font-semibold">
-                    Logout
+                    Keluar
                   </AlertDialogTitle>
                   <AlertDialogDescription className="text-center text-[15px] mt-2 mb-4 text-foreground/80">
-                    Are you sure you want to logout?
+                    Apakah Anda yakin ingin keluar?
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <div className="flex flex-row justify-center gap-3 mt-2">
                   <AlertDialogCancel className="w-24 mt-0 border border-border bg-background hover:bg-muted text-foreground rounded-lg h-8 text-[13px] font-medium">
-                    Cancel
+                    Batal
                   </AlertDialogCancel>
                   <AlertDialogAction
                     onClick={(e: React.MouseEvent) => {
@@ -453,7 +453,7 @@ export function AppSidebar() {
                     }}
                     className="w-24  h-8 text-[13px] font-medium rounded-lg"
                   >
-                    Yes, Logout
+                    Ya, Keluar
                   </AlertDialogAction>
                 </div>
               </AlertDialogContent>

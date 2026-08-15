@@ -16,13 +16,13 @@ import { toast } from "sonner";
 
 // Custom Label Dictionary (Opsional untuk nama khusus)
 const customLabels: Record<string, string> = {
-  "users": "Users Data",
-  "attendance": "Attendance Data",
-  "record": "Attendance Record",
-  "history": "Attendance History",
-  "invoices": "Invoices",
-  "subscriptions": "Subscription Wifi",
-  "billing-history": "Billing History",
+  "users": "Data Pengguna",
+  "attendance": "Data Absensi",
+  "record": "Rekap Absensi",
+  "history": "Riwayat Absensi",
+  "invoices": "Tagihan",
+  "subscriptions": "Langganan Wifi",
+  "billing-history": "Riwayat Tagihan",
 };
 
 export function Header() {
@@ -120,9 +120,9 @@ export function Header() {
           <Search className="absolute left-3 w-4 h-4 text-muted-foreground" />
           <Input
             type="text"
-            placeholder="Search data..."
+            placeholder="Cari data..."
             className="pl-9 h-8 bg-muted/50 border-none rounded-lg text-[13px] cursor-pointer"
-            onClick={() => toast.info("Search feature still in development process.")}
+            onClick={() => toast.info("Fitur pencarian masih dalam tahap pengembangan.")}
             readOnly
           />
         </div>
@@ -131,7 +131,7 @@ export function Header() {
           variant="ghost"
           size="icon"
           className="relative rounded-xl w-8 h-8"
-          onClick={() => toast.info("Notification feature still in development process.")}
+          onClick={() => toast.info("Fitur notifikasi masih dalam tahap pengembangan.")}
         >
           <Bell className="w-[18px] h-[18px] text-muted-foreground" />
           <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-red-500 rounded-full border border-card"></span>
@@ -142,7 +142,7 @@ export function Header() {
           size="icon"
           onClick={toggleTheme}
           className="rounded-xl w-8 h-8"
-          aria-label="Toggle Theme"
+          aria-label="Ubah Tema"
         >
           {isDark ? (
             <Sun className="w-[18px] h-[18px] text-muted-foreground" />

@@ -40,9 +40,9 @@ export function UsersPage() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">Users Management</h2>
+          <h2 className="text-2xl font-bold tracking-tight">Manajemen Pengguna</h2>
           <p className="text-muted-foreground text-sm">
-            Manage employee and customer data for WiFi system.
+            Kelola data karyawan dan pelanggan untuk sistem WiFi.
           </p>
         </div>
       </div>
@@ -56,13 +56,13 @@ export function UsersPage() {
                   value="employee"
                   className="rounded-none border-b-2 border-transparent px-1 pb-2.5 pt-1.5 font-medium text-muted-foreground shadow-none data-[state=active]:border-primary data-[state=active]:text-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none hover:text-foreground text-[13px]"
                 >
-                  Employee ({employees.length})
+                  Karyawan ({employees.length})
                 </TabsTrigger>
                 <TabsTrigger 
                   value="customer"
                   className="rounded-none border-b-2 border-transparent px-1 pb-2.5 pt-1.5 font-medium text-muted-foreground shadow-none data-[state=active]:border-primary data-[state=active]:text-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none hover:text-foreground text-[13px]"
                 >
-                  Customers ({customers.length})
+                  Pelanggan ({customers.length})
                 </TabsTrigger>
               </TabsList>
             </Tabs>
@@ -73,7 +73,7 @@ export function UsersPage() {
           <div className="relative w-full lg:w-80">
             <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
             <Input 
-              placeholder="Search name or phone number..." 
+              placeholder="Cari nama atau nomor telepon..." 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-9 h-8 bg-muted/50 border border-border/60 rounded-lg text-[13px] shadow-none focus:bg-background transition-colors"
@@ -83,7 +83,7 @@ export function UsersPage() {
           <div className="flex flex-row flex-wrap sm:flex-nowrap items-center gap-2 w-full lg:w-auto">
             <Button size="sm" onClick={() => setActionState({ type: 'add', user: null, role: activeTab })} className="h-8 px-3.5 rounded-lg text-[13px] font-medium shrink-0 shadow-sm w-full sm:w-auto flex-none">
               <Plus className="h-3.5 w-3.5 mr-1" />
-              Add {activeTab === "employee" ? "Employee" : "Customer"}
+              Tambah {activeTab === "employee" ? "Karyawan" : "Pelanggan"}
             </Button>
           </div>
         </div>

@@ -106,14 +106,14 @@ export function UserActions({ actionState, onClose }: UserActionsProps) {
       <Dialog open={actionState.type === 'add'} onOpenChange={(open) => !open && onClose()}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Add New {formData.role === "employee" ? "Employee" : "Customer"}</DialogTitle>
+            <DialogTitle>Tambah {formData.role === "employee" ? "Karyawan" : "Pelanggan"} Baru</DialogTitle>
           </DialogHeader>
           <UserForm 
             initialData={formData}
             onChange={setFormData}
             onSubmit={handleAddSubmit}
             isSubmitting={isCreating}
-            submitLabel="Save"
+            submitLabel="Simpan"
             showRoleSelect={false}
           />
         </DialogContent>
@@ -130,14 +130,14 @@ export function UserActions({ actionState, onClose }: UserActionsProps) {
       <Dialog open={actionState.type === 'edit'} onOpenChange={(open) => !open && onClose()}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Edit User</DialogTitle>
+            <DialogTitle>Edit Pengguna</DialogTitle>
           </DialogHeader>
           <UserForm 
             initialData={formData}
             onChange={setFormData}
             onSubmit={handleEditSubmit}
             isSubmitting={isUpdating}
-            submitLabel="Save changes"
+            submitLabel="Simpan perubahan"
             showRoleSelect={true}
           />
         </DialogContent>
@@ -147,15 +147,15 @@ export function UserActions({ actionState, onClose }: UserActionsProps) {
       <AlertDialog open={actionState.type === 'delete'} onOpenChange={(open) => !open && onClose()}>
         <AlertDialogContent className="w-[90%] max-w-[360px] rounded-md p-6">
           <AlertDialogHeader>
-            <AlertDialogTitle className="text-center text-lg font-semibold">Delete User?</AlertDialogTitle>
+            <AlertDialogTitle className="text-center text-lg font-semibold">Hapus Pengguna?</AlertDialogTitle>
             <AlertDialogDescription className="text-center text-[15px] mt-2 mb-4 text-foreground/80">
-              This action cannot be undone. {actionState.user?.name}'s data will be permanently deleted from the system.
+              Tindakan ini tidak dapat dibatalkan. Data {actionState.user?.name} akan dihapus secara permanen dari sistem.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <div className="flex flex-row justify-center gap-3 mt-2">
-            <AlertDialogCancel className="w-24 mt-0 border border-border bg-background hover:bg-muted text-foreground rounded-lg h-8 text-[13px] font-medium">Cancel</AlertDialogCancel>
+            <AlertDialogCancel className="w-24 mt-0 border border-border bg-background hover:bg-muted text-foreground rounded-lg h-8 text-[13px] font-medium">Batal</AlertDialogCancel>
             <AlertDialogAction onClick={handleDelete} disabled={isDeleting} className="w-24 h-8 text-[13px] font-medium rounded-lg bg-destructive hover:bg-destructive/90 text-destructive-foreground">
-              {isDeleting ? "Deleting..." : "Yes, Delete"}
+              {isDeleting ? "Menghapus..." : "Ya, Hapus"}
             </AlertDialogAction>
           </div>
         </AlertDialogContent>
@@ -165,15 +165,15 @@ export function UserActions({ actionState, onClose }: UserActionsProps) {
       <AlertDialog open={actionState.type === 'reset'} onOpenChange={(open) => !open && onClose()}>
         <AlertDialogContent className="w-[90%] max-w-[360px] rounded-md p-6">
           <AlertDialogHeader>
-            <AlertDialogTitle className="text-center text-lg font-semibold">Reset Device IP?</AlertDialogTitle>
+            <AlertDialogTitle className="text-center text-lg font-semibold">Reset IP Perangkat?</AlertDialogTitle>
             <AlertDialogDescription className="text-center text-[15px] mt-2 mb-4 text-foreground/80">
-              You will reset the device key for {actionState.user?.name}. This user will be able to log in again from a new device.
+              Anda akan mereset kunci perangkat untuk {actionState.user?.name}. Pengguna ini akan dapat login kembali dari perangkat baru.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <div className="flex flex-row justify-center gap-3 mt-2">
-            <AlertDialogCancel className="w-24 mt-0 border border-border bg-background hover:bg-muted text-foreground rounded-lg h-8 text-[13px] font-medium">Cancel</AlertDialogCancel>
+            <AlertDialogCancel className="w-24 mt-0 border border-border bg-background hover:bg-muted text-foreground rounded-lg h-8 text-[13px] font-medium">Batal</AlertDialogCancel>
             <AlertDialogAction onClick={handleResetIP} disabled={isResetting} className="w-24 h-8 text-[13px] font-medium rounded-lg bg-amber-500 hover:bg-amber-600 text-white">
-              {isResetting ? "Resetting..." : "Yes, Reset"}
+              {isResetting ? "Mereset..." : "Ya, Reset"}
             </AlertDialogAction>
           </div>
         </AlertDialogContent>

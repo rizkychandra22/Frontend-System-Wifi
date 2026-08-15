@@ -19,9 +19,9 @@ export function WifiPackagesPage() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight text-foreground">WiFi Packages</h2>
+          <h2 className="text-2xl font-bold tracking-tight text-foreground">Paket WiFi</h2>
           <p className="text-muted-foreground text-sm">
-            Manage WiFi subscription packages.
+            Kelola paket langganan WiFi.
           </p>
         </div>
       </div>
@@ -31,7 +31,7 @@ export function WifiPackagesPage() {
           <div className="relative w-full lg:w-80">
             <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
             <Input 
-              placeholder="Search package name..." 
+              placeholder="Cari nama paket..." 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-9 h-8 bg-muted/50 border border-border/60 rounded-lg text-[13px] shadow-none focus:bg-background transition-colors"
@@ -45,7 +45,7 @@ export function WifiPackagesPage() {
               className="h-8 px-3.5 rounded-lg text-[13px] font-medium shrink-0 shadow-sm w-full sm:w-auto flex-none"
             >
               <Plus className="h-3.5 w-3.5 mr-1" />
-              Add Package
+              Tambah Paket
             </Button>
           </div>
         </div>
