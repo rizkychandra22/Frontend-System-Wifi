@@ -47,7 +47,6 @@ export function UserActions({ actionState, onClose }: UserActionsProps) {
   if (actionState !== prevActionState) {
     setPrevActionState(actionState);
     if (actionState.type === 'edit' && actionState.user) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setFormData({
         name: actionState.user.name,
         phone: actionState.user.phone,
