@@ -19,24 +19,24 @@ export function PaymentTable({ payments, isLoading, onView, onEdit, onDelete }: 
         <TableHeader>
           <TableRow>
             <TableHead>Invoice ID</TableHead>
-            <TableHead>Date</TableHead>
-            <TableHead>Customer</TableHead>
-            <TableHead>Package</TableHead>
-            <TableHead>Total Amount</TableHead>
-            <TableHead className="text-right">Action</TableHead>
+            <TableHead>Tanggal</TableHead>
+            <TableHead>Pelanggan</TableHead>
+            <TableHead>Paket</TableHead>
+            <TableHead>Total Tagihan</TableHead>
+            <TableHead className="text-right">Aksi</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {isLoading ? (
             <TableRow>
               <TableCell colSpan={6} className="text-center py-6 text-muted-foreground">
-                Loading...
+                Memuat...
               </TableCell>
             </TableRow>
           ) : payments.length === 0 ? (
             <TableRow>
               <TableCell colSpan={6} className="text-center py-6 text-muted-foreground">
-                No invoices found.
+                Tidak ada tagihan.
               </TableCell>
             </TableRow>
           ) : (
@@ -72,7 +72,7 @@ export function PaymentTable({ payments, isLoading, onView, onEdit, onDelete }: 
                       size="icon"
                       className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
                       onClick={() => onDelete(payment)}
-                      title="Delete"
+                      title="Hapus"
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>

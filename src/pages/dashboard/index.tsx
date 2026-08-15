@@ -14,7 +14,7 @@ export function DashboardPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Halo, {user.phone}</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Halo, {user.name}</h1>
         <p className="text-muted-foreground">
           Selamat datang di Sistem Manajemen WiFi & Kehadiran.
         </p>
@@ -27,8 +27,8 @@ export function DashboardPage() {
       )}
 
       {user.role === "employee" && (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          <Card className="hover:border-primary/50 transition-colors cursor-pointer" onClick={() => navigate("/attendance/record")}>
+        <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
+          <Card className="hover:border-primary/50 transition-colors cursor-pointer border-t-4 border-t-blue-500" onClick={() => navigate("/attendance/record")}>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-lg font-medium">Absen Hari Ini</CardTitle>
               <Fingerprint className="h-5 w-5 text-primary" />
@@ -39,7 +39,7 @@ export function DashboardPage() {
             </CardContent>
           </Card>
 
-          <Card className="hover:border-primary/50 transition-colors cursor-pointer" onClick={() => navigate("/attendance/history")}>
+          <Card className="hover:border-primary/50 transition-colors cursor-pointer border-t-4 border-t-purple-500" onClick={() => navigate("/attendance/history")}>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-lg font-medium">Riwayat Absen</CardTitle>
               <History className="h-5 w-5 text-primary" />
@@ -53,8 +53,8 @@ export function DashboardPage() {
       )}
 
       {user.role === "customer" && (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          <Card className="hover:border-primary/50 transition-colors cursor-pointer" onClick={() => navigate("/subscriptions")}>
+        <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
+          <Card className="hover:border-primary/50 transition-colors cursor-pointer border-t-4 border-t-green-500" onClick={() => navigate("/subscriptions")}>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-lg font-medium">Paket WiFi</CardTitle>
               <Wifi className="h-5 w-5 text-primary" />
@@ -65,7 +65,7 @@ export function DashboardPage() {
             </CardContent>
           </Card>
 
-          <Card className="hover:border-primary/50 transition-colors cursor-pointer" onClick={() => navigate("/billing-history")}>
+          <Card className="hover:border-primary/50 transition-colors cursor-pointer border-t-4 border-t-orange-500" onClick={() => navigate("/billing-history")}>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-lg font-medium">Tagihan & Pembayaran</CardTitle>
               <ReceiptText className="h-5 w-5 text-primary" />

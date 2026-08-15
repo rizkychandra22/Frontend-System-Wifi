@@ -23,6 +23,7 @@ export const getUserData = (): Record<string, string> | null => {
 
 export interface DecodedUser {
   id: number;
+  name: string;
   phone: string;
   role: string;
   exp: number;

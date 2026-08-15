@@ -24,11 +24,11 @@ export function usePaymentMutations() {
     mutationFn: paymentApi.createPayment,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["payments"] });
-      toast.success("Invoice successfully recorded");
+      toast.success("Tagihan berhasil dicatat");
     },
     onError: (error: unknown) => {
       const err = error as { response?: { data?: { error?: string } } };
-      toast.error(err?.response?.data?.error || "Failed to record invoice");
+      toast.error(err?.response?.data?.error || "Gagal mencatat tagihan");
     },
   });
 
@@ -37,11 +37,11 @@ export function usePaymentMutations() {
       paymentApi.updatePayment(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["payments"] });
-      toast.success("Invoice successfully updated");
+      toast.success("Tagihan berhasil diperbarui");
     },
     onError: (error: unknown) => {
       const err = error as { response?: { data?: { error?: string } } };
-      toast.error(err?.response?.data?.error || "Failed to update invoice");
+      toast.error(err?.response?.data?.error || "Gagal memperbarui tagihan");
     },
   });
 
@@ -49,11 +49,11 @@ export function usePaymentMutations() {
     mutationFn: paymentApi.deletePayment,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["payments"] });
-      toast.success("Invoice successfully deleted");
+      toast.success("Tagihan berhasil dihapus");
     },
     onError: (error: unknown) => {
       const err = error as { response?: { data?: { error?: string } } };
-      toast.error(err?.response?.data?.error || "Failed to delete invoice");
+      toast.error(err?.response?.data?.error || "Gagal menghapus tagihan");
     },
   });
 

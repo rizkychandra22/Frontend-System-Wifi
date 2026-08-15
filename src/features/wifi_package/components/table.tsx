@@ -17,22 +17,22 @@ export function WifiPackageTable({ packages, isLoading, onEdit, onDelete }: Wifi
         <TableHeader>
           <TableRow>
             <TableHead>#</TableHead>
-            <TableHead>Package Name</TableHead>
-            <TableHead>Price</TableHead>
-            <TableHead className="text-right">Action</TableHead>
+            <TableHead>Nama Paket</TableHead>
+            <TableHead>Harga</TableHead>
+            <TableHead className="text-right">Aksi</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {isLoading ? (
             <TableRow>
               <TableCell colSpan={4} className="text-center py-6 text-muted-foreground">
-                Loading...
+                Memuat...
               </TableCell>
             </TableRow>
           ) : packages.length === 0 ? (
             <TableRow>
               <TableCell colSpan={4} className="text-center py-6 text-muted-foreground">
-                No WiFi packages found.
+                Tidak ada paket WiFi.
               </TableCell>
             </TableRow>
           ) : (

@@ -17,19 +17,19 @@ export function UserTable({ users, onView, onEdit, onResetIP, onDelete }: UserTa
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Name</TableHead>
+            <TableHead>Nama</TableHead>
             <TableHead>No. Telp</TableHead>
-            <TableHead>Device</TableHead>
-            <TableHead>Address</TableHead>
-            <TableHead>Created By User</TableHead>
-            <TableHead className="text-right">Action</TableHead>
+            <TableHead>Perangkat</TableHead>
+            <TableHead>Alamat</TableHead>
+            <TableHead>Didaftarkan Oleh</TableHead>
+            <TableHead className="text-right">Aksi</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {users.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={5} className="text-center py-6 text-muted-foreground">
-                No Data Users.
+              <TableCell colSpan={6} className="text-center py-6 text-muted-foreground">
+                Tidak ada data pengguna.
               </TableCell>
             </TableRow>
           ) : (
@@ -40,18 +40,18 @@ export function UserTable({ users, onView, onEdit, onResetIP, onDelete }: UserTa
                 <TableCell>
                   {user.ip_address ? (
                     <span className="text-green-600 dark:text-green-400 text-xs font-semibold px-2 py-1 bg-green-100 dark:bg-green-900/30 rounded-full">
-                      Locked
+                      Terkunci
                     </span>
                   ) : (
                     <span className="text-muted-foreground text-xs font-medium px-2 py-1 bg-muted rounded-full">
-                      Free
+                      Bebas
                     </span>
                   )}
                 </TableCell>
                 <TableCell>{user.address || "-"}</TableCell>
                 <TableCell>
                   {user.registered_by 
-                    ? `${user.registered_by.role === 'admin' ? 'Admin' : 'Employee'} - ${user.registered_by.name}` 
+                    ? `${user.registered_by.role === 'admin' ? 'Admin' : 'Karyawan'} - ${user.registered_by.name}` 
                     : "-"}
                 </TableCell>
                 <TableCell className="text-right">
@@ -61,7 +61,7 @@ export function UserTable({ users, onView, onEdit, onResetIP, onDelete }: UserTa
                       size="icon"
                       className="h-8 w-8 text-slate-500 hover:text-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800"
                       onClick={() => onView(user)}
-                      title="View Data"
+                      title="Lihat Data"
                     >
                       <Eye className="h-4 w-4" />
                     </Button>
@@ -89,7 +89,7 @@ export function UserTable({ users, onView, onEdit, onResetIP, onDelete }: UserTa
                       size="icon"
                       className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
                       onClick={() => onDelete(user)}
-                      title="Delete"
+                      title="Hapus"
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>

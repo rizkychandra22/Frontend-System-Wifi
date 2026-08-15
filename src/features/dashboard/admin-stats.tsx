@@ -25,8 +25,8 @@ export function AdminDashboardStats() {
   const pendingPayments = payments.filter(p => p.status.toLowerCase() !== "paid" && p.status.toLowerCase() !== "lunas").length;
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-      <Card>
+    <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <Card className="border-t-4 border-t-blue-500">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Total Karyawan</CardTitle>
           <Users className="h-4 w-4 text-muted-foreground" />
@@ -36,7 +36,7 @@ export function AdminDashboardStats() {
           <p className="text-xs text-muted-foreground">Karyawan terdaftar</p>
         </CardContent>
       </Card>
-      <Card>
+      <Card className="border-t-4 border-t-green-500">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Total Pelanggan</CardTitle>
           <Wifi className="h-4 w-4 text-muted-foreground" />
@@ -46,7 +46,7 @@ export function AdminDashboardStats() {
           <p className="text-xs text-muted-foreground">Pelanggan WiFi</p>
         </CardContent>
       </Card>
-      <Card>
+      <Card className="border-t-4 border-t-orange-500">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Tagihan Tertunda</CardTitle>
           <CreditCard className="h-4 w-4 text-muted-foreground" />
@@ -56,7 +56,7 @@ export function AdminDashboardStats() {
           <p className="text-xs text-muted-foreground">Menunggu pembayaran</p>
         </CardContent>
       </Card>
-      <Card>
+      <Card className="border-t-4 border-t-purple-500">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Kehadiran Hari Ini</CardTitle>
           <UserCheck className="h-4 w-4 text-muted-foreground" />
