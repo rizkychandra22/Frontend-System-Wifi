@@ -8,7 +8,6 @@ import { AttendanceHistoryPage } from "@/pages/employee/attendance-history";
 import { UsersPage } from "@/pages/admin/users";
 import { AdminAttendancePage } from "@/pages/admin/attendance";
 import { isAuthenticated } from "@/lib/auth-utils";
-import { CustomersPage } from "@/pages/admin/customer";
 import { WifiPackagesPage } from "@/pages/admin/wifi_package";
 import { PaymentsPage } from "@/pages/admin/payment";
 import { CustomerSubscriptionsPage } from "@/pages/customer/subscriptions";
@@ -33,7 +32,6 @@ function App() {
           {/* Admin Routes */}
           <Route path="/dashboard/users" element={<UsersPage />} />
           <Route path="/dashboard/attendance" element={<AdminAttendancePage />} />
-          <Route path="/dashboard/customers" element={<CustomersPage />} />
           <Route path="/dashboard/wifi-packages" element={<WifiPackagesPage />} />
           <Route path="/dashboard/payments" element={<PaymentsPage />} />
           {/* Employee Routes */}

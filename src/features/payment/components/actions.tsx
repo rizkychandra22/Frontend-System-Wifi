@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { type Payment } from "@/lib/api/payment";
 import { usePaymentMutations } from "@/features/payment/hooks/use-payments";
-import { useCustomers } from "@/features/customer/hooks/use-customers";
+import { useCustomers } from "@/features/user/hooks/use-customers";
 import { useWifiPackages } from "@/features/wifi_package/hooks/use-wifi-packages";
 import {
   Dialog,
