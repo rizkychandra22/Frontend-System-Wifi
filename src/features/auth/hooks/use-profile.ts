@@ -1,11 +1,11 @@
 import { useMutation } from "@tanstack/react-query";
-import { updateProfileApi, type UpdateProfilePayload } from "@/lib/api/auth";
+import { updateProfileApi, type UpdateProfilePayload, type UpdateProfileResponse } from "@/lib/api/auth";
 import { type AxiosError } from "axios";
 import { parseErrorMessage, type ApiErrorResponse } from "@/lib/api-error";
 import { getUserData, setToken, getToken } from "@/lib/auth-utils";
 
 export function useUpdateProfile() {
-  const mutation = useMutation<any, AxiosError<ApiErrorResponse>, UpdateProfilePayload>({
+  const mutation = useMutation<UpdateProfileResponse, AxiosError<ApiErrorResponse>, UpdateProfilePayload>({
     mutationFn: (data) => updateProfileApi(data),
     onSuccess: (data) => {
       // Update local storage user data
@@ -30,10 +30,10 @@ export function useUpdateProfile() {
   };
 }
 
-import { updatePasswordApi, type UpdatePasswordPayload } from "@/lib/api/auth";
+import { updatePasswordApi, type UpdatePasswordPayload, type UpdatePasswordResponse } from "@/lib/api/auth";
 
 export function useUpdatePassword() {
-  const mutation = useMutation<any, AxiosError<ApiErrorResponse>, UpdatePasswordPayload>({
+  const mutation = useMutation<UpdatePasswordResponse, AxiosError<ApiErrorResponse>, UpdatePasswordPayload>({
     mutationFn: (data) => updatePasswordApi(data),
     retry: 3,
   });

@@ -12,18 +12,23 @@ export interface AttendanceRecord {
   created_at: string;
 }
 
-export const clockInApi = async (lat: number, lng: number) => {
-  const response = await apiClient.post("/employee/attendance/clock-in", { lat, lng });
+export interface AttendanceActionResponse {
+  message: string;
+}
+
+
+export const clockInApi = async (lat: number, lng: number): Promise<AttendanceActionResponse> => {
+  const response = await apiClient.post<AttendanceActionResponse>("/employee/attendance/clock-in", { lat, lng });
   return response.data;
 };
 
-export const clockOutApi = async (lat: number, lng: number) => {
-  const response = await apiClient.post("/employee/attendance/clock-out", { lat, lng });
+export const clockOutApi = async (lat: number, lng: number): Promise<AttendanceActionResponse> => {
+  const response = await apiClient.post<AttendanceActionResponse>("/employee/attendance/clock-out", { lat, lng });
   return response.data;
 };
 
-export const requestIzinApi = async (notes: string) => {
-  const response = await apiClient.post("/employee/attendance/izin", { notes });
+export const requestIzinApi = async (notes: string): Promise<AttendanceActionResponse> => {
+  const response = await apiClient.post<AttendanceActionResponse>("/employee/attendance/izin", { notes });
   return response.data;
 };
 

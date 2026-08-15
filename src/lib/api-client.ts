@@ -8,7 +8,7 @@ export function resolveApiBaseUrl(): string {
     
     // Selalu pakai localhost jika (development)
     if (host === "localhost" || host === "127.0.0.1") {
-      return "http://localhost:8080/api";
+      return import.meta.env.VITE_API_URL_DEV;
     }
 
     // Jika web dibuka dari internet (misal Vercel), gunakan URL Endpoint Deploy
@@ -17,7 +17,7 @@ export function resolveApiBaseUrl(): string {
     }
     return `${window.location.origin}`;
   }
-  return "http://localhost:8080/api";
+  return import.meta.env.VITE_API_URL_DEV;
 }
 
 export const apiClient = axios.create({

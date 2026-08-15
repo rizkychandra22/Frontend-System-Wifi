@@ -45,6 +45,7 @@ export function UserActions({ actionState, onClose }: UserActionsProps) {
 
   useEffect(() => {
     if (actionState.type === 'edit' && actionState.user) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setFormData({
         name: actionState.user.name,
         phone: actionState.user.phone,

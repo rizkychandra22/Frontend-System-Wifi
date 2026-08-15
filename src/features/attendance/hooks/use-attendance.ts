@@ -6,6 +6,7 @@ import {
   getTodayAttendanceApi,
   getAttendanceHistoryApi,
   type AttendanceRecord,
+  type AttendanceActionResponse,
 } from "@/lib/api/attendance";
 import { AxiosError } from "axios";
 import { parseErrorMessage, type ApiErrorResponse } from "@/lib/api-error";
@@ -47,7 +48,7 @@ export function useClockIn() {
   const queryClient = useQueryClient();
 
   return useMutation<
-    any,
+    AttendanceActionResponse,
     AxiosError<ApiErrorResponse>,
     { lat: number; lng: number }
   >({
@@ -67,7 +68,7 @@ export function useClockOut() {
   const queryClient = useQueryClient();
 
   return useMutation<
-    any,
+    AttendanceActionResponse,
     AxiosError<ApiErrorResponse>,
     { lat: number; lng: number }
   >({
@@ -87,7 +88,7 @@ export function useRequestIzin() {
   const queryClient = useQueryClient();
 
   return useMutation<
-    any,
+    AttendanceActionResponse,
     AxiosError<ApiErrorResponse>,
     string
   >({
