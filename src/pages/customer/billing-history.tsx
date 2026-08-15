@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { getUser } from "@/lib/auth-utils";
 import { paymentApi, type Payment } from "@/lib/api/payment";
-import { parseErrorMessage } from "@/lib/api-error";
+import { parseErrorMessage, type ApiErrorResponse } from "@/lib/api-error";
 import { Download, ReceiptText } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { AxiosError } from "axios";
 
 export function CustomerBillingHistoryPage() {
   const [payments, setPayments] = useState<Payment[]>([]);
@@ -24,7 +25,7 @@ export function CustomerBillingHistoryPage() {
         const data = await paymentApi.getCustomerPayments(user.id);
         setPayments(data);
       } catch (err) {
-        setError(parseErrorMessage(err));
+        setError(parseErrorMessage(err as AxiosError<ApiErrorResponse>));
       } finally {
         setIsLoading(false);
       }

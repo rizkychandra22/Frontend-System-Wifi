@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { getUser } from "@/lib/auth-utils";
 import { customerApi } from "@/lib/api/customer";
 import { type WifiPackage } from "@/lib/api/wifi_package";
-import { parseErrorMessage } from "@/lib/api-error";
+import { parseErrorMessage, type ApiErrorResponse } from "@/lib/api-error";
 import { Wifi, CalendarDays, CheckCircle2 } from "lucide-react";
+import { AxiosError } from "axios";
 
 export function CustomerSubscriptionsPage() {
   const [subscription, setSubscription] = useState<WifiPackage | null>(null);
@@ -23,7 +24,7 @@ export function CustomerSubscriptionsPage() {
         const data = await customerApi.getCustomerSubscription(user.id);
         setSubscription(data);
       } catch (err) {
-        setError(parseErrorMessage(err));
+        setError(parseErrorMessage(err as AxiosError<ApiErrorResponse>));
       } finally {
         setIsLoading(false);
       }
