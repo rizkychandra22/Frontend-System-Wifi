@@ -3,6 +3,11 @@ import apiClient from "../api-client";
 export interface AttendanceRecord {
   id: number;
   user_id: number;
+  user?: {
+    id: number;
+    name: string;
+    phone: string;
+  };
   date: string;
   clock_in: string | null;
   clock_out: string | null;
@@ -39,5 +44,10 @@ export const getTodayAttendanceApi = async () => {
 
 export const getAttendanceHistoryApi = async () => {
   const response = await apiClient.get("/employee/attendance/history");
+  return response.data.data as AttendanceRecord[];
+};
+
+export const getAllAttendanceApi = async () => {
+  const response = await apiClient.get("/admin/attendance/");
   return response.data.data as AttendanceRecord[];
 };

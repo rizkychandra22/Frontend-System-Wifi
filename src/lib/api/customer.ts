@@ -1,5 +1,6 @@
 import { apiClient } from "../api-client";
 import type { User } from "./users";
+import type { WifiPackage } from "./wifi_package";
 
 export interface Customer extends User {
   registered_by_id?: number;
@@ -17,6 +18,10 @@ export const customerApi = {
     address?: string;
   }): Promise<Customer> => {
     const response = await apiClient.post<{ message: string; data: Customer }>("/customers", data);
+    return response.data.data;
+  },
+  getCustomerSubscription: async (customerId: number | string) => {
+    const response = await apiClient.get<{ data: WifiPackage }>(`/customers/${customerId}/subscription`);
     return response.data.data;
   },
 };

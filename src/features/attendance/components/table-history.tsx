@@ -5,9 +5,9 @@ export function AttendanceHistory() {
 
   const getStatusBadgeColor = (status: string) => {
     switch (status) {
-      case "Hadir":
+      case "Proses":
         return "bg-amber-100 text-amber-700 border-amber-200";
-      case "Selesai":
+      case "Hadir":
         return "bg-green-100 text-green-700 border-green-200";
       case "Libur":
         return "bg-gray-100 text-gray-700 border-gray-200";
@@ -65,10 +65,14 @@ export function AttendanceHistory() {
                     })}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap font-medium">
-                    {record.clock_in ? new Date(record.clock_in).toLocaleTimeString("id-ID") : "-"}
+                    {record.clock_in 
+                      ? `Absen Masuk (${new Date(record.clock_in).toLocaleTimeString("id-ID", { hour: '2-digit', minute: '2-digit' })})` 
+                      : record.status === "Libur" ? "Tidak Ada Absen" : "-"}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap font-medium">
-                    {record.clock_out ? new Date(record.clock_out).toLocaleTimeString("id-ID") : "-"}
+                    {record.clock_out 
+                      ? `Absen Keluar (${new Date(record.clock_out).toLocaleTimeString("id-ID", { hour: '2-digit', minute: '2-digit' })})` 
+                      : record.status === "Libur" ? "Tidak Ada Absen" : "-"}
                   </td>
                   <td className={`px-6 py-4 whitespace-nowrap font-medium ${getGradeColor(record.grade)}`}>
                     {record.grade || "-"}

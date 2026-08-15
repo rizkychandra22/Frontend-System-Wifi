@@ -5,6 +5,7 @@ import {
   requestIzinApi,
   getTodayAttendanceApi,
   getAttendanceHistoryApi,
+  getAllAttendanceApi,
   type AttendanceRecord,
   type AttendanceActionResponse,
 } from "@/lib/api/attendance";
@@ -99,4 +100,20 @@ export function useRequestIzin() {
       toast.error(parseErrorMessage(error) || "Gagal mengajukan izin");
     },
   });
+}
+
+export function useAllAttendance() {
+  const query = useQuery<AttendanceRecord[], AxiosError<ApiErrorResponse>>({
+    queryKey: ["attendance", "all"],
+    queryFn: () => getAllAttendanceApi(),
+    refetchInterval: 10000,
+    refetchOnWindowFocus: true,
+    retry: 3,
+  });
+
+  return {
+    ...query,
+    attendances: query.data ?? [],
+    errorMessage: parseErrorMessage(query.error),
+  };
 }
