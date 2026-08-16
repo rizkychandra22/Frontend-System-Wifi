@@ -47,10 +47,29 @@ export function EmployeeDashboardStats() {
     }
   }
 
-  const getStatusText = () => {
-    if (!todayAttendance) return "Belum Absen";
-    return todayAttendance.status;
+  const getTodayStatus = () => {
+    let isLibur = false;
+    if (latestLibur) {
+      const liburDate = new Date(latestLibur.date);
+      liburDate.setHours(0, 0, 0, 0);
+      const diffDays = Math.floor((todayDate.getTime() - liburDate.getTime()) / (1000 * 60 * 60 * 24));
+      if (diffDays === 0) {
+        isLibur = true;
+      }
+    }
+
+    if (isLibur) {
+      return { value: "Libur", subtext: "Selamat beristirahat!" };
+    }
+
+    if (!todayAttendance) {
+      return { value: "Belum Absen", subtext: "Jangan lupa absen hari ini!" };
+    }
+
+    return { value: "Sudah Absen", subtext: "Selamat bekerja!" };
   };
+
+  const todayStatus = getTodayStatus();
 
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -60,8 +79,8 @@ export function EmployeeDashboardStats() {
           <Fingerprint className="h-4 w-4 text-blue-500" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{getStatusText()}</div>
-          <p className="text-xs text-muted-foreground">Kehadiran Anda</p>
+          <div className="text-2xl font-bold">{todayStatus.value}</div>
+          <p className="text-xs text-muted-foreground">{todayStatus.subtext}</p>
         </CardContent>
       </Card>
 
