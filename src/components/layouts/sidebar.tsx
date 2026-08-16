@@ -264,7 +264,7 @@ export function AppSidebar() {
                     <SidebarMenuButton 
                       asChild 
                       isActive={isActive("/employee/add-customers")}
-                      className={`text-sm h-10 ${isActive("/employee/add-customers") ? "font-medium" : "text-slate-600 hover:text-slate-900"}`}
+                      className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
                     >
                       <Link to="/employee/add-customers">
                         <Users className="w-[18px] h-[18px]" />
@@ -275,10 +275,10 @@ export function AppSidebar() {
                   <SidebarMenuItem>
                     <SidebarMenuButton 
                       asChild 
-                      isActive={isActive("/dashboard/overtime")}
-                      className={`text-sm h-10 ${isActive("/dashboard/overtime") ? "font-medium" : "text-slate-600 hover:text-slate-900"}`}
+                      isActive={isActive("/employee/overtime")}
+                      className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
                     >
-                      <Link to="/dashboard/overtime">
+                      <Link to="/employee/overtime">
                         <Briefcase className="w-[18px] h-[18px]" />
                         <span className="text-[13px]">Form Lembur</span>
                       </Link>
@@ -324,7 +324,7 @@ export function AppSidebar() {
                     <SidebarMenuButton 
                       asChild 
                       isActive={isActive("/dashboard/attendance")}
-                      className={`text-sm h-10 ${isActive("/dashboard/attendance") ? "font-medium" : "text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100"}`}
+                      className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
                     >
                       <Link to="/dashboard/attendance">
                         <CalendarDays className="w-[18px] h-[18px]" />
@@ -336,7 +336,7 @@ export function AppSidebar() {
                     <SidebarMenuButton 
                       asChild 
                       isActive={isActive("/dashboard/overtime")}
-                      className={`text-sm h-10 ${isActive("/dashboard/overtime") ? "font-medium" : "text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100"}`}
+                      className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
                     >
                       <Link to="/dashboard/overtime">
                         <Briefcase className="w-[18px] h-[18px]" />

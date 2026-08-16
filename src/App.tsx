@@ -13,7 +13,8 @@ import { PaymentsPage } from "@/pages/admin/payment";
 import { CustomerSubscriptionsPage } from "@/pages/customer/subscriptions";
 import { CustomerBillingHistoryPage } from "@/pages/customer/billing-history";
 import { EmployeeCustomersPage } from "@/pages/employee/customers";
-import { OvertimePage } from "@/pages/dashboard/overtime";
+import { AdminOvertimePage } from "@/pages/admin/overtime";
+import { EmployeeOvertimePage } from "@/pages/employee/overtime";
 
 import { DashboardPage } from "@/pages/dashboard";
 import { getUserData } from "@/lib/auth-utils";
@@ -43,7 +44,6 @@ function App() {
           {/* Shared Routes Admin & Employee */}
           <Route element={<ProtectedRouteGroup allowedRoles={['admin', 'employee']} />}>
             <Route path="/dashboard/payments" element={<PaymentsPage />} />
-            <Route path="/dashboard/overtime" element={<OvertimePage />} />
           </Route>
 
           {/* Admin Routes */}
@@ -51,6 +51,7 @@ function App() {
             <Route path="/dashboard/users" element={<UsersPage />} />
             <Route path="/dashboard/attendance" element={<AdminAttendancePage />} />
             <Route path="/dashboard/wifi-packages" element={<WifiPackagesPage />} />
+            <Route path="/dashboard/overtime" element={<AdminOvertimePage />} />
           </Route>
 
           {/* Employee Routes */}
@@ -58,6 +59,7 @@ function App() {
             <Route path="/attendance/record" element={<AttendanceRecordPage />} />
             <Route path="/attendance/history" element={<AttendanceHistoryPage />} />
             <Route path="/employee/add-customers" element={<EmployeeCustomersPage />} />
+            <Route path="/employee/overtime" element={<EmployeeOvertimePage />} />
           </Route>
 
           {/* Customer Routes */}

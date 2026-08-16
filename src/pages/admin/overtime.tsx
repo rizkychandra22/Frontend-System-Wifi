@@ -6,7 +6,7 @@ import { OvertimeTable } from "@/features/overtime/components/table";
 import { OvertimeActions, type ActionState } from "@/features/overtime/components/actions";
 import { Button as UIButton } from "@/components/ui/button";
 
-export function OvertimePage() {
+export function AdminOvertimePage() {
   const { data: overtimes = [] } = useOvertimes();
   const [searchQuery, setSearchQuery] = useState("");
   const [actionState, setActionState] = useState<ActionState>({ type: null, overtime: null });
