@@ -3,7 +3,7 @@ import { id } from "date-fns/locale";
 import { Eye, Edit, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Overtime } from "@/lib/api/overtime";
-import { useAuth } from "@/features/auth/hooks/use-auth";
+import { getUserData } from "@/lib/auth-utils";
 
 interface OvertimeTableProps {
   overtimes: Overtime[];
@@ -13,7 +13,7 @@ interface OvertimeTableProps {
 }
 
 export function OvertimeTable({ overtimes, onView, onEdit, onDelete }: OvertimeTableProps) {
-  const { user } = useAuth();
+  const user = getUserData();
   const isAdmin = user?.role === "admin";
 
   return (

@@ -7,7 +7,7 @@ import {
 import { format, parseISO } from "date-fns";
 import { id } from "date-fns/locale";
 import type { Overtime } from "@/lib/api/overtime";
-import { useAuth } from "@/features/auth/hooks/use-auth";
+import { getUserData } from "@/lib/auth-utils";
 
 interface OvertimeDetailProps {
   overtime: Overtime | null;
@@ -16,7 +16,7 @@ interface OvertimeDetailProps {
 }
 
 export function OvertimeDetail({ overtime, isOpen, onOpenChange }: OvertimeDetailProps) {
-  const { user } = useAuth();
+  const user = getUserData();
   const isAdmin = user?.role === "admin";
 
   if (!overtime) return null;

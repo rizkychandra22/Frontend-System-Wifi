@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import type { User } from "@/lib/api/users";
-import { useAuth } from "@/features/auth/hooks/use-auth";
+import { getUserData } from "@/lib/auth-utils";
 
 export interface OvertimeFormData {
   user_id: string;
@@ -32,7 +32,7 @@ export function OvertimeForm({
   submitLabel,
   employees
 }: OvertimeFormProps) {
-  const { user } = useAuth();
+  const user = getUserData();
   const isAdmin = user?.role === "admin";
 
   return (

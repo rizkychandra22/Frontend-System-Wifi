@@ -1,4 +1,4 @@
-import { api } from "./axios";
+import { apiClient } from "@/lib/api-client";
 
 export interface Overtime {
   id: number;
@@ -30,27 +30,27 @@ export interface UpdateOvertimeData extends CreateOvertimeData {}
 
 export const overtimeApi = {
   getAll: async () => {
-    const { data } = await api.get<{ data: Overtime[] }>("/overtimes");
+    const { data } = await apiClient.get<{ data: Overtime[] }>("/overtimes");
     return data.data;
   },
 
   getById: async (id: number) => {
-    const { data } = await api.get<{ data: Overtime }>(`/overtimes/${id}`);
+    const { data } = await apiClient.get<{ data: Overtime }>(`/overtimes/${id}`);
     return data.data;
   },
 
-  create: async (overtimeData: CreateOvertimeData) => {
-    const { data } = await api.post<{ message: string; data: Overtime }>("/overtimes", overtimeData);
-    return data;
+  create: async (data: CreateOvertimeData) => {
+    const response = await apiClient.post<{ data: Overtime }>("/overtimes", data);
+    return response.data.data;
   },
 
-  update: async (id: number, overtimeData: UpdateOvertimeData) => {
-    const { data } = await api.put<{ message: string; data: Overtime }>(`/overtimes/${id}`, overtimeData);
-    return data;
+  update: async (id: number, data: UpdateOvertimeData) => {
+    const response = await apiClient.put<{ data: Overtime }>(`/overtimes/${id}`, data);
+    return response.data.data;
   },
 
   delete: async (id: number) => {
-    const { data } = await api.delete<{ message: string }>(`/overtimes/${id}`);
+    const { data } = await apiClient.delete<{ message: string }>(`/overtimes/${id}`);
     return data;
   },
 };
