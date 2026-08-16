@@ -25,9 +25,9 @@ export function PaymentsPage() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight text-foreground">Data Tagihan</h2>
+          <h2 className="text-2xl font-bold tracking-tight text-foreground">Data Pembayaran</h2>
           <p className="text-muted-foreground text-sm">
-            Kelola tagihan pembayaran bulanan pelanggan.
+            Kelola data tagihan dan pembayaran bulanan pelanggan.
           </p>
         </div>
       </div>
@@ -51,7 +51,7 @@ export function PaymentsPage() {
               className="h-8 px-3.5 rounded-lg text-[13px] font-medium shrink-0 shadow-sm w-full sm:w-auto flex-none"
             >
               <Plus className="h-3.5 w-3.5 mr-1" />
-              Tambah Tagihan
+              Tambah Pembayaran
             </UIButton>
           </div>
         </div>

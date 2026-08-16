@@ -327,7 +327,7 @@ export function AppSidebar() {
                   >
                     <Link to="/dashboard/payments">
                       <FileText className="w-[18px] h-[18px]" />
-                      <span className="text-[13px]">Data Tagihan</span>
+                      <span className="text-[13px]">Pembayaran</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

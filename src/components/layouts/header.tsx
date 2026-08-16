@@ -23,7 +23,8 @@ const customLabels: Record<string, string> = {
   "invoices": "Tagihan",
   "subscriptions": "Langganan Wifi",
   "billing-history": "Riwayat Tagihan",
-  "add-customers": "Data Pelanggan"
+  "add-customers": "Data Pelanggan",
+  "payments": "Pembayaran"
 };
 
 export function Header() {
