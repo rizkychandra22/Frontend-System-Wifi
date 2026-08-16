@@ -4,13 +4,17 @@ import { getToken } from "./auth-utils";
 
 export function resolveApiBaseUrl(): string {
   if (typeof window !== "undefined") {
-    if (import.meta.env.DEV && import.meta.env.VITE_API_URL_DEV) {
-      return import.meta.env.VITE_API_URL_DEV;
-    }
-    if (import.meta.env.VITE_API_URL) {
+    const hostname = window.location.hostname;
+
+    // Production Endpoint (Cloudflare)
+    if (hostname.endsWith(".net")) {
       return import.meta.env.VITE_API_URL;
     }
-    return `${window.location.origin}/api`;
+
+    // Development Endpoint (Vercel / Localhost)
+    if (hostname.endsWith(".vercel.app") || hostname === "localhost" || hostname === "127.0.0.1") {
+      return import.meta.env.VITE_API_URL_DEV;
+    }
   }
   return "http://localhost:8080/api";
 }
