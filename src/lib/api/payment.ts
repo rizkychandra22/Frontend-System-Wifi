@@ -13,6 +13,8 @@ export interface Payment {
   total_amount: number;
   status: string;
   invoice_number?: string;
+  created_by_id?: number;
+  created_by?: User;
   created_at: string;
   updated_at: string;
 }

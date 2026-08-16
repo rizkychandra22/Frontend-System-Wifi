@@ -33,7 +33,7 @@ interface PaymentActionsProps {
 
 export function PaymentActions({ actionState, onClose }: PaymentActionsProps) {
   const { createMutation, updateMutation, deleteMutation } = usePaymentMutations();
-  const { users } = useUsers();
+  const { users } = useUsers(true);
   const customers = users.filter((u) => u.role === "customer");
   const { query: { data: packages = [] } } = useWifiPackages();
 

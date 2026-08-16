@@ -3,6 +3,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Button } from "@/components/ui/button";
 import { Download, Edit2, Trash2 } from "lucide-react";
 import { format } from "date-fns";
+import { getUserData } from "@/lib/auth-utils";
+import { Badge } from "@/components/ui/badge";
 
 interface PaymentTableProps {
   payments: Payment[];
@@ -12,6 +14,9 @@ interface PaymentTableProps {
 }
 
 export function PaymentTable({ payments, onView, onEdit, onDelete }: PaymentTableProps) {
+  const currentUser = getUserData();
+  const isEmployee = currentUser?.role === "employee";
+
   return (
     <div className="rounded-xl border bg-card overflow-hidden shadow-sm">
       <Table>
@@ -22,6 +27,7 @@ export function PaymentTable({ payments, onView, onEdit, onDelete }: PaymentTabl
             <TableHead>Pelanggan</TableHead>
             <TableHead>Paket</TableHead>
             <TableHead>Tagihan</TableHead>
+            <TableHead>Dibuat Oleh</TableHead>
             <TableHead className="text-right">Aksi</TableHead>
           </TableRow>
         </TableHeader>
@@ -40,6 +46,14 @@ export function PaymentTable({ payments, onView, onEdit, onDelete }: PaymentTabl
                 <TableCell>{payment.customer?.name || "-"}</TableCell>
                 <TableCell>{payment.wifi_package?.name || "-"}</TableCell>
                 <TableCell>Rp {payment.total_amount.toLocaleString("id-ID")}</TableCell>
+                <TableCell>
+                  {payment.created_by ? (
+                    <div className="flex flex-col gap-1">
+                      <span className="text-sm font-medium">{payment.created_by.name}</span>
+                      <Badge variant="outline" className="w-fit text-[10px] uppercase">{payment.created_by.role}</Badge>
+                    </div>
+                  ) : "-"}
+                </TableCell>
                 <TableCell className="text-right">
                   <div className="flex justify-end gap-2">
                     <Button
@@ -60,15 +74,17 @@ export function PaymentTable({ payments, onView, onEdit, onDelete }: PaymentTabl
                     >
                       <Edit2 className="h-4 w-4" />
                     </Button>
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
-                      onClick={() => onDelete(payment)}
-                      title="Hapus"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
+                    {!isEmployee && (
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
+                        onClick={() => onDelete(payment)}
+                        title="Hapus"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    )}
                   </div>
                 </TableCell>
               </TableRow>
