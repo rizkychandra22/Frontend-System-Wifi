@@ -132,7 +132,7 @@ export function OvertimeActions({ actionState, onClose }: OvertimeActionsProps) 
             onChange={setFormData}
             onSubmit={handleAddSubmit}
             isSubmitting={createMutation.isPending}
-            submitLabel="Simpan & Ajukan"
+            submitLabel="Simpan"
             employees={employees}
           />
         </DialogContent>

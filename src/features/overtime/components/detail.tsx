@@ -3,7 +3,9 @@ import {
   SheetContent,
   SheetHeader,
   SheetTitle,
+  SheetDescription,
 } from "@/components/ui/sheet";
+import { Label } from "@/components/ui/label";
 import { format, parseISO } from "date-fns";
 import { id } from "date-fns/locale";
 import type { Overtime } from "@/lib/api/overtime";
@@ -23,45 +25,45 @@ export function OvertimeDetail({ overtime, isOpen, onOpenChange }: OvertimeDetai
 
   return (
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
-      <SheetContent className="overflow-y-auto">
-        <SheetHeader className="mb-6">
-          <SheetTitle className="text-xl">Detail Kerja Lembur</SheetTitle>
+      <SheetContent className="w-[400px] sm:w-[540px] overflow-y-auto">
+        <SheetHeader>
+          <SheetTitle>Detail Kerja Lembur</SheetTitle>
+          <SheetDescription>
+            Informasi lengkap kerja lembur karyawan.
+          </SheetDescription>
         </SheetHeader>
         
-        <div className="space-y-6">
+        <div className="mt-6 space-y-4">
           <div className="space-y-1">
-            <h3 className="text-sm font-medium text-muted-foreground">Karyawan</h3>
-            <p className="font-medium text-base">{overtime.user?.name || "Karyawan"}</p>
+            <Label className="text-muted-foreground">Karyawan</Label>
+            <div className="font-medium text-lg">{overtime.user?.name || "Karyawan"}</div>
           </div>
 
           <div className="space-y-1">
-            <h3 className="text-sm font-medium text-muted-foreground">Judul Pekerjaan</h3>
-            <p className="font-medium text-base">{overtime.title}</p>
+            <Label className="text-muted-foreground">Judul Pekerjaan</Label>
+            <div className="font-medium">{overtime.title}</div>
           </div>
 
           <div className="space-y-1">
-            <h3 className="text-sm font-medium text-muted-foreground">Deskripsi</h3>
-            <div className="p-3 bg-muted/50 rounded-lg text-sm border">
-              {overtime.description}
+            <Label className="text-muted-foreground">Deskripsi</Label>
+            <div className="font-medium">{overtime.description || "-"}</div>
+          </div>
+
+          <div className="space-y-1">
+            <Label className="text-muted-foreground">Waktu Lembur</Label>
+            <div className="font-medium">
+              {format(parseISO(overtime.date), "dd MMMM yyyy", { locale: id })}
+            </div>
+            <div className="font-medium">
+              {format(parseISO(overtime.start_time), "HH:mm")} - {format(parseISO(overtime.end_time), "HH:mm")}
             </div>
           </div>
 
-          <div className="space-y-1">
-            <h3 className="text-sm font-medium text-muted-foreground">Waktu Lembur</h3>
-            <p className="font-medium">
-              {format(parseISO(overtime.date), "dd MMMM yyyy", { locale: id })}
-            </p>
-            <p className="text-sm text-muted-foreground">
-              {format(parseISO(overtime.start_time), "HH:mm")} - {format(parseISO(overtime.end_time), "HH:mm")}
-            </p>
-          </div>
-
           {isAdmin && (
-            <div className="p-4 rounded-lg bg-primary/5 border border-primary/20 space-y-2 mt-4">
-              <h3 className="text-sm font-medium text-primary">Informasi Tarif (Admin Only)</h3>
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-muted-foreground">Tarif Lembur:</span>
-                <span className="font-bold text-lg text-primary">Rp {overtime.price.toLocaleString("id-ID")}</span>
+            <div className="space-y-1">
+              <Label className="text-muted-foreground">Tarif Lembur (Admin Only)</Label>
+              <div className="font-medium mt-1 break-all bg-primary/10 text-primary p-2 rounded text-sm">
+                Rp {overtime.price.toLocaleString("id-ID")}
               </div>
             </div>
           )}

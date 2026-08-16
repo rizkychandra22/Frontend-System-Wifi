@@ -116,9 +116,11 @@ export function OvertimeForm({
         </div>
       </div>
 
-      <Button type="submit" className="w-full" disabled={isSubmitting}>
-        {isSubmitting ? "Menyimpan..." : submitLabel}
-      </Button>
+      <div className="flex justify-end pt-2">
+        <Button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? "Menyimpan..." : submitLabel}
+        </Button>
+      </div>
     </form>
   );
 }

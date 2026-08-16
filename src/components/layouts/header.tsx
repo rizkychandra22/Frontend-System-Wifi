@@ -24,7 +24,7 @@ const customLabels: Record<string, string> = {
   "billing-history": "Pembayaran",
   "add-customers": "Data Pelanggan",
   "payments": "Pembayaran",
-  "overtime": "Lemburan"
+  "overtime": "Kerja Lembur"
 };
 
 export function Header() {
@@ -87,6 +87,9 @@ export function Header() {
                   return null;
                 }
                 if (segment === "employee" && routeSegments[index + 1] === "add-customers") {
+                  return null;
+                }
+                if ((segment === "employee" || segment === "admin") && routeSegments[index + 1] === "overtime") {
                   return null;
                 }
 
