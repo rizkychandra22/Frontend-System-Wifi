@@ -59,11 +59,11 @@ export function AttendanceRecord() {
 
   if (record && record.status === "Libur") {
     return (
-      <Card className="border-primary/20 bg-primary/5">
+      <Card className="border-red-500 bg-red-50">
         <CardContent className="pt-6 flex flex-col items-center text-center">
-          <CalendarX2 className="h-16 w-16 text-primary mb-4" />
+          <CalendarX2 className="h-16 w-16 text-red-500 mb-4" />
           <h2 className="text-xl font-bold mb-2">Hari Ini Libur</h2>
-          <p className="text-muted-foreground">
+          <p className="text-foreground">
             Tidak ada aktivitas absensi untuk hari ini karena tidak ada karyawan yang absen masuk hingga jam 08:30.
           </p>
         </CardContent>

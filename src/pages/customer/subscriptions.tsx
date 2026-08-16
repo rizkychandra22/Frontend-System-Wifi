@@ -36,7 +36,7 @@ export function CustomerSubscriptionsPage() {
   }, []);
 
   return (
-    <div className="space-y-8 max-w-5xl">
+    <div className="space-y-8 w-full">
       <div>
         <h1 className="text-2xl font-bold mb-2">Langganan Paket WiFi</h1>
         <p className="text-muted-foreground">
