@@ -13,6 +13,7 @@ import { PaymentsPage } from "@/pages/admin/payment";
 import { CustomerSubscriptionsPage } from "@/pages/customer/subscriptions";
 import { CustomerBillingHistoryPage } from "@/pages/customer/billing-history";
 import { EmployeeCustomersPage } from "@/pages/employee/customers";
+import { OvertimePage } from "@/pages/dashboard/overtime";
 
 import { DashboardPage } from "@/pages/dashboard";
 import { getUserData } from "@/lib/auth-utils";
@@ -42,6 +43,7 @@ function App() {
           {/* Shared Routes Admin & Employee */}
           <Route element={<ProtectedRouteGroup allowedRoles={['admin', 'employee']} />}>
             <Route path="/dashboard/payments" element={<PaymentsPage />} />
+            <Route path="/dashboard/overtime" element={<OvertimePage />} />
           </Route>
 
           {/* Admin Routes */}

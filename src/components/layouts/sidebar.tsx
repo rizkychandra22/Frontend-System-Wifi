@@ -42,9 +42,10 @@ import {
   MapPin,
   FileText,
   Wifi,
-  CalendarCheck,
   Receipt,
-  ClipboardList
+  ClipboardList,
+  Briefcase,
+  CalendarDays
 } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { getUserData, removeToken } from "@/lib/auth-utils";
@@ -259,18 +260,30 @@ export function AppSidebar() {
             </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                <SidebarMenuItem>
-                  <SidebarMenuButton
-                    asChild
-                    isActive={isActive("/employee/add-customers")}
-                    className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
-                  >
-                    <Link to="/employee/add-customers">
-                      <Users className="w-[18px] h-[18px]" />
-                      <span className="text-[13px]">Data Pelanggan</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton 
+                      asChild 
+                      isActive={isActive("/employee/add-customers")}
+                      className={`text-sm h-10 ${isActive("/employee/add-customers") ? "font-medium" : "text-slate-600 hover:text-slate-900"}`}
+                    >
+                      <Link to="/employee/add-customers">
+                        <Users className="w-[18px] h-[18px]" />
+                        <span className="text-[13px]">Data Pelanggan</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton 
+                      asChild 
+                      isActive={isActive("/dashboard/overtime")}
+                      className={`text-sm h-10 ${isActive("/dashboard/overtime") ? "font-medium" : "text-slate-600 hover:text-slate-900"}`}
+                    >
+                      <Link to="/dashboard/overtime">
+                        <Briefcase className="w-[18px] h-[18px]" />
+                        <span className="text-[13px]">Form Lembur</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
                 <SidebarMenuItem>
                   <SidebarMenuButton
                     asChild
@@ -307,18 +320,30 @@ export function AppSidebar() {
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
-                <SidebarMenuItem>
-                  <SidebarMenuButton
-                    asChild
-                    isActive={isActive("/dashboard/attendance")}
-                    className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
-                  >
-                    <Link to="/dashboard/attendance">
-                      <CalendarCheck className="w-[18px] h-[18px]" />
-                      <span className="text-[13px]">Data Absensi</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton 
+                      asChild 
+                      isActive={isActive("/dashboard/attendance")}
+                      className={`text-sm h-10 ${isActive("/dashboard/attendance") ? "font-medium" : "text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100"}`}
+                    >
+                      <Link to="/dashboard/attendance">
+                        <CalendarDays className="w-[18px] h-[18px]" />
+                        <span className="text-[13px]">Data Absensi</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton 
+                      asChild 
+                      isActive={isActive("/dashboard/overtime")}
+                      className={`text-sm h-10 ${isActive("/dashboard/overtime") ? "font-medium" : "text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100"}`}
+                    >
+                      <Link to="/dashboard/overtime">
+                        <Briefcase className="w-[18px] h-[18px]" />
+                        <span className="text-[13px]">Form Lembur</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
                 <SidebarMenuItem>
                   <SidebarMenuButton
                     asChild

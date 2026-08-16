@@ -23,7 +23,8 @@ const customLabels: Record<string, string> = {
   "subscriptions": "Paket Layanan",
   "billing-history": "Pembayaran",
   "add-customers": "Data Pelanggan",
-  "payments": "Pembayaran"
+  "payments": "Pembayaran",
+  "overtime": "Form Kerja Lembur"
 };
 
 export function Header() {
