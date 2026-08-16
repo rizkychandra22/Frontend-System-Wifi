@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { type Payment } from "@/lib/api/payment";
 import { usePaymentMutations } from "@/features/payment/hooks/use-payments";
-import { useCustomers } from "@/features/user/hooks/use-customers";
+import { useUsers } from "@/features/user/hooks/use-users";
 import { useWifiPackages } from "@/features/wifi_package/hooks/use-wifi-packages";
 import {
   Dialog,
@@ -33,7 +33,8 @@ interface PaymentActionsProps {
 
 export function PaymentActions({ actionState, onClose }: PaymentActionsProps) {
   const { createMutation, updateMutation, deleteMutation } = usePaymentMutations();
-  const { query: { data: customers = [] } } = useCustomers();
+  const { users } = useUsers();
+  const customers = users.filter((u) => u.role === "customer");
   const { query: { data: packages = [] } } = useWifiPackages();
 
   const [formData, setFormData] = useState<PaymentFormData>({

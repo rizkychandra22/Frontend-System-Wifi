@@ -31,7 +31,7 @@ export function UserForm({
   return (
     <form onSubmit={onSubmit} className="space-y-4">
       <div className="space-y-2">
-        <Label htmlFor="name">Nama Lengkap</Label>
+        <Label htmlFor="name">Nama</Label>
         <Input
           id="name"
           required
@@ -41,7 +41,7 @@ export function UserForm({
         />
       </div>
       <div className="space-y-2">
-        <Label htmlFor="phone">Nomor HP (WhatsApp)</Label>
+        <Label htmlFor="phone">No. Telp</Label>
         <Input
           id="phone"
           required

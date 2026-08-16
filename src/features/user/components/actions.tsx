@@ -132,7 +132,7 @@ export function UserActions({ actionState, onClose, isEmployeeView = false }: Us
       <Dialog open={actionState.type === 'edit'} onOpenChange={(open) => !open && onClose()}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Edit Pengguna</DialogTitle>
+            <DialogTitle>Edit Data Pelanggan</DialogTitle>
           </DialogHeader>
           <UserForm 
             initialData={formData}
