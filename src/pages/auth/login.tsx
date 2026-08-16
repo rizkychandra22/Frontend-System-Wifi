@@ -38,7 +38,7 @@ export const LoginPage = () => {
         </Card>
 
         <p className="text-center text-sm text-slate-500 dark:text-slate-400 mt-8">
-          &copy; {new Date().getFullYear()} All rights reserved.
+          &copy; {new Date().getFullYear()} All rights reserved Release v1.0.0.
         </p>
       </div>
     </div>

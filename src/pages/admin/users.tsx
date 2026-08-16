@@ -9,7 +9,7 @@ import { UserTable } from "@/features/user/components/table";
 import { UserActions, type ActionState } from "@/features/user/components/actions";
 
 export function UsersPage() {
-  const { users } = useUsers();
+  const { users, errorMessage } = useUsers();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState("employee");
 
@@ -46,6 +46,12 @@ export function UsersPage() {
           </p>
         </div>
       </div>
+
+      {errorMessage && (
+        <div className="bg-red-50 text-red-600 p-4 rounded-lg text-sm font-medium border border-red-200">
+          Error Backend: {errorMessage}. (Hint: Pastikan Golang Backend sudah di-restart agar Endpoint & Database Migration terbaru berjalan!)
+        </div>
+      )}
 
       <div className="w-full">
         <div className="w-full border-b border-border">

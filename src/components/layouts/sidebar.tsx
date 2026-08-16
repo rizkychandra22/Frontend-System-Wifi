@@ -252,6 +252,30 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
+        {hasRole("employee") && (
+          <SidebarGroup>
+            <SidebarGroupLabel className="px-3 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70 mt-2">
+              Menu Utama
+            </SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={isActive("/employee/add-customers")}
+                    className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
+                  >
+                    <Link to="/employee/add-customers">
+                      <Users className="w-[18px] h-[18px]" />
+                      <span className="text-[13px]">Data Pelanggan</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
+
         {hasRole("admin") && (
           <SidebarGroup>
             <SidebarGroupLabel className="px-3 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70 mt-2">
