@@ -1,6 +1,6 @@
 import { LoginForm } from "@/features/auth/components/login-form";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Wifi } from "lucide-react";
+import logo from "@/assets/logo.png";
 
 import { Navigate } from "react-router-dom";
 import { isAuthenticated } from "@/lib/auth-utils";
@@ -21,12 +21,8 @@ export const LoginPage = () => {
 
       <div className="w-full max-w-md relative z-10 animate-in fade-in zoom-in-95 duration-500">
         
-        <div className="flex flex-col items-center justify-center mb-8">
-          <div className="h-16 w-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-4 shadow-sm ring-1 ring-primary/20">
-            <Wifi className="h-8 w-8 text-primary" />
-          </div>
-          <h1 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">NetVerse Pro</h1>
-          <p className="text-slate-500 dark:text-slate-400 mt-1">Sistem Manajemen Jaringan WiFi</p>
+        <div className="flex flex-col items-center justify-center -mt-50 -mb-30">
+          <img src={logo} alt="NetVerse Pro" className="w-100 md:w-100 h-auto object-contain drop-shadow-md" />
         </div>
 
         <Card className="border-0 shadow-2xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl ring-1 ring-slate-200 dark:ring-slate-800">
