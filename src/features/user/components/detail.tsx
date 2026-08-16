@@ -40,9 +40,9 @@ export function UserDetail({ user, isOpen, onOpenChange }: UserDetailProps) {
             <div className="font-medium">{user?.address || "-"}</div>
           </div>
           <div className="space-y-1">
-            <Label className="text-muted-foreground text-xs">Status Device (IP)</Label>
-            <div className="font-medium">
-              {user?.ip_address || "-"}
+            <Label className="text-muted-foreground">ID Perangkat Terkunci</Label>
+            <div className="font-medium mt-1 break-all bg-muted p-2 rounded text-xs">
+              {user?.device_id || "-"}
             </div>
           </div>
         </div>

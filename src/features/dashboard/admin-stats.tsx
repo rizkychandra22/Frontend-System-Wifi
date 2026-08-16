@@ -6,7 +6,7 @@ import { paymentApi, type Payment } from "@/lib/api/payment";
 import { useAllAttendance } from "@/features/attendance/hooks/use-attendance";
 
 export function AdminDashboardStats() {
-  const { users } = useUsers();
+  const { users, errorMessage } = useUsers();
   const { attendances } = useAllAttendance();
   const [payments, setPayments] = useState<Payment[]>([]);
 
@@ -26,6 +26,11 @@ export function AdminDashboardStats() {
 
   return (
     <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      {errorMessage && (
+        <div className="col-span-full bg-red-50 text-red-600 p-4 rounded-lg text-sm font-medium border border-red-200 mb-4">
+          Error Backend: {errorMessage}. (Hint: Pastikan Golang Backend sudah di-restart agar Endpoint & Database Migration terbaru berjalan!)
+        </div>
+      )}
       <Card className="border-t-4 border-t-blue-500">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Total Karyawan</CardTitle>

@@ -31,19 +31,21 @@ export function UserForm({
   return (
     <form onSubmit={onSubmit} className="space-y-4">
       <div className="space-y-2">
-        <Label htmlFor="name">Name</Label>
+        <Label htmlFor="name">Nama Lengkap</Label>
         <Input
           id="name"
           required
+          placeholder="Contoh: Budi Santoso"
           value={initialData.name}
           onChange={(e) => onChange({ ...initialData, name: e.target.value })}
         />
       </div>
       <div className="space-y-2">
-        <Label htmlFor="phone">Phone Number</Label>
+        <Label htmlFor="phone">Nomor HP (WhatsApp)</Label>
         <Input
           id="phone"
           required
+          placeholder="Contoh: 08123456789"
           value={initialData.phone}
           onChange={(e) => onChange({ ...initialData, phone: e.target.value })}
         />
@@ -56,27 +58,28 @@ export function UserForm({
             onValueChange={(val) => onChange({ ...initialData, role: val })}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Select Role" />
+              <SelectValue placeholder="Pilih Role" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="employee">Employee</SelectItem>
-              <SelectItem value="customer">Customer</SelectItem>
+              <SelectItem value="employee">Karyawan</SelectItem>
+              <SelectItem value="customer">Pelanggan</SelectItem>
             </SelectContent>
           </Select>
         </div>
       )}
       <div className="space-y-2">
-        <Label htmlFor="address">Address (Optional)</Label>
+        <Label htmlFor="address">Alamat (Opsional)</Label>
         <Textarea
           id="address"
           rows={3}
+          placeholder="Alamat lengkap"
           value={initialData.address}
           onChange={(e) => onChange({ ...initialData, address: e.target.value })}
         />
       </div>
       <div className="flex justify-end pt-2">
         <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Saving..." : submitLabel}
+          {isSubmitting ? "Menyimpan..." : submitLabel}
         </Button>
       </div>
     </form>
