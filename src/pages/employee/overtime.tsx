@@ -11,7 +11,7 @@ export function EmployeeOvertimePage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [actionState, setActionState] = useState<ActionState>({ type: null, overtime: null });
 
-  const filteredOvertimes = overtimes.filter((ot) => {
+  const filteredOvertimes = (overtimes || []).filter((ot) => {
     const titleMatch = ot.title.toLowerCase().includes(searchQuery.toLowerCase());
     return titleMatch;
   });
@@ -20,7 +20,7 @@ export function EmployeeOvertimePage() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight text-foreground">Form Kerja Lembur</h2>
+          <h2 className="text-2xl font-bold tracking-tight text-foreground">Pengajuan Lembur</h2>
           <p className="text-muted-foreground text-sm">
             Ajukan form lembur dan lihat riwayat kerja lembur Anda.
           </p>
@@ -46,7 +46,7 @@ export function EmployeeOvertimePage() {
               className="h-8 px-3.5 rounded-lg text-[13px] font-medium shrink-0 shadow-sm w-full sm:w-auto flex-none"
             >
               <Plus className="h-3.5 w-3.5 mr-1" />
-              Ajukan Lembur
+              Buat Lembur
             </UIButton>
           </div>
         </div>
