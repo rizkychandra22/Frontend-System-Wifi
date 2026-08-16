@@ -230,7 +230,7 @@ export function AppSidebar() {
                     >
                       <Link to="/subscriptions">
                         <Wifi className="w-[18px] h-[18px]" />
-                        <span className="text-[13px]">Layanan WiFi</span>
+                        <span className="text-[13px]">Paket Layanan</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -242,7 +242,7 @@ export function AppSidebar() {
                     >
                       <Link to="/billing-history">
                         <Receipt className="w-[18px] h-[18px]" />
-                        <span className="text-[13px]">Riwayat Tagihan</span>
+                        <span className="text-[13px]">Pembayaran</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>

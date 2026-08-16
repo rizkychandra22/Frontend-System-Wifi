@@ -63,7 +63,7 @@ export function CustomerSubscriptions({ subscription, availablePackages }: Custo
               
               <div className="pt-4 mt-4 border-t border-border">
                 <p className="text-sm text-muted-foreground">
-                  Jika Anda ingin mengubah paket langganan, silakan <a href={waLink} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-medium">hubungi admin kami melalui WhatsApp</a>.
+                  Jika Anda ingin mengubah paket langganan, silakan <a href={waLink} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-medium">hubungi admin melalui WhatsApp</a>.
                 </p>
               </div>
             </div>
@@ -102,7 +102,7 @@ export function CustomerSubscriptions({ subscription, availablePackages }: Custo
                  <CardContent className="space-y-6">
                     <div className="text-3xl font-bold">
                       Rp {pkg.price.toLocaleString("id-ID")}
-                      <span className="text-sm font-normal text-muted-foreground block mt-1">/ bulan</span>
+                      <span className="text-lg font-normal text-muted-foreground ml-1">/ bulan</span>
                     </div>
                     <ul className="space-y-3 text-sm text-muted-foreground">
                       <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0" /> Akses Internet 24 Jam</li>
