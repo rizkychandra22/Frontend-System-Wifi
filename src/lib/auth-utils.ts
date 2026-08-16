@@ -3,6 +3,15 @@ export const setToken = (token: string, user: unknown) => {
   localStorage.setItem("auth_user", JSON.stringify(user));
 };
 
+export const getDeviceId = (): string => {
+  let deviceId = localStorage.getItem("device_id");
+  if (!deviceId) {
+    deviceId = crypto.randomUUID();
+    localStorage.setItem("device_id", deviceId);
+  }
+  return deviceId;
+};
+
 export const getToken = () => {
   return localStorage.getItem("auth_token");
 };

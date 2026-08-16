@@ -1,8 +1,10 @@
 import apiClient from "../api-client";
+import { getDeviceId } from "../auth-utils";
 
 export interface LoginPayload {
   phone: string;
   password?: string;
+  device_id: string;
 }
 
 export interface LoginResponse {
@@ -17,7 +19,7 @@ export interface LoginResponse {
 }
 
 export const loginApi = async (phone: string, password?: string): Promise<LoginResponse> => {
-  const payload: LoginPayload = { phone };
+  const payload: LoginPayload = { phone, device_id: getDeviceId() };
   if (password) {
     payload.password = password;
   }
