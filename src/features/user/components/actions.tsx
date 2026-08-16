@@ -125,6 +125,7 @@ export function UserActions({ actionState, onClose, isEmployeeView = false }: Us
         user={actionState.user} 
         isOpen={actionState.type === 'view'} 
         onOpenChange={(open) => !open && onClose()} 
+        isEmployeeView={isEmployeeView}
       />
 
       {/* Dialog Edit User */}
