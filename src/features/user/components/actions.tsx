@@ -28,9 +28,10 @@ export type ActionState = {
 interface UserActionsProps {
   actionState: ActionState;
   onClose: () => void;
+  isEmployeeView?: boolean;
 }
 
-export function UserActions({ actionState, onClose }: UserActionsProps) {
+export function UserActions({ actionState, onClose, isEmployeeView = false }: UserActionsProps) {
   const { mutate: createUser, isPending: isCreating } = useCreateUser();
   const { mutate: updateUser, isPending: isUpdating } = useUpdateUser();
   const { mutate: deleteUser, isPending: isDeleting } = useDeleteUser();
@@ -124,13 +125,14 @@ export function UserActions({ actionState, onClose }: UserActionsProps) {
         user={actionState.user} 
         isOpen={actionState.type === 'view'} 
         onOpenChange={(open) => !open && onClose()} 
+        isEmployeeView={isEmployeeView}
       />
 
       {/* Dialog Edit User */}
       <Dialog open={actionState.type === 'edit'} onOpenChange={(open) => !open && onClose()}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Edit Pengguna</DialogTitle>
+            <DialogTitle>Edit Data Pelanggan</DialogTitle>
           </DialogHeader>
           <UserForm 
             initialData={formData}
@@ -138,7 +140,7 @@ export function UserActions({ actionState, onClose }: UserActionsProps) {
             onSubmit={handleEditSubmit}
             isSubmitting={isUpdating}
             submitLabel="Simpan perubahan"
-            showRoleSelect={true}
+            showRoleSelect={!isEmployeeView}
           />
         </DialogContent>
       </Dialog>
@@ -161,11 +163,11 @@ export function UserActions({ actionState, onClose }: UserActionsProps) {
         </AlertDialogContent>
       </AlertDialog>
 
-      {/* Alert Dialog Reset IP */}
+      {/* Alert Dialog Reset Perangkat */}
       <AlertDialog open={actionState.type === 'reset'} onOpenChange={(open) => !open && onClose()}>
-        <AlertDialogContent className="w-[90%] max-w-[360px] rounded-md p-6">
+        <AlertDialogContent className="sm:max-w-[425px]">
           <AlertDialogHeader>
-            <AlertDialogTitle className="text-center text-lg font-semibold">Reset IP Perangkat?</AlertDialogTitle>
+            <AlertDialogTitle className="text-center text-lg font-semibold">Reset Perangkat?</AlertDialogTitle>
             <AlertDialogDescription className="text-center text-[15px] mt-2 mb-4 text-foreground/80">
               Anda akan mereset kunci perangkat untuk {actionState.user?.name}. Pengguna ini akan dapat login kembali dari perangkat baru.
             </AlertDialogDescription>

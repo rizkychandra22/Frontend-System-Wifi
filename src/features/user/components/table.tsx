@@ -9,9 +9,10 @@ interface UserTableProps {
   onEdit: (user: User) => void;
   onResetIP: (user: User) => void;
   onDelete: (user: User) => void;
+  isEmployeeView?: boolean;
 }
 
-export function UserTable({ users, onView, onEdit, onResetIP, onDelete }: UserTableProps) {
+export function UserTable({ users, onView, onEdit, onResetIP, onDelete, isEmployeeView = false }: UserTableProps) {
   return (
     <div className="rounded-xl border bg-card overflow-hidden shadow-sm">
       <Table>
@@ -19,9 +20,9 @@ export function UserTable({ users, onView, onEdit, onResetIP, onDelete }: UserTa
           <TableRow>
             <TableHead>Nama</TableHead>
             <TableHead>No. Telp</TableHead>
-            <TableHead>Perangkat</TableHead>
+            {!isEmployeeView && <TableHead>Perangkat</TableHead>}
             <TableHead>Alamat</TableHead>
-            <TableHead>Didaftarkan Oleh</TableHead>
+            {!isEmployeeView && <TableHead>Didaftarkan Oleh</TableHead>}
             <TableHead className="text-right">Aksi</TableHead>
           </TableRow>
         </TableHeader>
@@ -37,23 +38,27 @@ export function UserTable({ users, onView, onEdit, onResetIP, onDelete }: UserTa
               <TableRow key={user.id}>
                 <TableCell className="font-medium">{user.name}</TableCell>
                 <TableCell>{user.phone}</TableCell>
-                <TableCell>
-                  {user.ip_address ? (
-                    <span className="text-green-600 dark:text-green-400 text-xs font-semibold px-2 py-1 bg-green-100 dark:bg-green-900/30 rounded-full">
-                      Terkunci
-                    </span>
-                  ) : (
-                    <span className="text-muted-foreground text-xs font-medium px-2 py-1 bg-muted rounded-full">
-                      Bebas
-                    </span>
-                  )}
-                </TableCell>
+                {!isEmployeeView && (
+                  <TableCell>
+                    {user.device_id ? (
+                      <span className="text-green-600 dark:text-green-400 text-xs font-semibold px-2 py-1 bg-green-100 dark:bg-green-900/30 rounded-full">
+                        Terkunci
+                      </span>
+                    ) : (
+                      <span className="text-muted-foreground text-xs font-medium px-2 py-1 bg-muted rounded-full">
+                        Bebas
+                      </span>
+                    )}
+                  </TableCell>
+                )}
                 <TableCell>{user.address || "-"}</TableCell>
-                <TableCell>
-                  {user.registered_by 
-                    ? `${user.registered_by.role === 'admin' ? 'Admin' : 'Karyawan'} - ${user.registered_by.name}` 
-                    : "-"}
-                </TableCell>
+                {!isEmployeeView && (
+                  <TableCell>
+                    {user.registered_by 
+                      ? `${user.registered_by.role === 'admin' ? 'Admin' : 'Karyawan'} - ${user.registered_by.name}` 
+                      : "-"}
+                  </TableCell>
+                )}
                 <TableCell className="text-right">
                   <div className="flex justify-end gap-2">
                     <Button
@@ -74,25 +79,29 @@ export function UserTable({ users, onView, onEdit, onResetIP, onDelete }: UserTa
                     >
                       <Edit2 className="h-4 w-4" />
                     </Button>
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      className="h-8 w-8 text-amber-500 hover:text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-950"
-                      onClick={() => onResetIP(user)}
-                      title="Reset IP"
-                      disabled={!user.ip_address}
-                    >
-                      <ShieldAlert className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
-                      onClick={() => onDelete(user)}
-                      title="Hapus"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
+                    {!isEmployeeView && (
+                      <>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="h-8 w-8 text-amber-500 hover:text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-950"
+                          onClick={() => onResetIP(user)}
+                          title="Reset Perangkat"
+                          disabled={!user.device_id}
+                        >
+                          <ShieldAlert className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
+                          onClick={() => onDelete(user)}
+                          title="Hapus"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </>
+                    )}
                   </div>
                 </TableCell>
               </TableRow>

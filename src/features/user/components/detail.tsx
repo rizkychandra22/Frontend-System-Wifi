@@ -12,39 +12,44 @@ interface UserDetailProps {
   user: User | null;
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
+  isEmployeeView?: boolean;
 }
 
-export function UserDetail({ user, isOpen, onOpenChange }: UserDetailProps) {
+export function UserDetail({ user, isOpen, onOpenChange, isEmployeeView = false }: UserDetailProps) {
   return (
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
-      <SheetContent>
+      <SheetContent className="w-[400px] sm:w-[540px]">
         <SheetHeader>
-          <SheetTitle>Detail User</SheetTitle>
-          <SheetDescription>Complete Information User.</SheetDescription>
+          <SheetTitle>Detail Pengguna</SheetTitle>
+          <SheetDescription>
+            Informasi lengkap pengguna.
+          </SheetDescription>
         </SheetHeader>
-        <div className="space-y-5 mt-6">
+        <div className="mt-6 space-y-4">
           <div className="space-y-1">
-            <Label className="text-muted-foreground text-xs">Name</Label>
-            <div className="font-medium">{user?.name}</div>
+            <Label className="text-muted-foreground">Nama</Label>
+            <div className="font-medium text-lg">{user?.name}</div>
           </div>
           <div className="space-y-1">
-            <Label className="text-muted-foreground text-xs">Phone Number</Label>
+            <Label className="text-muted-foreground">No. Telp</Label>
             <div className="font-medium">{user?.phone}</div>
           </div>
           <div className="space-y-1">
-            <Label className="text-muted-foreground text-xs">Role</Label>
-            <div className="font-medium capitalize">{user?.role === "employee" ? "Employee" : "Customer"}</div>
+            <Label className="text-muted-foreground">Role</Label>
+            <div className="font-medium capitalize">{user?.role}</div>
           </div>
           <div className="space-y-1">
-            <Label className="text-muted-foreground text-xs">Address</Label>
+            <Label className="text-muted-foreground">Alamat</Label>
             <div className="font-medium">{user?.address || "-"}</div>
           </div>
-          <div className="space-y-1">
-            <Label className="text-muted-foreground text-xs">Status Device (IP)</Label>
-            <div className="font-medium">
-              {user?.ip_address || "-"}
+          {!isEmployeeView && (
+            <div className="space-y-1">
+              <Label className="text-muted-foreground">ID Perangkat</Label>
+              <div className="font-medium mt-1 break-all bg-muted p-2 rounded text-xs">
+                {user?.device_id || "-"}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </SheetContent>
     </Sheet>

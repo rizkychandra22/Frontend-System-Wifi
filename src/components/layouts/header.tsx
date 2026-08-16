@@ -23,6 +23,7 @@ const customLabels: Record<string, string> = {
   "invoices": "Tagihan",
   "subscriptions": "Langganan Wifi",
   "billing-history": "Riwayat Tagihan",
+  "add-customers": "Data Pelanggan"
 };
 
 export function Header() {
@@ -82,6 +83,9 @@ export function Header() {
               {/* Looping Segments Bertingkat */}
               {routeSegments.map((segment, index) => {
                 if (segment === "attendance" && (routeSegments[index + 1] === "record" || routeSegments[index + 1] === "history")) {
+                  return null;
+                }
+                if (segment === "employee" && routeSegments[index + 1] === "add-customers") {
                   return null;
                 }
 

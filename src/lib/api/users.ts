@@ -6,7 +6,7 @@ export interface User {
   phone: string;
   role: "admin" | "employee" | "customer";
   address: string | null;
-  ip_address: string | null;
+  device_id: string | null;
   failed_login_attempts: number;
   locked_until: string | null;
   registered_by?: { id: number; name: string; role: string };
@@ -22,13 +22,13 @@ export interface AdminContact {
 export const usersApi = {
   // Get all users
   getUsers: async (): Promise<User[]> => {
-    const response = await apiClient.get<{ data: User[] }>("/admin/users");
+    const response = await apiClient.get<{ data: User[] }>("/users");
     return response.data.data;
   },
 
   // Get user by ID
   getUserById: async (id: string | number): Promise<User> => {
-    const response = await apiClient.get<{ data: User }>(`/admin/users/${id}`);
+    const response = await apiClient.get<{ data: User }>(`/users/${id}`);
     return response.data.data;
   },
 
@@ -39,7 +39,7 @@ export const usersApi = {
     role: string;
     address?: string;
   }): Promise<User> => {
-    const response = await apiClient.post<{ message: string; data: User }>("/admin/users", data);
+    const response = await apiClient.post<{ message: string; data: User }>("/users", data);
     return response.data.data;
   },
 
@@ -53,18 +53,18 @@ export const usersApi = {
       address?: string;
     }
   ): Promise<User> => {
-    const response = await apiClient.put<{ message: string; data: User }>(`/admin/users/${id}`, data);
+    const response = await apiClient.put<{ message: string; data: User }>(`/users/${id}`, data);
     return response.data.data;
   },
 
   // Delete user
   deleteUser: async (id: string | number): Promise<void> => {
-    await apiClient.delete(`/admin/users/${id}`);
+    await apiClient.delete(`/users/${id}`);
   },
 
   // Reset user IP address
   resetUserIP: async (id: string | number): Promise<void> => {
-    await apiClient.put(`/admin/users/${id}/reset-ip`);
+    await apiClient.put(`/users/${id}/reset-ip`);
   },
 
   // Get admin contact

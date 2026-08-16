@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import type { Customer } from "@/lib/api/customer";
+import type { User } from "@/lib/api/users";
 import type { WifiPackage } from "@/lib/api/wifi_package";
 import { type FormEvent } from "react";
 
@@ -15,7 +15,7 @@ interface PaymentFormProps {
   onSubmit: (e: FormEvent) => void;
   isSubmitting: boolean;
   submitLabel?: string;
-  customers: Customer[];
+  customers: User[];
   packages: WifiPackage[];
 }
 
@@ -46,7 +46,7 @@ export function PaymentForm({
             <SelectValue placeholder="Select Customer" />
           </SelectTrigger>
           <SelectContent>
-            {customers.map((c: Customer) => (
+            {customers.map((c: User) => (
               <SelectItem key={c.id} value={c.id.toString()}>
                 {c.name} - {c.phone}
               </SelectItem>
