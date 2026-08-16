@@ -21,8 +21,9 @@ export interface AdminContact {
 
 export const usersApi = {
   // Get all users
-  getUsers: async (): Promise<User[]> => {
-    const response = await apiClient.get<{ data: User[] }>("/users");
+  getUsers: async (all?: boolean): Promise<User[]> => {
+    const url = all ? "/users?all=true" : "/users";
+    const response = await apiClient.get<{ data: User[] }>(url);
     return response.data.data;
   },
 

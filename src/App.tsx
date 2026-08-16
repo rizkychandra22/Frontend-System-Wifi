@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate, Outlet } from "react-router-dom";
 import { AppLayout } from "@/components/layouts/app";
 import { Toaster } from "@/components/ui/sonner";
 import "./App.css";
@@ -21,12 +21,12 @@ const RootRedirect = () => {
   return isAuthenticated() ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />;
 };
 
-const RoleRoute = ({ allowedRoles, children }: { allowedRoles: string[]; children: React.ReactNode }) => {
+const ProtectedRouteGroup = ({ allowedRoles }: { allowedRoles: string[] }) => {
   const user = getUserData();
   if (!user || !allowedRoles.includes(user.role)) {
     return <Navigate to="/dashboard" replace />;
   }
-  return <>{children}</>;
+  return <Outlet />;
 };
 
 function App() {
@@ -39,43 +39,25 @@ function App() {
         
         <Route element={<AppLayout />}>
           <Route path="/dashboard" element={<DashboardPage />} />
+          {/* Shared Routes Admin & Employee */}
+          <Route element={<ProtectedRouteGroup allowedRoles={['admin', 'employee']} />}>
+            <Route path="/dashboard/payments" element={<PaymentsPage />} />
+          </Route>
+
           {/* Admin Routes */}
-          <Route path="/dashboard/users" element={
-            <RoleRoute allowedRoles={['admin']}>
-              <UsersPage />
-            </RoleRoute>
-          } />
-          <Route path="/dashboard/attendance" element={
-            <RoleRoute allowedRoles={['admin']}>
-              <AdminAttendancePage />
-            </RoleRoute>
-          } />
-          <Route path="/dashboard/wifi-packages" element={
-            <RoleRoute allowedRoles={['admin']}>
-              <WifiPackagesPage />
-            </RoleRoute>
-          } />
-          <Route path="/dashboard/payments" element={
-            <RoleRoute allowedRoles={['admin']}>
-              <PaymentsPage />
-            </RoleRoute>
-          } />
+          <Route element={<ProtectedRouteGroup allowedRoles={['admin']} />}>
+            <Route path="/dashboard/users" element={<UsersPage />} />
+            <Route path="/dashboard/attendance" element={<AdminAttendancePage />} />
+            <Route path="/dashboard/wifi-packages" element={<WifiPackagesPage />} />
+          </Route>
+
           {/* Employee Routes */}
-          <Route path="/attendance/record" element={
-            <RoleRoute allowedRoles={['employee']}>
-              <AttendanceRecordPage />
-            </RoleRoute>
-          } />
-          <Route path="/attendance/history" element={
-            <RoleRoute allowedRoles={['employee']}>
-              <AttendanceHistoryPage />
-            </RoleRoute>
-          } />          
-          <Route path="/employee/add-customers" element={
-            <RoleRoute allowedRoles={['employee']}>
-              <EmployeeCustomersPage />
-            </RoleRoute>
-          } />
+          <Route element={<ProtectedRouteGroup allowedRoles={['employee']} />}>
+            <Route path="/attendance/record" element={<AttendanceRecordPage />} />
+            <Route path="/attendance/history" element={<AttendanceHistoryPage />} />
+            <Route path="/employee/add-customers" element={<EmployeeCustomersPage />} />
+          </Route>
+
           {/* Customer Routes */}
           <Route path="/subscriptions" element={<CustomerSubscriptionsPage />} />
           <Route path="/billing-history" element={<CustomerBillingHistoryPage />} />

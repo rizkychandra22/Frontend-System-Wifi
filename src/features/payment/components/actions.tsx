@@ -33,7 +33,7 @@ interface PaymentActionsProps {
 
 export function PaymentActions({ actionState, onClose }: PaymentActionsProps) {
   const { createMutation, updateMutation, deleteMutation } = usePaymentMutations();
-  const { users } = useUsers();
+  const { users } = useUsers(true);
   const customers = users.filter((u) => u.role === "customer");
   const { query: { data: packages = [] } } = useWifiPackages();
 
@@ -102,14 +102,14 @@ export function PaymentActions({ actionState, onClose }: PaymentActionsProps) {
       <Dialog open={actionState.type === 'add'} onOpenChange={(open) => !open && onClose()}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Tambah Tagihan Baru</DialogTitle>
+            <DialogTitle>Tambah Pembayaran Baru</DialogTitle>
           </DialogHeader>
           <PaymentForm 
             initialData={formData}
             onChange={setFormData}
             onSubmit={handleAddSubmit}
             isSubmitting={createMutation.isPending}
-            submitLabel="Simpan & Buat Tagihan"
+            submitLabel="Simpan & Buat Pembayaran"
             customers={customers}
             packages={packages}
           />
@@ -120,7 +120,7 @@ export function PaymentActions({ actionState, onClose }: PaymentActionsProps) {
       <Dialog open={actionState.type === 'edit'} onOpenChange={(open) => !open && onClose()}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Edit Tagihan</DialogTitle>
+            <DialogTitle>Edit Pembayaran</DialogTitle>
           </DialogHeader>
           <PaymentForm 
             initialData={formData}
@@ -145,9 +145,9 @@ export function PaymentActions({ actionState, onClose }: PaymentActionsProps) {
       <AlertDialog open={actionState.type === 'delete'} onOpenChange={(open) => !open && onClose()}>
         <AlertDialogContent className="w-[90%] max-w-[360px] rounded-md p-6">
           <AlertDialogHeader>
-            <AlertDialogTitle className="text-center text-lg font-semibold">Hapus Tagihan?</AlertDialogTitle>
+            <AlertDialogTitle className="text-center text-lg font-semibold">Hapus Pembayaran?</AlertDialogTitle>
             <AlertDialogDescription className="text-center text-[15px] mt-2 mb-4 text-foreground/80">
-              Tindakan ini tidak dapat dibatalkan. Tagihan <strong>INV-{actionState.payment?.id.toString().padStart(4, '0')}</strong> akan dihapus secara permanen dari sistem.
+              Tindakan ini tidak dapat dibatalkan. Pembayaran <strong>INV-{actionState.payment?.id.toString().padStart(4, '0')}</strong> akan dihapus secara permanen dari sistem.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <div className="flex flex-row justify-center gap-3 mt-2">
