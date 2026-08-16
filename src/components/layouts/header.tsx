@@ -20,9 +20,8 @@ const customLabels: Record<string, string> = {
   "attendance": "Data Absensi",
   "record": "Rekap Absensi",
   "history": "Riwayat Absensi",
-  "invoices": "Tagihan",
-  "subscriptions": "Langganan Wifi",
-  "billing-history": "Riwayat Tagihan",
+  "subscriptions": "Paket Layanan",
+  "billing-history": "Pembayaran",
   "add-customers": "Data Pelanggan",
   "payments": "Pembayaran"
 };

@@ -1,26 +1,13 @@
-import { useState } from "react";
-import { type Payment, paymentApi } from "@/lib/api/payment";
+import { type Payment } from "@/lib/api/payment";
 import { Button } from "@/components/ui/button";
-import { Download, ReceiptText } from "lucide-react";
+import { ReceiptText } from "lucide-react";
 
 interface PaymentUserTableProps {
   payments: Payment[];
+  onView: (payment: Payment) => void;
 }
 
-export function PaymentUserTable({ payments }: PaymentUserTableProps) {
-  const [downloadingId, setDownloadingId] = useState<number | null>(null);
-
-  const handleDownloadInvoice = async (paymentId: number, invoiceNumber: string | undefined) => {
-    try {
-      setDownloadingId(paymentId);
-      const filename = invoiceNumber ? `invoice-${invoiceNumber}.pdf` : `invoice-${paymentId}.pdf`;
-      await paymentApi.downloadPaymentPDF(paymentId, filename);
-    } catch (err) {
-      console.error("Gagal mengunduh invoice", err);
-    } finally {
-      setDownloadingId(null);
-    }
-  };
+export function PaymentUserTable({ payments, onView }: PaymentUserTableProps) {
 
   const getStatusBadge = (status: string) => {
     switch (status.toLowerCase()) {
@@ -44,7 +31,7 @@ export function PaymentUserTable({ payments }: PaymentUserTableProps) {
               <th className="px-6 py-4 font-medium">No. Invoice</th>
               <th className="px-6 py-4 font-medium">Tanggal</th>
               <th className="px-6 py-4 font-medium">Paket</th>
-              <th className="px-6 py-4 font-medium">Total Tagihan</th>
+              <th className="px-6 py-4 font-medium">Tagihan</th>
               <th className="px-6 py-4 font-medium">Status</th>
               <th className="px-6 py-4 font-medium">Aksi</th>
             </tr>
@@ -84,15 +71,10 @@ export function PaymentUserTable({ payments }: PaymentUserTableProps) {
                       variant="outline" 
                       size="sm" 
                       className="h-8 text-xs flex items-center gap-1.5"
-                      disabled={downloadingId === payment.id}
-                      onClick={() => handleDownloadInvoice(payment.id, payment.invoice_number)}
+                      onClick={() => onView(payment)}
                     >
-                      {downloadingId === payment.id ? (
-                        <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-current"></div>
-                      ) : (
-                        <Download className="w-3.5 h-3.5" />
-                      )}
-                      Invoice
+                      <ReceiptText className="w-3.5 h-3.5" />
+                      Detail
                     </Button>
                   </td>
                 </tr>
