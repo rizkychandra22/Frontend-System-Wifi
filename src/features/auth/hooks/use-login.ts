@@ -15,7 +15,6 @@ export function useLogin() {
     onSuccess: (data) => {
       setToken(data.token, data.user);
     },
-    retry: 3,
   });
 
   return {

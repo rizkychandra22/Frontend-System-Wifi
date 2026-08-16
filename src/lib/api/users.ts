@@ -14,6 +14,11 @@ export interface User {
   updated_at: string;
 }
 
+export interface AdminContact {
+  name: string;
+  phone: string;
+}
+
 export const usersApi = {
   // Get all users
   getUsers: async (): Promise<User[]> => {
@@ -60,5 +65,11 @@ export const usersApi = {
   // Reset user IP address
   resetUserIP: async (id: string | number): Promise<void> => {
     await apiClient.put(`/admin/users/${id}/reset-ip`);
+  },
+
+  // Get admin contact
+  getAdminContact: async (): Promise<AdminContact> => {
+    const response = await apiClient.get<{ data: AdminContact }>("/auth/admin-contact");
+    return response.data.data;
   },
 };

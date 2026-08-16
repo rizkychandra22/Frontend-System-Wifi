@@ -7,7 +7,7 @@ import { PaymentActions, type ActionState } from "@/features/payment/components/
 import { Button as UIButton } from "@/components/ui/button";
 
 export function PaymentsPage() {
-  const { data: payments = [], isLoading } = useAllPayments();
+  const { data: payments = [] } = useAllPayments();
   const [searchQuery, setSearchQuery] = useState("");
   const [actionState, setActionState] = useState<ActionState>({ type: null, payment: null });
 
@@ -25,9 +25,9 @@ export function PaymentsPage() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight text-foreground">Invoices Data</h2>
+          <h2 className="text-2xl font-bold tracking-tight text-foreground">Data Tagihan</h2>
           <p className="text-muted-foreground text-sm">
-            Manage customer monthly payment invoices.
+            Kelola tagihan pembayaran bulanan pelanggan.
           </p>
         </div>
       </div>
@@ -37,7 +37,7 @@ export function PaymentsPage() {
           <div className="relative w-full lg:w-80">
             <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
             <Input 
-              placeholder="Search customer or invoice..." 
+              placeholder="Cari pelanggan atau invoice..." 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-9 h-8 bg-muted/50 border border-border/60 rounded-lg text-[13px] shadow-none focus:bg-background transition-colors"
@@ -51,14 +51,13 @@ export function PaymentsPage() {
               className="h-8 px-3.5 rounded-lg text-[13px] font-medium shrink-0 shadow-sm w-full sm:w-auto flex-none"
             >
               <Plus className="h-3.5 w-3.5 mr-1" />
-              Add Invoice
+              Tambah Tagihan
             </UIButton>
           </div>
         </div>
 
         <PaymentTable 
           payments={filteredPayments} 
-          isLoading={isLoading}
           onView={(payment) => setActionState({ type: 'view', payment })}
           onEdit={(payment) => setActionState({ type: 'edit', payment })}
           onDelete={(payment) => setActionState({ type: 'delete', payment })}

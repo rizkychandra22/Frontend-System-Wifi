@@ -6,39 +6,32 @@ import { format } from "date-fns";
 
 interface PaymentTableProps {
   payments: Payment[];
-  isLoading: boolean;
   onView: (payment: Payment) => void;
   onEdit: (payment: Payment) => void;
   onDelete: (payment: Payment) => void;
 }
 
-export function PaymentTable({ payments, isLoading, onView, onEdit, onDelete }: PaymentTableProps) {
+export function PaymentTable({ payments, onView, onEdit, onDelete }: PaymentTableProps) {
   return (
     <div className="rounded-xl border bg-card overflow-hidden shadow-sm">
       <Table>
         <TableHeader>
           <TableRow>
             <TableHead>Invoice ID</TableHead>
-            <TableHead>Date</TableHead>
-            <TableHead>Customer</TableHead>
-            <TableHead>Package</TableHead>
-            <TableHead>Total Amount</TableHead>
-            <TableHead className="text-right">Action</TableHead>
+            <TableHead>Tanggal</TableHead>
+            <TableHead>Pelanggan</TableHead>
+            <TableHead>Paket</TableHead>
+            <TableHead>Tagihan</TableHead>
+            <TableHead className="text-right">Aksi</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {isLoading ? (
-            <TableRow>
-              <TableCell colSpan={6} className="text-center py-6 text-muted-foreground">
-                Loading...
-              </TableCell>
-            </TableRow>
-          ) : payments.length === 0 ? (
-            <TableRow>
-              <TableCell colSpan={6} className="text-center py-6 text-muted-foreground">
-                No invoices found.
-              </TableCell>
-            </TableRow>
+          {payments.length === 0 ? (
+            <tr>
+              <td colSpan={6} className="px-6 py-8 text-center text-muted-foreground">
+                Belum ada data pembayaran.
+              </td>
+            </tr>
           ) : (
             payments.map((payment) => (
               <TableRow key={payment.id}>
@@ -72,7 +65,7 @@ export function PaymentTable({ payments, isLoading, onView, onEdit, onDelete }: 
                       size="icon"
                       className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
                       onClick={() => onDelete(payment)}
-                      title="Delete"
+                      title="Hapus"
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>

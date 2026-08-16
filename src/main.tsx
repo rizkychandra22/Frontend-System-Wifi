@@ -14,6 +14,7 @@ const queryClient = new QueryClient({
   },
 });
 
+// eslint-disable-next-line react-refresh/only-export-components
 function GlobalErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
   const message =
     error instanceof Error
@@ -43,9 +44,13 @@ function GlobalErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
   );
 }
 
-const container = document.getElementById("root")!;
-const root = (container as any).__reactRoot || ReactDOM.createRoot(container);
-(container as any).__reactRoot = root;
+interface RootElement extends HTMLElement {
+  __reactRoot?: ReactDOM.Root;
+}
+
+const container = document.getElementById("root") as RootElement;
+const root = container.__reactRoot || ReactDOM.createRoot(container);
+container.__reactRoot = root;
 
 root.render(
   <React.StrictMode>

@@ -4,18 +4,13 @@ import { getToken } from "./auth-utils";
 
 export function resolveApiBaseUrl(): string {
   if (typeof window !== "undefined") {
-    const host = window.location.hostname;
-    
-    // Selalu pakai localhost jika (development)
-    if (host === "localhost" || host === "127.0.0.1") {
-      return "http://localhost:8080/api";
+    if (import.meta.env.DEV && import.meta.env.VITE_API_URL_DEV) {
+      return import.meta.env.VITE_API_URL_DEV;
     }
-
-    // Jika web dibuka dari internet (misal Vercel), gunakan URL Endpoint Deploy
     if (import.meta.env.VITE_API_URL) {
       return import.meta.env.VITE_API_URL;
     }
-    return `${window.location.origin}`;
+    return `${window.location.origin}/api`;
   }
   return "http://localhost:8080/api";
 }

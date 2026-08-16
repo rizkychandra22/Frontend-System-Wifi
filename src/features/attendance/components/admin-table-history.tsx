@@ -1,15 +1,18 @@
-import { useAttendanceHistory } from "@/features/attendance/hooks/use-attendance";
+import { type AttendanceRecord } from "@/lib/api/attendance";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-export function AttendanceHistory() {
-  const { history } = useAttendanceHistory();
+interface AdminAttendanceTableProps {
+  attendances: AttendanceRecord[];
+}
+
+export function AdminAttendanceTable({ attendances }: AdminAttendanceTableProps) {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [statusFilter, setStatusFilter] = useState("Semua Status");
 
-  const filteredHistory = history.filter((record) => {
+  const filteredAttendances = attendances.filter((record) => {
     if (startDate && record.date < startDate) return false;
     if (endDate && record.date > endDate) return false;
     if (statusFilter !== "Semua Status" && record.status !== statusFilter) return false;
@@ -84,6 +87,7 @@ export function AttendanceHistory() {
           <table className="w-full text-sm text-left">
             <thead className="bg-muted/50 text-muted-foreground border-b">
               <tr>
+                <th className="px-6 py-4 font-medium">Karyawan</th>
                 <th className="px-6 py-4 font-medium">Tanggal</th>
                 <th className="px-6 py-4 font-medium">Masuk</th>
                 <th className="px-6 py-4 font-medium">Keluar</th>
@@ -93,15 +97,19 @@ export function AttendanceHistory() {
               </tr>
             </thead>
             <tbody>
-              {filteredHistory.length === 0 ? (
+              {filteredAttendances.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-8 text-center text-muted-foreground">
+                  <td colSpan={7} className="px-6 py-8 text-center text-muted-foreground">
                     Belum ada riwayat absen
                   </td>
                 </tr>
               ) : (
-                filteredHistory.map((record) => (
+                filteredAttendances.map((record) => (
                   <tr key={record.id} className="border-b last:border-0 hover:bg-muted/30">
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="font-medium text-foreground">{record.user?.name || "Unknown"}</div>
+                      <div className="text-xs text-muted-foreground">{record.user?.phone || "-"}</div>
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {new Date(record.date).toLocaleDateString("id-ID", {
                         weekday: "long",

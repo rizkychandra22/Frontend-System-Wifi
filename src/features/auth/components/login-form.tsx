@@ -46,7 +46,7 @@ export const LoginForm = () => {
       const data = await login({ phone: values.phone, password: values.password });
       toast.success(data.message || "Login berhasil!");
       navigate("/dashboard");
-    } catch (error: any) {
+    } catch (error: unknown) {
       // Periksa apakah server merespons dengan 428 Precondition Required
       if (error instanceof AxiosError && error.response?.status === 428) {
         setShowPasswordInput(true);
@@ -61,8 +61,11 @@ export const LoginForm = () => {
         form.setValue("password", "");
         return;
       }
-
-      toast.error(error.response?.data?.error || error.message || "Terjadi kesalahan saat login.");
+      if (error instanceof Error) {
+        toast.error((error as {response?: {data?: {error?: string}}}).response?.data?.error || error.message || "Terjadi kesalahan saat login.");
+      } else {
+        toast.error("Terjadi kesalahan saat login.");
+      }
     }
   }
 

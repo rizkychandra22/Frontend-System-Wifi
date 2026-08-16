@@ -31,8 +31,13 @@ export interface UpdateProfilePayload {
   address?: string;
 }
 
-export const updateProfileApi = async (data: UpdateProfilePayload) => {
-  const response = await apiClient.put("/auth/profile", data);
+export interface UpdateProfileResponse {
+  message: string;
+  data?: Record<string, unknown>;
+}
+
+export const updateProfileApi = async (data: UpdateProfilePayload): Promise<UpdateProfileResponse> => {
+  const response = await apiClient.put<UpdateProfileResponse>("/auth/profile", data);
   return response.data;
 };
 
@@ -41,7 +46,11 @@ export interface UpdatePasswordPayload {
   new_password: string;
 }
 
-export const updatePasswordApi = async (data: UpdatePasswordPayload) => {
-  const response = await apiClient.put("/auth/profile/password", data);
+export interface UpdatePasswordResponse {
+  message: string;
+}
+
+export const updatePasswordApi = async (data: UpdatePasswordPayload): Promise<UpdatePasswordResponse> => {
+  const response = await apiClient.put<UpdatePasswordResponse>("/auth/profile/password", data);
   return response.data;
 };

@@ -5,7 +5,9 @@ import {
   requestIzinApi,
   getTodayAttendanceApi,
   getAttendanceHistoryApi,
+  getAllAttendanceApi,
   type AttendanceRecord,
+  type AttendanceActionResponse,
 } from "@/lib/api/attendance";
 import { AxiosError } from "axios";
 import { parseErrorMessage, type ApiErrorResponse } from "@/lib/api-error";
@@ -47,7 +49,7 @@ export function useClockIn() {
   const queryClient = useQueryClient();
 
   return useMutation<
-    any,
+    AttendanceActionResponse,
     AxiosError<ApiErrorResponse>,
     { lat: number; lng: number }
   >({
@@ -59,7 +61,6 @@ export function useClockIn() {
     onError: (error) => {
       toast.error(parseErrorMessage(error) || "Gagal absen masuk");
     },
-    retry: 3,
   });
 }
 
@@ -67,7 +68,7 @@ export function useClockOut() {
   const queryClient = useQueryClient();
 
   return useMutation<
-    any,
+    AttendanceActionResponse,
     AxiosError<ApiErrorResponse>,
     { lat: number; lng: number }
   >({
@@ -79,7 +80,6 @@ export function useClockOut() {
     onError: (error) => {
       toast.error(parseErrorMessage(error) || "Gagal absen keluar");
     },
-    retry: 3,
   });
 }
 
@@ -87,7 +87,7 @@ export function useRequestIzin() {
   const queryClient = useQueryClient();
 
   return useMutation<
-    any,
+    AttendanceActionResponse,
     AxiosError<ApiErrorResponse>,
     string
   >({
@@ -99,6 +99,21 @@ export function useRequestIzin() {
     onError: (error) => {
       toast.error(parseErrorMessage(error) || "Gagal mengajukan izin");
     },
+  });
+}
+
+export function useAllAttendance() {
+  const query = useQuery<AttendanceRecord[], AxiosError<ApiErrorResponse>>({
+    queryKey: ["attendance", "all"],
+    queryFn: () => getAllAttendanceApi(),
+    refetchInterval: 10000,
+    refetchOnWindowFocus: true,
     retry: 3,
   });
+
+  return {
+    ...query,
+    attendances: query.data ?? [],
+    errorMessage: parseErrorMessage(query.error),
+  };
 }
