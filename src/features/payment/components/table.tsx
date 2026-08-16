@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Download, Edit2, Trash2 } from "lucide-react";
 import { format } from "date-fns";
 import { getUserData } from "@/lib/auth-utils";
-import { Badge } from "@/components/ui/badge";
 
 interface PaymentTableProps {
   payments: Payment[];
@@ -47,12 +46,9 @@ export function PaymentTable({ payments, onView, onEdit, onDelete }: PaymentTabl
                 <TableCell>{payment.wifi_package?.name || "-"}</TableCell>
                 <TableCell>Rp {payment.total_amount.toLocaleString("id-ID")}</TableCell>
                 <TableCell>
-                  {payment.created_by ? (
-                    <div className="flex flex-col gap-1">
-                      <span className="text-sm font-medium">{payment.created_by.name}</span>
-                      <Badge variant="outline" className="w-fit text-[10px] uppercase">{payment.created_by.role}</Badge>
-                    </div>
-                  ) : "-"}
+                  {payment.created_by 
+                    ? `${payment.created_by.role === 'admin' ? 'Admin' : 'Karyawan'} - ${payment.created_by.name}` 
+                    : "-"}
                 </TableCell>
                 <TableCell className="text-right">
                   <div className="flex justify-end gap-2">
