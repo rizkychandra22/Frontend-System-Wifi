@@ -42,9 +42,10 @@ import {
   MapPin,
   FileText,
   Wifi,
-  CalendarCheck,
   Receipt,
-  ClipboardList
+  ClipboardList,
+  Briefcase,
+  CalendarDays
 } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { getUserData, removeToken } from "@/lib/auth-utils";
@@ -260,8 +261,8 @@ export function AppSidebar() {
             <SidebarGroupContent>
               <SidebarMenu>
                 <SidebarMenuItem>
-                  <SidebarMenuButton
-                    asChild
+                  <SidebarMenuButton 
+                    asChild 
                     isActive={isActive("/employee/add-customers")}
                     className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
                   >
@@ -280,6 +281,18 @@ export function AppSidebar() {
                     <Link to="/dashboard/payments">
                       <FileText className="w-[18px] h-[18px]" />
                       <span className="text-[13px]">Pembayaran</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton 
+                    asChild 
+                    isActive={isActive("/employee/overtime")}
+                    className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
+                  >
+                    <Link to="/employee/overtime">
+                      <Briefcase className="w-[18px] h-[18px]" />
+                      <span className="text-[13px]">Kerja Lembur</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -307,18 +320,19 @@ export function AppSidebar() {
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
-                <SidebarMenuItem>
-                  <SidebarMenuButton
-                    asChild
-                    isActive={isActive("/dashboard/attendance")}
-                    className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
-                  >
-                    <Link to="/dashboard/attendance">
-                      <CalendarCheck className="w-[18px] h-[18px]" />
-                      <span className="text-[13px]">Data Absensi</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton 
+                      asChild 
+                      isActive={isActive("/dashboard/attendance")}
+                      className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
+                    >
+                      <Link to="/dashboard/attendance">
+                        <CalendarDays className="w-[18px] h-[18px]" />
+                        <span className="text-[13px]">Data Absensi</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+
                 <SidebarMenuItem>
                   <SidebarMenuButton
                     asChild
