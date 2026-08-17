@@ -32,6 +32,7 @@ export function PaymentUserTable({ payments, onView }: PaymentUserTableProps) {
               <th className="px-6 py-4 font-medium">Tanggal</th>
               <th className="px-6 py-4 font-medium">Paket</th>
               <th className="px-6 py-4 font-medium">Tagihan</th>
+              <th className="px-6 py-4 font-medium">Metode Bayar</th>
               <th className="px-6 py-4 font-medium">Status</th>
               <th className="px-6 py-4 font-medium">Aksi</th>
             </tr>
@@ -39,7 +40,7 @@ export function PaymentUserTable({ payments, onView }: PaymentUserTableProps) {
           <tbody>
             {payments.length === 0 ? (
               <tr>
-                <td colSpan={6} className="px-6 py-8 text-center text-muted-foreground">
+                <td colSpan={7} className="px-6 py-8 text-center text-muted-foreground">
                   <ReceiptText className="w-8 h-8 mx-auto mb-2 opacity-20" />
                   Belum ada riwayat tagihan
                 </td>
@@ -62,6 +63,9 @@ export function PaymentUserTable({ payments, onView }: PaymentUserTableProps) {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap font-medium">
                     Rp {payment.total_amount.toLocaleString("id-ID")}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {payment.payment_method || "-"}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     {getStatusBadge(payment.status)}
