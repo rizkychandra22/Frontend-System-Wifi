@@ -26,7 +26,7 @@ export interface CreateOvertimeData {
   end_time: string;
 }
 
-export interface UpdateOvertimeData extends CreateOvertimeData {}
+export type UpdateOvertimeData = CreateOvertimeData;
 
 export const overtimeApi = {
   getAll: async () => {

@@ -1,5 +1,4 @@
-import { format, parseISO } from "date-fns";
-import { id } from "date-fns/locale";
+
 import { Eye, Edit, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -12,6 +11,13 @@ interface OvertimeTableProps {
   onEdit: (overtime: Overtime) => void;
   onDelete: (overtime: Overtime) => void;
 }
+
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agt", "Sep", "Okt", "Nov", "Des"];
+const formatDate = (dateStr: string) => {
+  const parts = dateStr.substring(0, 10).split("-");
+  if (parts.length !== 3) return dateStr;
+  return `${parts[2]} ${MONTHS[parseInt(parts[1], 10) - 1]} ${parts[0]}`;
+};
 
 export function OvertimeTable({ overtimes, onView, onEdit, onDelete }: OvertimeTableProps) {
   const user = getUserData();
@@ -44,7 +50,7 @@ export function OvertimeTable({ overtimes, onView, onEdit, onDelete }: OvertimeT
                   <TableCell className="font-medium">{ot.user?.name}</TableCell>
                 )}
                 <TableCell className="whitespace-nowrap">
-                  {format(parseISO(ot.date.substring(0, 10)), "dd MMM yyyy", { locale: id })}
+                  {formatDate(ot.date)}
                 </TableCell>
                 <TableCell className="max-w-[200px] truncate" title={ot.title}>
                   {ot.title}
