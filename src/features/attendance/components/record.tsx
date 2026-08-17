@@ -64,7 +64,7 @@ export function AttendanceRecord() {
           <CalendarX2 className="h-16 w-16 text-red-500 mb-4" />
           <h2 className="text-xl font-bold mb-2">Hari Ini Libur</h2>
           <p className="text-foreground">
-            Tidak ada aktivitas absensi untuk hari ini karena tidak ada karyawan yang absen masuk hingga jam 08:30.
+            Tidak ada aktivitas absensi untuk hari ini karena tidak ada karyawan yang absen masuk hingga jam 12:30.
           </p>
         </CardContent>
       </Card>
@@ -97,7 +97,7 @@ export function AttendanceRecord() {
             <Clock className="w-5 h-5 text-primary" />
             Absen Masuk
           </CardTitle>
-          <CardDescription>Batas waktu 08:30 WIB</CardDescription>
+          <CardDescription>Batas waktu 12:30 WIB</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           {record ? (
