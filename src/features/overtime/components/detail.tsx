@@ -61,7 +61,7 @@ export function OvertimeDetail({ overtime, isOpen, onOpenChange }: OvertimeDetai
 
           {isAdmin && (
             <div className="space-y-1">
-              <Label className="text-muted-foreground">Tarif Lembur (Admin Only)</Label>
+              <Label className="text-muted-foreground">Tarif Lembur</Label>
               <div className="font-medium mt-1 break-all bg-primary/10 text-primary p-2 rounded text-sm">
                 Rp {overtime.price.toLocaleString("id-ID")}
               </div>
