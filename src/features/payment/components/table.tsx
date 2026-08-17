@@ -16,6 +16,21 @@ export function PaymentTable({ payments, onView, onEdit, onDelete }: PaymentTabl
   const currentUser = getUserData();
   const isEmployee = currentUser?.role === "employee";
 
+  const getPaymentMethodBadge = (method?: string) => {
+    switch (method?.toLowerCase()) {
+      case "cash":
+        return <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-green-100 text-green-700 border-green-200">Cash</span>;
+      case "bca":
+        return <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-blue-100 text-blue-800 border-blue-200">BCA</span>;
+      case "qris":
+        return <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-red-100 text-red-700 border-red-200">Qris</span>;
+      case "dana":
+        return <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-blue-50 text-blue-500 border-blue-200">Dana</span>;
+      default:
+        return <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-gray-100 text-gray-700 border-gray-200">{method || "-"}</span>;
+    }
+  };
+
   return (
     <div className="rounded-xl border bg-card overflow-hidden shadow-sm">
       <Table>
@@ -46,7 +61,7 @@ export function PaymentTable({ payments, onView, onEdit, onDelete }: PaymentTabl
                 <TableCell>{payment.customer?.name || "-"}</TableCell>
                 <TableCell>{payment.wifi_package?.name || "-"}</TableCell>
                 <TableCell>Rp {payment.total_amount.toLocaleString("id-ID")}</TableCell>
-                <TableCell>{payment.payment_method || "-"}</TableCell>
+                <TableCell>{getPaymentMethodBadge(payment.payment_method)}</TableCell>
                 <TableCell>
                   {payment.created_by 
                     ? `${payment.created_by.role === 'admin' ? 'Admin' : 'Karyawan'} - ${payment.created_by.name}` 

@@ -23,6 +23,21 @@ export function PaymentDetail({ payment, isOpen, onOpenChange }: PaymentDetailPr
   const customerName = payment.customer?.name || "Customer";
   const pdfFilename = `${customerName} - ${invoiceNumber}.pdf`;
 
+  const getPaymentMethodBadge = (method?: string) => {
+    switch (method?.toLowerCase()) {
+      case "cash":
+        return <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-green-100 text-green-700 border-green-200">Cash</span>;
+      case "bca":
+        return <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-blue-100 text-blue-800 border-blue-200">BCA</span>;
+      case "qris":
+        return <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-red-100 text-red-700 border-red-200">Qris</span>;
+      case "dana":
+        return <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-blue-50 text-blue-500 border-blue-200">Dana</span>;
+      default:
+        return <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-gray-100 text-gray-700 border-gray-200">{method || "-"}</span>;
+    }
+  };
+
   return (
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
       <SheetContent className="overflow-y-auto">
@@ -50,6 +65,11 @@ export function PaymentDetail({ payment, isOpen, onOpenChange }: PaymentDetailPr
           <div className="space-y-1">
             <h3 className="text-sm font-medium text-muted-foreground">Paket</h3>
             <p className="font-medium">{payment.wifi_package?.name || "-"}</p>
+          </div>
+
+          <div className="space-y-1">
+            <h3 className="text-sm font-medium text-muted-foreground mb-1">Metode Bayar</h3>
+            <div>{getPaymentMethodBadge(payment.payment_method)}</div>
           </div>
 
           <div className="p-4 rounded-lg bg-muted/50 space-y-3 text-sm border">
