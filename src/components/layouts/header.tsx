@@ -20,10 +20,11 @@ const customLabels: Record<string, string> = {
   "attendance": "Data Absensi",
   "record": "Rekap Absensi",
   "history": "Riwayat Absensi",
-  "invoices": "Tagihan",
-  "subscriptions": "Langganan Wifi",
-  "billing-history": "Riwayat Tagihan",
-  "add-customers": "Data Pelanggan"
+  "subscriptions": "Paket Layanan",
+  "billing-history": "Pembayaran",
+  "add-customers": "Data Pelanggan",
+  "payments": "Pembayaran",
+  "overtime": "Kerja Lembur"
 };
 
 export function Header() {
@@ -86,6 +87,9 @@ export function Header() {
                   return null;
                 }
                 if (segment === "employee" && routeSegments[index + 1] === "add-customers") {
+                  return null;
+                }
+                if ((segment === "employee" || segment === "admin") && routeSegments[index + 1] === "overtime") {
                   return null;
                 }
 

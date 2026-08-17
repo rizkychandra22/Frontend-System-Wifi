@@ -4,10 +4,10 @@ import { AxiosError } from "axios";
 import { parseErrorMessage, type ApiErrorResponse } from "@/lib/api-error";
 import { toast } from "sonner";
 
-export function useUsers() {
+export function useUsers(all?: boolean) {
   const query = useQuery<User[], AxiosError<ApiErrorResponse>>({
-    queryKey: ["users"],
-    queryFn: () => usersApi.getUsers(),
+    queryKey: ["users", all],
+    queryFn: () => usersApi.getUsers(all),
     refetchInterval: 10000,
     refetchOnWindowFocus: true,
     retry: 3,

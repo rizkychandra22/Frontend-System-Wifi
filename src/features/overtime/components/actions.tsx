@@ -1,8 +1,7 @@
 import { useState, type FormEvent } from "react";
-import { type Payment } from "@/lib/api/payment";
-import { usePaymentMutations } from "@/features/payment/hooks/use-payments";
+import type { Overtime } from "@/lib/api/overtime";
+import { useOvertimeMutations } from "@/features/overtime/hooks/use-overtimes";
 import { useUsers } from "@/features/user/hooks/use-users";
-import { useWifiPackages } from "@/features/wifi_package/hooks/use-wifi-packages";
 import {
   Dialog,
   DialogContent,
@@ -18,51 +17,68 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { PaymentForm, type PaymentFormData } from "./form";
-import { PaymentDetail } from "./detail";
+import { OvertimeForm, type OvertimeFormData } from "./form";
+import { OvertimeDetail } from "./detail";
 
 export type ActionState = {
   type: 'add' | 'edit' | 'delete' | 'view' | null;
-  payment: Payment | null;
+  overtime: Overtime | null;
 };
 
-interface PaymentActionsProps {
+interface OvertimeActionsProps {
   actionState: ActionState;
   onClose: () => void;
 }
 
-export function PaymentActions({ actionState, onClose }: PaymentActionsProps) {
-  const { createMutation, updateMutation, deleteMutation } = usePaymentMutations();
+export function OvertimeActions({ actionState, onClose }: OvertimeActionsProps) {
+  const { createMutation, updateMutation, deleteMutation } = useOvertimeMutations();
   const { users } = useUsers(true);
-  const customers = users.filter((u) => u.role === "customer");
-  const { query: { data: packages = [] } } = useWifiPackages();
+  const employees = users.filter((u) => u.role === "employee");
 
-  const [formData, setFormData] = useState<PaymentFormData>({
-    customer_id: "",
-    wifi_package_id: "",
+  const [formData, setFormData] = useState<OvertimeFormData>({
+    user_id: "",
+    title: "",
+    description: "",
+    date: "",
+    start_time: "",
+    end_time: "",
   });
 
   const [prevActionState, setPrevActionState] = useState(actionState);
   if (actionState !== prevActionState) {
     setPrevActionState(actionState);
-    if (actionState.type === 'edit' && actionState.payment) {
+    if (actionState.type === 'edit' && actionState.overtime) {
       setFormData({
-        customer_id: actionState.payment.customer_id.toString(),
-        wifi_package_id: actionState.payment.wifi_package_id.toString(),
+        user_id: actionState.overtime.user_id.toString(),
+        title: actionState.overtime.title,
+        description: actionState.overtime.description,
+        date: actionState.overtime.date.substring(0, 10),
+        start_time: actionState.overtime.start_time.substring(11, 16),
+        end_time: actionState.overtime.end_time.substring(11, 16),
       });
     } else if (actionState.type === 'add') {
       setFormData({
-        customer_id: "",
-        wifi_package_id: "",
+        user_id: "",
+        title: "",
+        description: "",
+        date: "",
+        start_time: "",
+        end_time: "",
       });
     }
   }
 
   const handleAddSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (!formData.customer_id || !formData.wifi_package_id) return;
     createMutation.mutate(
-      { customer_id: Number(formData.customer_id), wifi_package_id: Number(formData.wifi_package_id) }, 
+      { 
+        user_id: formData.user_id ? Number(formData.user_id) : undefined,
+        title: formData.title,
+        description: formData.description,
+        date: formData.date,
+        start_time: formData.start_time,
+        end_time: formData.end_time
+      }, 
       {
         onSuccess: () => {
           onClose();
@@ -73,11 +89,18 @@ export function PaymentActions({ actionState, onClose }: PaymentActionsProps) {
 
   const handleEditSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (!actionState.payment || !formData.customer_id || !formData.wifi_package_id) return;
+    if (!actionState.overtime) return;
     updateMutation.mutate(
       { 
-        id: actionState.payment.id, 
-        data: { customer_id: Number(formData.customer_id), wifi_package_id: Number(formData.wifi_package_id) } 
+        id: actionState.overtime.id, 
+        data: { 
+          user_id: formData.user_id ? Number(formData.user_id) : undefined,
+          title: formData.title,
+          description: formData.description,
+          date: formData.date,
+          start_time: formData.start_time,
+          end_time: formData.end_time
+        } 
       }, 
       {
         onSuccess: () => {
@@ -88,8 +111,8 @@ export function PaymentActions({ actionState, onClose }: PaymentActionsProps) {
   };
 
   const handleDelete = () => {
-    if (!actionState.payment) return;
-    deleteMutation.mutate(actionState.payment.id, {
+    if (!actionState.overtime) return;
+    deleteMutation.mutate(actionState.overtime.id, {
       onSuccess: () => {
         onClose();
       }
@@ -98,56 +121,50 @@ export function PaymentActions({ actionState, onClose }: PaymentActionsProps) {
 
   return (
     <>
-      {/* Dialog Add Payment */}
       <Dialog open={actionState.type === 'add'} onOpenChange={(open) => !open && onClose()}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Tambah Pembayaran Baru</DialogTitle>
+            <DialogTitle>Ajukan Lembur Baru</DialogTitle>
           </DialogHeader>
-          <PaymentForm 
+          <OvertimeForm 
             initialData={formData}
             onChange={setFormData}
             onSubmit={handleAddSubmit}
             isSubmitting={createMutation.isPending}
-            submitLabel="Simpan & Buat Pembayaran"
-            customers={customers}
-            packages={packages}
+            submitLabel="Simpan"
+            employees={employees}
           />
         </DialogContent>
       </Dialog>
 
-      {/* Dialog Edit Payment */}
       <Dialog open={actionState.type === 'edit'} onOpenChange={(open) => !open && onClose()}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Edit Pembayaran</DialogTitle>
+            <DialogTitle>Edit Data Lembur</DialogTitle>
           </DialogHeader>
-          <PaymentForm 
+          <OvertimeForm 
             initialData={formData}
             onChange={setFormData}
             onSubmit={handleEditSubmit}
             isSubmitting={updateMutation.isPending}
             submitLabel="Simpan Perubahan"
-            customers={customers}
-            packages={packages}
+            employees={employees}
           />
         </DialogContent>
       </Dialog>
 
-      {/* Sheet View Payment */}
-      <PaymentDetail 
-        payment={actionState.payment} 
+      <OvertimeDetail 
+        overtime={actionState.overtime} 
         isOpen={actionState.type === 'view'} 
         onOpenChange={(open) => !open && onClose()} 
       />
 
-      {/* Alert Dialog Delete */}
       <AlertDialog open={actionState.type === 'delete'} onOpenChange={(open) => !open && onClose()}>
         <AlertDialogContent className="w-[90%] max-w-[360px] rounded-md p-6">
           <AlertDialogHeader>
-            <AlertDialogTitle className="text-center text-lg font-semibold">Hapus Pembayaran?</AlertDialogTitle>
+            <AlertDialogTitle className="text-center text-lg font-semibold">Hapus Data Lembur?</AlertDialogTitle>
             <AlertDialogDescription className="text-center text-[15px] mt-2 mb-4 text-foreground/80">
-              Tindakan ini tidak dapat dibatalkan. Pembayaran <strong>INV-{actionState.payment?.id.toString().padStart(4, '0')}</strong> akan dihapus secara permanen dari sistem.
+              Data lembur ini akan dihapus secara permanen.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <div className="flex flex-row justify-center gap-3 mt-2">
