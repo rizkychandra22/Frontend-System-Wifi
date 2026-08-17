@@ -44,13 +44,13 @@ export function OvertimeTable({ overtimes, onView, onEdit, onDelete }: OvertimeT
                   <TableCell className="font-medium">{ot.user?.name}</TableCell>
                 )}
                 <TableCell className="whitespace-nowrap">
-                  {format(parseISO(ot.date), "dd MMM yyyy", { locale: id })}
+                  {format(parseISO(ot.date.substring(0, 10)), "dd MMM yyyy", { locale: id })}
                 </TableCell>
                 <TableCell className="max-w-[200px] truncate" title={ot.title}>
                   {ot.title}
                 </TableCell>
                 <TableCell className="whitespace-nowrap">
-                  {format(parseISO(ot.start_time), "HH:mm")} - {format(parseISO(ot.end_time), "HH:mm")}
+                  {ot.start_time.substring(11, 16)} - {ot.end_time.substring(11, 16)}
                 </TableCell>
                 {isAdmin && (
                   <TableCell className="font-medium text-primary whitespace-nowrap">

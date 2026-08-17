@@ -52,10 +52,10 @@ export function OvertimeDetail({ overtime, isOpen, onOpenChange }: OvertimeDetai
           <div className="space-y-1">
             <Label className="text-muted-foreground">Waktu Lembur</Label>
             <div className="font-medium">
-              {format(parseISO(overtime.date), "dd MMMM yyyy", { locale: id })}
+              {format(parseISO(overtime.date.substring(0, 10)), "dd MMMM yyyy", { locale: id })}
             </div>
             <div className="font-medium">
-              {format(parseISO(overtime.start_time), "HH:mm")} - {format(parseISO(overtime.end_time), "HH:mm")}
+              {overtime.start_time.substring(11, 16)} - {overtime.end_time.substring(11, 16)}
             </div>
           </div>
 

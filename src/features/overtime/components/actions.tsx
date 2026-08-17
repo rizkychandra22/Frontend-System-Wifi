@@ -53,9 +53,9 @@ export function OvertimeActions({ actionState, onClose }: OvertimeActionsProps) 
         user_id: actionState.overtime.user_id.toString(),
         title: actionState.overtime.title,
         description: actionState.overtime.description,
-        date: format(parseISO(actionState.overtime.date), "yyyy-MM-dd"),
-        start_time: format(parseISO(actionState.overtime.start_time), "HH:mm"),
-        end_time: format(parseISO(actionState.overtime.end_time), "HH:mm"),
+        date: actionState.overtime.date.substring(0, 10),
+        start_time: actionState.overtime.start_time.substring(11, 16),
+        end_time: actionState.overtime.end_time.substring(11, 16),
       });
     } else if (actionState.type === 'add') {
       setFormData({
