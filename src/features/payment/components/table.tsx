@@ -26,6 +26,7 @@ export function PaymentTable({ payments, onView, onEdit, onDelete }: PaymentTabl
             <TableHead>Pelanggan</TableHead>
             <TableHead>Paket</TableHead>
             <TableHead>Tagihan</TableHead>
+            <TableHead>Metode Bayar</TableHead>
             <TableHead>Dibuat Oleh</TableHead>
             <TableHead className="text-right">Aksi</TableHead>
           </TableRow>
@@ -33,7 +34,7 @@ export function PaymentTable({ payments, onView, onEdit, onDelete }: PaymentTabl
         <TableBody>
           {payments.length === 0 ? (
             <tr>
-              <td colSpan={6} className="px-6 py-8 text-center text-muted-foreground">
+              <td colSpan={7} className="px-6 py-8 text-center text-muted-foreground">
                 Belum ada data pembayaran.
               </td>
             </tr>
@@ -45,6 +46,7 @@ export function PaymentTable({ payments, onView, onEdit, onDelete }: PaymentTabl
                 <TableCell>{payment.customer?.name || "-"}</TableCell>
                 <TableCell>{payment.wifi_package?.name || "-"}</TableCell>
                 <TableCell>Rp {payment.total_amount.toLocaleString("id-ID")}</TableCell>
+                <TableCell>{payment.payment_method || "-"}</TableCell>
                 <TableCell>
                   {payment.created_by 
                     ? `${payment.created_by.role === 'admin' ? 'Admin' : 'Karyawan'} - ${payment.created_by.name}` 

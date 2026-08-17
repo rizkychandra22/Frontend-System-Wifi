@@ -9,7 +9,7 @@ import logoBca from "@/assets/logo-bca.png";
 import logoDana from "@/assets/logo-dana.png";
 import logoQris from "@/assets/logo-qris.png";
 
-// Sample Account Numbers
+// Payment Account
 const bcaAccount = "0123456789";
 const danaAccount = "081234567890";
 

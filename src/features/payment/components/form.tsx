@@ -7,6 +7,7 @@ import { type FormEvent } from "react";
 export interface PaymentFormData {
   customer_id: string;
   wifi_package_id: string;
+  payment_method: string;
 }
 
 interface PaymentFormProps {
@@ -75,6 +76,25 @@ export function PaymentForm({
         </Select>
       </div>
 
+      <div className="space-y-2">
+        <label className="text-sm font-medium">Metode Bayar</label>
+        <Select 
+          value={initialData.payment_method} 
+          onValueChange={(val) => onChange({ ...initialData, payment_method: val })} 
+          required
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Pilih Metode Bayar" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="Cash">Cash</SelectItem>
+            <SelectItem value="BCA">BCA</SelectItem>
+            <SelectItem value="Dana">Dana</SelectItem>
+            <SelectItem value="Qris">Qris</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
       {selectedService && (
         <div className="p-4 rounded-lg bg-muted/50 space-y-2 text-sm border">
           <div className="flex justify-between">
@@ -93,7 +113,7 @@ export function PaymentForm({
       )}
 
       <div className="flex justify-end pt-2">
-        <Button type="submit" disabled={isSubmitting || !initialData.customer_id || !initialData.wifi_package_id}>
+        <Button type="submit" disabled={isSubmitting || !initialData.customer_id || !initialData.wifi_package_id || !initialData.payment_method}>
           {isSubmitting ? "Loading..." : submitLabel}
         </Button>
       </div>
