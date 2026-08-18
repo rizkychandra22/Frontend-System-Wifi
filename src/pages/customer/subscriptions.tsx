@@ -37,11 +37,13 @@ export function CustomerSubscriptionsPage() {
 
   return (
     <div className="space-y-8 w-full">
-      <div>
-        <h1 className="text-2xl font-bold mb-2">Langganan Paket WiFi</h1>
-        <p className="text-muted-foreground">
-          Kelola layanan WiFi Anda dan jelajahi berbagai pilihan paket menarik yang kami sediakan.
-        </p>
+      <div className="flex justify-between items-center">
+        <div>
+          <h2 className="text-2xl font-bold tracking-tight">Langganan Paket WiFi</h2>
+          <p className="text-muted-foreground text-sm">
+            Kelola layanan WiFi Anda dan jelajahi berbagai pilihan paket menarik yang kami sediakan.
+          </p>
+        </div>
       </div>
 
       {error ? (
