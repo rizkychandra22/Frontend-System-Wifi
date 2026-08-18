@@ -22,6 +22,21 @@ export function PaymentUserTable({ payments, onView }: PaymentUserTableProps) {
     }
   };
 
+  const getPaymentMethodBadge = (method?: string) => {
+    switch (method?.toLowerCase()) {
+      case "cash":
+        return <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-green-100 text-green-700 border-green-200">Cash</span>;
+      case "bca":
+        return <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-blue-100 text-blue-800 border-blue-200">BCA</span>;
+      case "qris":
+        return <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-red-100 text-red-700 border-red-200">Qris</span>;
+      case "dana":
+        return <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-blue-50 text-blue-500 border-blue-200">Dana</span>;
+      default:
+        return <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-gray-100 text-gray-700 border-gray-200">{method || "-"}</span>;
+    }
+  };
+
   return (
     <div className="bg-card rounded-xl border overflow-hidden shadow-sm">
       <div className="overflow-x-auto">
@@ -32,6 +47,7 @@ export function PaymentUserTable({ payments, onView }: PaymentUserTableProps) {
               <th className="px-6 py-4 font-medium">Tanggal</th>
               <th className="px-6 py-4 font-medium">Paket</th>
               <th className="px-6 py-4 font-medium">Tagihan</th>
+              <th className="px-6 py-4 font-medium">Metode Bayar</th>
               <th className="px-6 py-4 font-medium">Status</th>
               <th className="px-6 py-4 font-medium">Aksi</th>
             </tr>
@@ -39,7 +55,7 @@ export function PaymentUserTable({ payments, onView }: PaymentUserTableProps) {
           <tbody>
             {payments.length === 0 ? (
               <tr>
-                <td colSpan={6} className="px-6 py-8 text-center text-muted-foreground">
+                <td colSpan={7} className="px-6 py-8 text-center text-muted-foreground">
                   <ReceiptText className="w-8 h-8 mx-auto mb-2 opacity-20" />
                   Belum ada riwayat tagihan
                 </td>
@@ -62,6 +78,9 @@ export function PaymentUserTable({ payments, onView }: PaymentUserTableProps) {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap font-medium">
                     Rp {payment.total_amount.toLocaleString("id-ID")}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {getPaymentMethodBadge(payment.payment_method)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     {getStatusBadge(payment.status)}

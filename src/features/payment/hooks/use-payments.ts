@@ -33,7 +33,7 @@ export function usePaymentMutations() {
   });
 
   const updateMutation = useMutation({
-    mutationFn: ({ id, data }: { id: number; data: { customer_id: number; wifi_package_id: number } }) => 
+    mutationFn: ({ id, data }: { id: number; data: { customer_id: number; wifi_package_id: number; payment_method: string } }) => 
       paymentApi.updatePayment(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["payments"] });

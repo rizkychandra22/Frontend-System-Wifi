@@ -40,6 +40,7 @@ export function PaymentActions({ actionState, onClose }: PaymentActionsProps) {
   const [formData, setFormData] = useState<PaymentFormData>({
     customer_id: "",
     wifi_package_id: "",
+    payment_method: "Cash",
   });
 
   const [prevActionState, setPrevActionState] = useState(actionState);
@@ -49,20 +50,22 @@ export function PaymentActions({ actionState, onClose }: PaymentActionsProps) {
       setFormData({
         customer_id: actionState.payment.customer_id.toString(),
         wifi_package_id: actionState.payment.wifi_package_id.toString(),
+        payment_method: actionState.payment.payment_method || "Cash",
       });
     } else if (actionState.type === 'add') {
       setFormData({
         customer_id: "",
         wifi_package_id: "",
+        payment_method: "Cash",
       });
     }
   }
 
   const handleAddSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (!formData.customer_id || !formData.wifi_package_id) return;
+    if (!formData.customer_id || !formData.wifi_package_id || !formData.payment_method) return;
     createMutation.mutate(
-      { customer_id: Number(formData.customer_id), wifi_package_id: Number(formData.wifi_package_id) }, 
+      { customer_id: Number(formData.customer_id), wifi_package_id: Number(formData.wifi_package_id), payment_method: formData.payment_method }, 
       {
         onSuccess: () => {
           onClose();
@@ -73,11 +76,11 @@ export function PaymentActions({ actionState, onClose }: PaymentActionsProps) {
 
   const handleEditSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (!actionState.payment || !formData.customer_id || !formData.wifi_package_id) return;
+    if (!actionState.payment || !formData.customer_id || !formData.wifi_package_id || !formData.payment_method) return;
     updateMutation.mutate(
       { 
         id: actionState.payment.id, 
-        data: { customer_id: Number(formData.customer_id), wifi_package_id: Number(formData.wifi_package_id) } 
+        data: { customer_id: Number(formData.customer_id), wifi_package_id: Number(formData.wifi_package_id), payment_method: formData.payment_method } 
       }, 
       {
         onSuccess: () => {

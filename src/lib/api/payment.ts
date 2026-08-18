@@ -11,6 +11,7 @@ export interface Payment {
   package_price: number;
   ppn: number;
   total_amount: number;
+  payment_method: string;
   status: string;
   invoice_number?: string;
   created_by_id?: number;
@@ -24,11 +25,11 @@ export const paymentApi = {
     const response = await apiClient.get<{ data: Payment[] }>("/payments/invoice");
     return response.data.data;
   },
-  createPayment: async (data: { customer_id: number; wifi_package_id: number }): Promise<Payment> => {
+  createPayment: async (data: { customer_id: number; wifi_package_id: number; payment_method: string }): Promise<Payment> => {
     const response = await apiClient.post<{ message: string; data: Payment }>("/payments/invoice", data);
     return response.data.data;
   },
-  updatePayment: async (id: number, data: { customer_id: number; wifi_package_id: number }): Promise<Payment> => {
+  updatePayment: async (id: number, data: { customer_id: number; wifi_package_id: number; payment_method: string }): Promise<Payment> => {
     const response = await apiClient.put<{ message: string; data: Payment }>(`/payments/invoice/${id}`, data);
     return response.data.data;
   },
