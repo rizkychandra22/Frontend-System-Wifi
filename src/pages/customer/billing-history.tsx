@@ -33,11 +33,13 @@ export function CustomerBillingHistoryPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold mb-2">Riwayat Pembayaran</h1>
-        <p className="text-muted-foreground">
-          Daftar riwayat tagihan & pembayaran paket WiFi Anda.
-        </p>
+      <div className="flex justify-between items-center">
+        <div>
+          <h2 className="text-2xl font-bold tracking-tight">Riwayat Pembayaran</h2>
+          <p className="text-muted-foreground text-sm">
+            Daftar riwayat tagihan & pembayaran paket WiFi Anda.
+          </p>
+        </div>
       </div>
 
       {error ? (

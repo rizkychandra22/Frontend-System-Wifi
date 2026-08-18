@@ -86,10 +86,10 @@ export function AttendanceHistory() {
             <thead className="bg-muted/50 text-muted-foreground border-b">
               <tr>
                 <th className="px-6 py-4 font-medium">Tanggal</th>
-                <th className="px-6 py-4 font-medium">Masuk</th>
-                <th className="px-6 py-4 font-medium">Keluar</th>
+                <th className="px-6 py-4 font-medium">Absen Masuk</th>
+                <th className="px-6 py-4 font-medium">Absen Keluar</th>
                 <th className="px-6 py-4 font-medium">Grade</th>
-                <th className="px-6 py-4 font-medium">Keterangan</th>
+                <th className="px-6 py-4 font-medium min-w-[250px]">Keterangan</th>
                 <th className="px-6 py-4 font-medium">Status</th>
               </tr>
             </thead>
@@ -113,12 +113,12 @@ export function AttendanceHistory() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap font-medium">
                       {record.clock_in 
-                        ? `Absen Masuk (${new Date(record.clock_in).toLocaleTimeString("id-ID", { hour: '2-digit', minute: '2-digit' })})` 
+                        ? `Hadir (${new Date(record.clock_in).toLocaleTimeString("id-ID", { hour: '2-digit', minute: '2-digit' })})` 
                         : record.status === "Libur" ? "Tidak Ada Absen" : "-"}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap font-medium">
                       {record.clock_out 
-                        ? `Absen Keluar (${new Date(record.clock_out).toLocaleTimeString("id-ID", { hour: '2-digit', minute: '2-digit' })})` 
+                        ? `Pulang (${new Date(record.clock_out).toLocaleTimeString("id-ID", { hour: '2-digit', minute: '2-digit' })})` 
                         : record.status === "Libur" ? "Tidak Ada Absen" : "-"}
                     </td>
                     <td className={`px-6 py-4 whitespace-nowrap font-medium ${getGradeColor(record.grade)}`}>

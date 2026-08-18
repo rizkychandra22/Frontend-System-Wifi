@@ -4,14 +4,14 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, Copy, Download, CreditCard, Wallet } from "lucide-react";
 import { toast } from "sonner";
-import exQris from "@/assets/ex-qris.jpg";
+import ImageQris from "@/assets/qris.jpeg";
 import logoBca from "@/assets/logo-bca.png";
 import logoDana from "@/assets/logo-dana.png";
 import logoQris from "@/assets/logo-qris.png";
 
 // Payment Account
-const bcaAccount = "0123456789";
-const danaAccount = "081234567890";
+const bcaAccount = "3770661632";
+const danaAccount = "085722232852";
 
 export function CustomerPaymentMethods() {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -34,7 +34,7 @@ export function CustomerPaymentMethods() {
 
   const downloadQris = () => {
     const link = document.createElement("a");
-    link.href = exQris;
+    link.href = ImageQris;
     link.download = "QRIS_Pembayaran.jpg";
     document.body.appendChild(link);
     link.click();
@@ -123,7 +123,7 @@ export function CustomerPaymentMethods() {
             <div>
               <p className="text-sm text-muted-foreground mb-1">Nomor Rekening</p>
               <p className="text-2xl font-bold tracking-widest text-blue-900">{bcaAccount}</p>
-              <p className="text-sm font-medium mt-1 uppercase">a.n. Taufik Hidayat</p>
+              <p className="text-sm font-medium mt-1 uppercase">a.n. Muhammad Taufik Hidayat</p>
             </div>
             <Button size="icon" variant="outline" onClick={() => copyToClipboard(bcaAccount, "BCA")}>
               <Copy className="h-4 w-4" />
@@ -142,7 +142,7 @@ export function CustomerPaymentMethods() {
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col items-center justify-center mt-4">
-            <img src={exQris} alt="QRIS Code" className="w-full max-w-[250px] object-contain rounded-lg mb-4" />
+            <img src={ImageQris} alt="QRIS Code" className="w-full max-w-[250px] object-contain rounded-lg mb-4" />
             <Button className="w-full" onClick={downloadQris}>
               <Download className="h-4 w-4 mr-2" />
               Unduh QRIS
@@ -164,7 +164,7 @@ export function CustomerPaymentMethods() {
             <div>
               <p className="text-sm text-muted-foreground mb-1">Nomor DANA</p>
               <p className="text-2xl font-bold tracking-widest text-blue-600">{danaAccount}</p>
-              <p className="text-sm font-medium mt-1 uppercase">a.n. Taufik Hidayat</p>
+              <p className="text-sm font-medium mt-1 uppercase">a.n. Muhammad Taufik Hidayat</p>
             </div>
             <Button size="icon" variant="outline" onClick={() => copyToClipboard(danaAccount, "DANA")}>
               <Copy className="h-4 w-4" />
