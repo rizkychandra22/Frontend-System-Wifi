@@ -146,13 +146,12 @@ export function LandingPage() {
     // Rancang template pesan
     const waMessage = `Halo NetVerse Fiber, saya ingin bertanya/berlangganan. Berikut detail informasi saya:
 
-*Nama*: ${contactForm.name}
-*Nomor HP*: ${contactForm.phone}
-*Email*: ${emailStr}
-*Paket yang Diminati*: ${packageStr}
-
-*Pesan*: 
-${contactForm.message}`;
+    *Nama*: ${contactForm.name}
+    *Nomor HP*: ${contactForm.phone}
+    *Email*: ${emailStr}
+    *Paket yang Diminati*: ${packageStr}
+    *Pesan*: 
+    ${contactForm.message}`;
 
     const encodedMessage = encodeURIComponent(waMessage);
     const waUrl = `https://wa.me/${waNumber}?text=${encodedMessage}`;
@@ -892,7 +891,7 @@ ${contactForm.message}`;
                       <option value="" className="text-muted-foreground bg-card">-- Pilih Paket Internet --</option>
                       {displayPackages.map((pkg, idx) => (
                         <option key={idx} value={pkg.name} className="bg-card">
-                          {pkg.name} ({pkg.price} / bln)
+                          {pkg.name} ({pkg.price} / bulan)
                         </option>
                       ))}
                     </select>
