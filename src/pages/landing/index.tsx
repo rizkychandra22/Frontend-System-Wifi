@@ -252,13 +252,14 @@ export function LandingPage() {
       <header className="sticky top-0 z-50 w-full border-b border-border bg-background/85 backdrop-blur-md">
         <div className="container mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
           {/* Logo Brand */}
-          <div 
-            onClick={() => scrollToSection(homeRef, "home")} 
-            className="flex items-center gap-2.5 cursor-pointer hover:opacity-90 transition-opacity"
+          <Link 
+            to="/" 
+            onClick={() => setMobileMenuOpen(false)}
+            className="flex items-center gap-2.5 hover:opacity-90 transition-opacity"
           >
             <img src={logoImg} alt="NetVerse Logo" className="h-40 w-auto rounded-md object-contain" />
             {/* <span className="text-xl font-bold tracking-tight text-gradient-blue font-display">NetVerse Fiber</span> */}
-          </div>
+          </Link>
 
           {/* Desktop Nav Links */}
           <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
