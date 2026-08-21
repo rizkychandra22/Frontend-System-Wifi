@@ -85,7 +85,7 @@ export const LoginForm = () => {
                     <Phone className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
                     <Input 
                       placeholder="Contoh: 08123456789" 
-                      className="pl-10 h-11" 
+                      className="pl-10 h-11 rounded-xl" 
                       {...field} 
                     />
                   </div>
@@ -107,7 +107,7 @@ export const LoginForm = () => {
                     <Input 
                       type="password"
                       placeholder="Masukkan kata sandi..." 
-                      className="pl-10 h-11" 
+                      className="pl-10 h-11 rounded-xl" 
                       {...field} 
                     />
                   </div>
@@ -116,7 +116,7 @@ export const LoginForm = () => {
                 <Button 
                   type="button" 
                   variant="link" 
-                  className="px-0 text-xs h-auto"
+                  className="px-0 text-xs h-auto rounded-xl"
                   onClick={() => {
                     setShowPasswordInput(false);
                     form.setValue("password", "");
@@ -129,20 +129,33 @@ export const LoginForm = () => {
           />
         )}
         
-        <Button 
-          type="submit" 
-          className="w-full h-11 text-base font-semibold shadow-md transition-all hover:shadow-lg" 
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <>
-              <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-              Memproses...
-            </>
-          ) : (
-            showPasswordInput ? "Login sebagai Admin" : "Lanjutkan"
+        <div className="space-y-3">
+          <Button 
+            type="submit" 
+            className="w-full h-11 text-base font-semibold shadow-md transition-all hover:shadow-lg rounded-xl" 
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                Memproses...
+              </>
+            ) : (
+              showPasswordInput ? "Login sebagai Admin" : "Login & Masuk"
+            )}
+          </Button>
+
+          {!showPasswordInput && (
+            <Button
+              type="button"
+              variant="ghost"
+              className="w-full h-11 text-sm text-slate-500 border-2 border-primary text-slate-900 dark:text-white rounded-xl transition-all shadow-none hover:bg-slate-100/50 dark:hover:bg-slate-100"
+              onClick={() => navigate("/")}
+            >
+              Kembali ke Beranda
+            </Button>
           )}
-        </Button>
+        </div>
       </form>
     </Form>
   );
