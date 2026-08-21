@@ -118,6 +118,7 @@ export function AppSidebar() {
       });
 
       toast.success("Profil berhasil diperbarui");
+      setIsProfileModalOpen(false);
     } catch (error: unknown) {
       const err = error as { response?: { data?: { error?: string } } };
       toast.error(err.response?.data?.error || "Gagal memperbarui profil");
@@ -143,6 +144,7 @@ export function AppSidebar() {
 
       toast.success("Password berhasil diperbarui!");
       setPasswordData({ oldPassword: "", newPassword: "", confirmPassword: "" });
+      setIsProfileModalOpen(false);
     } catch (error: unknown) {
       const err = error as { response?: { data?: { error?: string } } };
       toast.error(err.response?.data?.error || "Gagal memperbarui password");

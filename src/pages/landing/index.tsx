@@ -21,6 +21,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { isAuthenticated } from "@/lib/auth-utils";
+import { useAdminContact } from "@/features/user/hooks/use-users";
+import { useWifiPackages } from "@/features/wifi_package/hooks/use-wifi-packages";
 
 // Import Assets
 import logoImg from "@/assets/logo.png";
@@ -37,6 +39,9 @@ interface GalleryItem {
 }
 
 export function LandingPage() {
+  const { data: adminContact } = useAdminContact();
+  const { query: wifiPackagesQuery } = useWifiPackages();
+  const dbPackages = wifiPackagesQuery.data ?? [];
   const [activeSection, setActiveSection] = useState("home");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -125,10 +130,40 @@ export function LandingPage() {
 
     setFormLoading(true);
 
-    // Simulate sending message
+    // Format Nomor WA Tujuan (Gunakan format dari DB atau fallback)
+    let waNumber = "6285155010482"; 
+    if (adminContact && adminContact.phone) {
+      const cleanPhone = adminContact.phone.replace(/[^0-9]/g, "");
+      if (cleanPhone.startsWith("0")) {
+        waNumber = "62" + cleanPhone.substring(1);
+      } else {
+        waNumber = cleanPhone;
+      }
+    }
+    const emailStr = contactForm.email ? contactForm.email : "-";
+    const packageStr = selectedPackage ? selectedPackage : "-";
+    
+    // Rancang template pesan
+    const waMessage = `Halo NetVerse Fiber, saya ingin bertanya/berlangganan. Berikut detail informasi saya:
+
+    *Nama*: ${contactForm.name}
+    *Nomor HP*: ${contactForm.phone}
+    *Email*: ${emailStr}
+    *Paket yang Diminati*: ${packageStr}
+    *Pesan*: 
+    ${contactForm.message}`;
+
+    const encodedMessage = encodeURIComponent(waMessage);
+    const waUrl = `https://wa.me/${waNumber}?text=${encodedMessage}`;
+
     setTimeout(() => {
       setFormLoading(false);
-      toast.success("Pesan terkirim! Tim NetVerse akan segera menghubungi Anda.");
+      toast.success("Form valid! Mengalihkan ke WhatsApp...");
+      
+      // Buka link WhatsApp di tab baru
+      window.open(waUrl, "_blank");
+
+      // Reset Form State
       setContactForm({
         name: "",
         email: "",
@@ -136,44 +171,44 @@ export function LandingPage() {
         message: "",
       });
       setSelectedPackage("");
-    }, 1500);
+    }, 1200);
   };
 
   const wifiPackages = [
-    {
-      name: "10 Mbps - Hemat",
-      price: "Rp 100.000",
-      period: "/ bulan",
-      speed: "10 Mbps",
-      desc: "Cocok untuk kebutuhan internet harian ringan seperti browsing dan chatting.",
-      features: ["Unlimited Quota (FUP Bebas)", "Ideal untuk 1 - 3 perangkat", "Kecepatan stabil", "Instalasi gratis"],
-      popular: false,
-    },
     {
       name: "15 Mbps - Populer",
       price: "Rp 150.000",
       period: "/ bulan",
       speed: "15 Mbps",
-      desc: "Pilihan terbaik untuk rumah tangga dengan penggunaan multimedia standar.",
-      features: [
-        "Unlimited Quota (FUP Bebas)",
-        "Ideal untuk 3 - 5 perangkat",
-        "Lancar streaming video HD",
-        "Dukungan teknis Prioritas",
-        "Instalasi gratis"
-      ],
+      desc: "Cocok untuk kebutuhan internet harian ringan seperti browsing, chatting, dan media sosial.",
+      features: ["Unlimited Quota (FUP Bebas)", "Ideal untuk 1 - 3 perangkat", "Kecepatan stabil hingga 15 Mbps", "Instalasi gratis"],
       popular: true,
     },
     {
-      name: "20 Mbps - Premium",
+      name: "20 Mbps - Standard",
       price: "Rp 200.000",
       period: "/ bulan",
       speed: "20 Mbps",
-      desc: "Koneksi kencang untuk kerja remote, streaming 4K, dan kelas online sekaligus.",
+      desc: "Pilihan terbaik untuk keluarga kecil dengan aktivitas streaming video HD lancar.",
+      features: [
+        "Unlimited Quota (FUP Bebas)",
+        "Ideal untuk 3 - 5 perangkat",
+        "Lancar streaming video HD & gaming",
+        "Dukungan teknis prioritas",
+        "Instalasi gratis"
+      ],
+      popular: false,
+    },
+    {
+      name: "35 Mbps - Premium",
+      price: "Rp 250.000",
+      period: "/ bulan",
+      speed: "35 Mbps",
+      desc: "Koneksi kencang untuk kerja remote, streaming 4K, kelas online, dan gaming tanpa hambatan.",
       features: [
         "Unlimited Quota (FUP Bebas)",
         "Ideal untuk 5 - 8 perangkat",
-        "Sangat lancar video conference & gaming",
+        "Sangat lancar video conference & gaming 4K",
         "Dukungan teknis 24/7",
         "Instalasi gratis"
       ],
@@ -181,20 +216,88 @@ export function LandingPage() {
     },
     {
       name: "50 Mbps - Ultra Speed",
-      price: "Rp 350.000",
+      price: "Rp 300.000",
       period: "/ bulan",
       speed: "50 Mbps",
-      desc: "Super cepat tanpa hambatan untuk rumah cerdas dan bisnis skala kecil.",
+      desc: "Super cepat 50 Mbps tanpa hambatan untuk smart home dan bisnis skala kecil.",
       features: [
         "Unlimited Quota (FUP Bebas)",
         "Ideal untuk 8+ perangkat",
-        "Tanpa lag untuk gaming berat & download besar",
-        "Prioritas gangguan utama",
+        "Tanpa lag untuk gaming berat & download file besar",
+        "Prioritas penanganan gangguan utama",
         "Instalasi gratis"
       ],
       popular: false,
     },
   ];
+
+  const formattedPackages = dbPackages.map((pkg, idx) => {
+    // Ambil angka Mbps saja dari nama di database
+    let speedMbps = 15;
+    const speedMatch = pkg.name.match(/(\d+)\s*Mbps/i);
+    if (speedMatch) {
+      speedMbps = parseInt(speedMatch[1], 10);
+    }
+
+    const speed = `${speedMbps} Mbps`;
+    
+    // Label populer diberikan pada data dengan index 0 (seperti data awal) atau yang bernilai 15 Mbps
+    const popular = speedMbps === 15 || idx === 0;
+
+    const formattedPrice = new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      maximumFractionDigits: 0,
+    }).format(pkg.price);
+
+    // Map detail (deskripsi & fitur) berdasarkan nilai Mbps
+    const desc = speedMbps <= 15
+      ? "Cocok untuk kebutuhan internet harian ringan seperti browsing, chatting, dan media sosial."
+      : speedMbps <= 20
+      ? "Pilihan terbaik untuk keluarga kecil dengan aktivitas streaming video HD lancar."
+      : speedMbps <= 35
+      ? "Koneksi kencang untuk kerja remote, streaming 4K, kelas online, dan gaming tanpa hambatan."
+      : `Super cepat ${speedMbps} Mbps tanpa hambatan untuk smart home dan bisnis skala kecil.`;
+
+    const features = speedMbps <= 15
+      ? ["Unlimited Quota (FUP Bebas)", "Ideal untuk 1 - 3 perangkat", "Kecepatan stabil hingga 15 Mbps", "Instalasi gratis"]
+      : speedMbps <= 20
+      ? [
+          "Unlimited Quota (FUP Bebas)",
+          "Ideal untuk 3 - 5 perangkat",
+          "Lancar streaming video HD & gaming",
+          "Dukungan teknis prioritas",
+          "Instalasi gratis"
+        ]
+      : speedMbps <= 35
+      ? [
+          "Unlimited Quota (FUP Bebas)",
+          "Ideal untuk 5 - 8 perangkat",
+          "Sangat lancar video conference & gaming 4K",
+          "Dukungan teknis 24/7",
+          "Instalasi gratis"
+        ]
+      : [
+          "Unlimited Quota (FUP Bebas)",
+          "Ideal untuk 8+ perangkat",
+          "Tanpa lag untuk gaming berat & download file besar",
+          "Prioritas penanganan gangguan utama",
+          "Instalasi gratis"
+        ];
+
+    return {
+      id: pkg.id,
+      name: pkg.name,
+      price: formattedPrice,
+      period: "/ bulan",
+      speed,
+      desc,
+      features,
+      popular,
+    };
+  });
+
+  const displayPackages = formattedPackages.length > 0 ? formattedPackages : wifiPackages;
 
   // Gallery items using local assets as mock data
   const galleryItems: GalleryItem[] = [
@@ -510,7 +613,7 @@ export function LandingPage() {
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto items-stretch">
-              {wifiPackages.map((pkg, idx) => (
+              {displayPackages.map((pkg, idx) => (
                 <div 
                   key={idx} 
                   className={`relative bg-card rounded-2xl border flex flex-col p-6 shadow-sm transition-all duration-300 hover:shadow-lg ${
@@ -688,8 +791,17 @@ export function LandingPage() {
                     </div>
                     <div>
                       <h4 className="font-semibold text-sm">Telepon & WhatsApp</h4>
-                      <p className="text-xs text-muted-foreground">+62 821-2221-9332</p>
-                      <p className="text-xs text-muted-foreground">+62 821-7813-1581</p>
+                      {adminContact ? (
+                        <>
+                          <p className="text-xs text-muted-foreground">{adminContact.name} ({adminContact.phone})</p>
+                          <p className="text-xs text-muted-foreground">+62 821-2221-9332 (Layanan WA 2)</p>
+                        </>
+                      ) : (
+                        <>
+                          <p className="text-xs text-muted-foreground">+62 821-2221-9332</p>
+                          <p className="text-xs text-muted-foreground">+62 821-7813-1581</p>
+                        </>
+                      )}
                     </div>
                   </div>
 
@@ -777,10 +889,11 @@ export function LandingPage() {
                       className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-xs shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       <option value="" className="text-muted-foreground bg-card">-- Pilih Paket Internet --</option>
-                      <option value="10 Mbps - Hemat" className="bg-card">10 Mbps - Hemat (Rp 100.000 / bln)</option>
-                      <option value="15 Mbps - Populer" className="bg-card">15 Mbps - Populer (Rp 150.000 / bln)</option>
-                      <option value="20 Mbps - Premium" className="bg-card">20 Mbps - Premium (Rp 200.000 / bln)</option>
-                      <option value="50 Mbps - Ultra Speed" className="bg-card">50 Mbps - Ultra Speed (Rp 350.000 / bln)</option>
+                      {displayPackages.map((pkg, idx) => (
+                        <option key={idx} value={pkg.name} className="bg-card">
+                          {pkg.name} ({pkg.price} / bulan)
+                        </option>
+                      ))}
                     </select>
                   </div>
 
