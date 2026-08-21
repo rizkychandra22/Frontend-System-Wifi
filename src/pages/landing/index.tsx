@@ -360,7 +360,7 @@ export function LandingPage() {
             onClick={() => setMobileMenuOpen(false)}
             className="flex items-center gap-2.5 hover:opacity-90 transition-opacity"
           >
-            <img src={logoImg} alt="NetVerse Logo" className="h-50 w-auto object-contain -ml-6 md:-ml-8" />
+            <img src={logoImg} alt="NetVerse Logo" className="h-50 w-auto object-contain -ml-6 md:-ml-8 mt-2" />
             {/* <span className="text-xl font-bold tracking-tight text-gradient-blue font-display">NetVerse Fiber</span> */}
           </Link>
 
@@ -1012,9 +1012,9 @@ export function LandingPage() {
         </div>
 
         <div className="border-t border-white/5 py-6">
-          <div className="container mx-auto px-4 md:px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-[10px] text-white/40">
+          <div className="container mx-auto px-4 md:px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-[10px] text-white/50">
             <p>&copy; {new Date().getFullYear()} PT NetVerse Fiber Indonesia. All rights reserved.</p>
-            <p>Didesain dengan Cinta &bull; Sistem Absensi & WiFi Terpadu</p>
+            <p>Dibuat oleh <i><a href="https://rizkychandra.my.id" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Rizky Chandra</a></i> &bull; Sistem Informasi & Manajemen Bisnis Wifi.</p>
           </div>
         </div>
       </footer>
