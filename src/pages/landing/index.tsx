@@ -131,7 +131,7 @@ export function LandingPage() {
     setFormLoading(true);
 
     // Format Nomor WA Tujuan (Gunakan format dari DB atau fallback)
-    let waNumber = "6282122219332"; 
+    let waNumber = "6285155010482"; 
     if (adminContact && adminContact.phone) {
       const cleanPhone = adminContact.phone.replace(/[^0-9]/g, "");
       if (cleanPhone.startsWith("0")) {
