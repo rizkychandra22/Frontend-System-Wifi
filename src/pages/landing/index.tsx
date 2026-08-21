@@ -177,39 +177,39 @@ ${contactForm.message}`;
 
   const wifiPackages = [
     {
-      name: "10 Mbps - Hemat",
-      price: "Rp 100.000",
-      period: "/ bulan",
-      speed: "10 Mbps",
-      desc: "Cocok untuk kebutuhan internet harian ringan seperti browsing dan chatting.",
-      features: ["Unlimited Quota (FUP Bebas)", "Ideal untuk 1 - 3 perangkat", "Kecepatan stabil", "Instalasi gratis"],
-      popular: false,
-    },
-    {
       name: "15 Mbps - Populer",
       price: "Rp 150.000",
       period: "/ bulan",
       speed: "15 Mbps",
-      desc: "Pilihan terbaik untuk rumah tangga dengan penggunaan multimedia standar.",
-      features: [
-        "Unlimited Quota (FUP Bebas)",
-        "Ideal untuk 3 - 5 perangkat",
-        "Lancar streaming video HD",
-        "Dukungan teknis Prioritas",
-        "Instalasi gratis"
-      ],
+      desc: "Cocok untuk kebutuhan internet harian ringan seperti browsing, chatting, dan media sosial.",
+      features: ["Unlimited Quota (FUP Bebas)", "Ideal untuk 1 - 3 perangkat", "Kecepatan stabil hingga 15 Mbps", "Instalasi gratis"],
       popular: true,
     },
     {
-      name: "20 Mbps - Premium",
+      name: "20 Mbps - Standard",
       price: "Rp 200.000",
       period: "/ bulan",
       speed: "20 Mbps",
-      desc: "Koneksi kencang untuk kerja remote, streaming 4K, dan kelas online sekaligus.",
+      desc: "Pilihan terbaik untuk keluarga kecil dengan aktivitas streaming video HD lancar.",
+      features: [
+        "Unlimited Quota (FUP Bebas)",
+        "Ideal untuk 3 - 5 perangkat",
+        "Lancar streaming video HD & gaming",
+        "Dukungan teknis prioritas",
+        "Instalasi gratis"
+      ],
+      popular: false,
+    },
+    {
+      name: "35 Mbps - Premium",
+      price: "Rp 250.000",
+      period: "/ bulan",
+      speed: "35 Mbps",
+      desc: "Koneksi kencang untuk kerja remote, streaming 4K, kelas online, dan gaming tanpa hambatan.",
       features: [
         "Unlimited Quota (FUP Bebas)",
         "Ideal untuk 5 - 8 perangkat",
-        "Sangat lancar video conference & gaming",
+        "Sangat lancar video conference & gaming 4K",
         "Dukungan teknis 24/7",
         "Instalasi gratis"
       ],
@@ -217,15 +217,15 @@ ${contactForm.message}`;
     },
     {
       name: "50 Mbps - Ultra Speed",
-      price: "Rp 350.000",
+      price: "Rp 300.000",
       period: "/ bulan",
       speed: "50 Mbps",
-      desc: "Super cepat tanpa hambatan untuk rumah cerdas dan bisnis skala kecil.",
+      desc: "Super cepat 50 Mbps tanpa hambatan untuk smart home dan bisnis skala kecil.",
       features: [
         "Unlimited Quota (FUP Bebas)",
         "Ideal untuk 8+ perangkat",
-        "Tanpa lag untuk gaming berat & download besar",
-        "Prioritas gangguan utama",
+        "Tanpa lag untuk gaming berat & download file besar",
+        "Prioritas penanganan gangguan utama",
         "Instalasi gratis"
       ],
       popular: false,
@@ -233,18 +233,17 @@ ${contactForm.message}`;
   ];
 
   const formattedPackages = dbPackages.map((pkg, idx) => {
-    let speed = "10 Mbps";
-    const speedMatch = pkg.name.match(/\d+\s*Mbps/i);
+    // Ambil angka Mbps saja dari nama di database
+    let speedMbps = 15;
+    const speedMatch = pkg.name.match(/(\d+)\s*Mbps/i);
     if (speedMatch) {
-      speed = speedMatch[0];
-    } else {
-      if (pkg.name.toLowerCase().includes("hemat")) speed = "10 Mbps";
-      else if (pkg.name.toLowerCase().includes("populer")) speed = "15 Mbps";
-      else if (pkg.name.toLowerCase().includes("premium")) speed = "20 Mbps";
-      else if (pkg.name.toLowerCase().includes("ultra")) speed = "50 Mbps";
+      speedMbps = parseInt(speedMatch[1], 10);
     }
 
-    const popular = idx === 0;
+    const speed = `${speedMbps} Mbps`;
+    
+    // Label populer diberikan pada data dengan index 0 (seperti data awal) atau yang bernilai 15 Mbps
+    const popular = speedMbps === 15 || idx === 0;
 
     const formattedPrice = new Intl.NumberFormat("id-ID", {
       style: "currency",
@@ -252,42 +251,38 @@ ${contactForm.message}`;
       maximumFractionDigits: 0,
     }).format(pkg.price);
 
-    const pkgLower = pkg.name.toLowerCase();
-    const isHemat = pkgLower.includes("hemat") || pkg.price <= 100000;
-    const isPopuler = pkgLower.includes("populer") || (pkg.price > 100000 && pkg.price <= 150000);
-    const isPremium = pkgLower.includes("premium") || (pkg.price > 150000 && pkg.price <= 200000);
+    // Map detail (deskripsi & fitur) berdasarkan nilai Mbps
+    const desc = speedMbps <= 15
+      ? "Cocok untuk kebutuhan internet harian ringan seperti browsing, chatting, dan media sosial."
+      : speedMbps <= 20
+      ? "Pilihan terbaik untuk keluarga kecil dengan aktivitas streaming video HD lancar."
+      : speedMbps <= 35
+      ? "Koneksi kencang untuk kerja remote, streaming 4K, kelas online, dan gaming tanpa hambatan."
+      : `Super cepat ${speedMbps} Mbps tanpa hambatan untuk smart home dan bisnis skala kecil.`;
 
-    const desc = isHemat
-      ? "Cocok untuk kebutuhan internet harian ringan seperti browsing dan chatting."
-      : isPopuler
-      ? "Pilihan terbaik untuk rumah tangga dengan penggunaan multimedia standar."
-      : isPremium
-      ? "Koneksi kencang untuk kerja remote, streaming 4K, dan kelas online sekaligus."
-      : "Super cepat tanpa hambatan untuk rumah cerdas dan bisnis skala kecil.";
-
-    const features = isHemat
-      ? ["Unlimited Quota (FUP Bebas)", "Ideal untuk 1 - 3 perangkat", "Kecepatan stabil", "Instalasi gratis"]
-      : isPopuler
+    const features = speedMbps <= 15
+      ? ["Unlimited Quota (FUP Bebas)", "Ideal untuk 1 - 3 perangkat", "Kecepatan stabil hingga 15 Mbps", "Instalasi gratis"]
+      : speedMbps <= 20
       ? [
           "Unlimited Quota (FUP Bebas)",
           "Ideal untuk 3 - 5 perangkat",
-          "Lancar streaming video HD",
-          "Dukungan teknis Prioritas",
+          "Lancar streaming video HD & gaming",
+          "Dukungan teknis prioritas",
           "Instalasi gratis"
         ]
-      : isPremium
+      : speedMbps <= 35
       ? [
           "Unlimited Quota (FUP Bebas)",
           "Ideal untuk 5 - 8 perangkat",
-          "Sangat lancar video conference & gaming",
+          "Sangat lancar video conference & gaming 4K",
           "Dukungan teknis 24/7",
           "Instalasi gratis"
         ]
       : [
           "Unlimited Quota (FUP Bebas)",
           "Ideal untuk 8+ perangkat",
-          "Tanpa lag untuk gaming berat & download besar",
-          "Prioritas gangguan utama",
+          "Tanpa lag untuk gaming berat & download file besar",
+          "Prioritas penanganan gangguan utama",
           "Instalasi gratis"
         ];
 
