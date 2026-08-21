@@ -106,7 +106,13 @@ export function LandingPage() {
 
   const scrollToSection = (elementRef: React.RefObject<HTMLElement | null>, sectionId: string) => {
     setMobileMenuOpen(false);
-    if (elementRef && elementRef.current) {
+    if (sectionId === "home") {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+      setActiveSection("home");
+    } else if (elementRef && elementRef.current) {
       window.scrollTo({
         top: elementRef.current.offsetTop - 80,
         behavior: "smooth",
@@ -400,10 +406,17 @@ export function LandingPage() {
       {/* Sticky Navigation Bar */}
       <header className="sticky top-0 z-50 w-full border-b border-border bg-background/85 backdrop-blur-md">
         <div className="container mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
-          {/* Logo Brand */}
           <Link 
             to="/" 
-            onClick={() => setMobileMenuOpen(false)}
+            onClick={(e) => {
+              e.preventDefault();
+              setMobileMenuOpen(false);
+              window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+              });
+              setActiveSection("home");
+            }}
             className="flex items-center gap-2.5 hover:opacity-90 transition-opacity"
           >
             <img src={logoImg} alt="NetVerse Logo" className="h-50 w-auto object-contain -ml-6 md:-ml-8 mt-2" />
