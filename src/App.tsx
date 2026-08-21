@@ -7,7 +7,6 @@ import { AttendanceRecordPage } from "@/pages/employee/attendance-record";
 import { AttendanceHistoryPage } from "@/pages/employee/attendance-history";
 import { UsersPage } from "@/pages/admin/users";
 import { AdminAttendancePage } from "@/pages/admin/attendance";
-import { isAuthenticated } from "@/lib/auth-utils";
 import { WifiPackagesPage } from "@/pages/admin/wifi_package";
 import { PaymentsPage } from "@/pages/admin/payment";
 import { CustomerSubscriptionsPage } from "@/pages/customer/subscriptions";
@@ -18,10 +17,7 @@ import { EmployeeOvertimePage } from "@/pages/employee/overtime";
 
 import { DashboardPage } from "@/pages/dashboard";
 import { getUserData } from "@/lib/auth-utils";
-
-const RootRedirect = () => {
-  return isAuthenticated() ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />;
-};
+import { LandingPage } from "@/pages/landing";
 
 const ProtectedRouteGroup = ({ allowedRoles }: { allowedRoles: string[] }) => {
   const user = getUserData();
@@ -36,7 +32,7 @@ function App() {
     <BrowserRouter>
       <Toaster position="top-right" richColors />
       <Routes>
-        <Route path="/" element={<RootRedirect />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
         
         <Route element={<AppLayout />}>
