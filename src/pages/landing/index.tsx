@@ -21,6 +21,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { isAuthenticated } from "@/lib/auth-utils";
+import { useAdminContact } from "@/features/user/hooks/use-users";
+import { useWifiPackages } from "@/features/wifi_package/hooks/use-wifi-packages";
 
 // Import Assets
 import logoImg from "@/assets/logo.png";
@@ -37,6 +39,9 @@ interface GalleryItem {
 }
 
 export function LandingPage() {
+  const { data: adminContact } = useAdminContact();
+  const { query: wifiPackagesQuery } = useWifiPackages();
+  const dbPackages = wifiPackagesQuery.data ?? [];
   const [activeSection, setActiveSection] = useState("home");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -125,10 +130,41 @@ export function LandingPage() {
 
     setFormLoading(true);
 
-    // Simulate sending message
+    // Format Nomor WA Tujuan (Gunakan format dari DB atau fallback)
+    let waNumber = "6282122219332"; 
+    if (adminContact && adminContact.phone) {
+      const cleanPhone = adminContact.phone.replace(/[^0-9]/g, "");
+      if (cleanPhone.startsWith("0")) {
+        waNumber = "62" + cleanPhone.substring(1);
+      } else {
+        waNumber = cleanPhone;
+      }
+    }
+    const emailStr = contactForm.email ? contactForm.email : "-";
+    const packageStr = selectedPackage ? selectedPackage : "-";
+    
+    // Rancang template pesan
+    const waMessage = `Halo NetVerse Fiber, saya ingin bertanya/berlangganan. Berikut detail informasi saya:
+
+*Nama*: ${contactForm.name}
+*Nomor HP*: ${contactForm.phone}
+*Email*: ${emailStr}
+*Paket yang Diminati*: ${packageStr}
+
+*Pesan*: 
+${contactForm.message}`;
+
+    const encodedMessage = encodeURIComponent(waMessage);
+    const waUrl = `https://wa.me/${waNumber}?text=${encodedMessage}`;
+
     setTimeout(() => {
       setFormLoading(false);
-      toast.success("Pesan terkirim! Tim NetVerse akan segera menghubungi Anda.");
+      toast.success("Form valid! Mengalihkan ke WhatsApp...");
+      
+      // Buka link WhatsApp di tab baru
+      window.open(waUrl, "_blank");
+
+      // Reset Form State
       setContactForm({
         name: "",
         email: "",
@@ -136,7 +172,7 @@ export function LandingPage() {
         message: "",
       });
       setSelectedPackage("");
-    }, 1500);
+    }, 1200);
   };
 
   const wifiPackages = [
@@ -195,6 +231,79 @@ export function LandingPage() {
       popular: false,
     },
   ];
+
+  const formattedPackages = dbPackages.map((pkg, idx) => {
+    let speed = "10 Mbps";
+    const speedMatch = pkg.name.match(/\d+\s*Mbps/i);
+    if (speedMatch) {
+      speed = speedMatch[0];
+    } else {
+      if (pkg.name.toLowerCase().includes("hemat")) speed = "10 Mbps";
+      else if (pkg.name.toLowerCase().includes("populer")) speed = "15 Mbps";
+      else if (pkg.name.toLowerCase().includes("premium")) speed = "20 Mbps";
+      else if (pkg.name.toLowerCase().includes("ultra")) speed = "50 Mbps";
+    }
+
+    const popular = idx === 0;
+
+    const formattedPrice = new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      maximumFractionDigits: 0,
+    }).format(pkg.price);
+
+    const pkgLower = pkg.name.toLowerCase();
+    const isHemat = pkgLower.includes("hemat") || pkg.price <= 100000;
+    const isPopuler = pkgLower.includes("populer") || (pkg.price > 100000 && pkg.price <= 150000);
+    const isPremium = pkgLower.includes("premium") || (pkg.price > 150000 && pkg.price <= 200000);
+
+    const desc = isHemat
+      ? "Cocok untuk kebutuhan internet harian ringan seperti browsing dan chatting."
+      : isPopuler
+      ? "Pilihan terbaik untuk rumah tangga dengan penggunaan multimedia standar."
+      : isPremium
+      ? "Koneksi kencang untuk kerja remote, streaming 4K, dan kelas online sekaligus."
+      : "Super cepat tanpa hambatan untuk rumah cerdas dan bisnis skala kecil.";
+
+    const features = isHemat
+      ? ["Unlimited Quota (FUP Bebas)", "Ideal untuk 1 - 3 perangkat", "Kecepatan stabil", "Instalasi gratis"]
+      : isPopuler
+      ? [
+          "Unlimited Quota (FUP Bebas)",
+          "Ideal untuk 3 - 5 perangkat",
+          "Lancar streaming video HD",
+          "Dukungan teknis Prioritas",
+          "Instalasi gratis"
+        ]
+      : isPremium
+      ? [
+          "Unlimited Quota (FUP Bebas)",
+          "Ideal untuk 5 - 8 perangkat",
+          "Sangat lancar video conference & gaming",
+          "Dukungan teknis 24/7",
+          "Instalasi gratis"
+        ]
+      : [
+          "Unlimited Quota (FUP Bebas)",
+          "Ideal untuk 8+ perangkat",
+          "Tanpa lag untuk gaming berat & download besar",
+          "Prioritas gangguan utama",
+          "Instalasi gratis"
+        ];
+
+    return {
+      id: pkg.id,
+      name: pkg.name,
+      price: formattedPrice,
+      period: "/ bulan",
+      speed,
+      desc,
+      features,
+      popular,
+    };
+  });
+
+  const displayPackages = formattedPackages.length > 0 ? formattedPackages : wifiPackages;
 
   // Gallery items using local assets as mock data
   const galleryItems: GalleryItem[] = [
@@ -510,7 +619,7 @@ export function LandingPage() {
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto items-stretch">
-              {wifiPackages.map((pkg, idx) => (
+              {displayPackages.map((pkg, idx) => (
                 <div 
                   key={idx} 
                   className={`relative bg-card rounded-2xl border flex flex-col p-6 shadow-sm transition-all duration-300 hover:shadow-lg ${
@@ -688,8 +797,17 @@ export function LandingPage() {
                     </div>
                     <div>
                       <h4 className="font-semibold text-sm">Telepon & WhatsApp</h4>
-                      <p className="text-xs text-muted-foreground">+62 821-2221-9332</p>
-                      <p className="text-xs text-muted-foreground">+62 821-7813-1581</p>
+                      {adminContact ? (
+                        <>
+                          <p className="text-xs text-muted-foreground">{adminContact.name} ({adminContact.phone})</p>
+                          <p className="text-xs text-muted-foreground">+62 821-2221-9332 (Layanan WA 2)</p>
+                        </>
+                      ) : (
+                        <>
+                          <p className="text-xs text-muted-foreground">+62 821-2221-9332</p>
+                          <p className="text-xs text-muted-foreground">+62 821-7813-1581</p>
+                        </>
+                      )}
                     </div>
                   </div>
 
@@ -777,10 +895,11 @@ export function LandingPage() {
                       className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-xs shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       <option value="" className="text-muted-foreground bg-card">-- Pilih Paket Internet --</option>
-                      <option value="10 Mbps - Hemat" className="bg-card">10 Mbps - Hemat (Rp 100.000 / bln)</option>
-                      <option value="15 Mbps - Populer" className="bg-card">15 Mbps - Populer (Rp 150.000 / bln)</option>
-                      <option value="20 Mbps - Premium" className="bg-card">20 Mbps - Premium (Rp 200.000 / bln)</option>
-                      <option value="50 Mbps - Ultra Speed" className="bg-card">50 Mbps - Ultra Speed (Rp 350.000 / bln)</option>
+                      {displayPackages.map((pkg, idx) => (
+                        <option key={idx} value={pkg.name} className="bg-card">
+                          {pkg.name} ({pkg.price} / bln)
+                        </option>
+                      ))}
                     </select>
                   </div>
 
