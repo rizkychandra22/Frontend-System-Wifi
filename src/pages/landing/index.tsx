@@ -360,7 +360,7 @@ export function LandingPage() {
             onClick={() => setMobileMenuOpen(false)}
             className="flex items-center gap-2.5 hover:opacity-90 transition-opacity"
           >
-            <img src={logoImg} alt="NetVerse Logo" className="h-40 w-auto rounded-md object-contain" />
+            <img src={logoImg} alt="NetVerse Logo" className="h-50 w-auto object-contain -ml-6 md:-ml-8" />
             {/* <span className="text-xl font-bold tracking-tight text-gradient-blue font-display">NetVerse Fiber</span> */}
           </Link>
 
