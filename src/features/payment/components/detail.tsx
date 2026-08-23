@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Sheet,
   SheetContent,
@@ -5,10 +6,11 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Download } from "lucide-react";
+import { Download, Loader2 } from "lucide-react";
 import { format } from "date-fns";
+import { toast } from "sonner";
 import type { Payment } from "@/lib/api/payment";
-import { paymentApi } from "@/lib/api/payment";
+import { generatePaymentPDF } from "../utils/generate-pdf";
 
 interface PaymentDetailProps {
   payment: Payment | null;
@@ -17,6 +19,8 @@ interface PaymentDetailProps {
 }
 
 export function PaymentDetail({ payment, isOpen, onOpenChange }: PaymentDetailProps) {
+  const [isDownloading, setIsDownloading] = useState(false);
+
   if (!payment) return null;
 
   const invoiceNumber = payment.invoice_number || `INV-${payment.id.toString().padStart(4, '0')}`;
@@ -35,6 +39,19 @@ export function PaymentDetail({ payment, isOpen, onOpenChange }: PaymentDetailPr
         return <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-blue-50 text-blue-500 border-blue-200">Dana</span>;
       default:
         return <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-gray-100 text-gray-700 border-gray-200">{method || "-"}</span>;
+    }
+  };
+
+  const handleDownload = async () => {
+    setIsDownloading(true);
+    try {
+      await generatePaymentPDF(payment, pdfFilename);
+      toast.success("Invoice PDF berhasil diunduh");
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Gagal mengunduh PDF";
+      toast.error(message);
+    } finally {
+      setIsDownloading(false);
     }
   };
 
@@ -90,10 +107,20 @@ export function PaymentDetail({ payment, isOpen, onOpenChange }: PaymentDetailPr
           <div className="pt-4 border-t">
             <Button 
               className="w-full flex items-center justify-center gap-2" 
-              onClick={() => paymentApi.downloadPaymentPDF(payment.id, pdfFilename)}
+              onClick={handleDownload}
+              disabled={isDownloading}
             >
-              <Download className="h-4 w-4" />
-              Download PDF Invoice
+              {isDownloading ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  Mengunduh PDF...
+                </>
+              ) : (
+                <>
+                  <Download className="h-4 w-4" />
+                  Download PDF Invoice
+                </>
+              )}
             </Button>
           </div>
         </div>
