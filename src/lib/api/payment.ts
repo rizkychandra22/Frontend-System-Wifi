@@ -39,15 +39,5 @@ export const paymentApi = {
   getCustomerPayments: async (customerId: number | string): Promise<Payment[]> => {
     const response = await apiClient.get<{ data: Payment[] }>(`/payments/history/${customerId}`);
     return response.data.data;
-  },
-  downloadPaymentPDF: async (paymentId: number, filename: string) => {
-    const response = await apiClient.get(`/payments/invoice/${paymentId}/pdf`, { responseType: 'blob' });
-    const url = window.URL.createObjectURL(new Blob([response.data]));
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', filename);
-    document.body.appendChild(link);
-    link.click();
-    link.parentNode?.removeChild(link);
   }
 };
