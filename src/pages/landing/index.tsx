@@ -14,7 +14,7 @@ import {
   Loader2, 
   Send,
   ExternalLink,
-  Info
+  Search
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -800,7 +800,7 @@ export function LandingPage() {
                     {/* Glassmorphism Hover Overlay */}
                     <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                       <div className="p-3 bg-white/20 backdrop-blur rounded-full border border-white/20 text-white hover:scale-110 transition-transform">
-                        <Info className="h-5 w-5" />
+                        <Search className="h-5 w-5" />
                       </div>
                     </div>
                   </div>
