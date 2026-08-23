@@ -180,63 +180,6 @@ export function LandingPage() {
     }, 1200);
   };
 
-  const wifiPackages = [
-    {
-      name: "15 Mbps - Populer",
-      price: "Rp 150.000",
-      period: "/ bulan",
-      speed: "15 Mbps",
-      desc: "Cocok untuk kebutuhan internet harian ringan seperti browsing, chatting, dan media sosial.",
-      features: ["Unlimited Quota (FUP Bebas)", "Ideal untuk 1 - 3 perangkat", "Kecepatan stabil hingga 15 Mbps", "Instalasi gratis"],
-      popular: true,
-    },
-    {
-      name: "20 Mbps - Standard",
-      price: "Rp 200.000",
-      period: "/ bulan",
-      speed: "20 Mbps",
-      desc: "Pilihan terbaik untuk keluarga kecil dengan aktivitas streaming video HD lancar.",
-      features: [
-        "Unlimited Quota (FUP Bebas)",
-        "Ideal untuk 3 - 5 perangkat",
-        "Lancar streaming video HD & gaming",
-        "Dukungan teknis prioritas",
-        "Instalasi gratis"
-      ],
-      popular: false,
-    },
-    {
-      name: "35 Mbps - Premium",
-      price: "Rp 250.000",
-      period: "/ bulan",
-      speed: "35 Mbps",
-      desc: "Koneksi kencang untuk kerja remote, streaming 4K, kelas online, dan gaming tanpa hambatan.",
-      features: [
-        "Unlimited Quota (FUP Bebas)",
-        "Ideal untuk 5 - 8 perangkat",
-        "Sangat lancar video conference & gaming 4K",
-        "Dukungan teknis 24/7",
-        "Instalasi gratis"
-      ],
-      popular: false,
-    },
-    {
-      name: "50 Mbps - Ultra Speed",
-      price: "Rp 300.000",
-      period: "/ bulan",
-      speed: "50 Mbps",
-      desc: "Super cepat 50 Mbps tanpa hambatan untuk smart home dan bisnis skala kecil.",
-      features: [
-        "Unlimited Quota (FUP Bebas)",
-        "Ideal untuk 8+ perangkat",
-        "Tanpa lag untuk gaming berat & download file besar",
-        "Prioritas penanganan gangguan utama",
-        "Instalasi gratis"
-      ],
-      popular: false,
-    },
-  ];
-
   const formattedPackages = dbPackages.map((pkg, idx) => {
     // Ambil angka Mbps saja dari nama di database
     let speedMbps = 15;
@@ -303,7 +246,7 @@ export function LandingPage() {
     };
   });
 
-  const displayPackages = formattedPackages.length > 0 ? formattedPackages : wifiPackages;
+  const displayPackages = formattedPackages.length > 0 ? formattedPackages : [];
 
   const getPackageStyles = (speedStr: string) => {
     let speedMbps = 15;
@@ -565,7 +508,7 @@ export function LandingPage() {
               <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-blue-deep/20 to-blue/20 blur-xl opacity-75"></div>
               <div className="relative border border-border bg-card/60 backdrop-blur rounded-2xl p-4 shadow-xl max-w-[500px] w-full overflow-hidden hover:scale-[1.01] transition-transform duration-300">
                 <img 
-                  src={heroImg} 
+                  src={logoImg} 
                   alt="Infrastruktur Internet NetVerse" 
                   className="w-full h-auto rounded-lg object-cover shadow-sm bg-muted animate-pulse-subtle"
                 />
