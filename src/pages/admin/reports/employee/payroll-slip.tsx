@@ -8,6 +8,8 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "
 import { Eye, Download } from "lucide-react";
 import { generatePayrollSlipPDF, type PayrollSlipPDFData } from "@/features/attendance/utils/generate-payroll-slip-pdf";
 import { toast } from "sonner";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface PayrollSlipData {
   userId: number;
@@ -36,6 +38,8 @@ export function PayrollSlipPage() {
 
   const [selectedSlip, setSelectedSlip] = useState<PayrollSlipData | null>(null);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedMonth, setSelectedMonth] = useState("all");
 
   const rawAttendances = isAdmin ? adminAttendances : employeeAttendances;
   const isLoading = isOvertimeLoading || (isAdmin ? isAdminAttendanceLoading : isEmployeeAttendanceLoading);
@@ -139,12 +143,29 @@ export function PayrollSlipPage() {
     return entry;
   });
 
+  // Get unique months list for filtering dropdown (only unique values, sorted descending)
+  const uniqueMonths = Array.from(new Set(allSlips.map((s) => s.monthStr))).sort((a, b) =>
+    b.localeCompare(a)
+  );
+
+  // Filter slips based on search query and selected month
+  const filteredSlips = allSlips.filter((slip) => {
+    if (searchQuery.trim()) {
+      const nameMatch = slip.employeeName.toLowerCase().includes(searchQuery.toLowerCase());
+      if (!nameMatch) return false;
+    }
+    if (selectedMonth !== "all") {
+      if (slip.monthStr !== selectedMonth) return false;
+    }
+    return true;
+  });
+
   // Sort: month descending, then employee name
-  allSlips.sort((a, b) => b.monthStr.localeCompare(a.monthStr) || a.employeeName.localeCompare(b.employeeName));
+  filteredSlips.sort((a, b) => b.monthStr.localeCompare(a.monthStr) || a.employeeName.localeCompare(b.employeeName));
 
   // Determine what slips to display
   // If employee: only show slips if today is the 1st of the month.
-  const displaySlips = isAdmin ? allSlips : isDateOne ? allSlips : [];
+  const displaySlips = isAdmin ? filteredSlips : isDateOne ? filteredSlips : [];
 
   const handleDownloadPDF = async (slip: PayrollSlipData) => {
     if (!isDateOne) {
@@ -199,7 +220,37 @@ export function PayrollSlipPage() {
       </div>
 
       <div className="space-y-4">
+        {/* Admin Filters: Search and Select Month */}
+        {isAdmin && (
+          <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3">
+            {/* Search by Name (Left) */}
+            <div className="w-full sm:w-72">
+              <Input
+                placeholder="Cari nama karyawan..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="h-8 bg-muted/50 border border-border/60 rounded-lg text-[13px] shadow-none focus:bg-background transition-colors w-full"
+              />
+            </div>
 
+            {/* Select Month (Right) */}
+            <div className="w-full sm:w-48">
+              <Select value={selectedMonth} onValueChange={setSelectedMonth}>
+                <SelectTrigger className="h-8 bg-muted/50 border border-border/60 rounded-lg text-[13px] shadow-none focus:bg-background transition-colors w-full">
+                  <SelectValue placeholder="Pilih Bulan" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all" className="text-[13px]">Semua Bulan</SelectItem>
+                  {uniqueMonths.map((m) => (
+                    <SelectItem key={m} value={m} className="text-[13px]">
+                      {getMonthLabel(m)}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        )}
 
         {/* Table Data Container */}
         <div className="border border-border/60 rounded-xl bg-card overflow-hidden shadow-sm">
