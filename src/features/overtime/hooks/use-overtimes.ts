@@ -12,6 +12,7 @@ export function useOvertimes() {
     queryFn: overtimeApi.getAll,
     refetchInterval: 10000,
     refetchOnWindowFocus: true,
+    retry: 3,
   });
 }
 
