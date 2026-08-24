@@ -2,6 +2,8 @@ import { Wifi, CalendarDays, CheckCircle2 } from "lucide-react";
 import { type WifiPackage } from "@/lib/api/wifi_package";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useAdminContact } from "@/features/user/hooks/use-users";
+import { formatWifiPackages } from "@/components/wifi-package";
+import { Button } from "@/components/ui/button";
 
 interface CustomerSubscriptionsProps {
   subscription: WifiPackage | null;
@@ -20,6 +22,12 @@ export function CustomerSubscriptions({ subscription, availablePackages }: Custo
   }
 
   const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent("Halo Admin, saya tertarik untuk berlangganan/mengubah paket WiFi.")}`;
+
+  const rawDisplayedPackages = subscription
+    ? availablePackages.filter((pkg) => pkg.id !== subscription.id)
+    : availablePackages;
+
+  const displayedPackages = formatWifiPackages(rawDisplayedPackages);
 
   return (
     <>
@@ -76,38 +84,42 @@ export function CustomerSubscriptions({ subscription, availablePackages }: Custo
           <p className="text-blue-700 dark:text-blue-300 mt-1 mb-4">
             Pilih salah satu paket di bawah ini dan hubungi admin kami untuk mulai berlangganan.
           </p>
-          <a 
-            href={waLink}
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
-          >
-            Hubungi Admin (WhatsApp)
-          </a>
+          <Button asChild size="sm">
+            <a 
+              href={waLink}
+              target="_blank" 
+              rel="noopener noreferrer" 
+            >
+              Hubungi Admin (WhatsApp)
+            </a>
+          </Button>
         </div>
       )}
 
       <div className="space-y-4 pt-4">
         <h2 className="text-lg font-semibold border-b pb-2">Pilihan Paket Tersedia</h2>
-        {availablePackages.length === 0 ? (
-           <p className="text-muted-foreground text-center py-8 border border-dashed rounded-xl">Belum ada paket yang tersedia saat ini.</p>
+        {displayedPackages.length === 0 ? (
+           <p className="text-muted-foreground text-center py-8 border border-dashed rounded-xl">Belum ada paket lain yang tersedia saat ini.</p>
         ) : (
            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-             {availablePackages.map((pkg) => (
+             {displayedPackages.map((pkg) => (
                <Card key={pkg.id} className="relative overflow-hidden hover:border-primary/50 transition-colors border-t-4 border-t-primary">
                  <CardHeader className="pb-4">
                     <CardTitle className="text-xl">{pkg.name}</CardTitle>
-                    <CardDescription>Paket Internet Bulanan</CardDescription>
+                    <CardDescription>{pkg.desc}</CardDescription>
                  </CardHeader>
                  <CardContent className="space-y-6">
                     <div className="text-3xl font-bold">
-                      Rp {pkg.price.toLocaleString("id-ID")}
-                      <span className="text-lg font-normal text-muted-foreground ml-1">/ bulan</span>
+                      {pkg.price}
+                      <span className="text-lg font-normal text-muted-foreground ml-1">{pkg.period}</span>
                     </div>
                     <ul className="space-y-3 text-sm text-muted-foreground">
-                      <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0" /> Akses Internet 24 Jam</li>
-                      <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0" /> Harga Flat Sepuasnya</li>
-                      <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0" /> Bebas FUP / Kuota Batasan</li>
+                      {pkg.features.map((feature, idx) => (
+                        <li key={idx} className="flex items-center gap-2">
+                          <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0" />
+                          {feature}
+                        </li>
+                      ))}
                     </ul>
                  </CardContent>
                </Card>

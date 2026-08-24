@@ -176,15 +176,49 @@ export function AttendanceRecord() {
               </div>
             </div>
           ) : (
-            <Button 
-              variant="outline"
-              className={`w-full text-base h-12 ${record ? 'border-primary text-primary hover:bg-primary/5' : ''}`}
-              onClick={handleClockOut}
-              disabled={!record || isClockOutLoading}
-            >
-              <MapPin className="w-4 h-4 mr-2" />
-              {isClockOutLoading ? "Memproses..." : "Catat Absen Keluar"}
-            </Button>
+            <div className="space-y-3">
+              <Button 
+                variant="outline"
+                className={`w-full text-base h-12 ${record ? 'border-primary text-primary hover:bg-primary/5' : ''}`}
+                onClick={handleClockOut}
+                disabled={!record || isClockOutLoading}
+              >
+                <MapPin className="w-4 h-4 mr-2" />
+                {isClockOutLoading ? "Memproses..." : "Catat Absen Keluar"}
+              </Button>
+
+              {record && record.status === "Proses" && (
+                <div className="mt-2 text-center">
+                  {!showIzinForm ? (
+                    <Button 
+                      variant="ghost" 
+                      className="w-full text-xs text-muted-foreground hover:text-amber-600"
+                      onClick={() => setShowIzinForm(true)}
+                    >
+                      Ajukan Izin Pulang Awal
+                    </Button>
+                  ) : (
+                    <form onSubmit={handleIzin} className="space-y-3 bg-muted p-4 rounded-lg text-left mt-2 border">
+                      <textarea 
+                        className="w-full p-3 rounded-md border text-sm focus:ring-1 focus:ring-primary outline-none"
+                        placeholder="Tulis alasan izin..."
+                        rows={3}
+                        value={izinNotes}
+                        onChange={(e) => setIzinNotes(e.target.value)}
+                      />
+                      <div className="flex gap-2">
+                        <Button type="submit" size="sm" className="flex-1 bg-amber-600 hover:bg-amber-700 text-white" disabled={isIzinLoading}>
+                          Kirim Izin
+                        </Button>
+                        <Button type="button" variant="outline" size="sm" onClick={() => setShowIzinForm(false)}>
+                          Batal
+                        </Button>
+                      </div>
+                    </form>
+                  )}
+                </div>
+              )}
+            </div>
           )}
         </CardContent>
       </Card>
