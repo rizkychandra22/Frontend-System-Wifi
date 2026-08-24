@@ -33,5 +33,9 @@ export const subscriptionApi = {
   getSubscriptionByCustomerID: async (customerId: number | string) => {
     const response = await apiClient.get<{ data: Subscription }>(`/subscriptions/customer/${customerId}`);
     return response.data.data;
+  },
+  deleteSubscription: async (id: number) => {
+    const response = await apiClient.delete<{ message?: string }>(`/subscriptions/${id}`);
+    return response.data;
   }
 };

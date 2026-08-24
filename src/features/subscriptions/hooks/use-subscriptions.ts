@@ -48,8 +48,23 @@ export function useSubscriptionMutations() {
     },
   });
 
+  const deleteMutation = useMutation({
+    mutationFn: subscriptionApi.deleteSubscription,
+    onSuccess: (response) => {
+      toast.success(response.message || "Data langganan berhasil dihapus");
+      queryClient.invalidateQueries({ queryKey: ["subscriptions"] });
+      queryClient.invalidateQueries({ queryKey: ["customer-subscription"] });
+    },
+    onError: (error: unknown) => {
+      const err = error as { response?: { data?: { error?: string } } };
+      const errMsg = err.response?.data?.error || "Gagal menghapus data langganan";
+      toast.error(errMsg);
+    },
+  });
+
   return {
     createOrUpdateMutation,
-    isPending: createOrUpdateMutation.isPending,
+    deleteMutation,
+    isPending: createOrUpdateMutation.isPending || deleteMutation.isPending,
   };
 }

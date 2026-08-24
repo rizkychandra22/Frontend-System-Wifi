@@ -1,15 +1,20 @@
 import { type Subscription } from "@/lib/api/subscription";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Edit2 } from "lucide-react";
+import { Edit2, Trash2 } from "lucide-react";
 import { format } from "date-fns";
+import { getUserData } from "@/lib/auth-utils";
 
 interface SubscriptionTableProps {
   subscriptions: Subscription[];
   onEdit: (subscription: Subscription) => void;
+  onDelete: (subscription: Subscription) => void;
 }
 
-export function SubscriptionTable({ subscriptions, onEdit }: SubscriptionTableProps) {
+export function SubscriptionTable({ subscriptions, onEdit, onDelete }: SubscriptionTableProps) {
+  const currentUser = getUserData();
+  const isEmployee = currentUser?.role === "employee";
+
   const getStatusBadge = (status: string) => {
     switch (status?.toLowerCase()) {
       case "active":
@@ -59,15 +64,28 @@ export function SubscriptionTable({ subscriptions, onEdit }: SubscriptionTablePr
                 </TableCell>
                 <TableCell>{getStatusBadge(sub.status)}</TableCell>
                 <TableCell className="text-right">
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    className="h-8 w-8 text-blue-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950"
-                    onClick={() => onEdit(sub)}
-                    title="Edit Langganan"
-                  >
-                    <Edit2 className="h-4 w-4" />
-                  </Button>
+                  <div className="flex justify-end gap-2">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="h-8 w-8 text-blue-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950"
+                      onClick={() => onEdit(sub)}
+                      title="Edit Langganan"
+                    >
+                      <Edit2 className="h-4 w-4" />
+                    </Button>
+                    {!isEmployee && (
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
+                        onClick={() => onDelete(sub)}
+                        title="Hapus Langganan"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    )}
+                  </div>
                 </TableCell>
               </TableRow>
             ))

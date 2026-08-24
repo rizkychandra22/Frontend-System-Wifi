@@ -109,6 +109,7 @@ export function PaymentsPage() {
             <SubscriptionTable 
               subscriptions={filteredSubscriptions}
               onEdit={(subscription) => setSubAction({ type: 'edit', subscription })}
+              onDelete={(subscription) => setSubAction({ type: 'delete', subscription })}
             />
           </TabsContent>
           <TabsContent value="history" className="mt-0">

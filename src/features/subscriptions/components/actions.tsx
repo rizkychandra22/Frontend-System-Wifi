@@ -9,10 +9,19 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "@/components/ui/alert-dialog";
 import { SubscriptionForm, type SubscriptionFormData } from "./form";
 
 export type SubscriptionActionState = {
-  type: 'add' | 'edit' | null;
+  type: 'add' | 'edit' | 'delete' | null;
   subscription: Subscription | null;
 };
 
@@ -22,7 +31,7 @@ interface SubscriptionActionsProps {
 }
 
 export function SubscriptionActions({ actionState, onClose }: SubscriptionActionsProps) {
-  const { createOrUpdateMutation, isPending } = useSubscriptionMutations();
+  const { createOrUpdateMutation, deleteMutation, isPending } = useSubscriptionMutations();
   const { users } = useUsers(true);
   const customers = users.filter((u) => u.role === "customer");
   const { query: { data: packages = [] } } = useWifiPackages();
@@ -84,6 +93,15 @@ export function SubscriptionActions({ actionState, onClose }: SubscriptionAction
     );
   };
 
+  const handleDelete = () => {
+    if (!actionState.subscription) return;
+    deleteMutation.mutate(actionState.subscription.id, {
+      onSuccess: () => {
+        onClose();
+      },
+    });
+  };
+
   return (
     <>
       {/* Dialog Add Subscription */}
@@ -123,6 +141,24 @@ export function SubscriptionActions({ actionState, onClose }: SubscriptionAction
           />
         </DialogContent>
       </Dialog>
+
+      {/* Alert Dialog Delete */}
+      <AlertDialog open={actionState.type === 'delete'} onOpenChange={(open) => !open && onClose()}>
+        <AlertDialogContent className="w-[90%] max-w-[360px] rounded-md p-6">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-center text-lg font-semibold">Hapus Langganan?</AlertDialogTitle>
+            <AlertDialogDescription className="text-center text-[15px] mt-2 mb-4 text-foreground/80">
+              Tindakan ini tidak dapat dibatalkan. Data langganan aktif milik pelanggan <strong>{actionState.subscription?.customer?.name}</strong> akan dihapus secara permanen dari sistem.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <div className="flex flex-row justify-center gap-3 mt-2">
+            <AlertDialogCancel className="w-24 mt-0 border border-border bg-background hover:bg-muted text-foreground rounded-lg h-8 text-[13px] font-medium">Batal</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDelete} disabled={deleteMutation.isPending} className="w-24 h-8 text-[13px] font-medium rounded-lg bg-destructive hover:bg-destructive/90 text-destructive-foreground">
+              {deleteMutation.isPending ? "Menghapus..." : "Ya, Hapus"}
+            </AlertDialogAction>
+          </div>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 }
