@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { getUser } from "@/lib/auth-utils";
 import { customerApi } from "@/lib/api/customer";
 import { wifiPackageApi, type WifiPackage } from "@/lib/api/wifi_package";
+import { type Subscription } from "@/lib/api/subscription";
 import { parseErrorMessage, type ApiErrorResponse } from "@/lib/api-error";
 import { CustomerSubscriptions } from "@/features/subscriptions/components/customer-subscriptions";
 import { AxiosError } from "axios";
 
 export function CustomerSubscriptionsPage() {
-  const [subscription, setSubscription] = useState<WifiPackage | null>(null);
+  const [subscription, setSubscription] = useState<Subscription | null>(null);
   const [availablePackages, setAvailablePackages] = useState<WifiPackage[]>([]);
   const [error, setError] = useState<string | null>(null);
 

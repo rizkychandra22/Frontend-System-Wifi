@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { getUser } from "@/lib/auth-utils";
 import { customerApi } from "@/lib/api/customer";
 import { paymentApi, type Payment } from "@/lib/api/payment";
-import { type WifiPackage } from "@/lib/api/wifi_package";
+import { type Subscription } from "@/lib/api/subscription";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Wifi, ReceiptText, CheckCircle2 } from "lucide-react";
 import { CustomerPaymentMethods } from "./components/payment-methods";
 
 export function CustomerDashboardStats() {
-  const [subscription, setSubscription] = useState<WifiPackage | null>(null);
+  const [subscription, setSubscription] = useState<Subscription | null>(null);
   const [payments, setPayments] = useState<Payment[]>([]);
 
   useEffect(() => {
@@ -43,8 +43,8 @@ export function CustomerDashboardStats() {
             <Wifi className="h-4 w-4 text-green-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-xl font-bold truncate">{subscription ? subscription.name : "Belum Berlangganan"}</div>
-            <p className="text-xs text-muted-foreground">{subscription ? `Rp ${subscription.price.toLocaleString("id-ID")} / bulan` : "Silakan pilih paket yang tersedia"}</p>
+            <div className="text-xl font-bold truncate">{subscription ? subscription.wifi_package?.name : "Belum Berlangganan"}</div>
+            <p className="text-xs text-muted-foreground">{subscription ? `Rp ${subscription.wifi_package?.price.toLocaleString("id-ID")} / bulan` : "Silakan pilih paket yang tersedia"}</p>
           </CardContent>
         </Card>
 

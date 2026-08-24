@@ -1,12 +1,13 @@
 import { Wifi, CalendarDays, CheckCircle2 } from "lucide-react";
 import { type WifiPackage } from "@/lib/api/wifi_package";
+import { type Subscription } from "@/lib/api/subscription";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useAdminContact } from "@/features/user/hooks/use-users";
 import { formatWifiPackages } from "@/components/wifi-package";
 import { Button } from "@/components/ui/button";
 
 interface CustomerSubscriptionsProps {
-  subscription: WifiPackage | null;
+  subscription: Subscription | null;
   availablePackages: WifiPackage[];
 }
 
@@ -24,7 +25,7 @@ export function CustomerSubscriptions({ subscription, availablePackages }: Custo
   const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent("Halo Admin, saya tertarik untuk berlangganan/mengubah paket WiFi.")}`;
 
   const rawDisplayedPackages = subscription
-    ? availablePackages.filter((pkg) => pkg.id !== subscription.id)
+    ? availablePackages.filter((pkg) => pkg.id !== subscription.wifi_package_id)
     : availablePackages;
 
   const displayedPackages = formatWifiPackages(rawDisplayedPackages);
@@ -45,7 +46,7 @@ export function CustomerSubscriptions({ subscription, availablePackages }: Custo
                   <Wifi className="w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold">{subscription.name}</h3>
+                  <h3 className="text-xl font-bold">{subscription.wifi_package?.name}</h3>
                   <span className="inline-flex items-center gap-1 mt-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700">
                     <CheckCircle2 className="w-3 h-3" /> Aktif
                   </span>
@@ -56,7 +57,7 @@ export function CustomerSubscriptions({ subscription, availablePackages }: Custo
                 <div className="space-y-1">
                   <p className="text-sm text-muted-foreground">Harga Paket</p>
                   <p className="text-xl font-semibold">
-                    Rp {subscription.price.toLocaleString("id-ID")} <span className="text-sm font-normal text-muted-foreground">/ bulan</span>
+                    Rp {subscription.wifi_package?.price.toLocaleString("id-ID")} <span className="text-sm font-normal text-muted-foreground">/ bulan</span>
                   </p>
                 </div>
                 
@@ -64,7 +65,9 @@ export function CustomerSubscriptions({ subscription, availablePackages }: Custo
                   <p className="text-sm text-muted-foreground">Jadwal Penagihan</p>
                   <div className="flex items-center gap-2">
                     <CalendarDays className="w-4 h-4 text-muted-foreground" />
-                    <p className="font-medium">Setiap awal bulan</p>
+                    <p className="font-medium text-xs sm:text-sm">
+                      Setiap tanggal {subscription.billing_day} (Jatuh tempo berikutnya: {new Date(subscription.next_due_date).toLocaleDateString("id-ID", { day: 'numeric', month: 'long', year: 'numeric' })})
+                    </p>
                   </div>
                 </div>
               </div>

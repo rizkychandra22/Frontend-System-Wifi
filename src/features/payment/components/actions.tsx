@@ -115,6 +115,7 @@ export function PaymentActions({ actionState, onClose }: PaymentActionsProps) {
             submitLabel="Simpan & Buat Pembayaran"
             customers={customers}
             packages={packages}
+            isEdit={false}
           />
         </DialogContent>
       </Dialog>
@@ -133,6 +134,7 @@ export function PaymentActions({ actionState, onClose }: PaymentActionsProps) {
             submitLabel="Simpan Perubahan"
             customers={customers}
             packages={packages}
+            isEdit={true}
           />
         </DialogContent>
       </Dialog>
