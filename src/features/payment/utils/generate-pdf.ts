@@ -122,7 +122,7 @@ export async function generatePaymentPDF(payment: Payment, filename: string): Pr
       </div>
 
       <div style="margin-top: 45px; text-align: center; font-weight: bold; font-size: 10px; border-top: 1px dashed #cbd5e1; padding-top: 12px; color: #4b5563;">
-        Dokumen invoice pembayaran ini adalah bukti transaksi yang diterbitkan secara digital oleh NetVerse Fiber Billing System.
+        Invoice pembayaran ini adalah bukti transaksi yang diterbitkan secara digital oleh NetVerse Fiber Billing System.
       </div>
     </div>
   `;
