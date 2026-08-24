@@ -43,7 +43,7 @@ export function PaymentsPage() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight text-foreground">Menu Pembayaran & Langganan</h2>
+          <h2 className="text-2xl font-bold tracking-tight text-foreground">Data Langganan & Pembayaran</h2>
           <p className="text-muted-foreground text-sm">
             Kelola langganan paket WiFi aktif pelanggan dan riwayat pencatatan transaksi bulanan.
           </p>

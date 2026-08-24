@@ -19,9 +19,9 @@ export function WifiPackagesPage() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight text-foreground">Paket WiFi</h2>
+          <h2 className="text-2xl font-bold tracking-tight text-foreground">Data Paket WiFi</h2>
           <p className="text-muted-foreground text-sm">
-            Kelola paket langganan WiFi.
+            Kelola paket layanan WiFi.
           </p>
         </div>
       </div>
