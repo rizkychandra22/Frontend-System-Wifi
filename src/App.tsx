@@ -2,23 +2,35 @@ import { BrowserRouter, Route, Routes, Navigate, Outlet } from "react-router-dom
 import { AppLayout } from "@/components/layouts/app";
 import { Toaster } from "@/components/ui/sonner";
 import "./App.css";
+// Import Page Auth
 import { LoginPage } from "@/pages/auth/login";
-import { AttendanceRecordPage } from "@/pages/employee/attendance-record";
-import { AttendanceHistoryPage } from "@/pages/employee/attendance-history";
+
+// Import Page Admin
 import { UsersPage } from "@/pages/admin/users";
 import { AdminAttendancePage } from "@/pages/admin/attendance";
-import { WifiPackagesPage } from "@/pages/admin/wifi_package";
+import { WifiPackagesPage } from "@/pages/admin/wifi-package";
 import { PaymentsPage } from "@/pages/admin/payment";
-import { CustomerSubscriptionsPage } from "@/pages/customer/subscriptions";
-import { CustomerBillingHistoryPage } from "@/pages/customer/billing-history";
-import { EmployeeCustomersPage } from "@/pages/employee/customers";
 import { AdminOvertimePage } from "@/pages/admin/overtime";
+import { PaymentsReportPage } from "@/pages/admin/reports/payment";
+import { AdminAttendanceReportPage } from "@/pages/admin/reports/attendance";
+import { PayrollSlipPage } from "@/pages/admin/reports/payroll-slip";
+
+// Import Page Employee
+import { AttendanceRecordPage } from "@/pages/employee/attendance-record";
+import { AttendanceHistoryPage } from "@/pages/employee/attendance-history";
+import { EmployeeCustomersPage } from "@/pages/employee/customers";
 import { EmployeeOvertimePage } from "@/pages/employee/overtime";
 
+// Import Page Customer
+import { CustomerSubscriptionsPage } from "@/pages/customer/subscriptions";
+import { CustomerBillingHistoryPage } from "@/pages/customer/billing-history";
+
+// Import Page Dashboard
 import { DashboardPage } from "@/pages/dashboard";
 import { getUserData } from "@/lib/auth-utils";
 import { LandingPage } from "@/pages/landing";
 
+// Definition routing
 const ProtectedRouteGroup = ({ allowedRoles }: { allowedRoles: string[] }) => {
   const user = getUserData();
   if (!user || !allowedRoles.includes(user.role)) {
@@ -45,9 +57,12 @@ function App() {
           {/* Admin Routes */}
           <Route element={<ProtectedRouteGroup allowedRoles={['admin']} />}>
             <Route path="/dashboard/users" element={<UsersPage />} />
-            <Route path="/dashboard/attendance" element={<AdminAttendancePage />} />
             <Route path="/dashboard/wifi-packages" element={<WifiPackagesPage />} />
+            <Route path="/dashboard/attendance" element={<AdminAttendancePage />} />
             <Route path="/dashboard/overtime" element={<AdminOvertimePage />} />
+            <Route path="/dashboard/payroll-slips" element={<PayrollSlipPage />} />
+            <Route path="/dashboard/payments/report" element={<PaymentsReportPage />} />
+            <Route path="/dashboard/attendance/report" element={<AdminAttendanceReportPage />} />
           </Route>
 
           {/* Employee Routes */}

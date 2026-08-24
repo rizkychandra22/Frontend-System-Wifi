@@ -2,7 +2,7 @@ import { useState, type FormEvent } from "react";
 import { type Subscription } from "@/lib/api/subscription";
 import { useSubscriptionMutations } from "@/features/subscriptions/hooks/use-subscriptions";
 import { useUsers } from "@/features/user/hooks/use-users";
-import { useWifiPackages } from "@/features/wifi_package/hooks/use-wifi-packages";
+import { useWifiPackages } from "@/features/wifi-package/hooks/use-wifi-packages";
 import {
   Dialog,
   DialogContent,

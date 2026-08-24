@@ -2,7 +2,7 @@ import { useState, type FormEvent } from "react";
 import { type Payment } from "@/lib/api/payment";
 import { usePaymentMutations } from "@/features/payment/hooks/use-payments";
 import { useUsers } from "@/features/user/hooks/use-users";
-import { useWifiPackages } from "@/features/wifi_package/hooks/use-wifi-packages";
+import { useWifiPackages } from "@/features/wifi-package/hooks/use-wifi-packages";
 import {
   Dialog,
   DialogContent,

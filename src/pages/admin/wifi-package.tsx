@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { useWifiPackages } from "@/features/wifi_package/hooks/use-wifi-packages";
+import { useWifiPackages } from "@/features/wifi-package/hooks/use-wifi-packages";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Plus, Search } from "lucide-react";
-import { WifiPackageTable } from "@/features/wifi_package/components/table";
-import { WifiPackageActions, type ActionState } from "@/features/wifi_package/components/actions";
+import { WifiPackageTable } from "@/features/wifi-package/components/table";
+import { WifiPackageActions, type ActionState } from "@/features/wifi-package/components/actions";
 
 export function WifiPackagesPage() {
   const { query: { data: services = [] } } = useWifiPackages();

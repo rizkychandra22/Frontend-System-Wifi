@@ -22,7 +22,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { isAuthenticated } from "@/lib/auth-utils";
 import { useAdminContact } from "@/features/user/hooks/use-users";
-import { useWifiPackages } from "@/features/wifi_package/hooks/use-wifi-packages";
+import { useWifiPackages } from "@/features/wifi-package/hooks/use-wifi-packages";
 import { formatWifiPackages } from "@/components/wifi-package";
 
 // Import Assets
