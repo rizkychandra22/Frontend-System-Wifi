@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { FileUp, CalendarCheck, TrendingUp, DollarSign, Clock } from "lucide-react";
+import { Download, CalendarCheck, TrendingUp, DollarSign, Clock } from "lucide-react";
 import { format } from "date-fns";
 import { generateAttendanceReportPDF, type AttendanceReportItem } from "@/features/attendance/utils/generate-report-pdf";
 import { toast } from "sonner";
@@ -215,8 +215,8 @@ export function AdminAttendanceReportPage() {
               disabled={!isFilterActive || isExporting || isLoading || reportItems.length === 0}
               className="h-8 px-3.5 rounded-lg text-[13px] font-medium shrink-0 shadow-sm w-full sm:w-auto flex-none flex items-center justify-center gap-1.5"
             >
-              <FileUp className="h-3.5 w-3.5" />
-              {isExporting ? "Mengekspor..." : "Ekspor PDF"}
+              <Download className="h-3.5 w-3.5" />
+              {isExporting ? "Proses Download..." : "Download PDF"}
             </Button>
           </div>
         </div>
@@ -230,7 +230,7 @@ export function AdminAttendanceReportPage() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-foreground">{totalRecords}</div>
-              <p className="text-xs text-muted-foreground mt-0.5">Kehadiran & lembur</p>
+              <p className="text-xs text-muted-foreground mt-0.5">Kehadiran & Lemburan</p>
             </CardContent>
           </Card>
 
@@ -241,18 +241,18 @@ export function AdminAttendanceReportPage() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-foreground">Rp {totalDailywork.toLocaleString("id-ID")}</div>
-              <p className="text-xs text-muted-foreground mt-0.5">Hadir & Halfday</p>
+              <p className="text-xs text-muted-foreground mt-0.5">Total Gaji Harian</p>
             </CardContent>
           </Card>
 
           <Card className="border-t-4 border-t-orange-500 shadow-sm rounded-xl">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Lemburan</CardTitle>
+              <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Overtime</CardTitle>
               <Clock className="h-4 w-4 text-orange-500" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-foreground">Rp {totalOvertime.toLocaleString("id-ID")}</div>
-              <p className="text-xs text-muted-foreground mt-0.5">Total Overtime</p>
+              <p className="text-xs text-muted-foreground mt-0.5">Total Gaji Lemburan</p>
             </CardContent>
           </Card>
 
@@ -263,7 +263,7 @@ export function AdminAttendanceReportPage() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">Rp {totalPayout.toLocaleString("id-ID")}</div>
-              <p className="text-xs text-muted-foreground mt-0.5">Total gaji bersih</p>
+              <p className="text-xs text-muted-foreground mt-0.5">Total Penggajian Karyawan</p>
             </CardContent>
           </Card>
         </div>

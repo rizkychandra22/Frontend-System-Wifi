@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { FileUp, DollarSign, Percent, TrendingUp, Receipt } from "lucide-react";
+import { DollarSign, Percent, TrendingUp, Receipt, Download } from "lucide-react";
 import { format } from "date-fns";
 import { generatePaymentsReportPDF } from "@/features/payment/utils/generate-report-pdf";
 import { toast } from "sonner";
@@ -121,8 +121,8 @@ export function PaymentsReportPage() {
               disabled={!isFilterActive || isExporting || isLoading || filteredPayments.length === 0}
               className="h-8 px-3.5 rounded-lg text-[13px] font-medium shrink-0 shadow-sm w-full sm:w-auto flex-none flex items-center justify-center gap-1.5"
             >
-              <FileUp className="h-3.5 w-3.5" />
-              {isExporting ? "Mengekspor..." : "Ekspor PDF"}
+              <Download className="h-3.5 w-3.5" />
+              {isExporting ? "Proses Download..." : "Download PDF"}
             </Button>
           </div>
         </div>
