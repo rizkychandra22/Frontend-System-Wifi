@@ -6,6 +6,8 @@ export function useAllSubscriptions() {
   const query = useQuery({
     queryKey: ["subscriptions"],
     queryFn: subscriptionApi.getAllSubscriptions,
+    refetchInterval: 10000,
+    refetchOnWindowFocus: true,
   });
 
   return {
@@ -22,6 +24,8 @@ export function useCustomerSubscription(customerId: number | string | undefined)
     queryKey: ["customer-subscription", customerId],
     queryFn: () => subscriptionApi.getSubscriptionByCustomerID(customerId!),
     enabled: !!customerId,
+    refetchInterval: 10000,
+    refetchOnWindowFocus: true,
   });
 
   return {

@@ -10,6 +10,8 @@ export function useOvertimes() {
   return useQuery({
     queryKey: OVERTIMES_QUERY_KEY,
     queryFn: overtimeApi.getAll,
+    refetchInterval: 10000,
+    refetchOnWindowFocus: true,
   });
 }
 

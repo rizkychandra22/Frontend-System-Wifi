@@ -8,6 +8,8 @@ export function useWifiPackages() {
   const query = useQuery({
     queryKey: ["wifi-packages"],
     queryFn: wifiPackageApi.getWifiPackages,
+    refetchInterval: 10000,
+    refetchOnWindowFocus: true,
   });
 
   const createMutation = useMutation({

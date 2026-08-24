@@ -7,6 +7,8 @@ export function useCustomerPayments(customerId: number | null) {
     queryKey: ["payments", customerId],
     queryFn: () => paymentApi.getCustomerPayments(customerId!),
     enabled: !!customerId,
+    refetchInterval: 10000,
+    refetchOnWindowFocus: true,
   });
 }
 
@@ -14,6 +16,8 @@ export function useAllPayments() {
   return useQuery({
     queryKey: ["payments"],
     queryFn: paymentApi.getAllPayments,
+    refetchInterval: 10000,
+    refetchOnWindowFocus: true,
   });
 }
 
