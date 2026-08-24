@@ -93,8 +93,8 @@ export function PaymentForm({
         {isEdit ? (
           <Input 
             value={customers.find(c => c.id.toString() === initialData.customer_id)?.name || "Unknown"} 
-            disabled 
-            className="bg-muted text-muted-foreground"
+            readOnly 
+            className="bg-muted text-foreground cursor-default"
           />
         ) : (
           <Select 
@@ -120,23 +120,30 @@ export function PaymentForm({
       
       <div className="space-y-2">
         <label className="text-sm font-medium">Paket Langganan</label>
-        <Select 
-          value={initialData.wifi_package_id} 
-          onValueChange={(val) => onChange({ ...initialData, wifi_package_id: val })} 
-          disabled={!isEdit} // Terkunci otomatis berdasarkan langganan pelanggan jika tambah baru
-          required
-        >
-          <SelectTrigger className={!isEdit ? "bg-muted text-muted-foreground cursor-not-allowed" : ""}>
-            <SelectValue placeholder={isSubLoading ? "Memuat paket langganan..." : "Pilih Paket Langganan"} />
-          </SelectTrigger>
-          <SelectContent>
-            {packages.map((s: WifiPackage) => (
-              <SelectItem key={s.id} value={s.id.toString()}>
-                {s.name} - Rp {s.price.toLocaleString("id-ID")}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        {!isEdit ? (
+          <Input 
+            value={isSubLoading ? "Memuat paket langganan..." : selectedService ? `${selectedService.name} - Rp ${selectedService.price.toLocaleString("id-ID")}` : "Belum Berlangganan"} 
+            readOnly 
+            className="bg-muted text-foreground cursor-default"
+          />
+        ) : (
+          <Select 
+            value={initialData.wifi_package_id} 
+            onValueChange={(val) => onChange({ ...initialData, wifi_package_id: val })} 
+            required
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Pilih Paket Langganan" />
+            </SelectTrigger>
+            <SelectContent>
+              {packages.map((s: WifiPackage) => (
+                <SelectItem key={s.id} value={s.id.toString()}>
+                  {s.name} - Rp {s.price.toLocaleString("id-ID")}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        )}
       </div>
 
       <div className="space-y-2">

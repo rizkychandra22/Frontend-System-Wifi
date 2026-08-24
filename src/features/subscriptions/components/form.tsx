@@ -24,6 +24,38 @@ interface SubscriptionFormProps {
   isEdit?: boolean;
 }
 
+function calculateNextDueDate(billingDay: number): string {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth(); // 0 = Jan, 11 = Dec
+  const today = now.getDate();
+
+  let targetMonth = month;
+  let targetYear = year;
+
+  // Jika tanggal hari ini sudah melewati atau sama dengan hari billing,
+  // maka jatuh tempo pertama jatuh pada bulan berikutnya.
+  if (today >= billingDay) {
+    targetMonth = month + 1;
+    if (targetMonth > 11) {
+      targetMonth = 0;
+      targetYear = year + 1;
+    }
+  }
+
+  // Cari tanggal maksimum yang valid pada bulan tersebut (misal Februari)
+  const maxDays = new Date(targetYear, targetMonth + 1, 0).getDate();
+  const day = Math.min(billingDay, maxDays);
+
+  const targetDate = new Date(targetYear, targetMonth, day);
+  
+  // Format ke YYYY-MM-DD
+  const yyyy = targetDate.getFullYear();
+  const mm = String(targetDate.getMonth() + 1).padStart(2, "0");
+  const dd = String(targetDate.getDate()).padStart(2, "0");
+  return `${yyyy}-${mm}-${dd}`;
+}
+
 export function SubscriptionForm({
   initialData,
   onChange,
@@ -43,8 +75,8 @@ export function SubscriptionForm({
         {isEdit ? (
           <Input 
             value={selectedCustomer ? `${selectedCustomer.name} - ${selectedCustomer.phone}` : "Unknown"} 
-            disabled 
-            className="bg-muted text-muted-foreground"
+            readOnly 
+            className="bg-muted text-foreground cursor-default"
           />
         ) : (
           <Select 
@@ -86,28 +118,31 @@ export function SubscriptionForm({
         </Select>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-foreground">Hari Jatuh Tempo</label>
-          <Input 
-            type="number"
-            min="1"
-            max="31"
-            required
-            value={initialData.billing_day}
-            onChange={(e) => onChange({ ...initialData, billing_day: e.target.value })}
-            placeholder="Contoh: 10"
-          />
-        </div>
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-foreground">Jatuh Tempo Pertama</label>
-          <Input 
-            type="date"
-            required
-            value={initialData.next_due_date}
-            onChange={(e) => onChange({ ...initialData, next_due_date: e.target.value })}
-          />
-        </div>
+      <div className="space-y-2">
+        <label className="text-sm font-medium text-foreground">Tanggal Pembayaran</label>
+        <Input 
+          type="number"
+          min="1"
+          max="31"
+          required
+          value={initialData.billing_day}
+          onChange={(e) => {
+            const dayVal = e.target.value;
+            const dayNum = Number(dayVal);
+            let nextDate = initialData.next_due_date;
+
+            if (dayNum >= 1 && dayNum <= 31) {
+              nextDate = calculateNextDueDate(dayNum);
+            }
+
+            onChange({ 
+              ...initialData, 
+              billing_day: dayVal,
+              next_due_date: nextDate
+            });
+          }}
+          placeholder="Contoh: 10"
+        />
       </div>
 
       <div className="space-y-2">

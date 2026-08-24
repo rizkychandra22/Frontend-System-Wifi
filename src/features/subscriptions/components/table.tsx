@@ -59,7 +59,7 @@ export function SubscriptionTable({ subscriptions, onEdit, onDelete }: Subscript
                   <div className="font-medium text-foreground">{sub.wifi_package?.name || "-"}</div>
                   <div className="text-xs text-muted-foreground">Rp {sub.wifi_package?.price.toLocaleString("id-ID")}/bln</div>
                 </TableCell>
-                <TableCell>Tanggal {sub.billing_day} setiap bulan</TableCell>
+                <TableCell>Tanggal {sub.billing_day} </TableCell>
                 <TableCell className="font-medium text-foreground">
                   {sub.next_due_date ? format(new Date(sub.next_due_date), "dd MMMM yyyy") : "-"}
                 </TableCell>

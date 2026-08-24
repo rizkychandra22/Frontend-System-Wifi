@@ -62,11 +62,11 @@ export function CustomerSubscriptions({ subscription, availablePackages }: Custo
                 </div>
                 
                 <div className="space-y-1">
-                  <p className="text-sm text-muted-foreground">Jadwal Penagihan</p>
+                  <p className="text-sm text-muted-foreground">Jadwal Penagihan Setiap tanggal {subscription.billing_day}</p>
                   <div className="flex items-center gap-2">
                     <CalendarDays className="w-4 h-4 text-muted-foreground" />
                     <p className="font-medium text-xs sm:text-sm">
-                      Setiap tanggal {subscription.billing_day} (Jatuh tempo berikutnya: {new Date(subscription.next_due_date).toLocaleDateString("id-ID", { day: 'numeric', month: 'long', year: 'numeric' })})
+                      Pembayaran berikutnya: {new Date(subscription.next_due_date).toLocaleDateString("id-ID", { day: 'numeric', month: 'long', year: 'numeric' })}
                     </p>
                   </div>
                 </div>
