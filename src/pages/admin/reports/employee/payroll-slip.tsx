@@ -44,8 +44,30 @@ export function PayrollSlipPage() {
   const rawAttendances = isAdmin ? adminAttendances : employeeAttendances;
   const isLoading = isOvertimeLoading || (isAdmin ? isAdminAttendanceLoading : isEmployeeAttendanceLoading);
 
-  // Check if today is the 1st of the month
-  const isDateOne = new Date().getDate() === 1;
+  // Helper to check if a payroll month is released for viewing/downloading
+  const checkPayrollReleased = (slipMonthStr: string): boolean => {
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const currentMonth = now.getMonth() + 1; // 1-12
+    const currentDate = now.getDate();
+    const currentHour = now.getHours();
+
+    const [slipYear, slipMonth] = slipMonthStr.split("-").map(Number);
+
+    // 1. If past year or past month, it is fully completed and released
+    if (currentYear > slipYear) return true;
+    if (currentYear === slipYear && currentMonth > slipMonth) return true;
+
+    // 2. If current month, it is released if today is the last day of this month and time >= 17:00
+    if (currentYear === slipYear && currentMonth === slipMonth) {
+      const lastDayOfMonth = new Date(currentYear, currentMonth, 0).getDate();
+      if (currentDate === lastDayOfMonth && currentHour >= 17) {
+        return true;
+      }
+    }
+
+    return false;
+  };
 
   // Helper date conversions
   const getMonthStr = (dateVal: string) => {
@@ -164,12 +186,14 @@ export function PayrollSlipPage() {
   filteredSlips.sort((a, b) => b.monthStr.localeCompare(a.monthStr) || a.employeeName.localeCompare(b.employeeName));
 
   // Determine what slips to display
-  // If employee: only show slips if today is the 1st of the month.
-  const displaySlips = isAdmin ? filteredSlips : isDateOne ? filteredSlips : [];
+  // If employee: only show slips that are fully completed/released.
+  const displaySlips = isAdmin
+    ? filteredSlips
+    : filteredSlips.filter((slip) => checkPayrollReleased(slip.monthStr));
 
   const handleDownloadPDF = async (slip: PayrollSlipData) => {
-    if (!isDateOne) {
-      toast.error("Unduh slip gaji hanya dapat dilakukan pada tanggal 1 setiap awal bulan.");
+    if (!checkPayrollReleased(slip.monthStr)) {
+      toast.error("Download slip gaji hanya tersedia setelah jam 17:00 pada tanggal terakhir setiap bulan.");
       return;
     }
 
@@ -280,8 +304,8 @@ export function PayrollSlipPage() {
               ) : displaySlips.length === 0 ? (
                 <TableRow>
                   <td colSpan={isAdmin ? 11 : 10} className="px-6 py-10 text-center text-muted-foreground italic">
-                    {!isAdmin && !isDateOne
-                      ? "Slip gaji bulanan Anda akan terbit dan dapat diunduh pada tanggal 1 setiap awal bulan."
+                    {!isAdmin
+                      ? "Slip gaji bulanan Anda akan terbit dan dapat diunduh pada tanggal terakhir setiap bulan setelah jam 17:00."
                       : "Tidak ada data slip gaji yang tersedia."}
                   </td>
                 </TableRow>
@@ -440,16 +464,16 @@ export function PayrollSlipPage() {
               <div className="pt-4 border-t border-border space-y-2">
                 <Button
                   onClick={() => handleDownloadPDF(selectedSlip)}
-                  disabled={isDownloading || !isDateOne}
+                  disabled={isDownloading || !checkPayrollReleased(selectedSlip.monthStr)}
                   className="w-full h-10 rounded-lg text-sm font-medium flex items-center justify-center gap-2"
                 >
                   <Download className="h-4 w-4" />
                   {isDownloading ? "Proses Download..." : "Download Slip Gaji (PDF)"}
                 </Button>
                 
-                {!isDateOne && (
+                {!checkPayrollReleased(selectedSlip.monthStr) && (
                   <p className="text-[11px] text-center text-amber-600 dark:text-amber-400 font-medium">
-                    ⚠️ Download Slip Gaji hanya dapat dilakukan pada tanggal 1 setiap awal bulan.
+                    ⚠️ Download Slip Gaji hanya tersedia setelah jam 17:00 pada tanggal terakhir setiap bulan.
                   </p>
                 )}
               </div>
