@@ -120,14 +120,18 @@ export function AdminAttendanceTable({ attendances }: AdminAttendanceTableProps)
                       })}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap font-medium">
-                      {record.clock_in 
-                        ? `Hadir (${new Date(record.clock_in).toLocaleTimeString("id-ID", { hour: '2-digit', minute: '2-digit' })})` 
-                        : record.status === "Libur" ? "Tidak Ada Absen" : "-"}
+                      {record.status === "Izin"
+                        ? (!record.clock_in ? "Fullday Permission" : `Hadir (${new Date(record.clock_in).toLocaleTimeString("id-ID", { hour: '2-digit', minute: '2-digit' })})`)
+                        : record.clock_in 
+                          ? `Hadir (${new Date(record.clock_in).toLocaleTimeString("id-ID", { hour: '2-digit', minute: '2-digit' })})` 
+                          : record.status === "Libur" ? "Tidak Ada Absen" : "-"}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap font-medium">
-                      {record.clock_out 
-                        ? `Pulang (${new Date(record.clock_out).toLocaleTimeString("id-ID", { hour: '2-digit', minute: '2-digit' })})` 
-                        : record.status === "Libur" ? "Tidak Ada Absen" : "-"}
+                      {record.status === "Izin"
+                        ? (!record.clock_in ? "Fullday Permission" : "Halfday Permission")
+                        : record.clock_out 
+                          ? `Pulang (${new Date(record.clock_out).toLocaleTimeString("id-ID", { hour: '2-digit', minute: '2-digit' })})` 
+                          : record.status === "Libur" ? "Tidak Ada Absen" : "-"}
                     </td>
                     <td className={`px-6 py-4 whitespace-nowrap font-medium ${getGradeColor(record.grade)}`}>
                       {record.grade || "-"}
