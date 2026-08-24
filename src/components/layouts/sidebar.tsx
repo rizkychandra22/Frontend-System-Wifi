@@ -301,6 +301,26 @@ export function AppSidebar() {
                 </SidebarMenuItem>
               </SidebarMenu>
             </SidebarGroupContent>
+
+            <SidebarGroupLabel className="px-3 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70 mt-2">
+              Menu Laporan
+            </SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <SidebarMenuButton 
+                    asChild 
+                    isActive={isActive("/employee/payroll-slip")}
+                    className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
+                  >
+                    <Link to="/employee/payroll-slip">
+                      <Calculator className="w-[18px] h-[18px]" />
+                      <span className="text-[13px]">Slip Gaji</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarGroupContent>
           </SidebarGroup>
         )}
 
@@ -370,10 +390,10 @@ export function AppSidebar() {
                 <SidebarMenuItem>
                   <SidebarMenuButton
                     asChild
-                    isActive={isActive("/dashboard/payroll-slips")}
+                    isActive={isActive("/dashboard/payroll-slip")}
                     className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
                   >
-                    <Link to="/dashboard/payroll-slips">
+                    <Link to="/dashboard/payroll-slip">
                       <Calculator className="w-[18px] h-[18px]" />
                       <span className="text-[13px]">Slip Gaji</span>
                     </Link>

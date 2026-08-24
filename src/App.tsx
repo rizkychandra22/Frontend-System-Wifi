@@ -6,14 +6,14 @@ import "./App.css";
 import { LoginPage } from "@/pages/auth/login";
 
 // Import Page Admin
+import { PaymentsPage } from "@/pages/admin/payment";
+import { PayrollSlipPage } from "@/pages/admin/reports/employee/payroll-slip";
 import { UsersPage } from "@/pages/admin/users";
 import { AdminAttendancePage } from "@/pages/admin/attendance";
 import { WifiPackagesPage } from "@/pages/admin/wifi-package";
-import { PaymentsPage } from "@/pages/admin/payment";
 import { AdminOvertimePage } from "@/pages/admin/overtime";
 import { PaymentsReportPage } from "@/pages/admin/reports/payment";
 import { AdminAttendanceReportPage } from "@/pages/admin/reports/attendance";
-import { PayrollSlipPage } from "@/pages/admin/reports/payroll-slip";
 
 // Import Page Employee
 import { AttendanceRecordPage } from "@/pages/employee/attendance-record";
@@ -61,7 +61,7 @@ function App() {
             <Route path="/dashboard/payments" element={<PaymentsPage />} />
             <Route path="/dashboard/attendance" element={<AdminAttendancePage />} />
             <Route path="/dashboard/overtime" element={<AdminOvertimePage />} />
-            <Route path="/dashboard/payroll-slips" element={<PayrollSlipPage />} />
+            <Route path="/dashboard/payroll-slip" element={<PayrollSlipPage />} />
             <Route path="/dashboard/payments/report" element={<PaymentsReportPage />} />
             <Route path="/dashboard/attendance/report" element={<AdminAttendanceReportPage />} />
           </Route>
@@ -73,6 +73,7 @@ function App() {
             <Route path="/employee/payments" element={<PaymentsPage />} />
             <Route path="/employee/add-customers" element={<EmployeeCustomersPage />} />
             <Route path="/employee/overtime" element={<EmployeeOvertimePage />} />
+            <Route path="/employee/payroll-slip" element={<PayrollSlipPage />} />
           </Route>
 
           {/* Customer Routes */}
