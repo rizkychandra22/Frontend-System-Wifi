@@ -261,7 +261,7 @@ export function PayrollSlipPage() {
                 <TableHead className="font-semibold text-foreground py-3.5">Bulan</TableHead>
                 <TableHead className="font-semibold text-foreground text-center">Dailywork</TableHead>
                 <TableHead className="font-semibold text-foreground text-right">Price Dailywork</TableHead>
-                <TableHead className="font-semibold text-foreground text-center">Overtime (Jam)</TableHead>
+                <TableHead className="font-semibold text-foreground text-center">Overtime</TableHead>
                 <TableHead className="font-semibold text-foreground text-right">Price Overtime</TableHead>
                 <TableHead className="font-semibold text-foreground text-center">Halfday</TableHead>
                 <TableHead className="font-semibold text-foreground text-right">Price Halfday</TableHead>
