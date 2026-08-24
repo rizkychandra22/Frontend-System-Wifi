@@ -18,6 +18,7 @@ import { toast } from "sonner";
 const customLabels: Record<string, string> = {
   "users": "Data Pengguna",
   "attendance": "Data Absensi",
+  "wifi-packages": "Paket WiFi",
   "record": "Rekap Absensi",
   "history": "Riwayat Absensi",
   "subscriptions": "Paket Layanan",
