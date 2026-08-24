@@ -21,6 +21,10 @@ export function CustomerSubscriptions({ subscription, availablePackages }: Custo
 
   const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent("Halo Admin, saya tertarik untuk berlangganan/mengubah paket WiFi.")}`;
 
+  const displayedPackages = subscription
+    ? availablePackages.filter((pkg) => pkg.id !== subscription.id)
+    : availablePackages;
+
   return (
     <>
       {subscription ? (
@@ -89,11 +93,11 @@ export function CustomerSubscriptions({ subscription, availablePackages }: Custo
 
       <div className="space-y-4 pt-4">
         <h2 className="text-lg font-semibold border-b pb-2">Pilihan Paket Tersedia</h2>
-        {availablePackages.length === 0 ? (
-           <p className="text-muted-foreground text-center py-8 border border-dashed rounded-xl">Belum ada paket yang tersedia saat ini.</p>
+        {displayedPackages.length === 0 ? (
+           <p className="text-muted-foreground text-center py-8 border border-dashed rounded-xl">Belum ada paket lain yang tersedia saat ini.</p>
         ) : (
            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-             {availablePackages.map((pkg) => (
+             {displayedPackages.map((pkg) => (
                <Card key={pkg.id} className="relative overflow-hidden hover:border-primary/50 transition-colors border-t-4 border-t-primary">
                  <CardHeader className="pb-4">
                     <CardTitle className="text-xl">{pkg.name}</CardTitle>
