@@ -100,6 +100,9 @@ export function Header() {
                 if (segment === "employee" && routeSegments[index + 1] === "add-customers") {
                   return null;
                 }
+                if (segment === "employee" && routeSegments[index + 1] === "payments") {
+                  return null;
+                }
                 if ((segment === "employee" || segment === "admin") && routeSegments[index + 1] === "overtime") {
                   return null;
                 }

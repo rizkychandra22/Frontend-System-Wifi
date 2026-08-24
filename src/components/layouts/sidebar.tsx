@@ -278,10 +278,10 @@ export function AppSidebar() {
                 <SidebarMenuItem>
                   <SidebarMenuButton
                     asChild
-                    isActive={isActive("/dashboard/payments")}
+                    isActive={isActive("/employee/payments")}
                     className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
                   >
-                    <Link to="/dashboard/payments">
+                    <Link to="/employee/payments">
                       <FileText className="w-[18px] h-[18px]" />
                       <span className="text-[13px]">Pembayaran</span>
                     </Link>

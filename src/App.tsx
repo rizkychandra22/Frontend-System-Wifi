@@ -50,14 +50,15 @@ function App() {
         <Route element={<AppLayout />}>
           <Route path="/dashboard" element={<DashboardPage />} />
           {/* Shared Routes Admin & Employee */}
-          <Route element={<ProtectedRouteGroup allowedRoles={['admin', 'employee']} />}>
+          {/* <Route element={<ProtectedRouteGroup allowedRoles={['admin', 'employee']} />}>
             <Route path="/dashboard/payments" element={<PaymentsPage />} />
-          </Route>
+          </Route> */}
 
           {/* Admin Routes */}
           <Route element={<ProtectedRouteGroup allowedRoles={['admin']} />}>
             <Route path="/dashboard/users" element={<UsersPage />} />
             <Route path="/dashboard/wifi-packages" element={<WifiPackagesPage />} />
+            <Route path="/dashboard/payments" element={<PaymentsPage />} />
             <Route path="/dashboard/attendance" element={<AdminAttendancePage />} />
             <Route path="/dashboard/overtime" element={<AdminOvertimePage />} />
             <Route path="/dashboard/payroll-slips" element={<PayrollSlipPage />} />
@@ -69,6 +70,7 @@ function App() {
           <Route element={<ProtectedRouteGroup allowedRoles={['employee']} />}>
             <Route path="/attendance/record" element={<AttendanceRecordPage />} />
             <Route path="/attendance/history" element={<AttendanceHistoryPage />} />
+            <Route path="/employee/payments" element={<PaymentsPage />} />
             <Route path="/employee/add-customers" element={<EmployeeCustomersPage />} />
             <Route path="/employee/overtime" element={<EmployeeOvertimePage />} />
           </Route>
