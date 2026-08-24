@@ -36,8 +36,8 @@ export function SubscriptionTable({ subscriptions, onEdit, onDelete }: Subscript
             <TableHead>Pelanggan</TableHead>
             <TableHead>Telepon</TableHead>
             <TableHead>Paket Layanan</TableHead>
-            <TableHead>Hari Tagihan</TableHead>
-            <TableHead>Jatuh Tempo Berikutnya</TableHead>
+            <TableHead>Jatuh Tempo</TableHead>
+            <TableHead>Pembayaran Berikutnya</TableHead>
             <TableHead>Status</TableHead>
             <TableHead className="text-right">Aksi</TableHead>
           </TableRow>
