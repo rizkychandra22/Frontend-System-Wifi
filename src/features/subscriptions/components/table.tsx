@@ -36,16 +36,17 @@ export function SubscriptionTable({ subscriptions, onEdit, onDelete }: Subscript
             <TableHead>Pelanggan</TableHead>
             <TableHead>Telepon</TableHead>
             <TableHead>Paket Layanan</TableHead>
-            <TableHead>Jatuh Tempo</TableHead>
+            <TableHead>Tanggal Bayar</TableHead>
             <TableHead>Pembayaran Berikutnya</TableHead>
             <TableHead>Status</TableHead>
+            <TableHead>Dibuat Oleh</TableHead>
             <TableHead className="text-right">Aksi</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {subscriptions.length === 0 ? (
             <tr>
-              <td colSpan={7} className="px-6 py-8 text-center text-muted-foreground">
+              <td colSpan={8} className="px-6 py-8 text-center text-muted-foreground">
                 Belum ada data langganan terdaftar.
               </td>
             </tr>
@@ -63,6 +64,11 @@ export function SubscriptionTable({ subscriptions, onEdit, onDelete }: Subscript
                   {sub.next_due_date ? format(new Date(sub.next_due_date), "dd MMMM yyyy") : "-"}
                 </TableCell>
                 <TableCell>{getStatusBadge(sub.status)}</TableCell>
+                <TableCell>
+                  {sub.created_by 
+                    ? `${sub.created_by.role === 'admin' ? 'Admin' : 'Karyawan'} - ${sub.created_by.name}` 
+                    : "-"}
+                </TableCell>
                 <TableCell className="text-right">
                   <div className="flex justify-end gap-2">
                     <Button

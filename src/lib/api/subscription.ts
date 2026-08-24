@@ -11,6 +11,8 @@ export interface Subscription {
   billing_day: number;
   next_due_date: string; // ISO String
   status: "active" | "suspended" | "cancelled" | string;
+  created_by_id?: number;
+  created_by?: User;
   created_at: string;
   updated_at: string;
 }
