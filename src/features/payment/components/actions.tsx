@@ -2,7 +2,7 @@ import { useState, type FormEvent } from "react";
 import { type Payment } from "@/lib/api/payment";
 import { usePaymentMutations } from "@/features/payment/hooks/use-payments";
 import { useUsers } from "@/features/user/hooks/use-users";
-import { useWifiPackages } from "@/features/wifi_package/hooks/use-wifi-packages";
+import { useWifiPackages } from "@/features/wifi-package/hooks/use-wifi-packages";
 import {
   Dialog,
   DialogContent,
@@ -115,6 +115,7 @@ export function PaymentActions({ actionState, onClose }: PaymentActionsProps) {
             submitLabel="Simpan & Buat Pembayaran"
             customers={customers}
             packages={packages}
+            isEdit={false}
           />
         </DialogContent>
       </Dialog>
@@ -133,6 +134,7 @@ export function PaymentActions({ actionState, onClose }: PaymentActionsProps) {
             submitLabel="Simpan Perubahan"
             customers={customers}
             packages={packages}
+            isEdit={true}
           />
         </DialogContent>
       </Dialog>
