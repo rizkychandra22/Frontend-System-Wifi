@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { type WifiPackage } from "@/lib/api/wifi_package";
-import { useWifiPackages } from "@/features/wifi_package/hooks/use-wifi-packages";
+import { useWifiPackages } from "@/features/wifi-package/hooks/use-wifi-packages";
 import {
   Dialog,
   DialogContent,

@@ -18,13 +18,15 @@ import { toast } from "sonner";
 const customLabels: Record<string, string> = {
   "users": "Data Pengguna",
   "attendance": "Data Absensi",
+  "wifi-packages": "Paket WiFi",
   "record": "Rekap Absensi",
   "history": "Riwayat Absensi",
   "subscriptions": "Paket Layanan",
   "billing-history": "Pembayaran",
   "add-customers": "Data Pelanggan",
   "payments": "Pembayaran",
-  "overtime": "Kerja Lembur"
+  "overtime": "Kerja Lembur",
+  "payroll-slip": "Slip Gaji"
 };
 
 export function Header() {
@@ -48,9 +50,18 @@ export function Header() {
   const routeSegments = allSegments[0] === "dashboard" ? allSegments.slice(1) : allSegments;
 
   // Helper Formatter Nama Halaman
-  const formatSegment = (segment: string) => {
-    if (customLabels[segment.toLowerCase()]) {
-      return customLabels[segment.toLowerCase()];
+  const formatSegment = (segment: string, parentPath?: string) => {
+    const cleanSegment = segment.toLowerCase();
+    const cleanParent = parentPath?.toLowerCase() || "";
+
+    if (cleanSegment === "report") {
+      if (cleanParent.includes("payments") || (cleanParent.includes("attendance"))) {
+        return "Laporan";
+      }
+    }
+
+    if (customLabels[cleanSegment]) {
+      return customLabels[cleanSegment];
     }
     // Jika segment berupa ID angka, bisa ditulis 'Detail' / biarkan angkanya
     if (!isNaN(Number(segment))) {
@@ -64,7 +75,7 @@ export function Header() {
       <div className="flex items-center gap-2">
         <SidebarTrigger className="-ml-2 rounded-xl" />
         <div className="mx-2 h-4 w-px bg-border/40 md:block" />
-
+ 
         <div className="md:block">
           <Breadcrumb>
             <BreadcrumbList>
@@ -86,7 +97,11 @@ export function Header() {
                 if (segment === "attendance" && (routeSegments[index + 1] === "record" || routeSegments[index + 1] === "history")) {
                   return null;
                 }
-                if (segment === "employee" && routeSegments[index + 1] === "add-customers") {
+                if (segment === "employee" && (
+                  routeSegments[index + 1] === "add-customers" ||
+                  routeSegments[index + 1] === "payroll-slip" ||
+                  routeSegments[index + 1] === "payments")
+                ) {
                   return null;
                 }
                 if ((segment === "employee" || segment === "admin") && routeSegments[index + 1] === "overtime") {
@@ -94,9 +109,11 @@ export function Header() {
                 }
 
                 const isLast = index === routeSegments.length - 1;
+                const parentPath = routeSegments.slice(0, index).join("/");
 
-                // Susun href URL secara bertingkat
-                const href = `/${routeSegments.slice(0, index + 1).join("/")}`;
+                // Susun href URL secara bertingkat dengan menyertakan prefix dashboard jika ada
+                const prefix = allSegments[0] === "dashboard" ? "/dashboard" : "";
+                const href = `${prefix}/${routeSegments.slice(0, index + 1).join("/")}`;
 
                 return (
                   <div key={href} className="inline-flex items-center gap-1.5">
@@ -104,12 +121,12 @@ export function Header() {
                     <BreadcrumbItem>
                       {isLast ? (
                         <BreadcrumbPage className="text-[13px] font-medium">
-                          {formatSegment(segment)}
+                          {formatSegment(segment, parentPath)}
                         </BreadcrumbPage>
                       ) : (
                         <BreadcrumbLink asChild>
                           <Link to={href} className="text-[13px]">
-                            {formatSegment(segment)}
+                            {formatSegment(segment, parentPath)}
                           </Link>
                         </BreadcrumbLink>
                       )}
