@@ -955,8 +955,8 @@ export function LandingPage() {
 
         <div className="border-t border-white/5 py-6">
           <div className="container mx-auto px-4 md:px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-[10px] text-white/50">
-            <p>&copy; {new Date().getFullYear()} PT NetVerse Fiber Indonesia. All rights reserved.</p>
-            <p>Dibuat oleh <i><a href="https://rizkychandra.my.id" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Rizky Chandra</a></i> &bull; Sistem Informasi & Manajemen Bisnis Wifi.</p>
+            <p>&copy; 2026 PT NetVerse Fiber Indonesia. All rights reserved.</p>
+            <p>Dibuat oleh <i><a href="https://rizkychandra.dev" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Rizky Chandra</a></i> &bull; Sistem Informasi & Manajemen Bisnis Wifi.</p>
           </div>
         </div>
       </footer>

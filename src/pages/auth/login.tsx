@@ -38,7 +38,18 @@ export const LoginPage = () => {
         </Card>
 
         <p className="text-center text-sm text-slate-500 dark:text-slate-400 mt-8">
-          &copy; {new Date().getFullYear()} All rights reserved Release v1.2.0.
+          &copy; 2026 &bull; Created by{" "}
+          <i>
+            <a
+              href="https://rizkychandra.dev"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-primary transition-colors"
+            >
+              Rizky Chandra {" "}
+            </a>
+          </i>
+          &bull; Release v1.2.0
         </p>
       </div>
     </div>

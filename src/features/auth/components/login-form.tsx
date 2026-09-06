@@ -149,7 +149,7 @@ export const LoginForm = () => {
             <Button
               type="button"
               variant="ghost"
-              className="w-full h-11 text-sm text-slate-500 border-2 border-primary text-slate-900 dark:text-white rounded-xl transition-all shadow-none hover:bg-slate-100/50 dark:hover:bg-slate-100"
+              className="w-full h-11 text-sm text-slate-500 border-2 border-primary text-slate-900 dark:text-white rounded-xl transition-all shadow-none hover:bg-slate-200 dark:hover:bg-slate-800"
               onClick={() => navigate("/")}
             >
               Kembali ke Beranda

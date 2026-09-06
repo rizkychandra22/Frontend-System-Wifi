@@ -1,7 +1,7 @@
 import { type Allowance } from "@/lib/api/allowance";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Eye, Edit2, Trash2, Users, User as UserIcon } from "lucide-react";
+import { Eye, Edit, Trash2, Users, User as UserIcon } from "lucide-react";
 
 interface AllowanceTableProps {
   allowances: Allowance[];
@@ -118,7 +118,7 @@ export function AllowanceTable({
                         onClick={() => onEdit(item)}
                         title="Edit"
                       >
-                        <Edit2 className="h-4 w-4" />
+                        <Edit className="h-4 w-4" />
                       </Button>
                     )}
 

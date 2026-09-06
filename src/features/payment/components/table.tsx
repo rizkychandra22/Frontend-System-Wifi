@@ -1,7 +1,7 @@
-﻿import { type Payment } from "@/lib/api/payment";
+import { type Payment } from "@/lib/api/payment";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Download, Edit2, Trash2 } from "lucide-react";
+import { Download, Edit, Trash2 } from "lucide-react";
 import { format } from "date-fns";
 import { getUserData } from "@/lib/auth-utils";
 
@@ -85,7 +85,7 @@ export function PaymentTable({ payments, onView, onEdit, onDelete }: PaymentTabl
                       onClick={() => onEdit(payment)}
                       title="Edit"
                     >
-                      <Edit2 className="h-4 w-4" />
+                      <Edit className="h-4 w-4" />
                     </Button>
                     {!isEmployee && (
                       <Button
