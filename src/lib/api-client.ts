@@ -2,7 +2,6 @@ import axios, { type AxiosError } from "axios";
 import axiosRetry from "axios-retry";
 import { getToken } from "./auth-utils";
 
-const LOCAL_URL  = import.meta.env.VITE_API_URL_LOCAL;
 const DEV_URL    = import.meta.env.VITE_API_URL_DEV;
 const PROD_URL   = import.meta.env.VITE_API_URL;
 
@@ -19,7 +18,7 @@ function detectEnv(): "local" | "dev" | "prod" {
 // Resolve URL environment
 function getInitialUrl(): string {
   const env = detectEnv();
-  if (env === "local") return LOCAL_URL; 
+  if (env === "local") return DEV_URL; 
   if (env === "dev") return DEV_URL;
   return PROD_URL;
 }
@@ -32,19 +31,6 @@ export const apiClient = axios.create({
     Accept: "application/json",
   },
 });
-
-// Jika di localhost: cek dulu apakah backend local aktif, jika tidak fallback ke DEV
-if (detectEnv() === "local") {
-  axios.get(`${LOCAL_URL}/health`, { timeout: 1500 })
-    .then(() => {
-      // Backend local aktif → gunakan local
-      apiClient.defaults.baseURL = LOCAL_URL;
-    })
-    .catch(() => {
-      // Backend local tidak aktif → fallback ke DEV
-      apiClient.defaults.baseURL = DEV_URL;
-    });
-}
 
 // Interceptor untuk menyisipkan Token JWT ke setiap Request API
 apiClient.interceptors.request.use((config) => {

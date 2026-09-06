@@ -1,6 +1,12 @@
 import html2canvas from "html2canvas-pro";
 import { jsPDF } from "jspdf";
 
+export interface AllowanceItemPDF {
+  title: string;
+  amount: number;
+  target_type: "global" | "personal";
+}
+
 export interface PayrollSlipPDFData {
   employeeName: string;
   monthStr: string;
@@ -12,6 +18,8 @@ export interface PayrollSlipPDFData {
   halfdayCount: number;
   halfdayPrice: number;
   izinCount: number;
+  allowancePrice?: number;
+  allowanceItems?: AllowanceItemPDF[];
   grandPrice: number;
   fulldayPermissions: string[];
   halfdayPermissions: string[];
@@ -51,6 +59,21 @@ export async function generatePayrollSlipPDF(
         .map((note, index) => `<div style="margin-left: 10px; margin-bottom: 2px;">${index + 1}. ${note}</div>`)
         .join("")
     : `<div style="margin-left: 10px; font-style: italic; color: #64748b;">Tidak ada izin halfday</div>`;
+
+  const allowanceSectionHtml = item.allowanceItems && item.allowanceItems.length > 0
+    ? `
+      <!-- Allowance Details -->
+      <h3 style="margin: 0 0 8px; font-size: 12px; font-weight: bold; border-bottom: 1px solid #1f2937; padding-bottom: 4px; text-transform: uppercase;">Rincian Tunjangan & Bonus</h3>
+      <div style="margin-bottom: 20px;">
+        ${item.allowanceItems.map((al, index) => `
+          <div style="display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 11px;">
+            <span>${index + 1}. ${al.title} <span style="color: #64748b; font-size: 10px;">(${al.target_type === "global" ? "Global" : "Personal"})</span></span>
+            <span style="font-weight: bold; color: #16a34a;">Rp ${Math.round(al.amount).toLocaleString("id-ID")}</span>
+          </div>
+        `).join("")}
+      </div>
+    `
+    : "";
 
   element.innerHTML = `
     <div style="color: #1f2937; font-family: 'Courier New', Courier, monospace; font-size: 11px; line-height: 1.5;">
@@ -94,29 +117,36 @@ export async function generatePayrollSlipPDF(
           <tr>
             <td style="padding: 8px 0; border-bottom: 1px dashed #e2e8f0;">Kehadiran Harian (Dailywork)</td>
             <td style="padding: 8px 0; border-bottom: 1px dashed #e2e8f0; text-align: center;">${item.dailyworkCount} Hari</td>
-            <td style="padding: 8px 0; border-bottom: 1px dashed #e2e8f0; text-align: right; font-weight: bold;">Rp ${item.dailyworkPrice.toLocaleString("id-ID")}</td>
+            <td style="padding: 8px 0; border-bottom: 1px dashed #e2e8f0; text-align: right; font-weight: bold;">Rp ${Math.round(item.dailyworkPrice).toLocaleString("id-ID")}</td>
           </tr>
           <tr>
             <td style="padding: 8px 0; border-bottom: 1px dashed #e2e8f0;">Kerja Lembur (Overtime)</td>
             <td style="padding: 8px 0; border-bottom: 1px dashed #e2e8f0; text-align: center;">${item.overtimeHours} Jam</td>
-            <td style="padding: 8px 0; border-bottom: 1px dashed #e2e8f0; text-align: right; font-weight: bold;">Rp ${item.overtimePrice.toLocaleString("id-ID")}</td>
+            <td style="padding: 8px 0; border-bottom: 1px dashed #e2e8f0; text-align: right; font-weight: bold;">Rp ${Math.round(item.overtimePrice).toLocaleString("id-ID")}</td>
           </tr>
           <tr>
             <td style="padding: 8px 0; border-bottom: 1px dashed #e2e8f0;">Setengah Hari (Halfday Permission)</td>
             <td style="padding: 8px 0; border-bottom: 1px dashed #e2e8f0; text-align: center;">${item.halfdayCount} Hari</td>
-            <td style="padding: 8px 0; border-bottom: 1px dashed #e2e8f0; text-align: right; font-weight: bold;">Rp ${item.halfdayPrice.toLocaleString("id-ID")}</td>
+            <td style="padding: 8px 0; border-bottom: 1px dashed #e2e8f0; text-align: right; font-weight: bold;">Rp ${Math.round(item.halfdayPrice).toLocaleString("id-ID")}</td>
           </tr>
           <tr>
             <td style="padding: 8px 0; border-bottom: 1px dashed #e2e8f0;">Izin Penuh (Fullday Permission)</td>
             <td style="padding: 8px 0; border-bottom: 1px dashed #e2e8f0; text-align: center;">${item.izinCount} Hari</td>
             <td style="padding: 8px 0; border-bottom: 1px dashed #e2e8f0; text-align: right; font-style: italic; color: #64748b;">Tidak ada</td>
           </tr>
+          <tr>
+            <td style="padding: 8px 0; border-bottom: 1px dashed #e2e8f0;">Tunjangan & Bonus Karyawan</td>
+            <td style="padding: 8px 0; border-bottom: 1px dashed #e2e8f0; text-align: center;">${item.allowanceItems?.length || 0} Item</td>
+            <td style="padding: 8px 0; border-bottom: 1px dashed #e2e8f0; text-align: right; font-weight: bold; color: #16a34a;">Rp ${Math.round(item.allowancePrice || 0).toLocaleString("id-ID")}</td>
+          </tr>
           <tr style="border-top: 1px solid #1f2937; font-weight: bold; font-size: 12px;">
             <td colspan="2" style="padding: 10px 0;">GRAND TOTAL PENERIMAAN</td>
-            <td style="padding: 10px 0; text-align: right; color: #2563eb;">Rp ${item.grandPrice.toLocaleString("id-ID")}</td>
+            <td style="padding: 10px 0; text-align: right; color: #2563eb;">Rp ${Math.round(item.grandPrice).toLocaleString("id-ID")}</td>
           </tr>
         </tbody>
       </table>
+
+      ${allowanceSectionHtml}
 
       <!-- Permissions Details -->
       <h3 style="margin: 0 0 8px; font-size: 12px; font-weight: bold; border-bottom: 1px solid #1f2937; padding-bottom: 4px; text-transform: uppercase;">Daftar Keterangan Izin</h3>

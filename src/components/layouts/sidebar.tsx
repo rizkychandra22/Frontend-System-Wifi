@@ -46,7 +46,8 @@ import {
   ClipboardList,
   Briefcase,
   CalendarDays,
-  Calculator
+  Calculator,
+  Gift
 } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { getUserData, removeToken } from "@/lib/auth-utils";
@@ -339,6 +340,22 @@ export function AppSidebar() {
                   <SidebarMenuItem>
                     <SidebarMenuButton
                       asChild
+                      isActive={isActive("/employee/allowances")}
+                      className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
+                    >
+                      <Link to="/employee/allowances">
+                        <Gift className="w-[18px] h-[18px]" />
+                        <span className="text-[13px]">Tunjangan & Bonus</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </SidebarMenu>
+              </SidebarGroupContent>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      asChild
                       isActive={isActive("/employee/payroll-slip")}
                       className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
                     >
@@ -430,6 +447,22 @@ export function AppSidebar() {
               <SidebarGroupLabel className="px-3 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70 mt-2">
                 Menu Laporan
               </SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={isActive("/dashboard/allowances")}
+                      className="rounded-xl transition-all data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
+                    >
+                      <Link to="/dashboard/allowances">
+                        <Gift className="w-[18px] h-[18px]" />
+                        <span className="text-[13px]">Tunjangan & Bonus</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </SidebarMenu>
+              </SidebarGroupContent>
               <SidebarGroupContent>
                 <SidebarMenu>
                   <SidebarMenuItem>
