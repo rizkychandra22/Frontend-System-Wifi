@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { OvertimeForm, type OvertimeFormData } from "./form";
 import { OvertimeDetail } from "./detail";
+import { extractLocalDate, formatLocalTime } from "@/lib/date-utils";
 
 export type ActionState = {
   type: 'add' | 'edit' | 'delete' | 'view' | null;
@@ -52,9 +53,9 @@ export function OvertimeActions({ actionState, onClose }: OvertimeActionsProps) 
         user_id: actionState.overtime.user_id.toString(),
         title: actionState.overtime.title,
         description: actionState.overtime.description,
-        date: actionState.overtime.date.substring(0, 10),
-        start_time: actionState.overtime.start_time.substring(11, 16),
-        end_time: actionState.overtime.end_time.substring(11, 16),
+        date: extractLocalDate(actionState.overtime.date).dateString,
+        start_time: formatLocalTime(actionState.overtime.start_time),
+        end_time: formatLocalTime(actionState.overtime.end_time),
       });
     } else if (actionState.type === 'add') {
       setFormData({

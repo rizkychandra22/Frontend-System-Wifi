@@ -1,6 +1,7 @@
 import type { Payment } from "@/lib/api/payment";
 import html2canvas from "html2canvas-pro";
 import { jsPDF } from "jspdf";
+import { formatFullDate } from "@/lib/date-utils";
 
 export async function generatePaymentsReportPDF(
   payments: Payment[],
@@ -10,13 +11,7 @@ export async function generatePaymentsReportPDF(
 ): Promise<void> {
   // Format Date helpers (Indonesian Format)
   const formatDateIndo = (dateStr: string) => {
-    if (!dateStr) return "-";
-    const date = new Date(dateStr);
-    return date.toLocaleDateString("id-ID", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    });
+    return formatFullDate(dateStr);
   };
 
   const formatDateTimeIndo = (dateStr: string) => {

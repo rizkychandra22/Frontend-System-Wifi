@@ -9,19 +9,13 @@ import { Label } from "@/components/ui/label";
 
 import type { Overtime } from "@/lib/api/overtime";
 import { getUserData } from "@/lib/auth-utils";
+import { formatFullDate, formatLocalTime } from "@/lib/date-utils";
 
 interface OvertimeDetailProps {
   overtime: Overtime | null;
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
 }
-
-const MONTHS = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-const formatFullDate = (dateStr: string) => {
-  const parts = dateStr.substring(0, 10).split("-");
-  if (parts.length !== 3) return dateStr;
-  return `${parts[2]} ${MONTHS[parseInt(parts[1], 10) - 1]} ${parts[0]}`;
-};
 
 export function OvertimeDetail({ overtime, isOpen, onOpenChange }: OvertimeDetailProps) {
   const user = getUserData();
@@ -61,7 +55,7 @@ export function OvertimeDetail({ overtime, isOpen, onOpenChange }: OvertimeDetai
               {formatFullDate(overtime.date)}
             </div>
             <div className="font-medium">
-              {overtime.start_time.substring(11, 16)} - {overtime.end_time.substring(11, 16)}
+              {formatLocalTime(overtime.start_time)} - {formatLocalTime(overtime.end_time)}
             </div>
           </div>
 

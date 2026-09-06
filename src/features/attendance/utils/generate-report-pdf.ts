@@ -1,5 +1,6 @@
 import html2canvas from "html2canvas-pro";
 import { jsPDF } from "jspdf";
+import { formatFullDate } from "@/lib/date-utils";
 
 export interface AttendanceReportItem {
   id: string;
@@ -20,13 +21,7 @@ export async function generateAttendanceReportPDF(
 ): Promise<void> {
   // Format Date helpers (Indonesian Format)
   const formatDateIndo = (dateStr: string) => {
-    if (!dateStr) return "-";
-    const date = new Date(dateStr);
-    return date.toLocaleDateString("id-ID", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    });
+    return formatFullDate(dateStr);
   };
 
   const formatDateTimeIndo = (dateStr: string) => {
