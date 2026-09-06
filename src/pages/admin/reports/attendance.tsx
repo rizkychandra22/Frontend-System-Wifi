@@ -224,47 +224,47 @@ export function AdminAttendanceReportPage() {
 
         {/* Financial Summary Cards */}
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-          <Card className="border-t-4 border-t-blue-500 shadow-sm rounded-xl">
+          <Card className="border-t-4 border-t-blue-500">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Kehadiran</CardTitle>
+              <CardTitle className="text-sm font-medium">Total Kehadiran</CardTitle>
               <CalendarCheck className="h-4 w-4 text-blue-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-foreground">{totalRecords}</div>
-              <p className="text-xs text-muted-foreground mt-0.5">Kehadiran & Lemburan</p>
+              <div className="text-2xl font-bold">{totalRecords}</div>
+              <p className="text-xs text-muted-foreground">Kehadiran & lemburan</p>
             </CardContent>
           </Card>
 
-          <Card className="border-t-4 border-t-green-500 shadow-sm rounded-xl">
+          <Card className="border-t-4 border-t-green-500">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Dailywork</CardTitle>
+              <CardTitle className="text-sm font-medium">Total Dailywork</CardTitle>
               <TrendingUp className="h-4 w-4 text-green-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-foreground">Rp {totalDailywork.toLocaleString("id-ID")}</div>
-              <p className="text-xs text-muted-foreground mt-0.5">Total Gaji Harian</p>
+              <div className="text-2xl font-bold">Rp {totalDailywork.toLocaleString("id-ID")}</div>
+              <p className="text-xs text-muted-foreground">Total gaji harian</p>
             </CardContent>
           </Card>
 
-          <Card className="border-t-4 border-t-orange-500 shadow-sm rounded-xl">
+          <Card className="border-t-4 border-t-orange-500">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Overtime</CardTitle>
+              <CardTitle className="text-sm font-medium">Total Overtime</CardTitle>
               <Clock className="h-4 w-4 text-orange-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-foreground">Rp {totalOvertime.toLocaleString("id-ID")}</div>
-              <p className="text-xs text-muted-foreground mt-0.5">Total Gaji Lemburan</p>
+              <div className="text-2xl font-bold">Rp {totalOvertime.toLocaleString("id-ID")}</div>
+              <p className="text-xs text-muted-foreground">Total gaji lemburan</p>
             </CardContent>
           </Card>
 
-          <Card className="border-t-4 border-t-purple-500 shadow-sm rounded-xl">
+          <Card className="border-t-4 border-t-purple-500">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Grand Total</CardTitle>
+              <CardTitle className="text-sm font-medium">Grand Total</CardTitle>
               <DollarSign className="h-4 w-4 text-purple-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">Rp {totalPayout.toLocaleString("id-ID")}</div>
-              <p className="text-xs text-muted-foreground mt-0.5">Total Penggajian Karyawan</p>
+              <div className="text-2xl font-bold">Rp {totalPayout.toLocaleString("id-ID")}</div>
+              <p className="text-xs text-muted-foreground">Total penggajian karyawan</p>
             </CardContent>
           </Card>
         </div>

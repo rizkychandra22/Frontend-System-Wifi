@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { useAllPayments } from "@/features/payment/hooks/use-payments";
 import { getUserData } from "@/lib/auth-utils";
 import { Input } from "@/components/ui/input";
@@ -129,47 +129,47 @@ export function PaymentsReportPage() {
 
         {/* Financial Summary Cards */}
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-          <Card className="border-t-4 border-t-blue-500 shadow-sm rounded-xl">
+          <Card className="border-t-4 border-t-blue-500">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Transaksi</CardTitle>
+              <CardTitle className="text-sm font-medium">Total Transaksi</CardTitle>
               <Receipt className="h-4 w-4 text-blue-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-foreground">{totalTransactions}</div>
-              <p className="text-xs text-muted-foreground mt-0.5">Total transaksi bulanan</p>
+              <div className="text-2xl font-bold">{totalTransactions}</div>
+              <p className="text-xs text-muted-foreground">Total transaksi bulanan</p>
             </CardContent>
           </Card>
 
-          <Card className="border-t-4 border-t-green-500 shadow-sm rounded-xl">
+          <Card className="border-t-4 border-t-green-500">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Hasil Bersih</CardTitle>
+              <CardTitle className="text-sm font-medium">Hasil Bersih</CardTitle>
               <TrendingUp className="h-4 w-4 text-green-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-foreground">Rp {totalPackagePrice.toLocaleString("id-ID")}</div>
-              <p className="text-xs text-muted-foreground mt-0.5">Sesudah potongan PPN</p>
+              <div className="text-2xl font-bold">Rp {totalPackagePrice.toLocaleString("id-ID")}</div>
+              <p className="text-xs text-muted-foreground">Sesudah potongan PPN</p>
             </CardContent>
           </Card>
 
-          <Card className="border-t-4 border-t-orange-500 shadow-sm rounded-xl">
+          <Card className="border-t-4 border-t-orange-500">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Total PPN</CardTitle>
+              <CardTitle className="text-sm font-medium">Total PPN</CardTitle>
               <Percent className="h-4 w-4 text-orange-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-foreground">Rp {totalPpn.toLocaleString("id-ID")}</div>
-              <p className="text-xs text-muted-foreground mt-0.5">Potongan pajak 11%</p>
+              <div className="text-2xl font-bold">Rp {totalPpn.toLocaleString("id-ID")}</div>
+              <p className="text-xs text-muted-foreground">Potongan pajak 11%</p>
             </CardContent>
           </Card>
 
-          <Card className="border-t-4 border-t-purple-500 shadow-sm rounded-xl">
+          <Card className="border-t-4 border-t-purple-500">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Hasil Kotor</CardTitle>
+              <CardTitle className="text-sm font-medium">Hasil Kotor</CardTitle>
               <DollarSign className="h-4 w-4 text-purple-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">Rp {totalAmount.toLocaleString("id-ID")}</div>
-              <p className="text-xs text-muted-foreground mt-0.5">Total pembayaran</p>
+              <div className="text-2xl font-bold">Rp {totalAmount.toLocaleString("id-ID")}</div>
+              <p className="text-xs text-muted-foreground">Total pembayaran</p>
             </CardContent>
           </Card>
         </div>
