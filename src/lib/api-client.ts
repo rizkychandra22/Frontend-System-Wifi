@@ -3,7 +3,7 @@ import axiosRetry from "axios-retry";
 import { getToken } from "./auth-utils";
 
 export function resolveApiBaseUrl(): string {
-  if (typeof window !== "undefined") {
+  if (typeof window !== 'undefined') {
     const host = window.location.hostname;
     if (host === "localhost" || host === "127.0.0.1") {
       return import.meta.env.VITE_API_BASE_URL;
@@ -12,6 +12,7 @@ export function resolveApiBaseUrl(): string {
       return import.meta.env.VITE_API_BASE_URL;
     }
   }
+  return import.meta.env.VITE_API_BASE_URL;
 }
 
 export const apiClient = axios.create({
