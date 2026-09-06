@@ -36,8 +36,12 @@ export function PayrollSlipPage() {
   const currentUser = getUserData();
   const isAdmin = currentUser?.role === "admin";
 
-  const { attendances: adminAttendances = [], isLoading: isAdminAttendanceLoading } = useAllAttendance();
-  const { history: employeeAttendances = [], isLoading: isEmployeeAttendanceLoading } = useAttendanceHistory();
+  const { attendances: adminAttendances = [], isLoading: isAdminAttendanceLoading } = useAllAttendance({
+    enabled: isAdmin,
+  });
+  const { history: employeeAttendances = [], isLoading: isEmployeeAttendanceLoading } = useAttendanceHistory({
+    enabled: !isAdmin,
+  });
   const { data: overtimes = [], isLoading: isOvertimeLoading } = useOvertimes();
   const { data: allowances = [], isLoading: isAllowanceLoading } = useAllowances();
 

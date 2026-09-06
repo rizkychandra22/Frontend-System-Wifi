@@ -13,13 +13,17 @@ import { AxiosError } from "axios";
 import { parseErrorMessage, type ApiErrorResponse } from "@/lib/api-error";
 import { toast } from "sonner";
 
-export function useTodayAttendance() {
+export function useTodayAttendance(options?: { enabled?: boolean }) {
   const query = useQuery<AttendanceRecord | null, AxiosError<ApiErrorResponse>>({
     queryKey: ["attendance", "today"],
     queryFn: () => getTodayAttendanceApi(),
     refetchInterval: 10000,
     refetchOnWindowFocus: true,
-    retry: 3,
+    retry: (failureCount, error) => {
+      if (error?.response?.status === 401 || error?.response?.status === 403) return false;
+      return failureCount < 3;
+    },
+    enabled: options?.enabled ?? true,
   });
 
   return {
@@ -29,13 +33,17 @@ export function useTodayAttendance() {
   };
 }
 
-export function useAttendanceHistory() {
+export function useAttendanceHistory(options?: { enabled?: boolean }) {
   const query = useQuery<AttendanceRecord[], AxiosError<ApiErrorResponse>>({
     queryKey: ["attendance", "history"],
     queryFn: () => getAttendanceHistoryApi(),
     refetchInterval: 10000,
     refetchOnWindowFocus: true,
-    retry: 3,
+    retry: (failureCount, error) => {
+      if (error?.response?.status === 401 || error?.response?.status === 403) return false;
+      return failureCount < 3;
+    },
+    enabled: options?.enabled ?? true,
   });
 
   return {
@@ -102,13 +110,17 @@ export function useRequestIzin() {
   });
 }
 
-export function useAllAttendance() {
+export function useAllAttendance(options?: { enabled?: boolean }) {
   const query = useQuery<AttendanceRecord[], AxiosError<ApiErrorResponse>>({
     queryKey: ["attendance", "all"],
     queryFn: () => getAllAttendanceApi(),
     refetchInterval: 10000,
     refetchOnWindowFocus: true,
-    retry: 3,
+    retry: (failureCount, error) => {
+      if (error?.response?.status === 401 || error?.response?.status === 403) return false;
+      return failureCount < 3;
+    },
+    enabled: options?.enabled ?? true,
   });
 
   return {
