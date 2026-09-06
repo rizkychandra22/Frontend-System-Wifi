@@ -10,12 +10,12 @@ const MONTHS_FULL = [
 export function extractLocalDate(dateStr: string): { year: number; month: number; day: number; dateString: string } {
   if (!dateStr) return { year: 0, month: 0, day: 0, dateString: "" };
 
-  // If it's an ISO timestamp with time/UTC indicator (e.g. 2026-09-05T17:00:00Z)
+  // If it's an ISO timestamp with time/UTC indicator
   if (dateStr.includes("T") || dateStr.includes("Z")) {
     const d = new Date(dateStr);
     if (!isNaN(d.getTime())) {
       const year = d.getFullYear();
-      const month = d.getMonth() + 1; // 1-12
+      const month = d.getMonth() + 1;
       const day = d.getDate();
       const dateString = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
       return { year, month, day, dateString };
@@ -36,7 +36,7 @@ export function extractLocalDate(dateStr: string): { year: number; month: number
 }
 
 /**
- * Formats date to "DD MMM YYYY", e.g. "06 Sep 2026"
+ * Formats date to "DD MMM YYYY"
  */
 export function formatShortDate(dateStr: string): string {
   const { year, month, day } = extractLocalDate(dateStr);
