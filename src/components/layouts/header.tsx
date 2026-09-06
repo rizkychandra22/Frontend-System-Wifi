@@ -26,7 +26,8 @@ const customLabels: Record<string, string> = {
   "add-customers": "Data Pelanggan",
   "payments": "Pembayaran",
   "overtime": "Kerja Lembur",
-  "payroll-slip": "Slip Gaji"
+  "payroll-slip": "Slip Gaji",
+  "allowances": "Tunjangan & Bonus"
 };
 
 export function Header() {
@@ -100,7 +101,8 @@ export function Header() {
                 if (segment === "employee" && (
                   routeSegments[index + 1] === "add-customers" ||
                   routeSegments[index + 1] === "payroll-slip" ||
-                  routeSegments[index + 1] === "payments")
+                  routeSegments[index + 1] === "payments" ||
+                  routeSegments[index + 1] === "allowances")
                 ) {
                   return null;
                 }

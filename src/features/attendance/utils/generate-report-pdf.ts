@@ -38,13 +38,17 @@ export async function generateAttendanceReportPDF(
   };
 
   // Calculate totals
-  const totalDailyworkTariff = items
-    .filter((item) => item.workType === "Dailywork")
-    .reduce((sum, item) => sum + item.tariff, 0);
+  const totalDailyworkTariff = Math.round(
+    items
+      .filter((item) => item.workType === "Dailywork")
+      .reduce((sum, item) => sum + item.tariff, 0)
+  );
 
-  const totalOvertimeTariff = items
-    .filter((item) => item.workType === "Overtime")
-    .reduce((sum, item) => sum + item.tariff, 0);
+  const totalOvertimeTariff = Math.round(
+    items
+      .filter((item) => item.workType === "Overtime")
+      .reduce((sum, item) => sum + item.tariff, 0)
+  );
 
   const totalPayout = totalDailyworkTariff + totalOvertimeTariff;
   const totalRecords = items.length;
@@ -96,7 +100,7 @@ export async function generateAttendanceReportPDF(
           <td style="padding: 10px 6px; border-bottom: 1px dashed #cbd5e1; vertical-align: middle; text-align: center; font-weight: 500;">${item.clockIn}</td>
           <td style="padding: 10px 6px; border-bottom: 1px dashed #cbd5e1; vertical-align: middle; text-align: center; font-weight: 500;">${item.clockOut}</td>
           <td style="padding: 10px 6px; border-bottom: 1px dashed #cbd5e1; vertical-align: middle; text-align: right; font-weight: bold; color: #2563eb; white-space: nowrap;">
-            Rp ${item.tariff.toLocaleString("id-ID")}
+            Rp ${Math.round(item.tariff).toLocaleString("id-ID")}
           </td>
           <td style="padding: 10px 6px; border-bottom: 1px dashed #cbd5e1; vertical-align: middle; text-align: center;">${statusBadge}</td>
         </tr>
@@ -148,15 +152,15 @@ export async function generateAttendanceReportPDF(
         <table style="width: 100%; border-collapse: collapse;">
           <tr>
             <td style="padding: 2px 0;">Total Tarif Kehadiran (Dailywork):</td>
-            <td style="text-align: right; font-weight: bold; font-size: 11px;">Rp ${totalDailyworkTariff.toLocaleString("id-ID")}</td>
+            <td style="text-align: right; font-weight: bold; font-size: 11px;">Rp ${Math.round(totalDailyworkTariff).toLocaleString("id-ID")}</td>
           </tr>
           <tr>
             <td style="padding: 2px 0;">Total Tarif Lemburan (Overtime):</td>
-            <td style="text-align: right; font-weight: bold; font-size: 11px;">Rp ${totalOvertimeTariff.toLocaleString("id-ID")}</td>
+            <td style="text-align: right; font-weight: bold; font-size: 11px;">Rp ${Math.round(totalOvertimeTariff).toLocaleString("id-ID")}</td>
           </tr>
           <tr style="border-top: 1px solid #e2e8f0; font-weight: bold;">
             <td style="padding: 6px 0 2px; font-size: 12px; text-transform: uppercase;">Total Pengeluaran Gaji (Nett Payout):</td>
-            <td style="padding: 6px 0 2px; text-align: right; font-size: 12px; color: #2563eb;">Rp ${totalPayout.toLocaleString("id-ID")}</td>
+            <td style="padding: 6px 0 2px; text-align: right; font-size: 12px; color: #2563eb;">Rp ${Math.round(totalPayout).toLocaleString("id-ID")}</td>
           </tr>
         </table>
       </div>
@@ -181,7 +185,7 @@ export async function generateAttendanceReportPDF(
           <tr style="font-weight: bold; border-top: 2px solid #1f2937; border-bottom: 2px solid #1f2937;">
             <td colspan="5" style="padding: 10px 6px; text-transform: uppercase; font-size: 11px;">GRAND TOTAL (${totalRecords} DATA)</td>
             <td style="padding: 10px 6px; text-align: right; font-size: 11px; color: #2563eb; white-space: nowrap;">
-              Rp ${totalPayout.toLocaleString("id-ID")}
+              Rp ${Math.round(totalPayout).toLocaleString("id-ID")}
             </td>
             <td style="padding: 10px 6px;"></td>
           </tr>

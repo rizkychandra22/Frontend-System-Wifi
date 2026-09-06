@@ -1,4 +1,4 @@
-﻿
+
 import { Eye, Edit, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -54,7 +54,7 @@ export function OvertimeTable({ overtimes, onView, onEdit, onDelete }: OvertimeT
                 </TableCell>
                 {isAdmin && (
                   <TableCell className="font-medium text-primary whitespace-nowrap">
-                    Rp {ot.price.toLocaleString("id-ID")}
+                    Rp {Math.round(ot.price || 0).toLocaleString("id-ID")}
                   </TableCell>
                 )}
                 <TableCell className="text-right">

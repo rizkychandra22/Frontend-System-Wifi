@@ -14,12 +14,14 @@ import { WifiPackagesPage } from "@/pages/admin/wifi-package";
 import { AdminOvertimePage } from "@/pages/admin/overtime";
 import { PaymentsReportPage } from "@/pages/admin/reports/payment";
 import { AdminAttendanceReportPage } from "@/pages/admin/reports/attendance";
+import { AdminAllowancePage } from "@/pages/admin/allowance";
 
 // Import Page Employee
 import { AttendanceRecordPage } from "@/pages/employee/attendance-record";
 import { AttendanceHistoryPage } from "@/pages/employee/attendance-history";
 import { EmployeeCustomersPage } from "@/pages/employee/customers";
 import { EmployeeOvertimePage } from "@/pages/employee/overtime";
+import { EmployeeAllowancePage } from "@/pages/employee/allowance";
 
 // Import Page Customer
 import { CustomerSubscriptionsPage } from "@/pages/customer/subscriptions";
@@ -61,6 +63,7 @@ function App() {
             <Route path="/dashboard/payments" element={<PaymentsPage />} />
             <Route path="/dashboard/attendance" element={<AdminAttendancePage />} />
             <Route path="/dashboard/overtime" element={<AdminOvertimePage />} />
+            <Route path="/dashboard/allowances" element={<AdminAllowancePage />} />
             <Route path="/dashboard/payroll-slip" element={<PayrollSlipPage />} />
             <Route path="/dashboard/payments/report" element={<PaymentsReportPage />} />
             <Route path="/dashboard/attendance/report" element={<AdminAttendanceReportPage />} />
@@ -73,6 +76,7 @@ function App() {
             <Route path="/employee/payments" element={<PaymentsPage />} />
             <Route path="/employee/add-customers" element={<EmployeeCustomersPage />} />
             <Route path="/employee/overtime" element={<EmployeeOvertimePage />} />
+            <Route path="/employee/allowances" element={<EmployeeAllowancePage />} />
             <Route path="/employee/payroll-slip" element={<PayrollSlipPage />} />
           </Route>
 

@@ -25,7 +25,7 @@ export function OvertimeDetail({ overtime, isOpen, onOpenChange }: OvertimeDetai
 
   return (
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
-      <SheetContent className="w-[400px] sm:w-[540px] overflow-y-auto">
+      <SheetContent className="w-[400px] sm:w-[540px] overflow-y-auto no-scrollbar">
         <SheetHeader>
           <SheetTitle>Detail Kerja Lembur</SheetTitle>
           <SheetDescription>
@@ -63,7 +63,7 @@ export function OvertimeDetail({ overtime, isOpen, onOpenChange }: OvertimeDetai
             <div className="space-y-1">
               <Label className="text-muted-foreground">Tarif Lembur</Label>
               <div className="font-medium mt-1 break-all bg-primary/10 text-primary p-2 rounded text-sm">
-                Rp {overtime.price.toLocaleString("id-ID")}
+                Rp {Math.round(overtime.price || 0).toLocaleString("id-ID")}
               </div>
             </div>
           )}

@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { useAllAttendance } from "@/features/attendance/hooks/use-attendance";
 import { useOvertimes } from "@/features/overtime/hooks/use-overtimes";
 import { getUserData } from "@/lib/auth-utils";
@@ -80,7 +80,7 @@ export function AdminAttendanceReportPage() {
           workType: "Overtime",
           clockIn: formatLocalTime(ot.start_time),
           clockOut: formatLocalTime(ot.end_time),
-          tariff: ot.price,
+          tariff: Math.round(ot.price || 0),
           status: "Hadir",
         });
       }
