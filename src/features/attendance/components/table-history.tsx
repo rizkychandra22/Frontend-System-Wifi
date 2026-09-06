@@ -1,4 +1,4 @@
-﻿import { useAttendanceHistory } from "@/features/attendance/hooks/use-attendance";
+import { useAttendanceHistory } from "@/features/attendance/hooks/use-attendance";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -8,11 +8,13 @@ export function AttendanceHistory() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [statusFilter, setStatusFilter] = useState("Semua Status");
+  const [gradeFilter, setGradeFilter] = useState("Semua Grade");
 
   const filteredHistory = history.filter((record) => {
     if (startDate && record.date < startDate) return false;
     if (endDate && record.date > endDate) return false;
     if (statusFilter !== "Semua Status" && record.status !== statusFilter) return false;
+    if (gradeFilter !== "Semua Grade" && record.grade !== gradeFilter) return false;
     return true;
   });
 
@@ -49,18 +51,35 @@ export function AttendanceHistory() {
   return (
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
-        <div className="w-full sm:w-40">
-          <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger className="h-9 text-xs w-full">
-              <SelectValue placeholder="Semua Status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="Semua Status">Semua Status</SelectItem>
-              <SelectItem value="Hadir">Hadir</SelectItem>
-              <SelectItem value="Izin">Izin</SelectItem>
-              <SelectItem value="Libur">Libur</SelectItem>
-            </SelectContent>
-          </Select>
+        <div className="grid grid-cols-2 sm:flex sm:flex-row gap-2 sm:gap-3 w-full sm:w-auto">
+          <div className="w-full sm:w-40">
+            <Select value={statusFilter} onValueChange={setStatusFilter}>
+              <SelectTrigger className="h-9 text-xs w-full">
+                <SelectValue placeholder="Semua Status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Semua Status">Semua Status</SelectItem>
+                <SelectItem value="Hadir">Hadir</SelectItem>
+                <SelectItem value="Izin">Izin</SelectItem>
+                <SelectItem value="Libur">Libur</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="w-full sm:w-40">
+            <Select value={gradeFilter} onValueChange={setGradeFilter}>
+              <SelectTrigger className="h-9 text-xs w-full">
+                <SelectValue placeholder="Semua Grade" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Semua Grade">Semua Grade</SelectItem>
+                <SelectItem value="Disiplin">Disiplin</SelectItem>
+                <SelectItem value="Tepat Waktu">Tepat Waktu</SelectItem>
+                <SelectItem value="Toleransi Terlambat">Toleransi Terlambat</SelectItem>
+                <SelectItem value="Terlambat">Terlambat</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
         <div className="flex items-center gap-2 w-full sm:w-auto">
