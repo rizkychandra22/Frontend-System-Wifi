@@ -18,7 +18,7 @@ interface UserDetailProps {
 export function UserDetail({ user, isOpen, onOpenChange, isEmployeeView = false }: UserDetailProps) {
   return (
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
-      <SheetContent className="w-[400px] sm:w-[540px]">
+      <SheetContent className="w-[400px] sm:w-[540px] overflow-y-auto no-scrollbar">
         <SheetHeader>
           <SheetTitle>Detail Pengguna</SheetTitle>
           <SheetDescription>

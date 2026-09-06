@@ -2,6 +2,18 @@ import { type AttendanceRecord } from "@/lib/api/attendance";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import { Pencil } from "lucide-react";
+import { useUpdateAttendance } from "@/features/attendance/hooks/use-attendance";
 
 interface AdminAttendanceTableProps {
   attendances: AttendanceRecord[];
@@ -12,6 +24,50 @@ export function AdminAttendanceTable({ attendances }: AdminAttendanceTableProps)
   const [endDate, setEndDate] = useState("");
   const [statusFilter, setStatusFilter] = useState("Semua Status");
   const [gradeFilter, setGradeFilter] = useState("Semua Grade");
+
+  // Edit Modal State
+  const [editingRecord, setEditingRecord] = useState<AttendanceRecord | null>(null);
+  const [clockInTime, setClockInTime] = useState("");
+  const [clockOutTime, setClockOutTime] = useState("");
+  const [notes, setNotes] = useState("");
+
+  const updateMutation = useUpdateAttendance();
+
+  const formatTimeToInputValue = (isoStr: string | null) => {
+    if (!isoStr) return "";
+    try {
+      const d = new Date(isoStr);
+      if (isNaN(d.getTime())) return "";
+      const hours = String(d.getHours()).padStart(2, "0");
+      const minutes = String(d.getMinutes()).padStart(2, "0");
+      return `${hours}:${minutes}`;
+    } catch {
+      return "";
+    }
+  };
+
+  const handleOpenEdit = (record: AttendanceRecord) => {
+    setEditingRecord(record);
+    setClockInTime(formatTimeToInputValue(record.clock_in));
+    setClockOutTime(formatTimeToInputValue(record.clock_out));
+    setNotes(record.notes || "");
+  };
+
+  const handleSaveEdit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingRecord) return;
+
+    await updateMutation.mutateAsync({
+      id: editingRecord.id,
+      data: {
+        clock_in: clockInTime.trim() || null,
+        clock_out: clockOutTime.trim() || null,
+        notes: notes.trim() || null,
+      },
+    });
+
+    setEditingRecord(null);
+  };
 
   const filteredAttendances = attendances.filter((record) => {
     if (startDate && record.date < startDate) return false;
@@ -114,12 +170,13 @@ export function AdminAttendanceTable({ attendances }: AdminAttendanceTableProps)
                 <th className="px-4 py-2.5 font-medium text-sm">Grade</th>
                 <th className="px-4 py-2.5 font-medium text-sm min-w-[250px]">Keterangan</th>
                 <th className="px-4 py-2.5 font-medium text-sm">Status</th>
+                <th className="px-4 py-2.5 font-medium text-sm text-center">Aksi</th>
               </tr>
             </thead>
             <tbody>
               {filteredAttendances.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-6 py-8 text-center text-muted-foreground">
+                  <td colSpan={8} className="px-6 py-8 text-center text-muted-foreground">
                     Belum ada riwayat absen
                   </td>
                 </tr>
@@ -167,6 +224,17 @@ export function AdminAttendanceTable({ attendances }: AdminAttendanceTableProps)
                         {record.status}
                       </span>
                     </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-center">
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="h-8 w-8 text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg"
+                        onClick={() => handleOpenEdit(record)}
+                        title="Ubah Jam Kehadiran"
+                      >
+                        <Pencil className="h-3.5 w-3.5" />
+                      </Button>
+                    </td>
                   </tr>
                 ))
               )}
@@ -174,6 +242,116 @@ export function AdminAttendanceTable({ attendances }: AdminAttendanceTableProps)
           </table>
         </div>
       </div>
+
+      {/* Dialog Edit Jam Kehadiran */}
+      <Dialog open={!!editingRecord} onOpenChange={(open) => !open && setEditingRecord(null)}>
+        <DialogContent className="max-w-lg w-[95%] sm:w-full max-h-[90vh] overflow-y-auto no-scrollbar">
+          <DialogHeader>
+            <DialogTitle>Ubah Jam Kehadiran Karyawan</DialogTitle>
+            <DialogDescription>
+              Sesuaikan jam absen masuk dan pulang karyawan jika terjadi server down atau kendala teknis.
+            </DialogDescription>
+          </DialogHeader>
+
+          {editingRecord && (
+            <form onSubmit={handleSaveEdit} className="space-y-4 py-2">
+              {/* Employee & Date Info Card */}
+              <div className="bg-muted/40 border border-border/60 rounded-xl p-3.5 space-y-1.5 text-xs">
+                <div className="flex justify-between items-center">
+                  <span className="text-muted-foreground">Karyawan:</span>
+                  <span className="font-bold text-foreground">{editingRecord.user?.name || "Unknown"}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-muted-foreground">No. Telepon:</span>
+                  <span className="font-medium text-foreground">{editingRecord.user?.phone || "-"}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-muted-foreground">Tanggal Absensi:</span>
+                  <span className="font-bold text-foreground">
+                    {new Date(editingRecord.date).toLocaleDateString("id-ID", {
+                      weekday: "long",
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </span>
+                </div>
+              </div>
+
+              {/* Jam Masuk & Jam Keluar */}
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1.5">
+                  <Label htmlFor="clockIn" className="text-xs font-semibold">
+                    Jam Absen Masuk
+                  </Label>
+                  <Input
+                    id="clockIn"
+                    type="time"
+                    value={clockInTime}
+                    onChange={(e) => setClockInTime(e.target.value)}
+                    className="h-9 text-xs"
+                  />
+                  <p className="text-[11px] text-muted-foreground">
+                    Format: HH:mm (contoh: 08:00)
+                  </p>
+                </div>
+
+                <div className="space-y-1.5">
+                  <Label htmlFor="clockOut" className="text-xs font-semibold">
+                    Jam Absen Keluar
+                  </Label>
+                  <Input
+                    id="clockOut"
+                    type="time"
+                    value={clockOutTime}
+                    onChange={(e) => setClockOutTime(e.target.value)}
+                    className="h-9 text-xs"
+                  />
+                  <p className="text-[11px] text-muted-foreground">
+                    Format: HH:mm (contoh: 17:00)
+                  </p>
+                </div>
+              </div>
+
+              {/* Notes */}
+              <div className="space-y-1.5">
+                <Label htmlFor="editNotes" className="text-xs font-semibold">
+                  Keterangan / Catatan Penyesuaian
+                </Label>
+                <Textarea
+                  id="editNotes"
+                  placeholder="Contoh: Server down, jam masuk disesuaikan admin ke 08:00"
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                  className="text-xs min-h-[70px] resize-none"
+                />
+              </div>
+
+              {/* Form Buttons */}
+              <div className="flex justify-end gap-2 pt-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setEditingRecord(null)}
+                  disabled={updateMutation.isPending}
+                  className="h-8 text-xs px-3"
+                >
+                  Batal
+                </Button>
+                <Button
+                  type="submit"
+                  size="sm"
+                  disabled={updateMutation.isPending}
+                  className="h-8 text-xs px-4"
+                >
+                  {updateMutation.isPending ? "Menyimpan..." : "Simpan Perubahan"}
+                </Button>
+              </div>
+            </form>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

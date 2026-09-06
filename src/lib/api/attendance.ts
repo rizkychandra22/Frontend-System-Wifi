@@ -51,3 +51,16 @@ export const getAllAttendanceApi = async () => {
   const response = await apiClient.get("/admin/attendance/");
   return response.data.data as AttendanceRecord[];
 };
+
+export interface UpdateAttendanceInput {
+  clock_in?: string | null;
+  clock_out?: string | null;
+  grade?: string;
+  status?: string;
+  notes?: string | null;
+}
+
+export const updateAttendanceApi = async (id: number, data: UpdateAttendanceInput) => {
+  const response = await apiClient.put(`/admin/attendance/${id}`, data);
+  return response.data.data as AttendanceRecord;
+};
