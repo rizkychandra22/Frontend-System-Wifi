@@ -1,4 +1,4 @@
-import { type WifiPackage } from "@/lib/api/wifi_package";
+﻿import { type WifiPackage } from "@/lib/api/wifi_package";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Edit2, Trash2 } from "lucide-react";
@@ -14,8 +14,7 @@ export function WifiPackageTable({ packages, onEdit, onDelete }: WifiPackageTabl
     <div className="rounded-xl border bg-card overflow-hidden shadow-sm">
       <Table>
         <TableHeader>
-          <TableRow>
-            <TableHead>#</TableHead>
+          <TableRow className="bg-muted/50 hover:bg-muted/50">
             <TableHead>Nama Paket</TableHead>
             <TableHead>Harga</TableHead>
             <TableHead className="text-right">Aksi</TableHead>
@@ -31,8 +30,7 @@ export function WifiPackageTable({ packages, onEdit, onDelete }: WifiPackageTabl
           ) : (
             packages.map((pkg) => (
               <TableRow key={pkg.id}>
-                <TableCell className="font-medium">{pkg.id}</TableCell>
-                <TableCell>{pkg.name}</TableCell>
+                <TableCell className="font-medium">{pkg.name}</TableCell>
                 <TableCell>Rp {pkg.price.toLocaleString("id-ID")}</TableCell>
                 <TableCell className="text-right">
                   <div className="flex justify-end gap-2">

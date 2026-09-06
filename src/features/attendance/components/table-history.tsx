@@ -1,4 +1,4 @@
-import { useAttendanceHistory } from "@/features/attendance/hooks/use-attendance";
+﻿import { useAttendanceHistory } from "@/features/attendance/hooks/use-attendance";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -85,12 +85,12 @@ export function AttendanceHistory() {
           <table className="w-full text-sm text-left">
             <thead className="bg-muted/50 text-muted-foreground border-b">
               <tr>
-                <th className="px-6 py-4 font-medium">Tanggal</th>
-                <th className="px-6 py-4 font-medium">Absen Masuk</th>
-                <th className="px-6 py-4 font-medium">Absen Keluar</th>
-                <th className="px-6 py-4 font-medium">Grade</th>
-                <th className="px-6 py-4 font-medium min-w-[250px]">Keterangan</th>
-                <th className="px-6 py-4 font-medium">Status</th>
+                <th className="px-4 py-2.5 font-medium text-sm">Tanggal</th>
+                <th className="px-4 py-2.5 font-medium text-sm">Absen Masuk</th>
+                <th className="px-4 py-2.5 font-medium text-sm">Absen Keluar</th>
+                <th className="px-4 py-2.5 font-medium text-sm">Grade</th>
+                <th className="px-4 py-2.5 font-medium text-sm min-w-[250px]">Keterangan</th>
+                <th className="px-4 py-2.5 font-medium text-sm">Status</th>
               </tr>
             </thead>
             <tbody>

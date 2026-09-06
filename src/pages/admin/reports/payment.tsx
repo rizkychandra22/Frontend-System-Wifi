@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { useAllPayments } from "@/features/payment/hooks/use-payments";
 import { getUserData } from "@/lib/auth-utils";
 import { Input } from "@/components/ui/input";
@@ -178,16 +178,16 @@ export function PaymentsReportPage() {
         <div className="border border-border/60 rounded-xl bg-card overflow-hidden shadow-sm">
           <Table>
             <TableHeader>
-              <TableRow className="bg-muted/40 hover:bg-muted/40 border-b border-border">
-                <TableHead className="font-semibold text-foreground py-3.5">Invoice</TableHead>
-                <TableHead className="font-semibold text-foreground">Tanggal</TableHead>
-                <TableHead className="font-semibold text-foreground">Pelanggan</TableHead>
-                <TableHead className="font-semibold text-foreground">Paket Layanan</TableHead>
-                <TableHead className="font-semibold text-foreground text-center">Metode</TableHead>
-                <TableHead className="font-semibold text-foreground text-center">Status</TableHead>
-                <TableHead className="font-semibold text-foreground text-right">PPN (11%)</TableHead>
-                <TableHead className="font-semibold text-foreground text-right">Total Bayar</TableHead>
-                <TableHead className="font-semibold text-foreground">Dibuat Oleh</TableHead>
+              <TableRow className="bg-muted/50 hover:bg-muted/50">
+                <TableHead>Invoice</TableHead>
+                <TableHead>Tanggal</TableHead>
+                <TableHead>Pelanggan</TableHead>
+                <TableHead>Paket Layanan</TableHead>
+                <TableHead className="text-center">Metode</TableHead>
+                <TableHead className="text-center">Status</TableHead>
+                <TableHead className="text-right">PPN (11%)</TableHead>
+                <TableHead className="text-right">Total Bayar</TableHead>
+                <TableHead>Dibuat Oleh</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

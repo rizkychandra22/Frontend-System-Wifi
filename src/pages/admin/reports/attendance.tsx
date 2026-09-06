@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { useAllAttendance } from "@/features/attendance/hooks/use-attendance";
 import { useOvertimes } from "@/features/overtime/hooks/use-overtimes";
 import { getUserData } from "@/lib/auth-utils";
@@ -273,14 +273,14 @@ export function AdminAttendanceReportPage() {
         <div className="border border-border/60 rounded-xl bg-card overflow-hidden shadow-sm">
           <Table>
             <TableHeader>
-              <TableRow className="bg-muted/40 hover:bg-muted/40 border-b border-border">
-                <TableHead className="font-semibold text-foreground py-3.5">Karyawan</TableHead>
-                <TableHead className="font-semibold text-foreground">Tanggal</TableHead>
-                <TableHead className="font-semibold text-foreground text-center">Jenis Kerja</TableHead>
-                <TableHead className="font-semibold text-foreground text-center">Absen Masuk</TableHead>
-                <TableHead className="font-semibold text-foreground text-center">Absen Keluar</TableHead>
-                <TableHead className="font-semibold text-foreground text-right">Tarif</TableHead>
-                <TableHead className="font-semibold text-foreground text-center">Status</TableHead>
+              <TableRow className="bg-muted/50 hover:bg-muted/50">
+                <TableHead>Karyawan</TableHead>
+                <TableHead>Tanggal</TableHead>
+                <TableHead className="text-center">Jenis Kerja</TableHead>
+                <TableHead className="text-center">Absen Masuk</TableHead>
+                <TableHead className="text-center">Absen Keluar</TableHead>
+                <TableHead className="text-right">Tarif</TableHead>
+                <TableHead className="text-center">Status</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

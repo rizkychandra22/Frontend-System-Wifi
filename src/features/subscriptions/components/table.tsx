@@ -1,4 +1,4 @@
-import { type Subscription } from "@/lib/api/subscription";
+﻿import { type Subscription } from "@/lib/api/subscription";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Edit2, Trash2 } from "lucide-react";
@@ -32,7 +32,7 @@ export function SubscriptionTable({ subscriptions, onEdit, onDelete }: Subscript
     <div className="rounded-xl border bg-card overflow-hidden shadow-sm">
       <Table>
         <TableHeader>
-          <TableRow>
+          <TableRow className="bg-muted/50 hover:bg-muted/50">
             <TableHead>Pelanggan</TableHead>
             <TableHead>Telepon</TableHead>
             <TableHead>Paket Layanan</TableHead>

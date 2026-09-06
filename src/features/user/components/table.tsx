@@ -1,4 +1,4 @@
-import { type User } from "@/lib/api/users";
+﻿import { type User } from "@/lib/api/users";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Edit2, Trash2, ShieldAlert, Eye } from "lucide-react";
@@ -17,7 +17,7 @@ export function UserTable({ users, onView, onEdit, onResetIP, onDelete, isEmploy
     <div className="rounded-xl border bg-card overflow-hidden shadow-sm">
       <Table>
         <TableHeader>
-          <TableRow>
+          <TableRow className="bg-muted/50 hover:bg-muted/50">
             <TableHead>Nama</TableHead>
             <TableHead>No. Telp</TableHead>
             {!isEmployeeView && <TableHead>Perangkat</TableHead>}
