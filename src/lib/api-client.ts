@@ -2,32 +2,49 @@ import axios, { type AxiosError } from "axios";
 import axiosRetry from "axios-retry";
 import { getToken } from "./auth-utils";
 
-export function resolveApiBaseUrl(): string {
-  if (typeof window !== "undefined") {
-    const hostname = window.location.hostname;
-    // Development Endpoint
-    if (
-      hostname.includes(".vercel.app") ||
-      hostname.includes(".pages.dev") ||
-      hostname === "localhost" ||
-      hostname === "127.0.0.1"
-    ) {
-      return import.meta.env.VITE_API_URL_DEV;
-    }
-    // Production Endpoint
-    return import.meta.env.VITE_API_URL;
-  }
-  return import.meta.env.VITE_API_URL;
+const LOCAL_URL  = import.meta.env.VITE_API_URL_LOCAL;
+const DEV_URL    = import.meta.env.VITE_API_URL_DEV;
+const PROD_URL   = import.meta.env.VITE_API_URL;
+
+// Detect Environment 
+function detectEnv(): "local" | "dev" | "prod" {
+  if (typeof window === "undefined") return "prod";
+  const hostname = window.location.hostname;
+
+  if (hostname === "localhost" || hostname === "127.0.0.1") return "local";
+  if (hostname.includes(".vercel.app") || hostname.includes(".pages.dev")) return "dev";
+  return "prod";
+}
+
+// Resolve URL environment
+function getInitialUrl(): string {
+  const env = detectEnv();
+  if (env === "local") return LOCAL_URL; 
+  if (env === "dev") return DEV_URL;
+  return PROD_URL;
 }
 
 export const apiClient = axios.create({
-  baseURL: resolveApiBaseUrl(),
+  baseURL: getInitialUrl(),
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
   },
 });
+
+// Jika di localhost: cek dulu apakah backend local aktif, jika tidak fallback ke DEV
+if (detectEnv() === "local") {
+  axios.get(`${LOCAL_URL}/health`, { timeout: 1500 })
+    .then(() => {
+      // Backend local aktif → gunakan local
+      apiClient.defaults.baseURL = LOCAL_URL;
+    })
+    .catch(() => {
+      // Backend local tidak aktif → fallback ke DEV
+      apiClient.defaults.baseURL = DEV_URL;
+    });
+}
 
 // Interceptor untuk menyisipkan Token JWT ke setiap Request API
 apiClient.interceptors.request.use((config) => {
