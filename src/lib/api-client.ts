@@ -7,13 +7,13 @@ export function resolveApiBaseUrl(): string {
     const hostname = window.location.hostname;
 
     // Production Endpoint (Cloudflare)
-    if (hostname.includes(import.meta.env.VITE_API_BASE_URL_HOST)) {
-      return import.meta.env.VITE_API_BASE_URL;
+    if (hostname.includes(".net")) {
+      return import.meta.env.VITE_API_URL;
     }
 
     // Development Endpoint (Vercel / Localhost)
-    if (hostname.includes(import.meta.env.VITE_API_BASE_URL_HOST_DEV)) {
-      return import.meta.env.VITE_API_BASE_URL_DEV;
+    if (hostname.includes(".vercel.app") || hostname === "localhost" || hostname === "127.0.0.1") {
+      return import.meta.env.VITE_API_URL_DEV;
     }
   }
   return "http://localhost:8080/api";
