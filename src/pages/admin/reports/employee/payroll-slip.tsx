@@ -10,6 +10,7 @@ import { generatePayrollSlipPDF, type PayrollSlipPDFData } from "@/features/atte
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { extractLocalMonthStr } from "@/lib/date-utils";
 
 interface PayrollSlipData {
   userId: number;
@@ -71,10 +72,7 @@ export function PayrollSlipPage() {
 
   // Helper date conversions
   const getMonthStr = (dateVal: string) => {
-    if (!dateVal) return "";
-    const datePart = dateVal.split("T")[0];
-    const [year, month] = datePart.split("-");
-    return `${year}-${month}`;
+    return extractLocalMonthStr(dateVal);
   };
 
   const getMonthLabel = (monthStr: string) => {

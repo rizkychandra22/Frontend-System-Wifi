@@ -10,6 +10,7 @@ import { Download, CalendarCheck, TrendingUp, DollarSign, Clock } from "lucide-r
 import { format } from "date-fns";
 import { generateAttendanceReportPDF, type AttendanceReportItem } from "@/features/attendance/utils/generate-report-pdf";
 import { toast } from "sonner";
+import { extractLocalDate, formatLocalTime } from "@/lib/date-utils";
 
 export function AdminAttendanceReportPage() {
   const { attendances = [], isLoading: isAttendanceLoading } = useAllAttendance();
@@ -67,18 +68,18 @@ export function AdminAttendanceReportPage() {
 
     // 2. Process overtime
     overtimes.forEach((ot) => {
-      const otDate = new Date(ot.date);
+      const parsed = extractLocalDate(ot.date);
+      const otDate = new Date(parsed.year, parsed.month - 1, parsed.day);
       otDate.setHours(0, 0, 0, 0);
 
       if (otDate >= start && otDate <= end) {
-        const dateStr = ot.date.split("T")[0];
         reportItems.push({
           id: `overtime-${ot.id}`,
           employeeName: ot.user?.name || "-",
-          dateStr: dateStr,
+          dateStr: parsed.dateString,
           workType: "Overtime",
-          clockIn: ot.start_time ? format(new Date(ot.start_time), "HH:mm") : "-",
-          clockOut: ot.end_time ? format(new Date(ot.end_time), "HH:mm") : "-",
+          clockIn: formatLocalTime(ot.start_time),
+          clockOut: formatLocalTime(ot.end_time),
           tariff: ot.price,
           status: "Hadir",
         });

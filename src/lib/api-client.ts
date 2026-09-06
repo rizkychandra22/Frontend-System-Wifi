@@ -3,16 +3,20 @@ import axiosRetry from "axios-retry";
 import { getToken } from "./auth-utils";
 
 export function resolveApiBaseUrl(): string {
-  if (typeof window !== 'undefined') {
-    const host = window.location.hostname;
-    if (host === "localhost" || host === "127.0.0.1") {
+  if (typeof window !== "undefined") {
+    const hostname = window.location.hostname;
+
+    // Production Endpoint (Cloudflare)
+    if (hostname.includes(import.meta.env.VITE_API_BASE_URL_HOST)) {
       return import.meta.env.VITE_API_BASE_URL;
     }
-    if (host === import.meta.env.VITE_API_BASE_URL_HOST) {
-      return import.meta.env.VITE_API_BASE_URL;
+
+    // Development Endpoint (Vercel / Localhost)
+    if (hostname.includes(import.meta.env.VITE_API_BASE_URL_HOST_DEV)) {
+      return import.meta.env.VITE_API_BASE_URL_DEV;
     }
   }
-  return import.meta.env.VITE_API_BASE_URL;
+  return "http://localhost:8080/api";
 }
 
 export const apiClient = axios.create({

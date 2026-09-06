@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import type { Overtime } from "@/lib/api/overtime";
 import { getUserData } from "@/lib/auth-utils";
+import { formatShortDate, formatLocalTime } from "@/lib/date-utils";
 
 interface OvertimeTableProps {
   overtimes: Overtime[];
@@ -11,13 +12,6 @@ interface OvertimeTableProps {
   onEdit: (overtime: Overtime) => void;
   onDelete: (overtime: Overtime) => void;
 }
-
-const MONTHS = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agt", "Sep", "Okt", "Nov", "Des"];
-const formatDate = (dateStr: string) => {
-  const parts = dateStr.substring(0, 10).split("-");
-  if (parts.length !== 3) return dateStr;
-  return `${parts[2]} ${MONTHS[parseInt(parts[1], 10) - 1]} ${parts[0]}`;
-};
 
 export function OvertimeTable({ overtimes, onView, onEdit, onDelete }: OvertimeTableProps) {
   const user = getUserData();
@@ -50,13 +44,13 @@ export function OvertimeTable({ overtimes, onView, onEdit, onDelete }: OvertimeT
                   <TableCell className="font-medium">{ot.user?.name}</TableCell>
                 )}
                 <TableCell className="whitespace-nowrap">
-                  {formatDate(ot.date)}
+                  {formatShortDate(ot.date)}
                 </TableCell>
                 <TableCell className="max-w-[200px] truncate" title={ot.title}>
                   {ot.title}
                 </TableCell>
                 <TableCell className="whitespace-nowrap">
-                  {ot.start_time.substring(11, 16)} - {ot.end_time.substring(11, 16)}
+                  {formatLocalTime(ot.start_time)} - {formatLocalTime(ot.end_time)}
                 </TableCell>
                 {isAdmin && (
                   <TableCell className="font-medium text-primary whitespace-nowrap">
