@@ -6,8 +6,10 @@ import {
   getTodayAttendanceApi,
   getAttendanceHistoryApi,
   getAllAttendanceApi,
+  updateAttendanceApi,
   type AttendanceRecord,
   type AttendanceActionResponse,
+  type UpdateAttendanceInput,
 } from "@/lib/api/attendance";
 import { AxiosError } from "axios";
 import { parseErrorMessage, type ApiErrorResponse } from "@/lib/api-error";
@@ -128,4 +130,23 @@ export function useAllAttendance(options?: { enabled?: boolean }) {
     attendances: query.data ?? [],
     errorMessage: parseErrorMessage(query.error),
   };
+}
+
+export function useUpdateAttendance() {
+  const queryClient = useQueryClient();
+
+  return useMutation<
+    AttendanceRecord,
+    AxiosError<ApiErrorResponse>,
+    { id: number; data: UpdateAttendanceInput }
+  >({
+    mutationFn: ({ id, data }) => updateAttendanceApi(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["attendance"] });
+      toast.success("Jam kehadiran berhasil diperbarui");
+    },
+    onError: (error) => {
+      toast.error(parseErrorMessage(error) || "Gagal memperbarui jam kehadiran");
+    },
+  });
 }
