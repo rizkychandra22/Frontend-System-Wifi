@@ -1,7 +1,7 @@
-﻿import { type User } from "@/lib/api/users";
+import { type User } from "@/lib/api/users";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Edit2, Trash2, ShieldAlert, Eye } from "lucide-react";
+import { Edit, Trash2, ShieldAlert, Eye } from "lucide-react";
 
 interface UserTableProps {
   users: User[];
@@ -77,7 +77,7 @@ export function UserTable({ users, onView, onEdit, onResetIP, onDelete, isEmploy
                       onClick={() => onEdit(user)}
                       title="Edit"
                     >
-                      <Edit2 className="h-4 w-4" />
+                      <Edit className="h-4 w-4" />
                     </Button>
                     {!isEmployeeView && (
                       <>

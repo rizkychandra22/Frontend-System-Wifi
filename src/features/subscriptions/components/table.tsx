@@ -1,7 +1,7 @@
-﻿import { type Subscription } from "@/lib/api/subscription";
+import { type Subscription } from "@/lib/api/subscription";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Edit2, Trash2 } from "lucide-react";
+import { Edit, Trash2 } from "lucide-react";
 import { format } from "date-fns";
 import { getUserData } from "@/lib/auth-utils";
 
@@ -78,7 +78,7 @@ export function SubscriptionTable({ subscriptions, onEdit, onDelete }: Subscript
                       onClick={() => onEdit(sub)}
                       title="Edit Langganan"
                     >
-                      <Edit2 className="h-4 w-4" />
+                      <Edit className="h-4 w-4" />
                     </Button>
                     {!isEmployee && (
                       <Button

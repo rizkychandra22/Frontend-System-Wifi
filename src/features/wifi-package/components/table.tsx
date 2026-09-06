@@ -1,7 +1,7 @@
-﻿import { type WifiPackage } from "@/lib/api/wifi_package";
+import { type WifiPackage } from "@/lib/api/wifi_package";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Edit2, Trash2 } from "lucide-react";
+import { Edit, Trash2 } from "lucide-react";
 
 interface WifiPackageTableProps {
   packages: WifiPackage[];
@@ -41,7 +41,7 @@ export function WifiPackageTable({ packages, onEdit, onDelete }: WifiPackageTabl
                       onClick={() => onEdit(pkg)}
                       title="Edit"
                     >
-                      <Edit2 className="h-4 w-4" />
+                      <Edit className="h-4 w-4" />
                     </Button>
                     <Button
                       variant="outline"

@@ -12,7 +12,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { Pencil } from "lucide-react";
+import { Edit } from "lucide-react";
 import { useUpdateAttendance } from "@/features/attendance/hooks/use-attendance";
 
 interface AdminAttendanceTableProps {
@@ -228,11 +228,11 @@ export function AdminAttendanceTable({ attendances }: AdminAttendanceTableProps)
                       <Button
                         variant="outline"
                         size="icon"
-                        className="h-8 w-8 text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg"
+                        className="h-8 w-8 text-blue-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950"
                         onClick={() => handleOpenEdit(record)}
-                        title="Ubah Jam Kehadiran"
+                        title="Edit"
                       >
-                        <Pencil className="h-3.5 w-3.5" />
+                        <Edit className="h-4 w-4" />
                       </Button>
                     </td>
                   </tr>
