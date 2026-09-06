@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { useAllAttendance, useAttendanceHistory } from "@/features/attendance/hooks/use-attendance";
 import { useOvertimes } from "@/features/overtime/hooks/use-overtimes";
 import { getUserData } from "@/lib/auth-utils";
@@ -278,18 +278,18 @@ export function PayrollSlipPage() {
         <div className="border border-border/60 rounded-xl bg-card overflow-hidden shadow-sm">
           <Table>
             <TableHeader>
-              <TableRow className="bg-muted/40 hover:bg-muted/40 border-b border-border">
-                {isAdmin && <TableHead className="font-semibold text-foreground py-3.5">Karyawan</TableHead>}
-                <TableHead className="font-semibold text-foreground py-3.5">Bulan</TableHead>
-                <TableHead className="font-semibold text-foreground text-center">Dailywork</TableHead>
-                <TableHead className="font-semibold text-foreground text-right">Price Dailywork</TableHead>
-                <TableHead className="font-semibold text-foreground text-center">Overtime</TableHead>
-                <TableHead className="font-semibold text-foreground text-right">Price Overtime</TableHead>
-                <TableHead className="font-semibold text-foreground text-center">Halfday</TableHead>
-                <TableHead className="font-semibold text-foreground text-right">Price Halfday</TableHead>
-                <TableHead className="font-semibold text-foreground text-center">Izin</TableHead>
-                <TableHead className="font-semibold text-foreground text-right">Grand Price</TableHead>
-                <TableHead className="font-semibold text-foreground text-center">Aksi</TableHead>
+              <TableRow className="bg-muted/50 hover:bg-muted/50">
+                {isAdmin && <TableHead>Karyawan</TableHead>}
+                <TableHead>Bulan</TableHead>
+                <TableHead className="text-center">Dailywork</TableHead>
+                <TableHead className="text-right">Price Dailywork</TableHead>
+                <TableHead className="text-center">Overtime</TableHead>
+                <TableHead className="text-right">Price Overtime</TableHead>
+                <TableHead className="text-center">Halfday</TableHead>
+                <TableHead className="text-right">Price Halfday</TableHead>
+                <TableHead className="text-center">Izin</TableHead>
+                <TableHead className="text-right">Grand Price</TableHead>
+                <TableHead className="text-center">Aksi</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -379,9 +379,9 @@ export function PayrollSlipPage() {
                   <table className="w-full text-xs text-left border-collapse">
                     <thead>
                       <tr className="bg-muted/40 border-b border-border">
-                        <th className="p-3 font-semibold text-foreground">Deskripsi Pekerjaan</th>
-                        <th className="p-3 font-semibold text-foreground text-center">Kuantitas</th>
-                        <th className="p-3 font-semibold text-foreground text-right">Tarif</th>
+                        <th className="p-3">Deskripsi Pekerjaan</th>
+                        <th className="p-3 text-center">Kuantitas</th>
+                        <th className="p-3 text-right">Tarif</th>
                       </tr>
                     </thead>
                     <tbody>

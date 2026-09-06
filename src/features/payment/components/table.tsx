@@ -1,4 +1,4 @@
-import { type Payment } from "@/lib/api/payment";
+﻿import { type Payment } from "@/lib/api/payment";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Download, Edit2, Trash2 } from "lucide-react";
@@ -35,7 +35,7 @@ export function PaymentTable({ payments, onView, onEdit, onDelete }: PaymentTabl
     <div className="rounded-xl border bg-card overflow-hidden shadow-sm">
       <Table>
         <TableHeader>
-          <TableRow>
+          <TableRow className="bg-muted/50 hover:bg-muted/50">
             <TableHead>Invoice ID</TableHead>
             <TableHead>Tanggal</TableHead>
             <TableHead>Pelanggan</TableHead>

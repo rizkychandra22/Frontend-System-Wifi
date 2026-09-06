@@ -1,4 +1,4 @@
-
+﻿
 import { Eye, Edit, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -21,7 +21,7 @@ export function OvertimeTable({ overtimes, onView, onEdit, onDelete }: OvertimeT
     <div className="rounded-xl border bg-card overflow-hidden shadow-sm">
       <Table>
         <TableHeader>
-          <TableRow>
+          <TableRow className="bg-muted/50 hover:bg-muted/50">
             {isAdmin && <TableHead>Karyawan</TableHead>}
             <TableHead>Tanggal</TableHead>
             <TableHead>Pekerjaan</TableHead>
