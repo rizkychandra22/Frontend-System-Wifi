@@ -5,18 +5,19 @@ import { getToken } from "./auth-utils";
 export function resolveApiBaseUrl(): string {
   if (typeof window !== "undefined") {
     const hostname = window.location.hostname;
-
-    // Production Endpoint (Cloudflare)
-    if (hostname.includes(".net")) {
-      return import.meta.env.VITE_API_URL;
-    }
-
-    // Development Endpoint (Vercel / Localhost)
-    if (hostname.includes(".vercel.app") || hostname === "localhost" || hostname === "127.0.0.1") {
+    // Development Endpoint
+    if (
+      hostname.includes(".vercel.app") ||
+      hostname.includes(".pages.dev") ||
+      hostname === "localhost" ||
+      hostname === "127.0.0.1"
+    ) {
       return import.meta.env.VITE_API_URL_DEV;
     }
+    // Production Endpoint
+    return import.meta.env.VITE_API_URL;
   }
-  return "http://localhost:8080/api";
+  return import.meta.env.VITE_API_URL;
 }
 
 export const apiClient = axios.create({
