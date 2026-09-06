@@ -398,7 +398,7 @@ export function PayrollSlipPage() {
 
       {/* Slip Detail Sheet Preview */}
       <Sheet open={!!selectedSlip} onOpenChange={(open) => !open && setSelectedSlip(null)}>
-        <SheetContent className="sm:max-w-xl overflow-y-auto">
+        <SheetContent className="sm:max-w-xl overflow-y-auto no-scrollbar">
           <SheetHeader className="pb-4 border-b border-border">
             <SheetTitle className="text-lg font-bold flex items-center gap-2">
               Rincian Slip Gaji

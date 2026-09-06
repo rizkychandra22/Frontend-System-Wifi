@@ -25,7 +25,7 @@ export function OvertimeDetail({ overtime, isOpen, onOpenChange }: OvertimeDetai
 
   return (
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
-      <SheetContent className="w-[400px] sm:w-[540px] overflow-y-auto">
+      <SheetContent className="w-[400px] sm:w-[540px] overflow-y-auto no-scrollbar">
         <SheetHeader>
           <SheetTitle>Detail Kerja Lembur</SheetTitle>
           <SheetDescription>

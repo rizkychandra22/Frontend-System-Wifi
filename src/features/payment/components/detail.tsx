@@ -57,7 +57,7 @@ export function PaymentDetail({ payment, isOpen, onOpenChange }: PaymentDetailPr
 
   return (
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
-      <SheetContent className="overflow-y-auto">
+      <SheetContent className="overflow-y-auto no-scrollbar">
         <SheetHeader className="mb-6">
           <SheetTitle className="text-xl">Detail Pembayaran</SheetTitle>
         </SheetHeader>
