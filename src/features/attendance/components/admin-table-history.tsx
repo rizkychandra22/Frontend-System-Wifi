@@ -29,8 +29,6 @@ export function AdminAttendanceTable({ attendances }: AdminAttendanceTableProps)
   const [editingRecord, setEditingRecord] = useState<AttendanceRecord | null>(null);
   const [clockInTime, setClockInTime] = useState("");
   const [clockOutTime, setClockOutTime] = useState("");
-  const [status, setStatus] = useState("Hadir");
-  const [grade, setGrade] = useState("auto");
   const [notes, setNotes] = useState("");
 
   const updateMutation = useUpdateAttendance();
@@ -52,8 +50,6 @@ export function AdminAttendanceTable({ attendances }: AdminAttendanceTableProps)
     setEditingRecord(record);
     setClockInTime(formatTimeToInputValue(record.clock_in));
     setClockOutTime(formatTimeToInputValue(record.clock_out));
-    setStatus(record.status || "Hadir");
-    setGrade(record.grade || "auto");
     setNotes(record.notes || "");
   };
 
@@ -66,8 +62,6 @@ export function AdminAttendanceTable({ attendances }: AdminAttendanceTableProps)
       data: {
         clock_in: clockInTime.trim() || null,
         clock_out: clockOutTime.trim() || null,
-        status,
-        grade: grade === "auto" ? "" : grade,
         notes: notes.trim() || null,
       },
     });
@@ -285,7 +279,7 @@ export function AdminAttendanceTable({ attendances }: AdminAttendanceTableProps)
               </div>
 
               {/* Jam Masuk & Jam Keluar */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1.5">
                   <Label htmlFor="clockIn" className="text-xs font-semibold">
                     Jam Absen Masuk
@@ -304,7 +298,7 @@ export function AdminAttendanceTable({ attendances }: AdminAttendanceTableProps)
 
                 <div className="space-y-1.5">
                   <Label htmlFor="clockOut" className="text-xs font-semibold">
-                    Jam Absen Keluar (Pulang)
+                    Jam Absen Keluar
                   </Label>
                   <Input
                     id="clockOut"
@@ -316,44 +310,6 @@ export function AdminAttendanceTable({ attendances }: AdminAttendanceTableProps)
                   <p className="text-[11px] text-muted-foreground">
                     Format: HH:mm (contoh: 17:00)
                   </p>
-                </div>
-              </div>
-
-              {/* Status & Grade */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="space-y-1.5">
-                  <Label htmlFor="statusSelect" className="text-xs font-semibold">
-                    Status Kehadiran
-                  </Label>
-                  <Select value={status} onValueChange={setStatus}>
-                    <SelectTrigger id="statusSelect" className="h-9 text-xs w-full">
-                      <SelectValue placeholder="Pilih status" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Hadir" className="text-xs">Hadir</SelectItem>
-                      <SelectItem value="Proses" className="text-xs">Proses (Belum Pulang)</SelectItem>
-                      <SelectItem value="Izin" className="text-xs">Izin</SelectItem>
-                      <SelectItem value="Libur" className="text-xs">Libur</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-1.5">
-                  <Label htmlFor="gradeSelect" className="text-xs font-semibold">
-                    Grade Kehadiran
-                  </Label>
-                  <Select value={grade} onValueChange={setGrade}>
-                    <SelectTrigger id="gradeSelect" className="h-9 text-xs w-full">
-                      <SelectValue placeholder="Pilih grade" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="auto" className="text-xs">Otomatis (Sesuai Jam Masuk)</SelectItem>
-                      <SelectItem value="Disiplin" className="text-xs">Disiplin (s/d 07:50)</SelectItem>
-                      <SelectItem value="Tepat Waktu" className="text-xs">Tepat Waktu (07:51 - 08:00)</SelectItem>
-                      <SelectItem value="Toleransi Terlambat" className="text-xs">Toleransi Terlambat (08:01 - 08:10)</SelectItem>
-                      <SelectItem value="Terlambat" className="text-xs">Terlambat (&gt; 08:10)</SelectItem>
-                    </SelectContent>
-                  </Select>
                 </div>
               </div>
 
