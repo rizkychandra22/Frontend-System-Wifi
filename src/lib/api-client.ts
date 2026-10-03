@@ -1,6 +1,6 @@
 import axios, { type AxiosError } from "axios";
 import axiosRetry from "axios-retry";
-import { getToken } from "./auth-utils";
+import { getToken, removeToken } from "./auth-utils";
 
 const DEV_URL    = import.meta.env.VITE_API_URL_DEV;
 const PROD_URL   = import.meta.env.VITE_API_URL;
@@ -70,6 +70,12 @@ apiClient.interceptors.response.use(
       classified._classified = "network";
     } else if (error.code === "ECONNABORTED" || error.message.includes("timeout")) {
       classified._classified = "timeout";
+    } else if (status === 401 && !error.config?.url?.includes("/auth/login")) {
+      classified._classified = "unauthorized";
+      removeToken();
+      if (typeof window !== "undefined" && !window.location.pathname.startsWith("/login")) {
+        window.location.href = "/login?reason=expired";
+      }
     } else if (status && status >= 500) {
       classified._classified = "server_error";
     }

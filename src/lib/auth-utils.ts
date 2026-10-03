@@ -1,6 +1,33 @@
+export const INACTIVITY_TIMEOUT_MS = 3 * 60 * 60 * 1000; // 3 Jam
+
+let lastThrottleTime = 0;
+export const updateLastActivity = (force = false) => {
+  const now = Date.now();
+  if (force || now - lastThrottleTime > 15000) { // Throttle tiap 15 detik
+    lastThrottleTime = now;
+    localStorage.setItem("last_activity_time", now.toString());
+  }
+};
+
+export const getLastActivity = (): number => {
+  const val = localStorage.getItem("last_activity_time");
+  if (!val) {
+    const now = Date.now();
+    localStorage.setItem("last_activity_time", now.toString());
+    return now;
+  }
+  return parseInt(val, 10) || Date.now();
+};
+
+export const isSessionInactive = (): boolean => {
+  const lastActivity = getLastActivity();
+  return Date.now() - lastActivity >= INACTIVITY_TIMEOUT_MS;
+};
+
 export const setToken = (token: string, user: unknown) => {
   localStorage.setItem("auth_token", token);
   localStorage.setItem("auth_user", JSON.stringify(user));
+  updateLastActivity(true);
 };
 
 export const getDeviceId = (): string => {
@@ -19,10 +46,32 @@ export const getToken = () => {
 export const removeToken = () => {
   localStorage.removeItem("auth_token");
   localStorage.removeItem("auth_user");
+  localStorage.removeItem("last_activity_time");
 };
 
 export const isAuthenticated = () => {
-  return !!getToken();
+  const token = getToken();
+  if (!token) return false;
+
+  const user = getUser();
+  if (!user || !user.exp) {
+    removeToken();
+    return false;
+  }
+
+  // Cek apakah token JWT sudah kadaluarsa (exp dalam detik)
+  if (Date.now() >= user.exp * 1000) {
+    removeToken();
+    return false;
+  }
+
+  // Cek apakah tidak ada aktivitas selama 3 jam
+  if (isSessionInactive()) {
+    removeToken();
+    return false;
+  }
+
+  return true;
 };
 
 export const getUserData = (): Record<string, string> | null => {

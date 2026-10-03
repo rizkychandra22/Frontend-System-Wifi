@@ -1,11 +1,25 @@
+import { useEffect } from "react";
+import { useSearchParams, Navigate } from "react-router-dom";
+import { toast } from "sonner";
 import { LoginForm } from "@/features/auth/components/login-form";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import logo from "@/assets/logo.png";
-
-import { Navigate } from "react-router-dom";
 import { isAuthenticated } from "@/lib/auth-utils";
 
 export const LoginPage = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    const reason = searchParams.get("reason");
+    if (reason === "inactivity") {
+      toast.warning("Sesi Anda telah berakhir karena tidak ada aktivitas selama 3 jam. Silakan login kembali.");
+      setSearchParams({}, { replace: true });
+    } else if (reason === "expired") {
+      toast.warning("Sesi login Anda telah habis (3 jam). Silakan login kembali.");
+      setSearchParams({}, { replace: true });
+    }
+  }, [searchParams, setSearchParams]);
+
   if (isAuthenticated()) {
     return <Navigate to="/dashboard" replace />;
   }
