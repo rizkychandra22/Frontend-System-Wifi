@@ -4,8 +4,11 @@ import { AppSidebar } from "./sidebar";
 import { Header } from "./header";
 import { ThemeProvider } from "@/components/tema-ui";
 import { isAuthenticated } from "@/lib/auth-utils";
+import { useSessionTimeout } from "@/components/auth/session-timeout-tracker";
 
 export function AppLayout() {
+  useSessionTimeout();
+
   if (!isAuthenticated()) {
     return <Navigate to="/login" replace />;
   }

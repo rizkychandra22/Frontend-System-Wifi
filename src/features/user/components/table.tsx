@@ -81,16 +81,18 @@ export function UserTable({ users, onView, onEdit, onResetIP, onDelete, isEmploy
                     </Button>
                     {!isEmployeeView && (
                       <>
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          className="h-8 w-8 text-amber-500 hover:text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-950"
-                          onClick={() => onResetIP(user)}
-                          title="Reset Perangkat"
-                          disabled={!user.device_id}
-                        >
-                          <ShieldAlert className="h-4 w-4" />
-                        </Button>
+                        {user.role === "employee" && (
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            className="h-8 w-8 text-amber-500 hover:text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-950"
+                            onClick={() => onResetIP(user)}
+                            title="Reset Perangkat"
+                            disabled={!user.device_id}
+                          >
+                            <ShieldAlert className="h-4 w-4" />
+                          </Button>
+                        )}
                         <Button
                           variant="outline"
                           size="icon"
