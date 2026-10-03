@@ -119,12 +119,26 @@ export function PayrollSlipPage() {
   };
 
   // Group attendance records
-  rawAttendances.forEach((att) => {
+  // Sort so "Hadir" takes precedence over other statuses in case duplicates exist
+  const sortedAttendances = [...rawAttendances].sort((a, b) => {
+    if (a.status === "Hadir" && b.status !== "Hadir") return -1;
+    if (b.status === "Hadir" && a.status !== "Hadir") return 1;
+    return 0;
+  });
+
+  const seenUserDates = new Set<string>();
+
+  sortedAttendances.forEach((att) => {
     if (!att.user) return;
     const userId = att.user_id;
     const employeeName = att.user.name;
     const monthStr = getMonthStr(att.date);
     if (!monthStr) return;
+
+    const cleanDate = att.date ? att.date.substring(0, 10) : "";
+    const userDateKey = `${userId}_${cleanDate}`;
+    if (seenUserDates.has(userDateKey)) return;
+    seenUserDates.add(userDateKey);
 
     const entry = getOrCreateEntry(userId, employeeName, monthStr);
 

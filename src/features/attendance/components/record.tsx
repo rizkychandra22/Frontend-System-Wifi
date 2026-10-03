@@ -12,6 +12,7 @@ export function AttendanceRecord() {
   const { mutate: requestIzin, isPending: isIzinLoading } = useRequestIzin();
   const [izinNotes, setIzinNotes] = useState("");
   const [showIzinForm, setShowIzinForm] = useState(false);
+  const [isLocating, setIsLocating] = useState(false);
 
   const getLocation = (): Promise<GeolocationPosition> => {
     return new Promise((resolve, reject) => {
@@ -25,22 +26,30 @@ export function AttendanceRecord() {
   };
 
   const handleClockIn = async () => {
+    if (isLocating || isClockInLoading) return;
+    setIsLocating(true);
     try {
       const pos = await getLocation();
       clockIn({ lat: pos.coords.latitude, lng: pos.coords.longitude });
     } catch (error: unknown) {
       const err = error as Error;
       toast.error(err.message || "Gagal mendapatkan lokasi. Pastikan akses lokasi diizinkan.");
+    } finally {
+      setIsLocating(false);
     }
   };
 
   const handleClockOut = async () => {
+    if (isLocating || isClockOutLoading) return;
+    setIsLocating(true);
     try {
       const pos = await getLocation();
       clockOut({ lat: pos.coords.latitude, lng: pos.coords.longitude });
     } catch (error: unknown) {
       const err = error as Error;
       toast.error(err.message || "Gagal mendapatkan lokasi. Pastikan akses lokasi diizinkan.");
+    } finally {
+      setIsLocating(false);
     }
   };
 
@@ -116,10 +125,14 @@ export function AttendanceRecord() {
               <Button 
                 className="w-full text-base h-12 shadow-blue" 
                 onClick={handleClockIn}
-                disabled={isClockInLoading}
+                disabled={isClockInLoading || isLocating}
               >
                 <MapPin className="w-4 h-4 mr-2" />
-                {isClockInLoading ? "Memproses..." : "Catat Absen Masuk"}
+                {isLocating
+                  ? "Mendapatkan Lokasi..."
+                  : isClockInLoading
+                  ? "Memproses..."
+                  : "Catat Absen Masuk"}
               </Button>
               
               {!showIzinForm ? (
@@ -181,10 +194,14 @@ export function AttendanceRecord() {
                 variant="outline"
                 className={`w-full text-base h-12 ${record ? 'border-primary text-primary hover:bg-primary/5' : ''}`}
                 onClick={handleClockOut}
-                disabled={!record || isClockOutLoading}
+                disabled={!record || isClockOutLoading || isLocating}
               >
                 <MapPin className="w-4 h-4 mr-2" />
-                {isClockOutLoading ? "Memproses..." : "Catat Absen Keluar"}
+                {isLocating
+                  ? "Mendapatkan Lokasi..."
+                  : isClockOutLoading
+                  ? "Memproses..."
+                  : "Catat Absen Keluar"}
               </Button>
 
               {record && record.status === "Proses" && (

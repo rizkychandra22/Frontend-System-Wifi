@@ -35,12 +35,28 @@ export function AdminAttendanceReportPage() {
     end.setHours(23, 59, 59, 999);
 
     // 1. Process dailywork (attendance)
-    attendances.forEach((att) => {
+    // Sort so "Hadir" takes precedence over other statuses in case historical duplicates exist
+    const sortedAttendances = [...attendances].sort((a, b) => {
+      if (a.status === "Hadir" && b.status !== "Hadir") return -1;
+      if (b.status === "Hadir" && a.status !== "Hadir") return 1;
+      return 0;
+    });
+
+    const seenDailyKeys = new Set<string>();
+
+    sortedAttendances.forEach((att) => {
       const attDate = new Date(att.date);
       attDate.setHours(0, 0, 0, 0);
 
       if (attDate >= start && attDate <= end) {
+        const userId = att.user_id || att.user?.id || "-";
+        const cleanDate = att.date ? att.date.substring(0, 10) : "";
+        const dateKey = `${userId}_${cleanDate}`;
+
         if (att.status === "Hadir") {
+          if (seenDailyKeys.has(dateKey)) return;
+          seenDailyKeys.add(dateKey);
+
           reportItems.push({
             id: `daily-${att.id}`,
             employeeName: att.user?.name || "-",
@@ -52,6 +68,9 @@ export function AdminAttendanceReportPage() {
             status: "Hadir",
           });
         } else if (att.status === "Izin" && att.clock_in !== null) {
+          if (seenDailyKeys.has(dateKey)) return;
+          seenDailyKeys.add(dateKey);
+
           reportItems.push({
             id: `daily-${att.id}`,
             employeeName: att.user?.name || "-",

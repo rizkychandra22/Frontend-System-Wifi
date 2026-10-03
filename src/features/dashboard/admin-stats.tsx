@@ -20,7 +20,8 @@ export function AdminDashboardStats() {
   // Simplified today logic:
   const today = new Date().toISOString().split('T')[0];
   const todayAttendances = attendances.filter(a => a.date.startsWith(today));
-  const totalPresent = todayAttendances.filter(a => ["Proses", "Hadir"].includes(a.status)).length;
+  const presentUserIds = new Set(todayAttendances.filter(a => ["Proses", "Hadir"].includes(a.status)).map(a => a.user_id));
+  const totalPresent = presentUserIds.size;
   
   const pendingPayments = payments.filter(p => p.status.toLowerCase() !== "paid" && p.status.toLowerCase() !== "lunas").length;
 
