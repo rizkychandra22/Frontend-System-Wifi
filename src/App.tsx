@@ -1,8 +1,8 @@
 import { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes, Navigate, Outlet } from "react-router-dom";
-import { Loader2 } from "lucide-react";
 import { AppLayout } from "@/components/layouts/app";
 import { WebLayout } from "@/components/layouts/web";
+import { PageLoader } from "@/components/page-loader";
 import { Toaster } from "@/components/ui/sonner";
 import { getUserData } from "@/lib/auth-utils";
 import "./App.css";
@@ -32,19 +32,6 @@ const EmployeeAllowancePage = lazy(() => import("@/pages/employee/allowance"));
 const CustomerSubscriptionsPage = lazy(() => import("@/pages/customer/subscriptions"));
 const CustomerBillingHistoryPage = lazy(() => import("@/pages/customer/billing-history"));
 
-
-// Loading Fallback Component
-function PageLoader() {
-  return (
-    <div className="flex h-[60vh] w-full items-center justify-center">
-      <div className="flex flex-col items-center gap-2.5">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-        <span className="text-xs text-muted-foreground font-medium">Memuat halaman...</span>
-      </div>
-    </div>
-  );
-}
-
 // Protected Route Guard
 const ProtectedRouteGroup = ({ allowedRoles }: { allowedRoles: string[] }) => {
   const user = getUserData();
@@ -61,7 +48,13 @@ function App() {
       <Suspense fallback={<PageLoader />}>
         <Routes>
           {/* Public Web Landing Routes */}
-          <Route element={<WebLayout />}>
+          <Route
+            element={
+              <Suspense fallback={<PageLoader variant="web" />}>
+                <WebLayout />
+              </Suspense>
+            }
+          >
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/package" element={<PackagePage />} />
@@ -73,7 +66,13 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
 
           {/* Protected Routes */}
-          <Route element={<AppLayout />}>
+          <Route
+            element={
+              <Suspense fallback={<PageLoader variant="dashboard" />}>
+                <AppLayout />
+              </Suspense>
+            }
+          >
             <Route path="/dashboard" element={<DashboardPage />} />
 
             {/* Admin Routes */}
