@@ -102,56 +102,57 @@ ${contactForm.message}`;
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-5 gap-8 lg:gap-12 w-full items-start">
+        <h3 className="font-bold text-xl font-display text-foreground mb-4">Informasi Kontak</h3>
+
+        <div className="grid lg:grid-cols-5 gap-8 lg:gap-12 w-full items-stretch">
           {/* Left Contact Info */}
-          <div className="lg:col-span-2 space-y-6">
-            <h3 className="font-bold text-xl font-display text-foreground">Informasi Kontak</h3>
+          <div className="lg:col-span-2 flex flex-col gap-6">
             <p className="text-muted-foreground text-xs leading-relaxed">
               Hubungi kami kapan saja melalui saluran kontak di bawah ini. Kami akan dengan senang hati membantu Anda memasang wifi idaman.
             </p>
 
-            <div className="space-y-4 pt-2">
-              <div className="flex items-start gap-4">
-                <div className="h-10 w-10 rounded-lg bg-blue/10 text-primary flex items-center justify-center shrink-0">
-                  <Phone className="h-5 w-5" />
+            <div className="flex-1 flex flex-col justify-between gap-6 pt-2">
+                <div className="flex items-start gap-4">
+                  <div className="h-10 w-10 rounded-lg bg-blue/10 text-primary flex items-center justify-center shrink-0">
+                    <Phone className="h-5 w-5" />
+                  </div>
+                  <div className="space-y-0.5">
+                    <h4 className="font-semibold text-sm">Telepon & WhatsApp</h4>
+                    {adminContact ? (
+                      <>
+                        <p className="text-xs text-muted-foreground">{adminContact.name} ({adminContact.phone})</p>
+                        <p className="text-xs text-muted-foreground">+62 821-2221-9332 (Layanan WA 2)</p>
+                      </>
+                    ) : (
+                      <>
+                        <p className="text-xs text-muted-foreground">+62 821-2221-9332</p>
+                        <p className="text-xs text-muted-foreground">+62 821-7813-1581</p>
+                      </>
+                    )}
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-semibold text-sm">Telepon & WhatsApp</h4>
-                  {adminContact ? (
-                    <>
-                      <p className="text-xs text-muted-foreground">{adminContact.name} ({adminContact.phone})</p>
-                      <p className="text-xs text-muted-foreground">+62 821-2221-9332 (Layanan WA 2)</p>
-                    </>
-                  ) : (
-                    <>
-                      <p className="text-xs text-muted-foreground">+62 821-2221-9332</p>
-                      <p className="text-xs text-muted-foreground">+62 821-7813-1581</p>
-                    </>
-                  )}
-                </div>
-              </div>
 
-              <div className="flex items-start gap-4">
-                <div className="h-10 w-10 rounded-lg bg-blue/10 text-primary flex items-center justify-center shrink-0">
-                  <Mail className="h-5 w-5" />
+                <div className="flex items-start gap-4">
+                  <div className="h-10 w-10 rounded-lg bg-blue/10 text-primary flex items-center justify-center shrink-0">
+                    <Mail className="h-5 w-5" />
+                  </div>
+                  <div className="space-y-0.5">
+                    <h4 className="font-semibold text-sm">Alamat Email</h4>
+                    <p className="text-xs text-muted-foreground">support@netversefiber.net</p>
+                    <p className="text-xs text-muted-foreground">info@netversefiber.net</p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-semibold text-sm">Alamat Email</h4>
-                  <p className="text-xs text-muted-foreground">support@netversefiber.net</p>
-                  <p className="text-xs text-muted-foreground">info@netversefiber.net</p>
-                </div>
-              </div>
 
-              <div className="flex items-start gap-4">
-                <div className="h-10 w-10 rounded-lg bg-blue/10 text-primary flex items-center justify-center shrink-0">
-                  <MapPin className="h-5 w-5" />
+                <div className="flex items-start gap-4">
+                  <div className="h-10 w-10 rounded-lg bg-blue/10 text-primary flex items-center justify-center shrink-0">
+                    <MapPin className="h-5 w-5" />
+                  </div>
+                  <div className="space-y-0.5">
+                    <h4 className="font-semibold text-sm">Alamat Kantor Operasional</h4>
+                    <p className="text-xs text-muted-foreground">Gedung NetVerse IT Center, Lt. 3</p>
+                    <p className="text-xs text-muted-foreground">Jl. Jenderal Sudirman No. 45, Jakarta Selatan</p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-semibold text-sm">Alamat Kantor Operasional</h4>
-                  <p className="text-xs text-muted-foreground">Gedung NetVerse IT Center, Lt. 3</p>
-                  <p className="text-xs text-muted-foreground">Jl. Jenderal Sudirman No. 45, Jakarta Selatan</p>
-                </div>
-              </div>
             </div>
 
             <Card className="bg-muted/40 shadow-none">
@@ -167,9 +168,9 @@ ${contactForm.message}`;
           </div>
 
           {/* Right Contact Form */}
-          <Card className="lg:col-span-3 border-border/80 rounded-2xl shadow-sm">
-            <CardContent className="p-6 md:p-8">
-              <form onSubmit={handleFormSubmit} className="space-y-4">
+          <Card className="lg:col-span-3 border-border/80 rounded-2xl shadow-sm flex flex-col">
+            <CardContent className="p-6 flex-1 flex flex-col">
+              <form onSubmit={handleFormSubmit} className="space-y-3.5 flex-1 flex flex-col justify-between">
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
                     <Label htmlFor="name" className="text-xs font-semibold text-muted-foreground">Nama Lengkap</Label>
