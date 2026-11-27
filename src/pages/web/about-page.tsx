@@ -9,6 +9,7 @@ const corePillars = [
       "Koneksi internet stabil langsung dari kabel serat optik ke router rumah Anda tanpa gangguan cuaca.",
     icon: Zap,
     iconBgClass: "bg-blue/10 text-primary",
+    hoverBorderClass: "hover:border-primary/40",
   },
   {
     title: "Kuota Unlimited",
@@ -16,6 +17,7 @@ const corePillars = [
       "Nikmati berselancar sepuasnya tanpa khawatir kehabisan kuota atau penurunan kecepatan yang drastis.",
     icon: Wifi,
     iconBgClass: "bg-green-100 text-green-700 dark:bg-green-950/40 dark:text-green-400",
+    hoverBorderClass: "hover:border-green-500/40",
   },
   {
     title: "Layanan Teknis 24/7",
@@ -23,6 +25,7 @@ const corePillars = [
       "Tim dukungan teknis profesional kami siap melayani dan mengatasi kendala Anda kapan pun dibutuhkan.",
     icon: Clock,
     iconBgClass: "bg-amber-100 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400",
+    hoverBorderClass: "hover:border-amber-500/40",
   },
   {
     title: "Koneksi Aman",
@@ -30,6 +33,7 @@ const corePillars = [
       "Dilengkapi keamanan jaringan mutakhir untuk menjaga lalu lintas data pribadi Anda tetap privat dan aman.",
     icon: ShieldCheck,
     iconBgClass: "bg-red-100 text-red-700 dark:bg-red-950/40 dark:text-red-400",
+    hoverBorderClass: "hover:border-red-500/40",
   },
 ];
 
@@ -57,19 +61,19 @@ export default function AboutPage() {
               return (
                 <div
                   key={pillar.title}
-                  className="bg-card border border-border/80 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-4"
+                  className={`group bg-card border border-border/80 rounded-xl p-6 shadow-sm space-y-3 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${pillar.hoverBorderClass}`}
                 >
-                  <div
-                    className={`h-11 w-11 rounded-lg ${pillar.iconBgClass} flex items-center justify-center shrink-0`}
-                  >
-                    <Icon className="h-6 w-6" />
+                  <div className="flex items-center gap-3">
+                    <div
+                      className={`h-11 w-11 rounded-lg ${pillar.iconBgClass} flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110`}
+                    >
+                      <Icon className="h-6 w-6" />
+                    </div>
+                    <h3 className="font-bold text-lg font-display leading-snug">{pillar.title}</h3>
                   </div>
-                  <div className="space-y-2">
-                    <h3 className="font-bold text-lg font-display">{pillar.title}</h3>
-                    <p className="text-muted-foreground text-xs leading-relaxed">
-                      {pillar.description}
-                    </p>
-                  </div>
+                  <p className="text-muted-foreground text-xs leading-relaxed">
+                    {pillar.description}
+                  </p>
                 </div>
               );
             })}
