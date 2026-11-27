@@ -195,44 +195,46 @@ ${contactForm.message}`;
                   </div>
                 </div>
 
-                <div className="space-y-1.5">
-                  <Label htmlFor="email" className="text-xs font-semibold text-muted-foreground">Alamat Email (Opsional)</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="nama@email.com"
-                    value={contactForm.email}
-                    onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
-                    className="h-9 text-xs focus:ring-primary focus:border-primary shadow-none"
-                  />
-                </div>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <Label htmlFor="email" className="text-xs font-semibold text-muted-foreground">Alamat Email (Opsional)</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="nama@email.com"
+                      value={contactForm.email}
+                      onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
+                      className="h-9 text-xs focus:ring-primary focus:border-primary shadow-none"
+                    />
+                  </div>
 
-                <div className="space-y-1.5">
-                  <Label htmlFor="package" className="text-xs font-semibold text-muted-foreground">Paket yang Diminati (Opsional)</Label>
-                  <Select
-                    value={selectedPackage || "__none__"}
-                    onValueChange={(value) => setSelectedPackage(value === "__none__" ? "" : value)}
-                  >
-                    <SelectTrigger id="package" className="h-9 text-xs shadow-none">
-                      <SelectValue placeholder="-- Pilih Paket Internet --" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="__none__" className="text-xs text-muted-foreground">
-                        -- Pilih Paket Internet --
-                      </SelectItem>
-                      {selectedPackage &&
-                        !displayPackages.some((pkg) => pkg.name === selectedPackage) && (
-                          <SelectItem value={selectedPackage} className="text-xs">
-                            {selectedPackage}
-                          </SelectItem>
-                        )}
-                      {displayPackages.map((pkg, idx) => (
-                        <SelectItem key={idx} value={pkg.name} className="text-xs">
-                          {pkg.name} ({pkg.price} / bulan)
+                  <div className="space-y-1.5">
+                    <Label htmlFor="package" className="text-xs font-semibold text-muted-foreground">Paket yang Diminati (Opsional)</Label>
+                    <Select
+                      value={selectedPackage || "__none__"}
+                      onValueChange={(value) => setSelectedPackage(value === "__none__" ? "" : value)}
+                    >
+                      <SelectTrigger id="package" className="h-9 text-xs shadow-none">
+                        <SelectValue placeholder="-- Pilih Paket Internet --" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="__none__" className="text-xs text-muted-foreground">
+                          -- Pilih Paket Internet --
                         </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                        {selectedPackage &&
+                          !displayPackages.some((pkg) => pkg.name === selectedPackage) && (
+                            <SelectItem value={selectedPackage} className="text-xs">
+                              {selectedPackage}
+                            </SelectItem>
+                          )}
+                        {displayPackages.map((pkg, idx) => (
+                          <SelectItem key={idx} value={pkg.name} className="text-xs">
+                            {pkg.name} ({pkg.price} / bulan)
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
 
                 <div className="space-y-1.5">

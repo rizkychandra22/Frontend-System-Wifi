@@ -43,8 +43,8 @@ export default function HomePage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative min-h-[calc(100vh-4rem)] flex items-center pt-10 pb-8 md:pt-12 md:pb-10 overflow-hidden bg-gradient-to-b from-primary/5 via-transparent to-transparent">
-        <div className="container mx-auto px-4 md:px-6 grid md:grid-cols-2 gap-8 lg:gap-12 items-center w-full">
+      <section className="relative pt-10 pb-12 md:min-h-[calc(100vh-4rem)] md:flex md:items-center md:pt-12 md:pb-10 overflow-hidden bg-gradient-to-b from-primary/5 via-transparent to-transparent">
+        <div className="container mx-auto px-4 md:px-6 grid md:grid-cols-2 gap-y-10 md:gap-8 lg:gap-12 items-center w-full">
           {/* Left Content */}
           <div className="space-y-4 md:pr-4">
             <Badge
@@ -60,7 +60,7 @@ export default function HomePage() {
             <p className="text-muted-foreground text-base sm:text-lg leading-relaxed max-w-lg">
               NetVerse Fiber menghadirkan layanan internet rumah super cepat menggunakan kabel serat optik terbaik. Aktivitas streaming, kerja jarak jauh, hingga gaming lancar bebas hambatan dengan harga terjangkau.
             </p>
-            <div className="flex flex-row items-center gap-3 pt-1">
+            <div className="flex flex-row items-center gap-3 pt-2">
               <Link to="/subscription" className="flex-1 sm:flex-initial">
                 <Button size="lg" className="group w-full sm:w-auto px-4 sm:px-8 bg-gradient-blue text-primary-foreground font-semibold shadow-blue hover:opacity-90 transition-all">
                   Pilih Paket WiFi
