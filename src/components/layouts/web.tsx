@@ -39,7 +39,11 @@ export function WebLayout() {
       {/* Sticky Navigation Bar */}
       <header className="sticky top-0 z-50 w-full border-b border-border bg-background/85 backdrop-blur-md">
         <div className="container mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2.5 hover:opacity-90 transition-opacity">
+          <Link
+            to="/"
+            onClick={() => setMobileMenuOpen(false)}
+            className="flex items-center gap-2.5 h-16 overflow-hidden hover:opacity-90 transition-opacity"
+          >
             <img src={logoImg} alt="NetVerse Logo" className="h-50 w-auto object-contain -ml-6 md:-ml-8 mt-2" />
           </Link>
 
