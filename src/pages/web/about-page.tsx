@@ -41,7 +41,7 @@ export default function AboutPage() {
   return (
     <div className="flex flex-col">
       {/* Main Viewport Section: Header + 4 Core Pillars */}
-      <section className="min-h-[calc(100vh-4rem)] flex items-center pt-10 pb-8 md:pt-12 md:pb-10">
+      <section className="pt-10 pb-12 md:pt-12 md:pb-16">
         <div className="container mx-auto px-4 md:px-6 w-full">
           {/* Page Header */}
           <div className="max-w-3xl mx-auto text-center space-y-4 mb-10 md:mb-12">

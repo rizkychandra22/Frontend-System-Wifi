@@ -60,17 +60,14 @@ export default function PackagePage() {
 
   const handleSelectPackage = (packageName: string) => {
     toast.info(`Anda memilih ${packageName}. Mengalihkan ke formulir pemesanan.`);
-    navigate(`/kontak?paket=${encodeURIComponent(packageName)}`);
+    navigate(`/contact?package=${encodeURIComponent(packageName)}`);
   };
 
   return (
-    <div className="py-16 md:py-24">
-      <div className="container mx-auto px-4 md:px-6">
+    <div className="min-h-[calc(100vh-4rem)] pt-10 pb-12 md:pt-12 md:pb-16">
+      <div className="container mx-auto px-4 md:px-6 w-full">
         {/* Page Header */}
-        <div className="max-w-3xl mx-auto text-center space-y-4 mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 bg-primary/10 text-primary text-xs font-semibold uppercase tracking-wider">
-            Daftar Paket Internet
-          </div>
+        <div className="max-w-3xl mx-auto text-center space-y-4 mb-10 md:mb-12">
           <h1 className="text-3xl md:text-5xl font-bold font-display tracking-tight text-foreground">
             Pilih Paket Langganan
           </h1>
@@ -81,7 +78,7 @@ export default function PackagePage() {
         </div>
 
         {/* Packages Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto items-stretch">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 w-full items-stretch">
           {displayPackages.map((pkg, idx) => {
             const styles = getPackageStyles(pkg.speed || "15 Mbps");
             return (

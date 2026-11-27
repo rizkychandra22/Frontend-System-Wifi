@@ -17,7 +17,7 @@ export default function ContactPage() {
   const formattedPackages = formatWifiPackages(dbPackages);
   const displayPackages = formattedPackages.length > 0 ? formattedPackages : [];
 
-  const paketParam = searchParams.get("paket") || "";
+  const paketParam = searchParams.get("package") || "";
   const [formLoading, setFormLoading] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState(paketParam);
   const [contactForm, setContactForm] = useState(() => ({
@@ -25,7 +25,7 @@ export default function ContactPage() {
     email: "",
     phone: "",
     message: paketParam
-      ? `Halo, saya tertarik untuk berlangganan ${paketParam}. Mohon informasikan cara pemasangannya.`
+      ? `Halo Netverse, saya tertarik untuk berlangganan paket wifi ${paketParam}. Mohon informasikan jadwal pemasangannya.`
       : "",
   }));
 
@@ -80,13 +80,10 @@ ${contactForm.message}`;
   };
 
   return (
-    <div className="py-16 md:py-24">
-      <div className="container mx-auto px-4 md:px-6">
+    <div className="min-h-[calc(100vh-4rem)] flex items-center pt-10 pb-12 md:pt-12 md:pb-14">
+      <div className="container mx-auto px-4 md:px-6 w-full">
         {/* Page Header */}
-        <div className="max-w-3xl mx-auto text-center space-y-4 mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 bg-primary/10 text-primary text-xs font-semibold uppercase tracking-wider">
-            Layanan Pelanggan
-          </div>
+        <div className="max-w-3xl mx-auto text-center space-y-4 mb-10 md:mb-12">
           <h1 className="text-3xl md:text-5xl font-bold font-display tracking-tight text-foreground">
             Hubungi Layanan Kami
           </h1>
@@ -96,7 +93,7 @@ ${contactForm.message}`;
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-5 gap-12 max-w-5xl mx-auto items-start">
+        <div className="grid lg:grid-cols-5 gap-8 lg:gap-12 w-full items-start">
           {/* Left Contact Info */}
           <div className="lg:col-span-2 space-y-6">
             <h3 className="font-bold text-xl font-display text-foreground">Informasi Kontak</h3>

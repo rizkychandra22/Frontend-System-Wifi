@@ -67,13 +67,10 @@ export default function ActivityPage() {
     : galleryItems.filter((item) => item.category === galleryFilter);
 
   return (
-    <div className="py-16 md:py-24">
-      <div className="container mx-auto px-4 md:px-6">
+    <div className="min-h-[calc(100vh-4rem)] pt-10 pb-12 md:pt-12 md:pb-16">
+      <div className="container mx-auto px-4 md:px-6 w-full">
         {/* Page Header */}
-        <div className="max-w-3xl mx-auto text-center space-y-4 mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 bg-primary/10 text-primary text-xs font-semibold uppercase tracking-wider">
-            Dokumentasi & Galeri
-          </div>
+        <div className="max-w-3xl mx-auto text-center space-y-4 mb-8 md:mb-10">
           <h1 className="text-3xl md:text-5xl font-bold font-display tracking-tight text-foreground">
             Galeri Kegiatan & Sistem
           </h1>
@@ -84,7 +81,7 @@ export default function ActivityPage() {
         </div>
 
         {/* Gallery Category Filter Buttons */}
-        <div className="flex justify-center items-center gap-2 mb-10 flex-wrap">
+        <div className="flex justify-center items-center gap-2 mb-8 md:mb-10 flex-wrap">
           <button
             onClick={() => setGalleryFilter("all")}
             className={`px-4 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer ${
@@ -128,7 +125,7 @@ export default function ActivityPage() {
         </div>
 
         {/* Gallery Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
           {filteredGallery.map((item) => (
             <div
               key={item.id}
