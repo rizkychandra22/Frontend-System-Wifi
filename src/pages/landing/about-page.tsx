@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Zap, Wifi, Clock, ShieldCheck, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export function AboutPage() {
+export default function AboutPage() {
   return (
     <div className="py-16 md:py-24">
       <div className="container mx-auto px-4 md:px-6">

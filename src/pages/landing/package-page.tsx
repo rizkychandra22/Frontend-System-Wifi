@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useWifiPackages } from "@/features/wifi-package/hooks/use-wifi-packages";
 import { formatWifiPackages } from "@/components/wifi-package";
 
-export function PackagePage() {
+export default function PackagePage() {
   const navigate = useNavigate();
   const { query: wifiPackagesQuery } = useWifiPackages();
   const dbPackages = wifiPackagesQuery.data ?? [];

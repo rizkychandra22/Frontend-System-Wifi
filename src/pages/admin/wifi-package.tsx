@@ -6,7 +6,7 @@ import { Plus, Search } from "lucide-react";
 import { WifiPackageTable } from "@/features/wifi-package/components/table";
 import { WifiPackageActions, type ActionState } from "@/features/wifi-package/components/actions";
 
-export function WifiPackagesPage() {
+export default function WifiPackagesPage() {
   const { query: { data: services = [] } } = useWifiPackages();
   const [searchQuery, setSearchQuery] = useState("");
   const [actionState, setActionState] = useState<ActionState>({ type: null, package: null });

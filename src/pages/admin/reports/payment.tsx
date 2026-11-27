@@ -10,7 +10,7 @@ import { format } from "date-fns";
 import { generatePaymentsReportPDF } from "@/features/payment/utils/generate-report-pdf";
 import { toast } from "sonner";
 
-export function PaymentsReportPage() {
+export default function PaymentsReportPage() {
   const { data: payments = [], isLoading } = useAllPayments();
   const currentUser = getUserData();
 

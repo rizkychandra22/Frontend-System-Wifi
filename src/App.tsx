@@ -7,30 +7,31 @@ import { Toaster } from "@/components/ui/sonner";
 import { getUserData } from "@/lib/auth-utils";
 import "./App.css";
 
-// Lazy Load (Public Landing, Authentication, Dashboard, Admin, Employee, Customer)
-const HomePage = lazy(() => import("@/pages/landing/home-page").then((m) => ({ default: m.HomePage })));
-const AboutPage = lazy(() => import("@/pages/landing/about-page").then((m) => ({ default: m.AboutPage })));
-const PackagePage = lazy(() => import("@/pages/landing/package-page").then((m) => ({ default: m.PackagePage })));
-const ActivityPage = lazy(() => import("@/pages/landing/activity-page").then((m) => ({ default: m.ActivityPage })));
-const ContactPage = lazy(() => import("@/pages/landing/contact-page").then((m) => ({ default: m.ContactPage })));
-const LoginPage = lazy(() => import("@/pages/auth/login").then((m) => ({ default: m.LoginPage })));
-const DashboardPage = lazy(() => import("@/pages/dashboard").then((m) => ({ default: m.DashboardPage })));
-const PaymentsPage = lazy(() => import("@/pages/admin/payment").then((m) => ({ default: m.PaymentsPage })));
-const PayrollSlipPage = lazy(() => import("@/pages/admin/reports/employee/payroll-slip").then((m) => ({ default: m.PayrollSlipPage })));
-const UsersPage = lazy(() => import("@/pages/admin/users").then((m) => ({ default: m.UsersPage })));
-const AdminAttendancePage = lazy(() => import("@/pages/admin/attendance").then((m) => ({ default: m.AdminAttendancePage })));
-const WifiPackagesPage = lazy(() => import("@/pages/admin/wifi-package").then((m) => ({ default: m.WifiPackagesPage })));
-const AdminOvertimePage = lazy(() => import("@/pages/admin/overtime").then((m) => ({ default: m.AdminOvertimePage })));
-const PaymentsReportPage = lazy(() => import("@/pages/admin/reports/payment").then((m) => ({ default: m.PaymentsReportPage })));
-const AdminAttendanceReportPage = lazy(() => import("@/pages/admin/reports/attendance").then((m) => ({ default: m.AdminAttendanceReportPage })));
-const AdminAllowancePage = lazy(() => import("@/pages/admin/allowance").then((m) => ({ default: m.AdminAllowancePage })));
-const AttendanceRecordPage = lazy(() => import("@/pages/employee/attendance-record").then((m) => ({ default: m.AttendanceRecordPage })));
-const AttendanceHistoryPage = lazy(() => import("@/pages/employee/attendance-history").then((m) => ({ default: m.AttendanceHistoryPage })));
-const EmployeeCustomersPage = lazy(() => import("@/pages/employee/customers").then((m) => ({ default: m.EmployeeCustomersPage })));
-const EmployeeOvertimePage = lazy(() => import("@/pages/employee/overtime").then((m) => ({ default: m.EmployeeOvertimePage })));
-const EmployeeAllowancePage = lazy(() => import("@/pages/employee/allowance").then((m) => ({ default: m.EmployeeAllowancePage })));
-const CustomerSubscriptionsPage = lazy(() => import("@/pages/customer/subscriptions").then((m) => ({ default: m.CustomerSubscriptionsPage })));
-const CustomerBillingHistoryPage = lazy(() => import("@/pages/customer/billing-history").then((m) => ({ default: m.CustomerBillingHistoryPage })));
+// Lazy Load (Public Landing, Auth, Dashboard, Admin, Employee, Customer)
+const HomePage = lazy(() => import("@/pages/landing/home-page"));
+const AboutPage = lazy(() => import("@/pages/landing/about-page"));
+const PackagePage = lazy(() => import("@/pages/landing/package-page"));
+const ActivityPage = lazy(() => import("@/pages/landing/activity-page"));
+const ContactPage = lazy(() => import("@/pages/landing/contact-page"));
+const LoginPage = lazy(() => import("@/pages/auth/login"));
+const DashboardPage = lazy(() => import("@/pages/dashboard"));
+const UsersPage = lazy(() => import("@/pages/admin/users"));
+const WifiPackagesPage = lazy(() => import("@/pages/admin/wifi-package"));
+const PaymentsPage = lazy(() => import("@/pages/admin/payment"));
+const AdminAttendancePage = lazy(() => import("@/pages/admin/attendance"));
+const AdminOvertimePage = lazy(() => import("@/pages/admin/overtime"));
+const AdminAllowancePage = lazy(() => import("@/pages/admin/allowance"));
+const PayrollSlipPage = lazy(() => import("@/pages/admin/reports/employee/payroll-slip"));
+const PaymentsReportPage = lazy(() => import("@/pages/admin/reports/payment"));
+const AdminAttendanceReportPage = lazy(() => import("@/pages/admin/reports/attendance"));
+const AttendanceRecordPage = lazy(() => import("@/pages/employee/attendance-record"));
+const AttendanceHistoryPage = lazy(() => import("@/pages/employee/attendance-history"));
+const EmployeeCustomersPage = lazy(() => import("@/pages/employee/customers"));
+const EmployeeOvertimePage = lazy(() => import("@/pages/employee/overtime"));
+const EmployeeAllowancePage = lazy(() => import("@/pages/employee/allowance"));
+const CustomerSubscriptionsPage = lazy(() => import("@/pages/customer/subscriptions"));
+const CustomerBillingHistoryPage = lazy(() => import("@/pages/customer/billing-history"));
+
 
 // Loading Fallback Component
 function PageLoader() {

@@ -10,7 +10,7 @@ import { SubscriptionActions, type SubscriptionActionState } from "@/features/su
 import { Button as UIButton } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-export function PaymentsPage() {
+export default function PaymentsPage() {
   const { data: payments = [] } = useAllPayments();
   const { subscriptions = [] } = useAllSubscriptions();
 

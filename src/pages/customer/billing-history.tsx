@@ -6,7 +6,7 @@ import { PaymentUserTable } from "@/features/payment/components/user/table";
 import { PaymentDetail } from "@/features/payment/components/detail";
 import { AxiosError } from "axios";
 
-export function CustomerBillingHistoryPage() {
+export default function CustomerBillingHistoryPage() {
 
   const [payments, setPayments] = useState<Payment[]>([]);
   const [error, setError] = useState<string | null>(null);

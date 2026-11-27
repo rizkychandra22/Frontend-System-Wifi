@@ -1,5 +1,5 @@
-export { HomePage } from "./home-page";
-export { AboutPage } from "./about-page";
-export { PackagePage } from "./package-page";
-export { ActivityPage } from "./activity-page";
-export { ContactPage } from "./contact-page";
+export { default as HomePage } from "./home-page";
+export { default as AboutPage } from "./about-page";
+export { default as PackagePage } from "./package-page";
+export { default as ActivityPage } from "./activity-page";
+export { default as ContactPage } from "./contact-page";

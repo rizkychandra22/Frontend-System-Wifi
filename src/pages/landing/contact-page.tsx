@@ -9,7 +9,7 @@ import { useAdminContact } from "@/features/user/hooks/use-users";
 import { useWifiPackages } from "@/features/wifi-package/hooks/use-wifi-packages";
 import { formatWifiPackages } from "@/components/wifi-package";
 
-export function ContactPage() {
+export default function ContactPage() {
   const [searchParams] = useSearchParams();
   const { data: adminContact } = useAdminContact();
   const { query: wifiPackagesQuery } = useWifiPackages();

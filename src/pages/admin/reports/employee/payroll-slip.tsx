@@ -32,7 +32,7 @@ interface PayrollSlipData {
   halfdayPermissions: string[];
 }
 
-export function PayrollSlipPage() {
+export default function PayrollSlipPage() {
   const currentUser = getUserData();
   const isAdmin = currentUser?.role === "admin";
 

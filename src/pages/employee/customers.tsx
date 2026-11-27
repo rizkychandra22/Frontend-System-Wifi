@@ -8,7 +8,7 @@ import { UserActions, type ActionState } from "@/features/user/components/action
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-export const EmployeeCustomersPage = () => {
+export default function EmployeeCustomersPage() {
   const { users } = useUsers();
   
   const [searchQuery, setSearchQuery] = useState("");
@@ -71,4 +71,4 @@ export const EmployeeCustomersPage = () => {
       />
     </div>
   );
-};
+}

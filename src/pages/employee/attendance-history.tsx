@@ -1,6 +1,6 @@
 import { AttendanceHistory } from "@/features/attendance/components/table-history";
 
-export function AttendanceHistoryPage() {
+export default function AttendanceHistoryPage() {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">

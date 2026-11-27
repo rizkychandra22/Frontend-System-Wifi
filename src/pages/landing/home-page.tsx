@@ -3,7 +3,7 @@ import { Zap, Wifi, ArrowRight, ShieldCheck, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logoImg from "@/assets/logo.png";
 
-export function HomePage() {
+export default function HomePage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}

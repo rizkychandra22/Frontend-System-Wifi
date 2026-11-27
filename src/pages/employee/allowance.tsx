@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Search } from "lucide-react";
 
-export function EmployeeAllowancePage() {
+export default function EmployeeAllowancePage() {
   const [selectedMonth, setSelectedMonth] = useState<string>("all");
   const [selectedType, setSelectedType] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");

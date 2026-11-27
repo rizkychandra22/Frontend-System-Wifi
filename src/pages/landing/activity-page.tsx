@@ -13,7 +13,7 @@ interface GalleryItem {
   description: string;
 }
 
-export function ActivityPage() {
+export default function ActivityPage() {
   const [lightboxItem, setLightboxItem] = useState<GalleryItem | null>(null);
   const [galleryFilter, setGalleryFilter] = useState<"all" | "infrastruktur" | "tim" | "pelanggan">("all");
 
