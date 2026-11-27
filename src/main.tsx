@@ -4,6 +4,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ErrorBoundary, type FallbackProps } from "react-error-boundary";
 import App from "./App";
 import "./App.css";
+import { initI18n } from "./i18n";
+
+initI18n();
 
 const queryClient = new QueryClient({
   defaultOptions: {
