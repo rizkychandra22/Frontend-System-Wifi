@@ -1,70 +1,104 @@
 import { useState } from "react";
-import { Search, X } from "lucide-react";
+import { Search } from "lucide-react";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardTitle } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import logoImg from "@/assets/logo.png";
 import heroImg from "@/assets/hero.png";
 import qrisLogo from "@/assets/logo-qris.png";
 import qrisFull from "@/assets/qris.jpeg";
 
+type GalleryCategory = "infrastruktur" | "tim" | "pelanggan";
+type GalleryFilter = "all" | GalleryCategory;
+
 interface GalleryItem {
   id: number;
   title: string;
-  category: "infrastruktur" | "tim" | "pelanggan";
+  category: GalleryCategory;
   image: string;
   description: string;
 }
 
+const categoryLabels: Record<GalleryCategory, string> = {
+  infrastruktur: "Infrastruktur",
+  tim: "Tim Karyawan",
+  pelanggan: "Customer / Pelanggan",
+};
+
+const galleryFilters: { value: GalleryFilter; label: string }[] = [
+  { value: "all", label: "Semua" },
+  { value: "infrastruktur", label: "Infrastruktur" },
+  { value: "tim", label: "Tim Karyawan" },
+  { value: "pelanggan", label: "Customer / Pelanggan" },
+];
+
+const galleryItems: GalleryItem[] = [
+  {
+    id: 1,
+    title: "Pusat Distribusi Fiber Optik",
+    category: "infrastruktur",
+    image: heroImg,
+    description:
+      "Infrastruktur distribusi kabel fiber optik NetVerse yang dirancang untuk menyalurkan internet berkecepatan tinggi ke setiap perumahan.",
+  },
+  {
+    id: 2,
+    title: "Sentral Server & Pemancar WiFi",
+    category: "infrastruktur",
+    image: logoImg,
+    description:
+      "Perangkat server utama dan sistem monitoring wifi yang menjamin kestabilan koneksi uptime hingga 99.9%.",
+  },
+  {
+    id: 3,
+    title: "Tim Teknis & Lapangan NetVerse",
+    category: "tim",
+    image: heroImg,
+    description:
+      "Karyawan dan tim teknisi ahli NetVerse saat melakukan pemasangan kabel dan konfigurasi router di lapangan.",
+  },
+  {
+    id: 4,
+    title: "Karyawan & Staff Kantor",
+    category: "tim",
+    image: logoImg,
+    description:
+      "Layanan administrasi, verifikasi pembayaran, serta tim customer support NetVerse yang siap melayani pelanggan.",
+  },
+  {
+    id: 5,
+    title: "Antarmuka Billing Customer",
+    category: "pelanggan",
+    image: qrisFull,
+    description:
+      "Antarmuka dashboard khusus pelanggan untuk memantau status langganan wifi aktif dan riwayat tagihan bulanan.",
+  },
+  {
+    id: 6,
+    title: "Metode Bayar Mandiri QRIS",
+    category: "pelanggan",
+    image: qrisLogo,
+    description:
+      "Kemudahan pembayaran wifi tagihan mandiri bagi pelanggan menggunakan kode QRIS terverifikasi otomatis.",
+  },
+];
+
 export default function ActivityPage() {
   const [lightboxItem, setLightboxItem] = useState<GalleryItem | null>(null);
-  const [galleryFilter, setGalleryFilter] = useState<"all" | "infrastruktur" | "tim" | "pelanggan">("all");
+  const [galleryFilter, setGalleryFilter] = useState<GalleryFilter>("all");
 
-  const galleryItems: GalleryItem[] = [
-    {
-      id: 1,
-      title: "Pusat Distribusi Fiber Optik",
-      category: "infrastruktur",
-      image: heroImg,
-      description: "Infrastruktur distribusi kabel fiber optik NetVerse yang dirancang untuk menyalurkan internet berkecepatan tinggi ke setiap perumahan.",
-    },
-    {
-      id: 2,
-      title: "Sentral Server & Pemancar WiFi",
-      category: "infrastruktur",
-      image: logoImg,
-      description: "Perangkat server utama dan sistem monitoring wifi yang menjamin kestabilan koneksi uptime hingga 99.9%.",
-    },
-    {
-      id: 3,
-      title: "Tim Teknis & Lapangan NetVerse",
-      category: "tim",
-      image: heroImg,
-      description: "Karyawan dan tim teknisi ahli NetVerse saat melakukan pemasangan kabel dan konfigurasi router di lapangan.",
-    },
-    {
-      id: 4,
-      title: "Karyawan & Staff Kantor",
-      category: "tim",
-      image: logoImg,
-      description: "Layanan administrasi, verifikasi pembayaran, serta tim customer support NetVerse yang siap melayani pelanggan.",
-    },
-    {
-      id: 5,
-      title: "Antarmuka Billing Customer",
-      category: "pelanggan",
-      image: qrisFull,
-      description: "Antarmuka dashboard khusus pelanggan untuk memantau status langganan wifi aktif dan riwayat tagihan bulanan.",
-    },
-    {
-      id: 6,
-      title: "Metode Bayar Mandiri QRIS",
-      category: "pelanggan",
-      image: qrisLogo,
-      description: "Kemudahan pembayaran wifi tagihan mandiri bagi pelanggan menggunakan kode QRIS terverifikasi otomatis.",
-    },
-  ];
-
-  const filteredGallery = galleryFilter === "all"
-    ? galleryItems
-    : galleryItems.filter((item) => item.category === galleryFilter);
+  const filteredGallery =
+    galleryFilter === "all"
+      ? galleryItems
+      : galleryItems.filter((item) => item.category === galleryFilter);
 
   return (
     <div className="min-h-[calc(100vh-4rem)] pt-10 pb-12 md:pt-12 md:pb-16">
@@ -82,57 +116,33 @@ export default function ActivityPage() {
 
         {/* Gallery Category Filter Buttons */}
         <div className="flex justify-center items-center gap-2 mb-8 md:mb-10 flex-wrap">
-          <button
-            onClick={() => setGalleryFilter("all")}
-            className={`px-4 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer ${
-              galleryFilter === "all"
-                ? "bg-primary text-primary-foreground border-primary shadow-sm"
-                : "bg-card text-muted-foreground border-border hover:bg-muted hover:text-foreground"
-            }`}
-          >
-            Semua
-          </button>
-          <button
-            onClick={() => setGalleryFilter("infrastruktur")}
-            className={`px-4 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer ${
-              galleryFilter === "infrastruktur"
-                ? "bg-primary text-primary-foreground border-primary shadow-sm"
-                : "bg-card text-muted-foreground border-border hover:bg-muted hover:text-foreground"
-            }`}
-          >
-            Infrastruktur
-          </button>
-          <button
-            onClick={() => setGalleryFilter("tim")}
-            className={`px-4 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer ${
-              galleryFilter === "tim"
-                ? "bg-primary text-primary-foreground border-primary shadow-sm"
-                : "bg-card text-muted-foreground border-border hover:bg-muted hover:text-foreground"
-            }`}
-          >
-            Tim Karyawan
-          </button>
-          <button
-            onClick={() => setGalleryFilter("pelanggan")}
-            className={`px-4 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer ${
-              galleryFilter === "pelanggan"
-                ? "bg-primary text-primary-foreground border-primary shadow-sm"
-                : "bg-card text-muted-foreground border-border hover:bg-muted hover:text-foreground"
-            }`}
-          >
-            Customer / Pelanggan
-          </button>
+          {galleryFilters.map((filter) => (
+            <Button
+              key={filter.value}
+              type="button"
+              size="sm"
+              variant={galleryFilter === filter.value ? "default" : "outline"}
+              onClick={() => setGalleryFilter(filter.value)}
+              className={`px-4 rounded-full text-xs font-semibold shadow-none ${
+                galleryFilter === filter.value
+                  ? "shadow-sm"
+                  : "bg-card text-muted-foreground hover:bg-muted hover:text-foreground"
+              }`}
+            >
+              {filter.label}
+            </Button>
+          ))}
         </div>
 
         {/* Gallery Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
           {filteredGallery.map((item) => (
-            <div
+            <Card
               key={item.id}
               onClick={() => setLightboxItem(item)}
-              className="group relative bg-card border border-border/80 rounded-xl overflow-hidden shadow-sm cursor-pointer hover:shadow-md hover:scale-[1.01] transition-all duration-300"
+              className="group relative border-border/80 rounded-xl overflow-hidden shadow-sm cursor-pointer hover:shadow-md hover:scale-[1.01] transition-all duration-300"
             >
-              <div className="aspect-video w-full overflow-hidden bg-muted relative">
+              <AspectRatio ratio={16 / 9} className="w-full overflow-hidden bg-muted relative">
                 <img
                   src={item.image}
                   alt={item.title}
@@ -143,59 +153,63 @@ export default function ActivityPage() {
                     <Search className="h-5 w-5" />
                   </div>
                 </div>
-              </div>
-              <div className="p-4 space-y-1.5">
+              </AspectRatio>
+              <CardContent className="p-4 space-y-1.5">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] uppercase font-bold tracking-wider text-primary bg-primary/10 px-2 py-0.5 rounded">
-                    {item.category === "infrastruktur" ? "Infrastruktur" : item.category === "tim" ? "Tim Karyawan" : "Customer / Pelanggan"}
-                  </span>
+                  <Badge
+                    variant="secondary"
+                    className="text-[10px] uppercase font-bold tracking-wider text-primary bg-primary/10 hover:bg-primary/10 px-2 py-0.5 rounded"
+                  >
+                    {categoryLabels[item.category]}
+                  </Badge>
                 </div>
-                <h3 className="font-bold text-sm text-foreground line-clamp-1 group-hover:text-primary transition-colors">
+                <CardTitle className="font-bold text-sm text-foreground line-clamp-1 group-hover:text-primary transition-colors">
                   {item.title}
-                </h3>
-                <p className="text-xs text-muted-foreground line-clamp-2">
-                  {item.description}
-                </p>
-              </div>
-            </div>
+                </CardTitle>
+                <CardDescription className="text-xs text-muted-foreground line-clamp-2">{item.description}</CardDescription>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </div>
 
-      {/* Lightbox / Modal for Gallery */}
-      {lightboxItem && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 animate-in fade-in duration-200"
-          onClick={() => setLightboxItem(null)}
-        >
-          <div
-            className="relative bg-card border rounded-2xl max-w-3xl w-full overflow-hidden shadow-2xl animate-in zoom-in-95 duration-200"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              onClick={() => setLightboxItem(null)}
-              className="absolute top-4 right-4 p-2 rounded-full bg-black/60 text-white hover:bg-black/80 transition-colors z-10 cursor-pointer"
-              aria-label="Tutup gambar"
-            >
-              <X className="h-5 w-5" />
-            </button>
-            <div className="aspect-video w-full bg-black">
-              <img
-                src={lightboxItem.image}
-                alt={lightboxItem.title}
-                className="w-full h-full object-contain"
-              />
-            </div>
-            <div className="p-6 space-y-2">
-              <span className="text-[10px] uppercase font-bold tracking-wider text-primary bg-primary/10 px-2 py-0.5 rounded">
-                {lightboxItem.category === "infrastruktur" ? "Infrastruktur" : lightboxItem.category === "tim" ? "Tim Karyawan" : "Customer / Pelanggan"}
-              </span>
-              <h3 className="font-bold text-lg font-display text-foreground">{lightboxItem.title}</h3>
-              <p className="text-xs text-muted-foreground leading-relaxed">{lightboxItem.description}</p>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Lightbox Dialog for Gallery */}
+      <Dialog
+        open={Boolean(lightboxItem)}
+        onOpenChange={(open) => {
+          if (!open) setLightboxItem(null);
+        }}
+      >
+        <DialogContent className="max-w-3xl p-0 overflow-hidden rounded-2xl bg-card gap-0 [&>button]:bg-black/60 [&>button]:text-white [&>button]:p-2 [&>button]:rounded-full [&>button]:opacity-100 [&>button:hover]:bg-black/80">
+          {lightboxItem && (
+            <>
+              <AspectRatio ratio={16 / 9} className="w-full bg-black">
+                <img
+                  src={lightboxItem.image}
+                  alt={lightboxItem.title}
+                  className="w-full h-full object-contain"
+                />
+              </AspectRatio>
+              <DialogHeader className="p-6 space-y-2 text-left">
+                <div>
+                  <Badge
+                    variant="secondary"
+                    className="text-[10px] uppercase font-bold tracking-wider text-primary bg-primary/10 hover:bg-primary/10 px-2 py-0.5 rounded"
+                  >
+                    {categoryLabels[lightboxItem.category]}
+                  </Badge>
+                </div>
+                <DialogTitle className="font-bold text-lg font-display text-foreground">
+                  {lightboxItem.title}
+                </DialogTitle>
+                <DialogDescription className="text-xs text-muted-foreground leading-relaxed">
+                  {lightboxItem.description}
+                </DialogDescription>
+              </DialogHeader>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

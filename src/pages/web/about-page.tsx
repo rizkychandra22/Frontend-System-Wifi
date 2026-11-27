@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Zap, Wifi, Clock, ShieldCheck, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardTitle } from "@/components/ui/card";
 
 const corePillars = [
   {
@@ -59,22 +60,24 @@ export default function AboutPage() {
             {corePillars.map((pillar) => {
               const Icon = pillar.icon;
               return (
-                <div
+                <Card
                   key={pillar.title}
-                  className={`group bg-card border border-border/80 rounded-xl p-6 shadow-sm space-y-3 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${pillar.hoverBorderClass}`}
+                  className={`group border-border/80 rounded-xl shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${pillar.hoverBorderClass}`}
                 >
-                  <div className="flex items-center gap-3">
-                    <div
-                      className={`h-11 w-11 rounded-lg ${pillar.iconBgClass} flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110`}
-                    >
-                      <Icon className="h-6 w-6" />
+                  <CardContent className="p-6 space-y-3">
+                    <div className="flex items-center gap-3">
+                      <div
+                        className={`h-11 w-11 rounded-lg ${pillar.iconBgClass} flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110`}
+                      >
+                        <Icon className="h-6 w-6" />
+                      </div>
+                      <CardTitle className="font-bold text-lg font-display leading-snug">{pillar.title}</CardTitle>
                     </div>
-                    <h3 className="font-bold text-lg font-display leading-snug">{pillar.title}</h3>
-                  </div>
-                  <p className="text-muted-foreground text-xs leading-relaxed">
-                    {pillar.description}
-                  </p>
-                </div>
+                    <CardDescription className="text-muted-foreground text-sm leading-relaxed">
+                      {pillar.description}
+                    </CardDescription>
+                  </CardContent>
+                </Card>
               );
             })}
           </div>
@@ -84,25 +87,27 @@ export default function AboutPage() {
       {/* Vision & Mission Banner */}
       <section className="pb-16 md:pb-24">
         <div className="container mx-auto px-4 md:px-6 w-full">
-          <div className="max-w-4xl mx-auto rounded-2xl bg-muted/40 border border-border p-8 md:p-12 text-center space-y-6">
-            <h3 className="text-2xl font-bold font-display text-foreground">
-              Menghubungkan Masa Depan Digital Anda
-            </h3>
-            <p className="text-muted-foreground text-sm leading-relaxed max-w-2xl mx-auto">
-              Dengan cakupan wilayah perumahan yang terus meluas, NetVerse Fiber hadir memberikan pengalaman berinternet yang bebas hambatan untuk hiburan, pendidikan, maupun bisnis online Anda.
-            </p>
-            <div className="pt-2 flex flex-wrap justify-center gap-4">
-              <Link to="/subscription">
-                <Button className="group bg-gradient-blue text-primary-foreground font-semibold shadow-blue hover:opacity-90 transition-opacity">
-                  Eksplorasi Paket Layanan
-                  <ArrowRight className="h-4 w-4 ml-1.5 transition-transform duration-300 group-hover:translate-x-1" />
-                </Button>
-              </Link>
-              <Link to="/contact">
-                <Button variant="outline">Hubungi Layanan Kami</Button>
-              </Link>
-            </div>
-          </div>
+          <Card className="max-w-4xl mx-auto rounded-2xl bg-muted/40 shadow-none">
+            <CardContent className="p-8 md:p-12 text-center space-y-6">
+              <CardTitle className="text-2xl font-bold font-display text-foreground">
+                Menghubungkan Masa Depan Digital Anda
+              </CardTitle>
+              <CardDescription className="text-muted-foreground text-sm leading-relaxed max-w-2xl mx-auto">
+                Dengan cakupan wilayah perumahan yang terus meluas, NetVerse Fiber hadir memberikan pengalaman berinternet yang bebas hambatan untuk hiburan, pendidikan, maupun bisnis online Anda.
+              </CardDescription>
+              <div className="pt-2 flex flex-wrap justify-center gap-4">
+                <Link to="/subscription">
+                  <Button className="group bg-gradient-blue text-primary-foreground font-semibold shadow-blue hover:opacity-90 transition-opacity">
+                    Eksplorasi Paket Layanan
+                    <ArrowRight className="h-4 w-4 ml-1.5 transition-transform duration-300 group-hover:translate-x-1" />
+                  </Button>
+                </Link>
+                <Link to="/contact">
+                  <Button variant="outline">Hubungi Layanan Kami</Button>
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </section>
     </div>

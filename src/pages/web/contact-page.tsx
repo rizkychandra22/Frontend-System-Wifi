@@ -3,7 +3,16 @@ import { useSearchParams } from "react-router-dom";
 import { Phone, Mail, MapPin, Clock, Loader2, Send } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useAdminContact } from "@/features/user/hooks/use-users";
 import { useWifiPackages } from "@/features/wifi-package/hooks/use-wifi-packages";
@@ -145,107 +154,119 @@ ${contactForm.message}`;
               </div>
             </div>
 
-            <div className="p-4 rounded-xl border bg-muted/40 text-xs text-muted-foreground flex gap-3">
-              <Clock className="h-5 w-5 text-primary shrink-0" />
-              <div>
-                <span className="font-semibold text-foreground block mb-0.5">Jam Operasional Kantor</span>
-                <span>Senin - Sabtu: 08.00 - 17.00 WIB</span><br />
-                <span>Dukungan teknis darurat via WA aktif 24 jam.</span>
-              </div>
-            </div>
+            <Card className="bg-muted/40 shadow-none">
+              <CardContent className="p-4 text-xs text-muted-foreground flex gap-3">
+                <Clock className="h-5 w-5 text-primary shrink-0" />
+                <div>
+                  <span className="font-semibold text-foreground block mb-0.5">Jam Operasional Kantor</span>
+                  <span>Senin - Sabtu: 08.00 - 17.00 WIB</span><br />
+                  <span>Dukungan teknis darurat via WA aktif 24 jam.</span>
+                </div>
+              </CardContent>
+            </Card>
           </div>
 
           {/* Right Contact Form */}
-          <div className="lg:col-span-3 bg-card border border-border/80 rounded-2xl p-6 md:p-8 shadow-sm">
-            <form onSubmit={handleFormSubmit} className="space-y-4">
-              <div className="grid md:grid-cols-2 gap-4">
+          <Card className="lg:col-span-3 border-border/80 rounded-2xl shadow-sm">
+            <CardContent className="p-6 md:p-8">
+              <form onSubmit={handleFormSubmit} className="space-y-4">
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <Label htmlFor="name" className="text-xs font-semibold text-muted-foreground">Nama Lengkap</Label>
+                    <Input
+                      id="name"
+                      type="text"
+                      placeholder="Masukkan nama Anda"
+                      value={contactForm.name}
+                      onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
+                      className="h-9 text-xs focus:ring-primary focus:border-primary shadow-none"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="phone" className="text-xs font-semibold text-muted-foreground">Nomor Telepon / WA</Label>
+                    <Input
+                      id="phone"
+                      type="tel"
+                      placeholder="Contoh: 08123456789"
+                      value={contactForm.phone}
+                      onChange={(e) => setContactForm({ ...contactForm, phone: e.target.value })}
+                      className="h-9 text-xs focus:ring-primary focus:border-primary shadow-none"
+                    />
+                  </div>
+                </div>
+
                 <div className="space-y-1.5">
-                  <label htmlFor="name" className="text-xs font-semibold text-muted-foreground">Nama Lengkap</label>
+                  <Label htmlFor="email" className="text-xs font-semibold text-muted-foreground">Alamat Email (Opsional)</Label>
                   <Input
-                    id="name"
-                    type="text"
-                    placeholder="Masukkan nama Anda"
-                    value={contactForm.name}
-                    onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
-                    required
+                    id="email"
+                    type="email"
+                    placeholder="nama@email.com"
+                    value={contactForm.email}
+                    onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
                     className="h-9 text-xs focus:ring-primary focus:border-primary shadow-none"
                   />
                 </div>
+
                 <div className="space-y-1.5">
-                  <label htmlFor="phone" className="text-xs font-semibold text-muted-foreground">Nomor Telepon / WA</label>
-                  <Input
-                    id="phone"
-                    type="tel"
-                    placeholder="Contoh: 08123456789"
-                    value={contactForm.phone}
-                    onChange={(e) => setContactForm({ ...contactForm, phone: e.target.value })}
-                    required
-                    className="h-9 text-xs focus:ring-primary focus:border-primary shadow-none"
+                  <Label htmlFor="package" className="text-xs font-semibold text-muted-foreground">Paket yang Diminati (Opsional)</Label>
+                  <Select
+                    value={selectedPackage || "__none__"}
+                    onValueChange={(value) => setSelectedPackage(value === "__none__" ? "" : value)}
+                  >
+                    <SelectTrigger id="package" className="h-9 text-xs shadow-none">
+                      <SelectValue placeholder="-- Pilih Paket Internet --" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="__none__" className="text-xs text-muted-foreground">
+                        -- Pilih Paket Internet --
+                      </SelectItem>
+                      {selectedPackage &&
+                        !displayPackages.some((pkg) => pkg.name === selectedPackage) && (
+                          <SelectItem value={selectedPackage} className="text-xs">
+                            {selectedPackage}
+                          </SelectItem>
+                        )}
+                      {displayPackages.map((pkg, idx) => (
+                        <SelectItem key={idx} value={pkg.name} className="text-xs">
+                          {pkg.name} ({pkg.price} / bulan)
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-1.5">
+                  <Label htmlFor="message" className="text-xs font-semibold text-muted-foreground">Pesan / Pertanyaan</Label>
+                  <Textarea
+                    id="message"
+                    rows={4}
+                    placeholder="Tulis pesan Anda di sini..."
+                    value={contactForm.message}
+                    onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
+                    className="text-xs focus:ring-primary focus:border-primary shadow-none resize-none"
                   />
                 </div>
-              </div>
 
-              <div className="space-y-1.5">
-                <label htmlFor="email" className="text-xs font-semibold text-muted-foreground">Alamat Email (Opsional)</label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="nama@email.com"
-                  value={contactForm.email}
-                  onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
-                  className="h-9 text-xs focus:ring-primary focus:border-primary shadow-none"
-                />
-              </div>
-
-              <div className="space-y-1.5">
-                <label htmlFor="package" className="text-xs font-semibold text-muted-foreground">Paket yang Diminati (Opsional)</label>
-                <select
-                  id="package"
-                  value={selectedPackage}
-                  onChange={(e) => setSelectedPackage(e.target.value)}
-                  className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-xs shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                <Button
+                  type="submit"
+                  disabled={formLoading}
+                  className="w-full bg-gradient-blue text-primary-foreground font-semibold h-10 shadow-blue mt-2 hover:opacity-90 transition-colors cursor-pointer"
                 >
-                  <option value="" className="text-muted-foreground bg-card">-- Pilih Paket Internet --</option>
-                  {displayPackages.map((pkg, idx) => (
-                    <option key={idx} value={pkg.name} className="bg-card">
-                      {pkg.name} ({pkg.price} / bulan)
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="space-y-1.5">
-                <label htmlFor="message" className="text-xs font-semibold text-muted-foreground">Pesan / Pertanyaan</label>
-                <Textarea
-                  id="message"
-                  rows={4}
-                  placeholder="Tulis pesan Anda di sini..."
-                  value={contactForm.message}
-                  onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
-                  required
-                  className="text-xs focus:ring-primary focus:border-primary shadow-none resize-none"
-                />
-              </div>
-
-              <Button
-                type="submit"
-                disabled={formLoading}
-                className="w-full bg-gradient-blue text-primary-foreground font-semibold h-10 shadow-blue mt-2 hover:opacity-90 transition-colors cursor-pointer"
-              >
-                {formLoading ? (
-                  <>
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                    Mengirimkan Pesan...
-                  </>
-                ) : (
-                  <>
-                    <Send className="h-4 w-4" />
-                    Kirim Pesan Layanan
-                  </>
-                )}
-              </Button>
-            </form>
-          </div>
+                  {formLoading ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      Mengirimkan Pesan...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="h-4 w-4" />
+                      Kirim Pesan Layanan
+                    </>
+                  )}
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>

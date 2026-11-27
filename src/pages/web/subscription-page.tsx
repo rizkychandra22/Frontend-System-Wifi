@@ -1,7 +1,17 @@
 import { useNavigate } from "react-router-dom";
 import { ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { useWifiPackages } from "@/features/wifi-package/hooks/use-wifi-packages";
 import { formatWifiPackages } from "@/components/wifi-package";
 
@@ -82,51 +92,62 @@ export default function SubscriptionPage() {
           {displayPackages.map((pkg, idx) => {
             const styles = getPackageStyles(pkg.speed || "15 Mbps");
             return (
-              <div
+              <Card
                 key={idx}
-                className={`relative bg-card rounded-2xl border flex flex-col p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:scale-[1.02] lg:hover:-translate-y-1.5 ${styles.borderClass} ${styles.hoverShadow} ${
+                className={`relative rounded-2xl flex flex-col p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:scale-[1.02] lg:hover:-translate-y-1.5 ${styles.borderClass} ${styles.hoverShadow} ${
                   pkg.popular ? "scale-[1.01] lg:-translate-y-1" : ""
                 }`}
               >
                 {pkg.popular && (
-                  <span className={`absolute top-0 right-1/2 translate-x-1/2 -translate-y-1/2 px-3 py-1 rounded-full text-[10px] font-bold tracking-wider text-white shadow-sm uppercase ${styles.badgeBg}`}>
+                  <Badge
+                    variant="outline"
+                    className={`pointer-events-none absolute top-0 right-1/2 translate-x-1/2 -translate-y-1/2 px-3 py-1 rounded-full text-[10px] font-bold tracking-wider text-white shadow-sm uppercase border-transparent ${styles.badgeBg}`}
+                  >
                     Paling Populer
-                  </span>
+                  </Badge>
                 )}
 
-                <div className="mb-5 space-y-2">
-                  <h3 className="font-bold text-lg font-display text-foreground">{pkg.name}</h3>
-                  <p className="text-xs text-muted-foreground min-h-[40px]">{pkg.desc}</p>
-                </div>
+                <CardHeader className="p-0 mb-5 space-y-2">
+                  <CardTitle className="font-bold text-lg font-display text-foreground">
+                    {pkg.name}
+                  </CardTitle>
+                  <CardDescription className="text-xs min-h-[40px]">{pkg.desc}</CardDescription>
+                </CardHeader>
 
-                <div className="flex items-baseline gap-1 mb-6 border-b pb-5">
-                  <span className={`text-3xl font-extrabold tracking-tight font-display ${styles.textClass}`}>
-                    {pkg.price}
-                  </span>
-                  <span className="text-xs text-muted-foreground font-medium">{pkg.period}</span>
-                </div>
+                <CardContent className="p-0 flex-1 flex flex-col">
+                  <div className="flex items-baseline gap-1 pb-5">
+                    <span className={`text-3xl font-extrabold tracking-tight font-display ${styles.textClass}`}>
+                      {pkg.price}
+                    </span>
+                    <span className="text-xs text-muted-foreground font-medium">{pkg.period}</span>
+                  </div>
 
-                <ul className="space-y-3 mb-8 flex-1 text-xs text-muted-foreground">
-                  {pkg.features.map((feat, fidx) => (
-                    <li key={fidx} className="flex items-start gap-2.5">
-                      <ShieldCheck className={`h-4 w-4 shrink-0 mt-0.5 ${styles.textClass}`} />
-                      <span>{feat}</span>
-                    </li>
-                  ))}
-                </ul>
+                  <Separator className="mb-6" />
 
-                <Button
-                  onClick={() => handleSelectPackage(pkg.name)}
-                  variant={pkg.popular ? "default" : "outline"}
-                  className={`w-full font-semibold h-9 text-xs rounded-xl transition-colors cursor-pointer ${
-                    pkg.popular
-                      ? styles.buttonClass
-                      : styles.buttonOutlineClass
-                  }`}
-                >
-                  Pesan Paket
-                </Button>
-              </div>
+                  <ul className="space-y-3 mb-8 flex-1 text-xs text-muted-foreground">
+                    {pkg.features.map((feat, fidx) => (
+                      <li key={fidx} className="flex items-start gap-2.5">
+                        <ShieldCheck className={`h-4 w-4 shrink-0 mt-0.5 ${styles.textClass}`} />
+                        <span>{feat}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+
+                <CardFooter className="p-0">
+                  <Button
+                    onClick={() => handleSelectPackage(pkg.name)}
+                    variant={pkg.popular ? "default" : "outline"}
+                    className={`w-full font-semibold h-9 text-xs rounded-xl transition-colors cursor-pointer ${
+                      pkg.popular
+                        ? styles.buttonClass
+                        : styles.buttonOutlineClass
+                    }`}
+                  >
+                    Pesan Paket
+                  </Button>
+                </CardFooter>
+              </Card>
             );
           })}
         </div>
