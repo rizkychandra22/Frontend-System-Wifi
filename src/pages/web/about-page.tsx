@@ -84,13 +84,13 @@ export default function AboutPage() {
             Dengan cakupan wilayah perumahan yang terus meluas, NetVerse Fiber hadir memberikan pengalaman berinternet yang bebas hambatan untuk hiburan, pendidikan, maupun bisnis online Anda.
           </p>
           <div className="pt-2 flex flex-wrap justify-center gap-4">
-            <Link to="/paket-layanan">
+            <Link to="/package">
               <Button className="bg-gradient-blue text-primary-foreground font-semibold shadow-blue">
                 Eksplorasi Paket Layanan
                 <ArrowRight className="h-4 w-4 ml-1.5" />
               </Button>
             </Link>
-            <Link to="/kontak">
+            <Link to="/contact">
               <Button variant="outline">Hubungi Layanan Kami</Button>
             </Link>
           </div>

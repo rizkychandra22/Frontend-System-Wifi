@@ -73,7 +73,7 @@ export default function HomePage() {
               <p className="text-xs text-muted-foreground leading-relaxed">
                 Jaringan transmisi kabel optik murni dengan redaman minim untuk koneksi tanpa lag.
               </p>
-              <Link to="/tentang-kami" className="inline-flex items-center text-xs font-semibold text-primary hover:underline pt-1">
+              <Link to="/about" className="inline-flex items-center text-xs font-semibold text-primary hover:underline pt-1">
                 Pelajari Tentang Kami <ArrowRight className="h-3 w-3 ml-1" />
               </Link>
             </div>
@@ -86,7 +86,7 @@ export default function HomePage() {
               <p className="text-xs text-muted-foreground leading-relaxed">
                 Pilihan kecepatan mulai 15 Mbps hingga 50+ Mbps sesuai kebutuhan keluarga Anda.
               </p>
-              <Link to="/paket-layanan" className="inline-flex items-center text-xs font-semibold text-primary hover:underline pt-1">
+              <Link to="/package" className="inline-flex items-center text-xs font-semibold text-primary hover:underline pt-1">
                 Lihat Daftar Paket <ArrowRight className="h-3 w-3 ml-1" />
               </Link>
             </div>
@@ -99,7 +99,7 @@ export default function HomePage() {
               <p className="text-xs text-muted-foreground leading-relaxed">
                 Tim teknisi lapangan dan customer care kami siap membantu pemasangan dan kendala.
               </p>
-              <Link to="/kontak" className="inline-flex items-center text-xs font-semibold text-primary hover:underline pt-1">
+              <Link to="/contact" className="inline-flex items-center text-xs font-semibold text-primary hover:underline pt-1">
                 Hubungi Bantuan <ArrowRight className="h-3 w-3 ml-1" />
               </Link>
             </div>
