@@ -10,7 +10,7 @@ import "./App.css";
 // Lazy Load (Public Web, Auth, Dashboard, Admin, Employee, Customer)
 const HomePage = lazy(() => import("@/pages/web/home-page"));
 const AboutPage = lazy(() => import("@/pages/web/about-page"));
-const PackagePage = lazy(() => import("@/pages/web/package-page"));
+const SubscriptionPage = lazy(() => import("@/pages/web/subscription-page"));
 const ActivityPage = lazy(() => import("@/pages/web/activity-page"));
 const ContactPage = lazy(() => import("@/pages/web/contact-page"));
 const LoginPage = lazy(() => import("@/pages/auth/login"));
@@ -57,7 +57,7 @@ function App() {
           >
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
-            <Route path="/subscription" element={<PackagePage />} />
+            <Route path="/subscription" element={<SubscriptionPage />} />
             <Route path="/activity" element={<ActivityPage />} />
             <Route path="/contact" element={<ContactPage />} />
           </Route>
