@@ -41,10 +41,10 @@ export default function HomePage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative min-h-[calc(100vh-4rem)] flex items-center pt-6 pb-20 md:pt-14 md:pb-28 overflow-hidden bg-gradient-to-b from-primary/5 via-transparent to-transparent">
-        <div className="container mx-auto px-4 md:px-6 grid md:grid-cols-2 gap-12 items-center w-full">
+      <section className="relative min-h-[calc(100vh-4rem)] flex items-center pt-10 pb-8 md:pt-12 md:pb-10 overflow-hidden bg-gradient-to-b from-primary/5 via-transparent to-transparent">
+        <div className="container mx-auto px-4 md:px-6 grid md:grid-cols-2 gap-8 lg:gap-12 items-center w-full">
           {/* Left Content */}
-          <div className="space-y-6 md:pr-4">
+          <div className="space-y-4 md:pr-4">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 bg-primary/10 text-primary text-xs font-semibold uppercase tracking-wider">
               <Zap className="h-3 w-3" />
               100% Serat Optik Murni
@@ -55,7 +55,7 @@ export default function HomePage() {
             <p className="text-muted-foreground text-base sm:text-lg leading-relaxed max-w-lg">
               NetVerse Fiber menghadirkan layanan internet rumah super cepat menggunakan kabel serat optik terbaik. Aktivitas streaming, kerja jarak jauh, hingga gaming lancar bebas hambatan dengan harga terjangkau.
             </p>
-            <div className="flex flex-row items-center gap-3 pt-2">
+            <div className="flex flex-row items-center gap-3 pt-1">
               <Link to="/paket-layanan" className="flex-1 sm:flex-initial">
                 <Button size="lg" className="group w-full sm:w-auto px-4 sm:px-8 bg-gradient-blue text-primary-foreground font-semibold shadow-blue hover:opacity-90 transition-all">
                   Pilih Paket WiFi
@@ -73,13 +73,15 @@ export default function HomePage() {
           {/* Right Graphics */}
           <div className="relative flex justify-center items-center">
             <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-blue-deep/20 to-blue/20 blur-xl opacity-75"></div>
-            <div className="relative border border-border bg-card/60 backdrop-blur rounded-2xl p-4 shadow-xl max-w-[500px] w-full overflow-hidden hover:scale-[1.01] transition-transform duration-300">
-              <img
-                src={logoImg}
-                alt="Infrastruktur Internet NetVerse"
-                className="w-full h-auto rounded-lg object-cover shadow-sm bg-muted animate-pulse-subtle"
-              />
-              <div className="absolute bottom-6 left-6 right-6 p-4 rounded-xl border border-white/10 bg-black/40 backdrop-blur-md text-white">
+            <div className="relative border border-border bg-card/60 backdrop-blur rounded-2xl p-3.5 sm:p-4 shadow-xl max-w-[400px] lg:max-w-[440px] aspect-square w-full overflow-hidden hover:scale-[1.01] transition-transform duration-300">
+              <div className="w-full h-full rounded-lg overflow-hidden bg-muted shadow-sm">
+                <img
+                  src={logoImg}
+                  alt="Infrastruktur Internet NetVerse"
+                  className="w-full h-full object-cover scale-115 -translate-y-4 animate-pulse-subtle"
+                />
+              </div>
+              <div className="absolute bottom-5 left-5 right-5 p-3.5 rounded-xl border border-white/10 bg-black/40 backdrop-blur-md text-white">
                 <div className="flex items-center gap-3">
                   <div className="p-2 rounded-lg bg-primary/20 text-primary">
                     <Wifi className="h-5 w-5" />
