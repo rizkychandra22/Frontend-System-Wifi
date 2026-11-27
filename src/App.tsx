@@ -7,12 +7,12 @@ import { Toaster } from "@/components/ui/sonner";
 import { getUserData } from "@/lib/auth-utils";
 import "./App.css";
 
-// Lazy Load (Public Landing, Auth, Dashboard, Admin, Employee, Customer)
-const HomePage = lazy(() => import("@/pages/landing/home-page"));
-const AboutPage = lazy(() => import("@/pages/landing/about-page"));
-const PackagePage = lazy(() => import("@/pages/landing/package-page"));
-const ActivityPage = lazy(() => import("@/pages/landing/activity-page"));
-const ContactPage = lazy(() => import("@/pages/landing/contact-page"));
+// Lazy Load (Public Web, Auth, Dashboard, Admin, Employee, Customer)
+const HomePage = lazy(() => import("@/pages/web/home-page"));
+const AboutPage = lazy(() => import("@/pages/web/about-page"));
+const PackagePage = lazy(() => import("@/pages/web/package-page"));
+const ActivityPage = lazy(() => import("@/pages/web/activity-page"));
+const ContactPage = lazy(() => import("@/pages/web/contact-page"));
 const LoginPage = lazy(() => import("@/pages/auth/login"));
 const DashboardPage = lazy(() => import("@/pages/dashboard"));
 const UsersPage = lazy(() => import("@/pages/admin/users"));
@@ -47,7 +47,7 @@ function App() {
       <Toaster position="top-right" richColors />
       <Suspense fallback={<PageLoader />}>
         <Routes>
-          {/* Public Web Landing Routes */}
+          {/* Public Web Routes */}
           <Route
             element={
               <Suspense fallback={<PageLoader variant="web" />}>
