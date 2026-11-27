@@ -29,8 +29,8 @@ export function WebLayout() {
   const navLinks = [
     { to: "/", label: "Beranda" },
     { to: "/about", label: "Tentang Kami" },
-    { to: "/package", label: "Paket Layanan" },
-    { to: "/activity", label: "Galeri Aktivitas" },
+    { to: "/subscription", label: "Langganan" },
+    { to: "/activity", label: "Aktivitas" },
     { to: "/contact", label: "Kontak" },
   ];
 
