@@ -65,8 +65,8 @@ export default function HomePage() {
       <section className="py-16 bg-muted/20 border-t border-border">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            <div className="bg-card border border-border rounded-xl p-6 shadow-sm space-y-3">
-              <div className="h-10 w-10 rounded-lg bg-blue/10 text-primary flex items-center justify-center">
+            <div className="group bg-card border border-border rounded-xl p-6 shadow-sm space-y-3 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-primary/40">
+              <div className="h-10 w-10 rounded-lg bg-blue/10 text-primary flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
                 <Zap className="h-5 w-5" />
               </div>
               <h3 className="font-bold text-base font-display">Teknologi Fiber Optic</h3>
@@ -74,12 +74,12 @@ export default function HomePage() {
                 Jaringan transmisi kabel optik murni dengan redaman minim untuk koneksi tanpa lag.
               </p>
               <Link to="/about" className="inline-flex items-center text-xs font-semibold text-primary hover:underline pt-1">
-                Pelajari Tentang Kami <ArrowRight className="h-3 w-3 ml-1" />
+                Pelajari Tentang Kami <ArrowRight className="h-3 w-3 ml-1 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
             </div>
 
-            <div className="bg-card border border-border rounded-xl p-6 shadow-sm space-y-3">
-              <div className="h-10 w-10 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center">
+            <div className="group bg-card border border-border rounded-xl p-6 shadow-sm space-y-3 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-emerald-500/40">
+              <div className="h-10 w-10 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
                 <ShieldCheck className="h-5 w-5" />
               </div>
               <h3 className="font-bold text-base font-display">Paket Fleksibel & Terjangkau</h3>
@@ -87,12 +87,12 @@ export default function HomePage() {
                 Pilihan kecepatan mulai 15 Mbps hingga 50+ Mbps sesuai kebutuhan keluarga Anda.
               </p>
               <Link to="/package" className="inline-flex items-center text-xs font-semibold text-primary hover:underline pt-1">
-                Lihat Daftar Paket <ArrowRight className="h-3 w-3 ml-1" />
+                Lihat Daftar Paket <ArrowRight className="h-3 w-3 ml-1 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
             </div>
 
-            <div className="bg-card border border-border rounded-xl p-6 shadow-sm space-y-3 sm:col-span-2 lg:col-span-1">
-              <div className="h-10 w-10 rounded-lg bg-purple-500/10 text-purple-500 flex items-center justify-center">
+            <div className="group bg-card border border-border rounded-xl p-6 shadow-sm space-y-3 sm:col-span-2 lg:col-span-1 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-purple-500/40">
+              <div className="h-10 w-10 rounded-lg bg-purple-500/10 text-purple-500 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
                 <Clock className="h-5 w-5" />
               </div>
               <h3 className="font-bold text-base font-display">Respon Layanan Cepat</h3>
@@ -100,7 +100,7 @@ export default function HomePage() {
                 Tim teknisi lapangan dan customer care kami siap membantu pemasangan dan kendala.
               </p>
               <Link to="/contact" className="inline-flex items-center text-xs font-semibold text-primary hover:underline pt-1">
-                Hubungi Bantuan <ArrowRight className="h-3 w-3 ml-1" />
+                Hubungi Bantuan <ArrowRight className="h-3 w-3 ml-1 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
             </div>
           </div>
