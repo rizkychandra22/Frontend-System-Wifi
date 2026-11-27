@@ -30,7 +30,14 @@ import { CustomerBillingHistoryPage } from "@/pages/customer/billing-history";
 // Import Page Dashboard
 import { DashboardPage } from "@/pages/dashboard";
 import { getUserData } from "@/lib/auth-utils";
-import { LandingPage } from "@/pages/landing";
+import { WebLayout } from "@/components/layouts/web";
+import { 
+  HomePage, 
+  AboutPage, 
+  PackagePage, 
+  ActivityPage, 
+  ContactPage 
+} from "@/pages/landing";
 
 // Definition routing
 const ProtectedRouteGroup = ({ allowedRoles }: { allowedRoles: string[] }) => {
@@ -46,7 +53,14 @@ function App() {
     <BrowserRouter>
       <Toaster position="top-right" richColors />
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+        {/* Public Web Landing Routes */}
+        <Route element={<WebLayout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/package" element={<PackagePage />} />
+          <Route path="/activity" element={<ActivityPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+        </Route>
         <Route path="/login" element={<LoginPage />} />
         
         <Route element={<AppLayout />}>
