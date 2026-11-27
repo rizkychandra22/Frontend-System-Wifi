@@ -7,7 +7,7 @@ import { parseErrorMessage, type ApiErrorResponse } from "@/lib/api-error";
 import { CustomerSubscriptions } from "@/features/subscriptions/components/customer-subscriptions";
 import { AxiosError } from "axios";
 
-export function CustomerSubscriptionsPage() {
+export default function CustomerSubscriptionsPage() {
   const [subscription, setSubscription] = useState<Subscription | null>(null);
   const [availablePackages, setAvailablePackages] = useState<WifiPackage[]>([]);
   const [error, setError] = useState<string | null>(null);

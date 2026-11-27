@@ -1,38 +1,38 @@
+import { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes, Navigate, Outlet } from "react-router-dom";
 import { AppLayout } from "@/components/layouts/app";
+import { WebLayout } from "@/components/layouts/web";
+import { PageLoader } from "@/components/page-loader";
 import { Toaster } from "@/components/ui/sonner";
-import "./App.css";
-// Import Page Auth
-import { LoginPage } from "@/pages/auth/login";
-
-// Import Page Admin
-import { PaymentsPage } from "@/pages/admin/payment";
-import { PayrollSlipPage } from "@/pages/admin/reports/employee/payroll-slip";
-import { UsersPage } from "@/pages/admin/users";
-import { AdminAttendancePage } from "@/pages/admin/attendance";
-import { WifiPackagesPage } from "@/pages/admin/wifi-package";
-import { AdminOvertimePage } from "@/pages/admin/overtime";
-import { PaymentsReportPage } from "@/pages/admin/reports/payment";
-import { AdminAttendanceReportPage } from "@/pages/admin/reports/attendance";
-import { AdminAllowancePage } from "@/pages/admin/allowance";
-
-// Import Page Employee
-import { AttendanceRecordPage } from "@/pages/employee/attendance-record";
-import { AttendanceHistoryPage } from "@/pages/employee/attendance-history";
-import { EmployeeCustomersPage } from "@/pages/employee/customers";
-import { EmployeeOvertimePage } from "@/pages/employee/overtime";
-import { EmployeeAllowancePage } from "@/pages/employee/allowance";
-
-// Import Page Customer
-import { CustomerSubscriptionsPage } from "@/pages/customer/subscriptions";
-import { CustomerBillingHistoryPage } from "@/pages/customer/billing-history";
-
-// Import Page Dashboard
-import { DashboardPage } from "@/pages/dashboard";
 import { getUserData } from "@/lib/auth-utils";
-import { LandingPage } from "@/pages/landing";
+import "./App.css";
 
-// Definition routing
+// Lazy Load (Public Landing, Auth, Dashboard, Admin, Employee, Customer)
+const HomePage = lazy(() => import("@/pages/landing/home-page"));
+const AboutPage = lazy(() => import("@/pages/landing/about-page"));
+const PackagePage = lazy(() => import("@/pages/landing/package-page"));
+const ActivityPage = lazy(() => import("@/pages/landing/activity-page"));
+const ContactPage = lazy(() => import("@/pages/landing/contact-page"));
+const LoginPage = lazy(() => import("@/pages/auth/login"));
+const DashboardPage = lazy(() => import("@/pages/dashboard"));
+const UsersPage = lazy(() => import("@/pages/admin/users"));
+const WifiPackagesPage = lazy(() => import("@/pages/admin/wifi-package"));
+const PaymentsPage = lazy(() => import("@/pages/admin/payment"));
+const AdminAttendancePage = lazy(() => import("@/pages/admin/attendance"));
+const AdminOvertimePage = lazy(() => import("@/pages/admin/overtime"));
+const AdminAllowancePage = lazy(() => import("@/pages/admin/allowance"));
+const PayrollSlipPage = lazy(() => import("@/pages/admin/reports/employee/payroll-slip"));
+const PaymentsReportPage = lazy(() => import("@/pages/admin/reports/payment"));
+const AdminAttendanceReportPage = lazy(() => import("@/pages/admin/reports/attendance"));
+const AttendanceRecordPage = lazy(() => import("@/pages/employee/attendance-record"));
+const AttendanceHistoryPage = lazy(() => import("@/pages/employee/attendance-history"));
+const EmployeeCustomersPage = lazy(() => import("@/pages/employee/customers"));
+const EmployeeOvertimePage = lazy(() => import("@/pages/employee/overtime"));
+const EmployeeAllowancePage = lazy(() => import("@/pages/employee/allowance"));
+const CustomerSubscriptionsPage = lazy(() => import("@/pages/customer/subscriptions"));
+const CustomerBillingHistoryPage = lazy(() => import("@/pages/customer/billing-history"));
+
+// Protected Route Guard
 const ProtectedRouteGroup = ({ allowedRoles }: { allowedRoles: string[] }) => {
   const user = getUserData();
   if (!user || !allowedRoles.includes(user.role)) {
@@ -45,46 +45,66 @@ function App() {
   return (
     <BrowserRouter>
       <Toaster position="top-right" richColors />
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        
-        <Route element={<AppLayout />}>
-          <Route path="/dashboard" element={<DashboardPage />} />
-          {/* Shared Routes Admin & Employee */}
-          {/* <Route element={<ProtectedRouteGroup allowedRoles={['admin', 'employee']} />}>
-            <Route path="/dashboard/payments" element={<PaymentsPage />} />
-          </Route> */}
-
-          {/* Admin Routes */}
-          <Route element={<ProtectedRouteGroup allowedRoles={['admin']} />}>
-            <Route path="/dashboard/users" element={<UsersPage />} />
-            <Route path="/dashboard/wifi-packages" element={<WifiPackagesPage />} />
-            <Route path="/dashboard/payments" element={<PaymentsPage />} />
-            <Route path="/dashboard/attendance" element={<AdminAttendancePage />} />
-            <Route path="/dashboard/overtime" element={<AdminOvertimePage />} />
-            <Route path="/dashboard/allowances" element={<AdminAllowancePage />} />
-            <Route path="/dashboard/payroll-slip" element={<PayrollSlipPage />} />
-            <Route path="/dashboard/payments/report" element={<PaymentsReportPage />} />
-            <Route path="/dashboard/attendance/report" element={<AdminAttendanceReportPage />} />
+      <Suspense fallback={<PageLoader />}>
+        <Routes>
+          {/* Public Web Landing Routes */}
+          <Route
+            element={
+              <Suspense fallback={<PageLoader variant="web" />}>
+                <WebLayout />
+              </Suspense>
+            }
+          >
+            <Route path="/" element={<HomePage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/package" element={<PackagePage />} />
+            <Route path="/activity" element={<ActivityPage />} />
+            <Route path="/contact" element={<ContactPage />} />
           </Route>
 
-          {/* Employee Routes */}
-          <Route element={<ProtectedRouteGroup allowedRoles={['employee']} />}>
-            <Route path="/attendance/record" element={<AttendanceRecordPage />} />
-            <Route path="/attendance/history" element={<AttendanceHistoryPage />} />
-            <Route path="/employee/payments" element={<PaymentsPage />} />
-            <Route path="/employee/add-customers" element={<EmployeeCustomersPage />} />
-            <Route path="/employee/overtime" element={<EmployeeOvertimePage />} />
-            <Route path="/employee/allowances" element={<EmployeeAllowancePage />} />
-            <Route path="/employee/payroll-slip" element={<PayrollSlipPage />} />
-          </Route>
+          {/* Auth Route */}
+          <Route path="/login" element={<LoginPage />} />
 
-          {/* Customer Routes */}
-          <Route path="/subscriptions" element={<CustomerSubscriptionsPage />} />
-          <Route path="/billing-history" element={<CustomerBillingHistoryPage />} />
-        </Route>
-      </Routes>
+          {/* Protected Routes */}
+          <Route
+            element={
+              <Suspense fallback={<PageLoader variant="dashboard" />}>
+                <AppLayout />
+              </Suspense>
+            }
+          >
+            <Route path="/dashboard" element={<DashboardPage />} />
+
+            {/* Admin Routes */}
+            <Route element={<ProtectedRouteGroup allowedRoles={["admin"]} />}>
+              <Route path="/dashboard/users" element={<UsersPage />} />
+              <Route path="/dashboard/wifi-packages" element={<WifiPackagesPage />} />
+              <Route path="/dashboard/payments" element={<PaymentsPage />} />
+              <Route path="/dashboard/attendance" element={<AdminAttendancePage />} />
+              <Route path="/dashboard/overtime" element={<AdminOvertimePage />} />
+              <Route path="/dashboard/allowances" element={<AdminAllowancePage />} />
+              <Route path="/dashboard/payroll-slip" element={<PayrollSlipPage />} />
+              <Route path="/dashboard/payments/report" element={<PaymentsReportPage />} />
+              <Route path="/dashboard/attendance/report" element={<AdminAttendanceReportPage />} />
+            </Route>
+
+            {/* Employee Routes */}
+            <Route element={<ProtectedRouteGroup allowedRoles={["employee"]} />}>
+              <Route path="/attendance/record" element={<AttendanceRecordPage />} />
+              <Route path="/attendance/history" element={<AttendanceHistoryPage />} />
+              <Route path="/employee/payments" element={<PaymentsPage />} />
+              <Route path="/employee/add-customers" element={<EmployeeCustomersPage />} />
+              <Route path="/employee/overtime" element={<EmployeeOvertimePage />} />
+              <Route path="/employee/allowances" element={<EmployeeAllowancePage />} />
+              <Route path="/employee/payroll-slip" element={<PayrollSlipPage />} />
+            </Route>
+
+            {/* Customer Routes */}
+            <Route path="/subscriptions" element={<CustomerSubscriptionsPage />} />
+            <Route path="/billing-history" element={<CustomerBillingHistoryPage />} />
+          </Route>
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   );
 }

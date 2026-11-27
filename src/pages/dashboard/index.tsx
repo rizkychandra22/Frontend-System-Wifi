@@ -3,7 +3,7 @@ import { AdminDashboardStats } from "@/features/dashboard/admin-stats";
 import { EmployeeDashboardStats } from "@/features/dashboard/employee-stats";
 import { CustomerDashboardStats } from "@/features/dashboard/customer-stats";
 
-export function DashboardPage() {
+export default function DashboardPage() {
   const user = getUser();
 
   if (!user) return null;

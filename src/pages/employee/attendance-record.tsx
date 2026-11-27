@@ -1,6 +1,6 @@
 import { AttendanceRecord } from "@/features/attendance/components/record";
 
-export function AttendanceRecordPage() {
+export default function AttendanceRecordPage() {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">

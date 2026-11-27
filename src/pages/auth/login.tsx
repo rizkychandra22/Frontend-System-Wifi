@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import logo from "@/assets/logo.png";
 import { isAuthenticated } from "@/lib/auth-utils";
 
-export const LoginPage = () => {
+export default function LoginPage() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
@@ -68,4 +68,4 @@ export const LoginPage = () => {
       </div>
     </div>
   );
-};
+}

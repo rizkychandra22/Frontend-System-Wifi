@@ -8,7 +8,7 @@ import { Plus, Search } from "lucide-react";
 import { UserTable } from "@/features/user/components/table";
 import { UserActions, type ActionState } from "@/features/user/components/actions";
 
-export function UsersPage() {
+export default function UsersPage() {
   const { users, errorMessage } = useUsers();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState("employee");

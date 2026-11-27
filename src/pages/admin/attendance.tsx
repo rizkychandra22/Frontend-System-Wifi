@@ -10,7 +10,7 @@ import { OvertimeTable } from "@/features/overtime/components/table";
 import { OvertimeActions, type ActionState as OvertimeActionState } from "@/features/overtime/components/actions";
 import { Button as UIButton } from "@/components/ui/button";
 
-export function AdminAttendancePage() {
+export default function AdminAttendancePage() {
   const [activeTab, setActiveTab] = useState("kehadiran");
 
   // --- Attendance State ---

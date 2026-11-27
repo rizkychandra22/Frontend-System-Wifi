@@ -12,7 +12,7 @@ import { generateAttendanceReportPDF, type AttendanceReportItem } from "@/featur
 import { toast } from "sonner";
 import { extractLocalDate, formatLocalTime } from "@/lib/date-utils";
 
-export function AdminAttendanceReportPage() {
+export default function AdminAttendanceReportPage() {
   const { attendances = [], isLoading: isAttendanceLoading } = useAllAttendance();
   const { data: overtimes = [], isLoading: isOvertimeLoading } = useOvertimes();
   const currentUser = getUserData();
