@@ -23,9 +23,9 @@ export default function HomePage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-3 pt-2">
               <Link to="/paket-layanan">
-                <Button size="lg" className="w-full sm:w-auto bg-gradient-blue text-primary-foreground font-semibold shadow-blue hover:opacity-90 transition-colors">
+                <Button size="lg" className="group w-full sm:w-auto bg-gradient-blue text-primary-foreground font-semibold shadow-blue hover:opacity-90 transition-all">
                   Pilih Paket WiFi
-                  <ArrowRight className="h-4 w-4 ml-1.5" />
+                  <ArrowRight className="h-4 w-4 ml-1.5 transition-transform duration-300 group-hover:translate-x-1" />
                 </Button>
               </Link>
               <Link to="/kontak">

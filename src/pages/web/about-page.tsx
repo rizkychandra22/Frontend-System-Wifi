@@ -41,7 +41,7 @@ export default function AboutPage() {
               <Wifi className="h-6 w-6" />
             </div>
             <div className="space-y-2">
-              <h3 className="font-bold text-lg font-display">Unlimited Tanpa Kuota</h3>
+              <h3 className="font-bold text-lg font-display">Kuota Unlimited</h3>
               <p className="text-muted-foreground text-xs leading-relaxed">
                 Nikmati berselancar sepuasnya tanpa khawatir kehabisan kuota atau penurunan kecepatan yang drastis.
               </p>
@@ -85,9 +85,9 @@ export default function AboutPage() {
           </p>
           <div className="pt-2 flex flex-wrap justify-center gap-4">
             <Link to="/package">
-              <Button className="bg-gradient-blue text-primary-foreground font-semibold shadow-blue hover:opacity-90 transition-opacity">
+              <Button className="group bg-gradient-blue text-primary-foreground font-semibold shadow-blue hover:opacity-90 transition-opacity">
                 Eksplorasi Paket Layanan
-                <ArrowRight className="h-4 w-4 ml-1.5" />
+                <ArrowRight className="h-4 w-4 ml-1.5 transition-transform duration-300 group-hover:translate-x-1" />
               </Button>
             </Link>
             <Link to="/contact">

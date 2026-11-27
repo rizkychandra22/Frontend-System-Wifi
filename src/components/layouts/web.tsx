@@ -170,10 +170,10 @@ export function WebLayout() {
       {showScrollTop && (
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="fixed bottom-6 right-6 p-3 bg-gradient-blue text-primary-foreground rounded-full shadow-lg hover:opacity-90 transition-colors z-40 border border-white/10 cursor-pointer"
+          className="group fixed bottom-6 right-6 p-3 bg-gradient-blue text-primary-foreground rounded-full shadow-lg hover:opacity-90 transition-colors z-40 border border-white/10 cursor-pointer"
           aria-label="Kembali ke atas"
         >
-          <ArrowUp className="h-5 w-5" />
+          <ArrowUp className="h-5 w-5 transition-transform duration-300 group-hover:-translate-y-1" />
         </button>
       )}
     </div>
