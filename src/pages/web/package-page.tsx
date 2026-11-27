@@ -59,7 +59,7 @@ export default function PackagePage() {
   };
 
   const handleSelectPackage = (packageName: string) => {
-    toast.info(`Anda memilih ${packageName}. Mengalihkan ke formulir pemesanan.`);
+    toast.info(`Mengalihkan ke formulir pemesanan paket wifi ${packageName}.`);
     navigate(`/contact?package=${encodeURIComponent(packageName)}`);
   };
 

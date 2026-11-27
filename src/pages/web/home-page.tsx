@@ -18,7 +18,7 @@ const featureHighlights = [
     title: "Paket Fleksibel & Terjangkau",
     description:
       "Pilihan kecepatan mulai 15 Mbps hingga 50+ Mbps sesuai kebutuhan keluarga Anda.",
-    to: "/package",
+    to: "/subscription",
     linkLabel: "Lihat Daftar Paket",
     icon: ShieldCheck,
     iconBgClass: "bg-emerald-500/10 text-emerald-500",
@@ -56,13 +56,13 @@ export default function HomePage() {
               NetVerse Fiber menghadirkan layanan internet rumah super cepat menggunakan kabel serat optik terbaik. Aktivitas streaming, kerja jarak jauh, hingga gaming lancar bebas hambatan dengan harga terjangkau.
             </p>
             <div className="flex flex-row items-center gap-3 pt-1">
-              <Link to="/paket-layanan" className="flex-1 sm:flex-initial">
+              <Link to="/subscription" className="flex-1 sm:flex-initial">
                 <Button size="lg" className="group w-full sm:w-auto px-4 sm:px-8 bg-gradient-blue text-primary-foreground font-semibold shadow-blue hover:opacity-90 transition-all">
                   Pilih Paket WiFi
                   <ArrowRight className="h-4 w-4 ml-1.5 transition-transform duration-300 group-hover:translate-x-1" />
                 </Button>
               </Link>
-              <Link to="/kontak" className="flex-1 sm:flex-initial">
+              <Link to="/contact" className="flex-1 sm:flex-initial">
                 <Button size="lg" variant="outline" className="w-full sm:w-auto px-4 sm:px-8 font-medium hover:bg-muted transition-colors">
                   Hubungi Kami
                 </Button>

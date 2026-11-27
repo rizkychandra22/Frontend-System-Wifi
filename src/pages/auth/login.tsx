@@ -25,7 +25,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-cyan-50 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 p-4">
+    <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-cyan-50 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 p-4 py-8">
       
       {/* Decorative background elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
@@ -35,8 +35,8 @@ export default function LoginPage() {
 
       <div className="w-full max-w-md relative z-10 animate-in fade-in zoom-in-95 duration-500">
         
-        <div className="flex flex-col items-center justify-center -mt-50 -mb-30">
-          <img src={logo} alt="NetVerse Pro" className="w-100 md:w-100 h-auto object-contain drop-shadow-md" />
+        <div className="flex flex-col items-center justify-center h-20 w-full overflow-hidden mb-10">
+          <img src={logo} alt="NetVerse Pro" className="w-100 h-auto shrink-0 mt-2 object-contain drop-shadow-md" />
         </div>
 
         <Card className="border-0 shadow-2xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl ring-1 ring-slate-200 dark:ring-slate-800">

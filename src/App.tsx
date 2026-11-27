@@ -57,7 +57,7 @@ function App() {
           >
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
-            <Route path="/package" element={<PackagePage />} />
+            <Route path="/subscription" element={<PackagePage />} />
             <Route path="/activity" element={<ActivityPage />} />
             <Route path="/contact" element={<ContactPage />} />
           </Route>
