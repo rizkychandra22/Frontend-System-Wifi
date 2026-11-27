@@ -121,10 +121,10 @@ export default function PackagePage() {
                 <Button
                   onClick={() => handleSelectPackage(pkg.name)}
                   variant={pkg.popular ? "default" : "outline"}
-                  className={`w-full font-semibold h-9 text-xs rounded-xl transition-all cursor-pointer ${
+                  className={`w-full font-semibold h-9 text-xs rounded-xl transition-colors cursor-pointer ${
                     pkg.popular
-                      ? `${styles.buttonClass} hover:scale-[1.02]`
-                      : `${styles.buttonOutlineClass}`
+                      ? styles.buttonClass
+                      : styles.buttonOutlineClass
                   }`}
                 >
                   Pesan Paket

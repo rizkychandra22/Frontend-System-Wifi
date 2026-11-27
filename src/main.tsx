@@ -34,7 +34,7 @@ function GlobalErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
         <div className="mt-6">
           <button
             onClick={resetErrorBoundary}
-            className="inline-flex items-center justify-center rounded-full bg-gradient-blue px-5 py-2 text-sm font-semibold text-primary-foreground shadow-blue transition-transform hover:scale-105 active:scale-95"
+            className="inline-flex items-center justify-center rounded-full bg-gradient-blue px-5 py-2 text-sm font-semibold text-primary-foreground shadow-blue transition-colors hover:opacity-90"
           >
             Muat Ulang Halaman
           </button>

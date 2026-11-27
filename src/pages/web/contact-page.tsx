@@ -233,7 +233,7 @@ ${contactForm.message}`;
               <Button
                 type="submit"
                 disabled={formLoading}
-                className="w-full bg-gradient-blue text-primary-foreground font-semibold h-10 shadow-blue mt-2 cursor-pointer"
+                className="w-full bg-gradient-blue text-primary-foreground font-semibold h-10 shadow-blue mt-2 hover:opacity-90 transition-colors cursor-pointer"
               >
                 {formLoading ? (
                   <>

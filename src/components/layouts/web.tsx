@@ -64,7 +64,7 @@ export function WebLayout() {
           {/* Portal Access Button */}
           <div className="hidden md:flex items-center gap-3">
             <Link to={isLoggedIn ? "/dashboard" : "/login"}>
-              <Button size="sm" className="bg-gradient-blue text-primary-foreground font-semibold px-4 shadow-blue hover:scale-[1.02] transition-transform">
+              <Button size="sm" className="bg-gradient-blue text-primary-foreground font-semibold px-4 shadow-blue hover:opacity-90 transition-colors">
                 {isLoggedIn ? "Dashboard" : "Portal Login"}
                 <ExternalLink className="h-3.5 w-3.5 ml-1" />
               </Button>
@@ -101,7 +101,7 @@ export function WebLayout() {
             </NavLink>
           ))}
           <Link to={isLoggedIn ? "/dashboard" : "/login"} className="pt-2" onClick={() => setMobileMenuOpen(false)}>
-            <Button className="w-full bg-gradient-blue text-primary-foreground font-semibold shadow-blue">
+            <Button className="w-full bg-gradient-blue text-primary-foreground font-semibold shadow-blue hover:opacity-90 transition-opacity">
               {isLoggedIn ? "Menuju Dashboard" : "Masuk ke Portal"}
               <ExternalLink className="h-4 w-4 ml-1" />
             </Button>
@@ -170,7 +170,7 @@ export function WebLayout() {
       {showScrollTop && (
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="fixed bottom-6 right-6 p-3 bg-gradient-blue text-primary-foreground rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all z-40 border border-white/10 cursor-pointer"
+          className="fixed bottom-6 right-6 p-3 bg-gradient-blue text-primary-foreground rounded-full shadow-lg hover:opacity-90 transition-colors z-40 border border-white/10 cursor-pointer"
           aria-label="Kembali ke atas"
         >
           <ArrowUp className="h-5 w-5" />

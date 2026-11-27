@@ -85,7 +85,7 @@ export default function AboutPage() {
           </p>
           <div className="pt-2 flex flex-wrap justify-center gap-4">
             <Link to="/package">
-              <Button className="bg-gradient-blue text-primary-foreground font-semibold shadow-blue">
+              <Button className="bg-gradient-blue text-primary-foreground font-semibold shadow-blue hover:opacity-90 transition-opacity">
                 Eksplorasi Paket Layanan
                 <ArrowRight className="h-4 w-4 ml-1.5" />
               </Button>
