@@ -28,10 +28,10 @@ export function WebLayout() {
 
   const navLinks = [
     { to: "/", label: "Beranda" },
-    { to: "/tentang-kami", label: "Tentang Kami" },
-    { to: "/paket-layanan", label: "Paket Layanan" },
-    { to: "/galeri-aktivitas", label: "Galeri Aktivitas" },
-    { to: "/kontak", label: "Kontak" },
+    { to: "/about", label: "Tentang Kami" },
+    { to: "/package", label: "Paket Layanan" },
+    { to: "/activity", label: "Galeri Aktivitas" },
+    { to: "/contact", label: "Kontak" },
   ];
 
   return (

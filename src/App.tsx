@@ -65,11 +65,6 @@ function App() {
         
         <Route element={<AppLayout />}>
           <Route path="/dashboard" element={<DashboardPage />} />
-          {/* Shared Routes Admin & Employee */}
-          {/* <Route element={<ProtectedRouteGroup allowedRoles={['admin', 'employee']} />}>
-            <Route path="/dashboard/payments" element={<PaymentsPage />} />
-          </Route> */}
-
           {/* Admin Routes */}
           <Route element={<ProtectedRouteGroup allowedRoles={['admin']} />}>
             <Route path="/dashboard/users" element={<UsersPage />} />
