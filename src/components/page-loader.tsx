@@ -10,7 +10,7 @@ interface PageLoaderProps {
  */
 function WebLayoutSkeleton({ className = "" }: { className?: string }) {
   return (
-    <div className={`min-h-screen bg-background flex flex-col font-sans animate-in fade-in-50 duration-300 ${className}`}>
+    <div className={`web-layout min-h-screen bg-background flex flex-col font-sans animate-in fade-in-50 duration-300 ${className}`}>
       {/* 1. Header Navbar Skeleton */}
       <header className="sticky top-0 z-50 w-full border-b border-border bg-background/85 backdrop-blur-md">
         <div className="container mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
@@ -34,8 +34,8 @@ function WebLayoutSkeleton({ className = "" }: { className?: string }) {
       </header>
 
       {/* 2. Main Content Skeleton (Hero Section + Feature Cards) */}
-      <main className="flex-1 py-10 md:py-16">
-        <div className="container mx-auto px-4 md:px-6 space-y-16">
+      <main className="flex-1 min-h-[calc(100vh-4rem)] flex items-center py-10 md:py-16">
+        <div className="container mx-auto px-4 md:px-6 space-y-16 w-full">
           {/* Hero Banner Grid */}
           <div className="grid md:grid-cols-2 gap-12 items-center">
             {/* Left Column */}

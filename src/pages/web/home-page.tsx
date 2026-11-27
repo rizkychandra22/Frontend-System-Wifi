@@ -7,8 +7,8 @@ export default function HomePage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative pt-6 pb-20 md:pt-14 md:pb-28 overflow-hidden bg-gradient-to-b from-primary/5 via-transparent to-transparent">
-        <div className="container mx-auto px-4 md:px-6 grid md:grid-cols-2 gap-12 items-center">
+      <section className="relative min-h-[calc(100vh-4rem)] flex items-center pt-6 pb-20 md:pt-14 md:pb-28 overflow-hidden bg-gradient-to-b from-primary/5 via-transparent to-transparent">
+        <div className="container mx-auto px-4 md:px-6 grid md:grid-cols-2 gap-12 items-center w-full">
           {/* Left Content */}
           <div className="space-y-6 md:pr-4">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 bg-primary/10 text-primary text-xs font-semibold uppercase tracking-wider">

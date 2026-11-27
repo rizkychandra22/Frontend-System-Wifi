@@ -35,7 +35,7 @@ export function WebLayout() {
   ];
 
   return (
-    <div className="min-h-screen bg-background text-foreground scroll-smooth flex flex-col font-sans">
+    <div className="web-layout min-h-screen bg-background text-foreground scroll-smooth flex flex-col font-sans">
       {/* Sticky Navigation Bar */}
       <header className="sticky top-0 z-50 w-full border-b border-border bg-background/85 backdrop-blur-md">
         <div className="container mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
