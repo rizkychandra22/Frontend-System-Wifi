@@ -1,5 +1,12 @@
 import { type Payment } from "@/lib/api/payment";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Download, Edit, Trash2 } from "lucide-react";
 import { format } from "date-fns";
@@ -19,15 +26,35 @@ export function PaymentTable({ payments, onView, onEdit, onDelete }: PaymentTabl
   const getPaymentMethodBadge = (method?: string) => {
     switch (method?.toLowerCase()) {
       case "cash":
-        return <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-green-100 text-green-700 border-green-200">Cash</span>;
+        return (
+          <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-green-100 text-green-700 border-green-200">
+            Cash
+          </span>
+        );
       case "bca":
-        return <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-blue-100 text-blue-800 border-blue-200">BCA</span>;
+        return (
+          <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-blue-100 text-blue-800 border-blue-200">
+            BCA
+          </span>
+        );
       case "qris":
-        return <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-red-100 text-red-700 border-red-200">Qris</span>;
+        return (
+          <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-red-100 text-red-700 border-red-200">
+            Qris
+          </span>
+        );
       case "dana":
-        return <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-blue-50 text-blue-500 border-blue-200">Dana</span>;
+        return (
+          <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-blue-50 text-blue-500 border-blue-200">
+            Dana
+          </span>
+        );
       default:
-        return <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-gray-100 text-gray-700 border-gray-200">{method || "-"}</span>;
+        return (
+          <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-gray-100 text-gray-700 border-gray-200">
+            {method || "-"}
+          </span>
+        );
     }
   };
 
@@ -56,15 +83,17 @@ export function PaymentTable({ payments, onView, onEdit, onDelete }: PaymentTabl
           ) : (
             payments.map((payment) => (
               <TableRow key={payment.id}>
-                <TableCell className="font-medium">{payment.invoice_number || `INV-${payment.id.toString().padStart(4, '0')}`}</TableCell>
+                <TableCell className="font-medium">
+                  {payment.invoice_number || `INV-${payment.id.toString().padStart(4, "0")}`}
+                </TableCell>
                 <TableCell>{format(new Date(payment.created_at), "dd MMM yyyy HH:mm")}</TableCell>
                 <TableCell>{payment.customer?.name || "-"}</TableCell>
                 <TableCell>{payment.wifi_package?.name || "-"}</TableCell>
                 <TableCell>Rp {payment.total_amount.toLocaleString("id-ID")}</TableCell>
                 <TableCell>{getPaymentMethodBadge(payment.payment_method)}</TableCell>
                 <TableCell>
-                  {payment.created_by 
-                    ? `${payment.created_by.role === 'admin' ? 'Admin' : 'Karyawan'} - ${payment.created_by.name}` 
+                  {payment.created_by
+                    ? `${payment.created_by.role === "admin" ? "Admin" : "Karyawan"} - ${payment.created_by.name}`
                     : "-"}
                 </TableCell>
                 <TableCell className="text-right">

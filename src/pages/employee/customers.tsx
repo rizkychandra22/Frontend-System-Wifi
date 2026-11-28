@@ -10,15 +10,19 @@ import { Button } from "@/components/ui/button";
 
 export default function EmployeeCustomersPage() {
   const { users } = useUsers();
-  
+
   const [searchQuery, setSearchQuery] = useState("");
-  const [actionState, setActionState] = useState<ActionState>({ type: null, user: null });
+  const [actionState, setActionState] = useState<ActionState>({
+    type: null,
+    user: null,
+  });
 
   // Employee hanya melihat customer yang didaftarkannya (ini sudah difilter dari backend)
   // Tapi untuk keamanan ekstra di frontend, kita pastikan hanya merender customer
   const filteredCustomers = users.filter((user) => {
-    const matchSearch = user.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                       user.phone.includes(searchQuery);
+    const matchSearch =
+      user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.phone.includes(searchQuery);
     const isCustomer = user.role === "customer";
     return matchSearch && isCustomer;
   });
@@ -47,26 +51,30 @@ export default function EmployeeCustomersPage() {
           </div>
 
           <div className="flex flex-row flex-wrap sm:flex-nowrap items-center gap-2 w-full lg:w-auto">
-            <Button size="sm" onClick={() => setActionState({ type: 'add', user: null, role: 'customer' })} className="h-8 px-3.5 rounded-lg text-[13px] font-medium shrink-0 shadow-sm w-full sm:w-auto flex-none">
+            <Button
+              size="sm"
+              onClick={() => setActionState({ type: "add", user: null, role: "customer" })}
+              className="h-8 px-3.5 rounded-lg text-[13px] font-medium shrink-0 shadow-sm w-full sm:w-auto flex-none"
+            >
               <Plus className="h-3.5 w-3.5 mr-1" />
               Tambah Pelanggan
             </Button>
           </div>
         </div>
 
-        <UserTable 
-          users={filteredCustomers} 
-          onView={(user) => setActionState({ type: 'view', user })}
-          onEdit={(user) => setActionState({ type: 'edit', user })}
+        <UserTable
+          users={filteredCustomers}
+          onView={(user) => setActionState({ type: "view", user })}
+          onEdit={(user) => setActionState({ type: "edit", user })}
           onResetIP={() => {}} // Disabled via isEmployeeView
           onDelete={() => {}} // Disabled via isEmployeeView
           isEmployeeView={true}
         />
       </div>
 
-      <UserActions 
-        actionState={actionState} 
-        onClose={() => setActionState({ type: null, user: null })} 
+      <UserActions
+        actionState={actionState}
+        onClose={() => setActionState({ type: null, user: null })}
         isEmployeeView={true}
       />
     </div>

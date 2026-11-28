@@ -1,0 +1,25 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "ui": "tui",
+  "tasks": {
+    "typecheck": {
+      "inputs": ["src/**/*.ts", "src/**/*.tsx", "tsconfig*.json"],
+      "outputs": ["**/*.tsbuildinfo", "node_modules/.tmp/**"]
+    },
+    "build:vite": {
+      "dependsOn": ["typecheck"],
+      "inputs": [
+        "src/**/*",
+        "public/**/*",
+        "index.html",
+        "vite.config.*",
+        "tailwind.config.*",
+        "postcss.config.*"
+      ],
+      "outputs": ["dist/**"]
+    },
+    "lint:task": {
+      "inputs": ["src/**/*.ts", "src/**/*.tsx", "eslint.config.*"]
+    }
+  }
+}

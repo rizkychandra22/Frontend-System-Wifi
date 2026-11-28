@@ -52,7 +52,7 @@ export const usersApi = {
       phone?: string;
       role?: string;
       address?: string;
-    }
+    },
   ): Promise<User> => {
     const response = await apiClient.put<{ message: string; data: User }>(`/users/${id}`, data);
     return response.data.data;

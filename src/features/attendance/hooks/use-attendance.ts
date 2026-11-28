@@ -96,11 +96,7 @@ export function useClockOut() {
 export function useRequestIzin() {
   const queryClient = useQueryClient();
 
-  return useMutation<
-    AttendanceActionResponse,
-    AxiosError<ApiErrorResponse>,
-    string
-  >({
+  return useMutation<AttendanceActionResponse, AxiosError<ApiErrorResponse>, string>({
     mutationFn: (notes) => requestIzinApi(notes),
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["attendance"] });

@@ -1,5 +1,12 @@
 import { type Allowance } from "@/lib/api/allowance";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Eye, Edit, Trash2, Users, User as UserIcon } from "lucide-react";
 
@@ -51,9 +58,7 @@ export function AllowanceTable({
             allowances.map((item) => (
               <TableRow key={item.id} className="hover:bg-muted/30 transition-colors">
                 {/* Nama / Judul */}
-                <TableCell className="font-medium text-foreground">
-                  {item.title}
-                </TableCell>
+                <TableCell className="font-medium text-foreground">{item.title}</TableCell>
 
                 {/* Penerima */}
                 <TableCell>

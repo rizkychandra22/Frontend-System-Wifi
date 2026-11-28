@@ -2,7 +2,12 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
-import { useTodayAttendance, useClockIn, useClockOut, useRequestIzin } from "@/features/attendance/hooks/use-attendance";
+import {
+  useTodayAttendance,
+  useClockIn,
+  useClockOut,
+  useRequestIzin,
+} from "@/features/attendance/hooks/use-attendance";
 import { MapPin, Clock, CalendarX2 } from "lucide-react";
 
 export function AttendanceRecord() {
@@ -62,7 +67,7 @@ export function AttendanceRecord() {
     requestIzin(izinNotes, {
       onSuccess: () => {
         setShowIzinForm(false);
-      }
+      },
     });
   };
 
@@ -73,7 +78,8 @@ export function AttendanceRecord() {
           <CalendarX2 className="h-16 w-16 text-red-500 mb-4" />
           <h2 className="text-xl font-bold mb-2">Hari Ini Libur</h2>
           <p className="text-foreground">
-            Tidak ada aktivitas absensi untuk hari ini karena tidak ada karyawan yang absen masuk hingga jam 12:00.
+            Tidak ada aktivitas absensi untuk hari ini karena tidak ada karyawan yang absen masuk
+            hingga jam 12:00.
           </p>
         </CardContent>
       </Card>
@@ -113,7 +119,9 @@ export function AttendanceRecord() {
             <div className="space-y-2">
               <div className="flex justify-between items-center bg-muted/50 p-3 rounded-lg">
                 <span className="text-sm text-muted-foreground">Waktu Masuk</span>
-                <span className="font-semibold">{record.clock_in ? new Date(record.clock_in).toLocaleTimeString("id-ID") : "-"}</span>
+                <span className="font-semibold">
+                  {record.clock_in ? new Date(record.clock_in).toLocaleTimeString("id-ID") : "-"}
+                </span>
               </div>
               <div className="flex justify-between items-center bg-muted/50 p-3 rounded-lg">
                 <span className="text-sm text-muted-foreground">Grade</span>
@@ -122,8 +130,8 @@ export function AttendanceRecord() {
             </div>
           ) : (
             <div className="space-y-4">
-              <Button 
-                className="w-full text-base h-12 shadow-blue" 
+              <Button
+                className="w-full text-base h-12 shadow-blue"
                 onClick={handleClockIn}
                 disabled={isClockInLoading || isLocating}
               >
@@ -131,21 +139,17 @@ export function AttendanceRecord() {
                 {isLocating
                   ? "Mendapatkan Lokasi..."
                   : isClockInLoading
-                  ? "Memproses..."
-                  : "Catat Absen Masuk"}
+                    ? "Memproses..."
+                    : "Catat Absen Masuk"}
               </Button>
-              
+
               {!showIzinForm ? (
-                <Button 
-                  variant="outline" 
-                  className="w-full"
-                  onClick={() => setShowIzinForm(true)}
-                >
+                <Button variant="outline" className="w-full" onClick={() => setShowIzinForm(true)}>
                   Ajukan Izin
                 </Button>
               ) : (
                 <form onSubmit={handleIzin} className="space-y-3 bg-muted p-4 rounded-lg">
-                  <textarea 
+                  <textarea
                     className="w-full p-3 rounded-md border text-sm focus:ring-1 focus:ring-primary outline-none"
                     placeholder="Tulis alasan izin..."
                     rows={3}
@@ -156,7 +160,12 @@ export function AttendanceRecord() {
                     <Button type="submit" size="sm" className="flex-1" disabled={isIzinLoading}>
                       Kirim Izin
                     </Button>
-                    <Button type="button" variant="outline" size="sm" onClick={() => setShowIzinForm(false)}>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setShowIzinForm(false)}
+                    >
                       Batal
                     </Button>
                   </div>
@@ -168,7 +177,7 @@ export function AttendanceRecord() {
       </Card>
 
       {/* Card Absen Keluar */}
-      <Card className={(!record || record.status === "Selesai") ? "opacity-75" : "border-primary"}>
+      <Card className={!record || record.status === "Selesai" ? "opacity-75" : "border-primary"}>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Clock className="w-5 h-5 text-primary" />
@@ -181,7 +190,9 @@ export function AttendanceRecord() {
             <div className="space-y-2">
               <div className="flex justify-between items-center bg-muted/50 p-3 rounded-lg">
                 <span className="text-sm text-muted-foreground">Waktu Keluar</span>
-                <span className="font-semibold">{new Date(record.clock_out).toLocaleTimeString("id-ID")}</span>
+                <span className="font-semibold">
+                  {new Date(record.clock_out).toLocaleTimeString("id-ID")}
+                </span>
               </div>
               <div className="flex justify-between items-center bg-muted/50 p-3 rounded-lg">
                 <span className="text-sm text-muted-foreground">Status</span>
@@ -190,9 +201,9 @@ export function AttendanceRecord() {
             </div>
           ) : (
             <div className="space-y-3">
-              <Button 
+              <Button
                 variant="outline"
-                className={`w-full text-base h-12 ${record ? 'border-primary text-primary hover:bg-primary/5' : ''}`}
+                className={`w-full text-base h-12 ${record ? "border-primary text-primary hover:bg-primary/5" : ""}`}
                 onClick={handleClockOut}
                 disabled={!record || isClockOutLoading || isLocating}
               >
@@ -200,23 +211,26 @@ export function AttendanceRecord() {
                 {isLocating
                   ? "Mendapatkan Lokasi..."
                   : isClockOutLoading
-                  ? "Memproses..."
-                  : "Catat Absen Keluar"}
+                    ? "Memproses..."
+                    : "Catat Absen Keluar"}
               </Button>
 
               {record && record.status === "Proses" && (
                 <div className="mt-2 text-center">
                   {!showIzinForm ? (
-                    <Button 
-                      variant="ghost" 
+                    <Button
+                      variant="ghost"
                       className="w-full text-xs text-muted-foreground hover:text-amber-600"
                       onClick={() => setShowIzinForm(true)}
                     >
                       Ajukan Izin Pulang Awal
                     </Button>
                   ) : (
-                    <form onSubmit={handleIzin} className="space-y-3 bg-muted p-4 rounded-lg text-left mt-2 border">
-                      <textarea 
+                    <form
+                      onSubmit={handleIzin}
+                      className="space-y-3 bg-muted p-4 rounded-lg text-left mt-2 border"
+                    >
+                      <textarea
                         className="w-full p-3 rounded-md border text-sm focus:ring-1 focus:ring-primary outline-none"
                         placeholder="Tulis alasan izin..."
                         rows={3}
@@ -224,10 +238,20 @@ export function AttendanceRecord() {
                         onChange={(e) => setIzinNotes(e.target.value)}
                       />
                       <div className="flex gap-2">
-                        <Button type="submit" size="sm" className="flex-1 bg-amber-600 hover:bg-amber-700 text-white" disabled={isIzinLoading}>
+                        <Button
+                          type="submit"
+                          size="sm"
+                          className="flex-1 bg-amber-600 hover:bg-amber-700 text-white"
+                          disabled={isIzinLoading}
+                        >
                           Kirim Izin
                         </Button>
-                        <Button type="button" variant="outline" size="sm" onClick={() => setShowIzinForm(false)}>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setShowIzinForm(false)}
+                        >
                           Batal
                         </Button>
                       </div>

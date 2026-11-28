@@ -23,7 +23,7 @@ export default function CustomerSubscriptionsPage() {
 
         const [subData, packagesData] = await Promise.all([
           customerApi.getCustomerSubscription(user.id).catch(() => null),
-          wifiPackageApi.getWifiPackages().catch(() => [])
+          wifiPackageApi.getWifiPackages().catch(() => []),
         ]);
 
         setSubscription(subData);
@@ -48,9 +48,7 @@ export default function CustomerSubscriptionsPage() {
       </div>
 
       {error ? (
-        <div className="bg-destructive/10 text-destructive p-4 rounded-lg">
-          {error}
-        </div>
+        <div className="bg-destructive/10 text-destructive p-4 rounded-lg">{error}</div>
       ) : (
         <CustomerSubscriptions subscription={subscription} availablePackages={availablePackages} />
       )}

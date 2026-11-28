@@ -8,32 +8,63 @@ interface PaymentUserTableProps {
 }
 
 export function PaymentUserTable({ payments, onView }: PaymentUserTableProps) {
-
   const getStatusBadge = (status: string) => {
     switch (status.toLowerCase()) {
       case "paid":
       case "lunas":
-        return <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-green-100 text-green-700 border-green-200">Lunas</span>;
+        return (
+          <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-green-100 text-green-700 border-green-200">
+            Lunas
+          </span>
+        );
       case "unpaid":
       case "belum lunas":
-        return <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-red-100 text-red-700 border-red-200">Belum Lunas</span>;
+        return (
+          <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-red-100 text-red-700 border-red-200">
+            Belum Lunas
+          </span>
+        );
       default:
-        return <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-gray-100 text-gray-700 border-gray-200">{status}</span>;
+        return (
+          <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-gray-100 text-gray-700 border-gray-200">
+            {status}
+          </span>
+        );
     }
   };
 
   const getPaymentMethodBadge = (method?: string) => {
     switch (method?.toLowerCase()) {
       case "cash":
-        return <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-green-100 text-green-700 border-green-200">Cash</span>;
+        return (
+          <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-green-100 text-green-700 border-green-200">
+            Cash
+          </span>
+        );
       case "bca":
-        return <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-blue-100 text-blue-800 border-blue-200">BCA</span>;
+        return (
+          <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-blue-100 text-blue-800 border-blue-200">
+            BCA
+          </span>
+        );
       case "qris":
-        return <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-red-100 text-red-700 border-red-200">Qris</span>;
+        return (
+          <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-red-100 text-red-700 border-red-200">
+            Qris
+          </span>
+        );
       case "dana":
-        return <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-blue-50 text-blue-500 border-blue-200">Dana</span>;
+        return (
+          <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-blue-50 text-blue-500 border-blue-200">
+            Dana
+          </span>
+        );
       default:
-        return <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-gray-100 text-gray-700 border-gray-200">{method || "-"}</span>;
+        return (
+          <span className="px-2.5 py-1 rounded-full text-xs font-medium border bg-gray-100 text-gray-700 border-gray-200">
+            {method || "-"}
+          </span>
+        );
     }
   };
 
@@ -82,13 +113,11 @@ export function PaymentUserTable({ payments, onView }: PaymentUserTableProps) {
                   <td className="px-6 py-4 whitespace-nowrap">
                     {getPaymentMethodBadge(payment.payment_method)}
                   </td>
+                  <td className="px-6 py-4 whitespace-nowrap">{getStatusBadge(payment.status)}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {getStatusBadge(payment.status)}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
+                    <Button
+                      variant="outline"
+                      size="sm"
                       className="h-8 text-xs flex items-center gap-1.5"
                       onClick={() => onView(payment)}
                     >

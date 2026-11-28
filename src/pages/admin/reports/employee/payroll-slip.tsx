@@ -4,13 +4,36 @@ import { useOvertimes } from "@/features/overtime/hooks/use-overtimes";
 import { useAllowances } from "@/features/allowance/hooks/use-allowances";
 import { getUserData } from "@/lib/auth-utils";
 import { Button } from "@/components/ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+} from "@/components/ui/sheet";
 import { Eye, Download } from "lucide-react";
-import { generatePayrollSlipPDF, type PayrollSlipPDFData, type AllowanceItemPDF } from "@/features/attendance/utils/generate-payroll-slip-pdf";
+import {
+  generatePayrollSlipPDF,
+  type PayrollSlipPDFData,
+  type AllowanceItemPDF,
+} from "@/features/attendance/utils/generate-payroll-slip-pdf";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { extractLocalMonthStr } from "@/lib/date-utils";
 
 interface PayrollSlipData {
@@ -36,12 +59,14 @@ export default function PayrollSlipPage() {
   const currentUser = getUserData();
   const isAdmin = currentUser?.role === "admin";
 
-  const { attendances: adminAttendances = [], isLoading: isAdminAttendanceLoading } = useAllAttendance({
-    enabled: isAdmin,
-  });
-  const { history: employeeAttendances = [], isLoading: isEmployeeAttendanceLoading } = useAttendanceHistory({
-    enabled: !isAdmin,
-  });
+  const { attendances: adminAttendances = [], isLoading: isAdminAttendanceLoading } =
+    useAllAttendance({
+      enabled: isAdmin,
+    });
+  const { history: employeeAttendances = [], isLoading: isEmployeeAttendanceLoading } =
+    useAttendanceHistory({
+      enabled: !isAdmin,
+    });
   const { data: overtimes = [], isLoading: isOvertimeLoading } = useOvertimes();
   const { data: allowances = [], isLoading: isAllowanceLoading } = useAllowances();
 
@@ -51,7 +76,10 @@ export default function PayrollSlipPage() {
   const [selectedMonth, setSelectedMonth] = useState("all");
 
   const rawAttendances = isAdmin ? adminAttendances : employeeAttendances;
-  const isLoading = isOvertimeLoading || isAllowanceLoading || (isAdmin ? isAdminAttendanceLoading : isEmployeeAttendanceLoading);
+  const isLoading =
+    isOvertimeLoading ||
+    isAllowanceLoading ||
+    (isAdmin ? isAdminAttendanceLoading : isEmployeeAttendanceLoading);
 
   // Helper to check if a payroll month is released for viewing/downloading
   const checkPayrollReleased = (slipMonthStr: string): boolean => {
@@ -217,14 +245,14 @@ export default function PayrollSlipPage() {
     entry.halfdayPrice = Math.round(entry.halfdayPrice);
     entry.allowancePrice = Math.round(entry.allowancePrice);
     entry.grandPrice = Math.round(
-      entry.dailyworkPrice + entry.overtimePrice + entry.halfdayPrice + entry.allowancePrice
+      entry.dailyworkPrice + entry.overtimePrice + entry.halfdayPrice + entry.allowancePrice,
     );
     return entry;
   });
 
   // Get unique months list for filtering dropdown (only unique values, sorted descending)
   const uniqueMonths = Array.from(new Set(allSlips.map((s) => s.monthStr))).sort((a, b) =>
-    b.localeCompare(a)
+    b.localeCompare(a),
   );
 
   // Filter slips based on search query and selected month
@@ -240,7 +268,9 @@ export default function PayrollSlipPage() {
   });
 
   // Sort: month descending, then employee name
-  filteredSlips.sort((a, b) => b.monthStr.localeCompare(a.monthStr) || a.employeeName.localeCompare(b.employeeName));
+  filteredSlips.sort(
+    (a, b) => b.monthStr.localeCompare(a.monthStr) || a.employeeName.localeCompare(b.employeeName),
+  );
 
   // Determine what slips to display
   // If employee: only show slips that are fully completed/released.
@@ -250,7 +280,9 @@ export default function PayrollSlipPage() {
 
   const handleDownloadPDF = async (slip: PayrollSlipData) => {
     if (!checkPayrollReleased(slip.monthStr)) {
-      toast.error("Download slip gaji hanya tersedia setelah jam 17:00 pada tanggal terakhir setiap bulan.");
+      toast.error(
+        "Download slip gaji hanya tersedia setelah jam 17:00 pada tanggal terakhir setiap bulan.",
+      );
       return;
     }
 
@@ -326,7 +358,9 @@ export default function PayrollSlipPage() {
                   <SelectValue placeholder="Pilih Bulan" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all" className="text-[13px]">Semua Bulan</SelectItem>
+                  <SelectItem value="all" className="text-[13px]">
+                    Semua Bulan
+                  </SelectItem>
                   {uniqueMonths.map((m) => (
                     <SelectItem key={m} value={m} className="text-[13px]">
                       {getMonthLabel(m)}
@@ -360,13 +394,19 @@ export default function PayrollSlipPage() {
             <TableBody>
               {isLoading ? (
                 <TableRow>
-                  <td colSpan={isAdmin ? 12 : 11} className="px-6 py-8 text-center text-muted-foreground italic">
+                  <td
+                    colSpan={isAdmin ? 12 : 11}
+                    className="px-6 py-8 text-center text-muted-foreground italic"
+                  >
                     Sedang memuat data slip gaji...
                   </td>
                 </TableRow>
               ) : displaySlips.length === 0 ? (
                 <TableRow>
-                  <td colSpan={isAdmin ? 12 : 11} className="px-6 py-10 text-center text-muted-foreground italic">
+                  <td
+                    colSpan={isAdmin ? 12 : 11}
+                    className="px-6 py-10 text-center text-muted-foreground italic"
+                  >
                     {!isAdmin
                       ? "Slip gaji bulanan Anda akan terbit dan dapat diunduh pada tanggal terakhir setiap bulan setelah jam 17:00."
                       : "Tidak ada data slip gaji yang tersedia."}
@@ -374,18 +414,33 @@ export default function PayrollSlipPage() {
                 </TableRow>
               ) : (
                 displaySlips.map((slip) => (
-                  <TableRow key={`${slip.userId}_${slip.monthStr}`} className="border-b border-border/50 hover:bg-muted/20">
-                    {isAdmin && <TableCell className="font-semibold text-foreground py-3.5">{slip.employeeName}</TableCell>}
-                    <TableCell className={isAdmin ? "" : "font-semibold py-3.5"}>{slip.monthLabel}</TableCell>
-                    <TableCell className="text-center font-medium">{slip.dailyworkCount} Hari</TableCell>
+                  <TableRow
+                    key={`${slip.userId}_${slip.monthStr}`}
+                    className="border-b border-border/50 hover:bg-muted/20"
+                  >
+                    {isAdmin && (
+                      <TableCell className="font-semibold text-foreground py-3.5">
+                        {slip.employeeName}
+                      </TableCell>
+                    )}
+                    <TableCell className={isAdmin ? "" : "font-semibold py-3.5"}>
+                      {slip.monthLabel}
+                    </TableCell>
+                    <TableCell className="text-center font-medium">
+                      {slip.dailyworkCount} Hari
+                    </TableCell>
                     <TableCell className="text-right font-bold text-foreground">
                       Rp {Math.round(slip.dailyworkPrice).toLocaleString("id-ID")}
                     </TableCell>
-                    <TableCell className="text-center font-medium">{slip.overtimeHours} Jam</TableCell>
+                    <TableCell className="text-center font-medium">
+                      {slip.overtimeHours} Jam
+                    </TableCell>
                     <TableCell className="text-right font-bold text-foreground">
                       Rp {Math.round(slip.overtimePrice).toLocaleString("id-ID")}
                     </TableCell>
-                    <TableCell className="text-center font-medium">{slip.halfdayCount} Hari</TableCell>
+                    <TableCell className="text-center font-medium">
+                      {slip.halfdayCount} Hari
+                    </TableCell>
                     <TableCell className="text-right font-bold text-foreground">
                       Rp {Math.round(slip.halfdayPrice).toLocaleString("id-ID")}
                     </TableCell>
@@ -442,7 +497,9 @@ export default function PayrollSlipPage() {
 
               {/* Earnings Breakdown */}
               <div className="space-y-3">
-                <h4 className="font-bold text-xs uppercase tracking-wider text-muted-foreground">Rincian Pendapatan</h4>
+                <h4 className="font-bold text-xs uppercase tracking-wider text-muted-foreground">
+                  Rincian Pendapatan
+                </h4>
                 <div className="border border-border/60 rounded-xl overflow-hidden bg-card">
                   <table className="w-full text-xs text-left border-collapse">
                     <thead>
@@ -455,39 +512,53 @@ export default function PayrollSlipPage() {
                     <tbody>
                       <tr className="border-b border-border/40">
                         <td className="p-3 text-muted-foreground">Kehadiran Harian (Dailywork)</td>
-                        <td className="p-3 text-center font-medium">{selectedSlip.dailyworkCount} Hari</td>
+                        <td className="p-3 text-center font-medium">
+                          {selectedSlip.dailyworkCount} Hari
+                        </td>
                         <td className="p-3 text-right font-bold text-foreground">
                           Rp {Math.round(selectedSlip.dailyworkPrice).toLocaleString("id-ID")}
                         </td>
                       </tr>
                       <tr className="border-b border-border/40">
                         <td className="p-3 text-muted-foreground">Kerja Lembur (Overtime)</td>
-                        <td className="p-3 text-center font-medium">{selectedSlip.overtimeHours} Jam</td>
+                        <td className="p-3 text-center font-medium">
+                          {selectedSlip.overtimeHours} Jam
+                        </td>
                         <td className="p-3 text-right font-bold text-foreground">
                           Rp {Math.round(selectedSlip.overtimePrice).toLocaleString("id-ID")}
                         </td>
                       </tr>
                       <tr className="border-b border-border/40">
                         <td className="p-3 text-muted-foreground">Setengah Hari (Halfday)</td>
-                        <td className="p-3 text-center font-medium">{selectedSlip.halfdayCount} Hari</td>
+                        <td className="p-3 text-center font-medium">
+                          {selectedSlip.halfdayCount} Hari
+                        </td>
                         <td className="p-3 text-right font-bold text-foreground">
                           Rp {Math.round(selectedSlip.halfdayPrice).toLocaleString("id-ID")}
                         </td>
                       </tr>
                       <tr className="border-b border-border/40">
                         <td className="p-3 text-muted-foreground">Izin Penuh (Fullday)</td>
-                        <td className="p-3 text-center font-medium">{selectedSlip.izinCount} Hari</td>
-                        <td className="p-3 text-right"><span className="italic text-muted-foreground">Tidak ada</span></td>
+                        <td className="p-3 text-center font-medium">
+                          {selectedSlip.izinCount} Hari
+                        </td>
+                        <td className="p-3 text-right">
+                          <span className="italic text-muted-foreground">Tidak ada</span>
+                        </td>
                       </tr>
                       <tr className="border-b border-border/40">
                         <td className="p-3 text-muted-foreground">Tunjangan & Bonus Karyawan</td>
-                        <td className="p-3 text-center font-medium">{selectedSlip.allowanceItems.length} Item</td>
+                        <td className="p-3 text-center font-medium">
+                          {selectedSlip.allowanceItems.length} Item
+                        </td>
                         <td className="p-3 text-right font-bold text-emerald-600 dark:text-emerald-400">
                           Rp {Math.round(selectedSlip.allowancePrice).toLocaleString("id-ID")}
                         </td>
                       </tr>
                       <tr className="font-bold bg-muted/20">
-                        <td colSpan={2} className="p-3 text-foreground uppercase">Grand Total Penerimaan</td>
+                        <td colSpan={2} className="p-3 text-foreground uppercase">
+                          Grand Total Penerimaan
+                        </td>
                         <td className="p-3 text-right text-blue-600 dark:text-blue-400 text-sm">
                           Rp {Math.round(selectedSlip.grandPrice).toLocaleString("id-ID")}
                         </td>
@@ -500,10 +571,15 @@ export default function PayrollSlipPage() {
               {/* Allowance Items Breakdown */}
               {selectedSlip.allowanceItems.length > 0 && (
                 <div className="space-y-3">
-                  <h4 className="font-bold text-xs uppercase tracking-wider text-muted-foreground">Rincian Tunjangan & Bonus</h4>
+                  <h4 className="font-bold text-xs uppercase tracking-wider text-muted-foreground">
+                    Rincian Tunjangan & Bonus
+                  </h4>
                   <div className="border border-border/60 bg-muted/25 rounded-xl p-4 space-y-2 text-xs">
                     {selectedSlip.allowanceItems.map((al, idx) => (
-                      <div key={idx} className="flex justify-between items-center py-1 border-b border-border/30 last:border-0">
+                      <div
+                        key={idx}
+                        className="flex justify-between items-center py-1 border-b border-border/30 last:border-0"
+                      >
                         <div>
                           <span className="font-semibold text-foreground">{al.title}</span>
                           <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded bg-muted text-muted-foreground border">
@@ -521,12 +597,16 @@ export default function PayrollSlipPage() {
 
               {/* Permission Notes Section */}
               <div className="space-y-3">
-                <h4 className="font-bold text-xs uppercase tracking-wider text-muted-foreground">Daftar Keterangan Izin</h4>
+                <h4 className="font-bold text-xs uppercase tracking-wider text-muted-foreground">
+                  Daftar Keterangan Izin
+                </h4>
                 <div className="border border-border/60 bg-muted/25 rounded-xl">
                   <div className="p-4 space-y-4 text-xs">
                     {/* A. Fullday Permissions */}
                     <div>
-                      <div className="font-bold text-foreground">A. Fullday Permission (Izin Satu Hari Penuh):</div>
+                      <div className="font-bold text-foreground">
+                        A. Fullday Permission (Izin Satu Hari Penuh):
+                      </div>
                       {selectedSlip.fulldayPermissions.length > 0 ? (
                         <ol className="list-decimal pl-4 mt-1.5 space-y-1 text-muted-foreground leading-relaxed">
                           {selectedSlip.fulldayPermissions.map((note, index) => (
@@ -534,13 +614,17 @@ export default function PayrollSlipPage() {
                           ))}
                         </ol>
                       ) : (
-                        <p className="italic text-muted-foreground/60 mt-1 pl-4">Tidak ada izin fullday</p>
+                        <p className="italic text-muted-foreground/60 mt-1 pl-4">
+                          Tidak ada izin fullday
+                        </p>
                       )}
                     </div>
 
                     {/* B. Halfday Permissions */}
                     <div>
-                      <div className="font-bold text-foreground">B. Halfday Permission (Izin Setengah Hari Kerja):</div>
+                      <div className="font-bold text-foreground">
+                        B. Halfday Permission (Izin Setengah Hari Kerja):
+                      </div>
                       {selectedSlip.halfdayPermissions.length > 0 ? (
                         <ol className="list-decimal pl-4 mt-1.5 space-y-1 text-muted-foreground leading-relaxed">
                           {selectedSlip.halfdayPermissions.map((note, index) => (
@@ -548,7 +632,9 @@ export default function PayrollSlipPage() {
                           ))}
                         </ol>
                       ) : (
-                        <p className="italic text-muted-foreground/60 mt-1 pl-4">Tidak ada izin halfday</p>
+                        <p className="italic text-muted-foreground/60 mt-1 pl-4">
+                          Tidak ada izin halfday
+                        </p>
                       )}
                     </div>
                   </div>
@@ -565,10 +651,11 @@ export default function PayrollSlipPage() {
                   <Download className="h-4 w-4" />
                   {isDownloading ? "Proses Download..." : "Download Slip Gaji (PDF)"}
                 </Button>
-                
+
                 {!checkPayrollReleased(selectedSlip.monthStr) && (
                   <p className="text-[11px] text-center text-amber-600 dark:text-amber-400 font-medium">
-                    ⚠️ Download Slip Gaji hanya tersedia setelah jam 17:00 pada tanggal terakhir setiap bulan.
+                    ⚠️ Download Slip Gaji hanya tersedia setelah jam 17:00 pada tanggal terakhir
+                    setiap bulan.
                   </p>
                 )}
               </div>

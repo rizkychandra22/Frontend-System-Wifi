@@ -27,16 +27,18 @@ export interface PayrollSlipPDFData {
 
 export async function generatePayrollSlipPDF(
   item: PayrollSlipPDFData,
-  operatorName: string
+  operatorName: string,
 ): Promise<void> {
-  const printedAtLabel = new Date().toLocaleDateString("id-ID", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-  }).replace(/\./g, ":");
+  const printedAtLabel = new Date()
+    .toLocaleDateString("id-ID", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    })
+    .replace(/\./g, ":");
 
   const element = document.createElement("div");
   element.style.width = "790px"; // Fits A4 Portrait perfectly
@@ -48,32 +50,45 @@ export async function generatePayrollSlipPDF(
   element.style.top = "-9999px";
 
   // Build Monospace Slip HTML
-  const fulldayNotes = item.fulldayPermissions.length > 0
-    ? item.fulldayPermissions
-        .map((note, index) => `<div style="margin-left: 10px; margin-bottom: 2px;">${index + 1}. ${note}</div>`)
-        .join("")
-    : `<div style="margin-left: 10px; font-style: italic; color: #64748b;">Tidak ada izin fullday</div>`;
+  const fulldayNotes =
+    item.fulldayPermissions.length > 0
+      ? item.fulldayPermissions
+          .map(
+            (note, index) =>
+              `<div style="margin-left: 10px; margin-bottom: 2px;">${index + 1}. ${note}</div>`,
+          )
+          .join("")
+      : `<div style="margin-left: 10px; font-style: italic; color: #64748b;">Tidak ada izin fullday</div>`;
 
-  const halfdayNotes = item.halfdayPermissions.length > 0
-    ? item.halfdayPermissions
-        .map((note, index) => `<div style="margin-left: 10px; margin-bottom: 2px;">${index + 1}. ${note}</div>`)
-        .join("")
-    : `<div style="margin-left: 10px; font-style: italic; color: #64748b;">Tidak ada izin halfday</div>`;
+  const halfdayNotes =
+    item.halfdayPermissions.length > 0
+      ? item.halfdayPermissions
+          .map(
+            (note, index) =>
+              `<div style="margin-left: 10px; margin-bottom: 2px;">${index + 1}. ${note}</div>`,
+          )
+          .join("")
+      : `<div style="margin-left: 10px; font-style: italic; color: #64748b;">Tidak ada izin halfday</div>`;
 
-  const allowanceSectionHtml = item.allowanceItems && item.allowanceItems.length > 0
-    ? `
+  const allowanceSectionHtml =
+    item.allowanceItems && item.allowanceItems.length > 0
+      ? `
       <!-- Allowance Details -->
       <h3 style="margin: 0 0 8px; font-size: 12px; font-weight: bold; border-bottom: 1px solid #1f2937; padding-bottom: 4px; text-transform: uppercase;">Rincian Tunjangan & Bonus</h3>
       <div style="margin-bottom: 20px;">
-        ${item.allowanceItems.map((al, index) => `
+        ${item.allowanceItems
+          .map(
+            (al, index) => `
           <div style="display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 11px;">
             <span>${index + 1}. ${al.title} <span style="color: #64748b; font-size: 10px;">(${al.target_type === "global" ? "Global" : "Personal"})</span></span>
             <span style="font-weight: bold; color: #16a34a;">Rp ${Math.round(al.amount).toLocaleString("id-ID")}</span>
           </div>
-        `).join("")}
+        `,
+          )
+          .join("")}
       </div>
     `
-    : "";
+      : "";
 
   element.innerHTML = `
     <div style="color: #1f2937; font-family: 'Courier New', Courier, monospace; font-size: 11px; line-height: 1.5;">

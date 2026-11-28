@@ -4,6 +4,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ErrorBoundary, type FallbackProps } from "react-error-boundary";
 import App from "./App";
 import "./App.css";
+import { initI18n } from "./i18n";
+
+initI18n();
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -14,7 +17,6 @@ const queryClient = new QueryClient({
   },
 });
 
-// eslint-disable-next-line react-refresh/only-export-components
 function GlobalErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
   const message =
     error instanceof Error
@@ -25,16 +27,12 @@ function GlobalErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="font-display text-7xl font-bold text-gradient-blue">!</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">
-          Terjadi Kesalahan Sistem
-        </h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          {message}
-        </p>
+        <h2 className="mt-4 text-xl font-semibold text-foreground">Terjadi Kesalahan Sistem</h2>
+        <p className="mt-2 text-sm text-muted-foreground">{message}</p>
         <div className="mt-6">
           <button
             onClick={resetErrorBoundary}
-            className="inline-flex items-center justify-center rounded-full bg-gradient-blue px-5 py-2 text-sm font-semibold text-primary-foreground shadow-blue transition-transform hover:scale-105 active:scale-95"
+            className="inline-flex items-center justify-center rounded-full bg-gradient-blue px-5 py-2 text-sm font-semibold text-primary-foreground shadow-blue transition-colors hover:opacity-90"
           >
             Muat Ulang Halaman
           </button>
@@ -54,10 +52,7 @@ container.__reactRoot = root;
 
 root.render(
   <React.StrictMode>
-    <ErrorBoundary
-      FallbackComponent={GlobalErrorFallback}
-      onReset={() => window.location.reload()}
-    >
+    <ErrorBoundary FallbackComponent={GlobalErrorFallback} onReset={() => window.location.reload()}>
       <QueryClientProvider client={queryClient}>
         <App />
       </QueryClientProvider>

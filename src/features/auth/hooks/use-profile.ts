@@ -1,11 +1,19 @@
 import { useMutation } from "@tanstack/react-query";
-import { updateProfileApi, type UpdateProfilePayload, type UpdateProfileResponse } from "@/lib/api/auth";
+import {
+  updateProfileApi,
+  type UpdateProfilePayload,
+  type UpdateProfileResponse,
+} from "@/lib/api/auth";
 import { type AxiosError } from "axios";
 import { parseErrorMessage, type ApiErrorResponse } from "@/lib/api-error";
 import { getUserData, setToken, getToken } from "@/lib/auth-utils";
 
 export function useUpdateProfile() {
-  const mutation = useMutation<UpdateProfileResponse, AxiosError<ApiErrorResponse>, UpdateProfilePayload>({
+  const mutation = useMutation<
+    UpdateProfileResponse,
+    AxiosError<ApiErrorResponse>,
+    UpdateProfilePayload
+  >({
     mutationFn: (data) => updateProfileApi(data),
     onSuccess: (data) => {
       // Update local storage user data
@@ -15,7 +23,7 @@ export function useUpdateProfile() {
         const currentUser = getUserData() || {};
         const updatedUser = { ...currentUser, ...data.data };
         setToken(token, updatedUser);
-        
+
         // Dispatch custom event so UI can update without reload
         window.dispatchEvent(new Event("profileUpdated"));
       }
@@ -29,10 +37,18 @@ export function useUpdateProfile() {
   };
 }
 
-import { updatePasswordApi, type UpdatePasswordPayload, type UpdatePasswordResponse } from "@/lib/api/auth";
+import {
+  updatePasswordApi,
+  type UpdatePasswordPayload,
+  type UpdatePasswordResponse,
+} from "@/lib/api/auth";
 
 export function useUpdatePassword() {
-  const mutation = useMutation<UpdatePasswordResponse, AxiosError<ApiErrorResponse>, UpdatePasswordPayload>({
+  const mutation = useMutation<
+    UpdatePasswordResponse,
+    AxiosError<ApiErrorResponse>,
+    UpdatePasswordPayload
+  >({
     mutationFn: (data) => updatePasswordApi(data),
   });
 

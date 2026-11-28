@@ -5,7 +5,7 @@ import { jsPDF } from "jspdf";
 
 export async function generatePaymentPDF(payment: Payment, filename: string): Promise<void> {
   // Prepare invoice data
-  const invoiceNumber = payment.invoice_number || `INV-${payment.id.toString().padStart(4, '0')}`;
+  const invoiceNumber = payment.invoice_number || `INV-${payment.id.toString().padStart(4, "0")}`;
   const customerName = payment.customer?.name || "-";
   const customerPhone = payment.customer?.phone || "-";
   const customerAddress = payment.customer?.address || "-";
@@ -19,7 +19,7 @@ export async function generatePaymentPDF(payment: Payment, filename: string): Pr
 
   // Create a temporary element off-screen to draw the layout
   const element = document.createElement("div");
-  element.style.width = "750px"; 
+  element.style.width = "750px";
   element.style.padding = "35px";
   element.style.boxSizing = "border-box";
   element.style.backgroundColor = "#ffffff";
@@ -135,7 +135,7 @@ export async function generatePaymentPDF(payment: Payment, filename: string): Pr
       scale: 2,
       useCORS: true,
       backgroundColor: "#ffffff",
-      logging: false
+      logging: false,
     });
 
     const imgData = canvas.toDataURL("image/jpeg", 0.98);
@@ -144,7 +144,7 @@ export async function generatePaymentPDF(payment: Payment, filename: string): Pr
     const pdf = new jsPDF({
       orientation: "portrait",
       unit: "mm",
-      format: "a4"
+      format: "a4",
     });
 
     const imgWidth = 210; // A4 size width in mm

@@ -7,7 +7,6 @@ import { PaymentDetail } from "@/features/payment/components/detail";
 import { AxiosError } from "axios";
 
 export default function CustomerBillingHistoryPage() {
-
   const [payments, setPayments] = useState<Payment[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [selectedPayment, setSelectedPayment] = useState<Payment | null>(null);
@@ -43,17 +42,15 @@ export default function CustomerBillingHistoryPage() {
       </div>
 
       {error ? (
-        <div className="bg-destructive/10 text-destructive p-4 rounded-lg">
-          {error}
-        </div>
+        <div className="bg-destructive/10 text-destructive p-4 rounded-lg">{error}</div>
       ) : (
         <PaymentUserTable payments={payments} onView={setSelectedPayment} />
       )}
 
-      <PaymentDetail 
-        payment={selectedPayment} 
-        isOpen={!!selectedPayment} 
-        onOpenChange={(open) => !open && setSelectedPayment(null)} 
+      <PaymentDetail
+        payment={selectedPayment}
+        isOpen={!!selectedPayment}
+        onOpenChange={(open) => !open && setSelectedPayment(null)}
       />
     </div>
   );

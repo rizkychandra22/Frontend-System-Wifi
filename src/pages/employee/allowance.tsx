@@ -2,9 +2,18 @@ import { useState } from "react";
 import { useAllowances } from "@/features/allowance/hooks/use-allowances";
 import { useUsers } from "@/features/user/hooks/use-users";
 import { AllowanceTable } from "@/features/allowance/components/table";
-import { AllowanceActions, type AllowanceActionState } from "@/features/allowance/components/actions";
+import {
+  AllowanceActions,
+  type AllowanceActionState,
+} from "@/features/allowance/components/actions";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Search } from "lucide-react";
 
 export default function EmployeeAllowancePage() {
@@ -22,7 +31,7 @@ export default function EmployeeAllowancePage() {
 
   // Generate unique months
   const uniqueMonths = Array.from(new Set(allowances.map((a) => a.month))).sort((a, b) =>
-    b.localeCompare(a)
+    b.localeCompare(a),
   );
 
   const filteredAllowances = allowances.filter((item) => {
@@ -41,7 +50,9 @@ export default function EmployeeAllowancePage() {
       {/* Page Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight text-foreground">Data Tunjangan & Bonus Saya</h2>
+          <h2 className="text-2xl font-bold tracking-tight text-foreground">
+            Data Tunjangan & Bonus Saya
+          </h2>
           <p className="text-muted-foreground text-sm">
             Daftar tunjangan dan bonus kinerja yang Anda terima.
           </p>
@@ -70,11 +81,16 @@ export default function EmployeeAllowancePage() {
                     <SelectValue placeholder="Pilih Bulan" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all" className="text-[13px]">Semua Bulan</SelectItem>
+                    <SelectItem value="all" className="text-[13px]">
+                      Semua Bulan
+                    </SelectItem>
                     {uniqueMonths.map((m) => {
                       const [year, month] = m.split("-");
                       const date = new Date(Number(year), Number(month) - 1, 1);
-                      const label = date.toLocaleDateString("id-ID", { month: "long", year: "numeric" });
+                      const label = date.toLocaleDateString("id-ID", {
+                        month: "long",
+                        year: "numeric",
+                      });
                       return (
                         <SelectItem key={m} value={m} className="text-[13px]">
                           {label}
@@ -91,9 +107,15 @@ export default function EmployeeAllowancePage() {
                     <SelectValue placeholder="Semua Tipe" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all" className="text-[13px]">Semua Tipe</SelectItem>
-                    <SelectItem value="personal" className="text-[13px]">Personal</SelectItem>
-                    <SelectItem value="global" className="text-[13px]">Global</SelectItem>
+                    <SelectItem value="all" className="text-[13px]">
+                      Semua Tipe
+                    </SelectItem>
+                    <SelectItem value="personal" className="text-[13px]">
+                      Personal
+                    </SelectItem>
+                    <SelectItem value="global" className="text-[13px]">
+                      Global
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>

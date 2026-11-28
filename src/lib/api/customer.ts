@@ -9,7 +9,9 @@ export interface Customer extends User {
 
 export const customerApi = {
   getCustomerSubscription: async (customerId: number | string) => {
-    const response = await apiClient.get<{ data: Subscription }>(`/customers/${customerId}/subscription`);
+    const response = await apiClient.get<{ data: Subscription }>(
+      `/customers/${customerId}/subscription`,
+    );
     return response.data.data;
   },
 };

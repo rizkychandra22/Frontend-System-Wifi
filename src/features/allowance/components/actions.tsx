@@ -2,12 +2,7 @@ import { useState, type FormEvent } from "react";
 import type { Allowance } from "@/lib/api/allowance";
 import { useAllowanceMutations } from "@/features/allowance/hooks/use-allowances";
 import { useUsers } from "@/features/user/hooks/use-users";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -80,7 +75,8 @@ export function AllowanceActions({ actionState, onClose }: AllowanceActionsProps
     createMutation.mutate(
       {
         target_type: formData.target_type,
-        user_id: formData.target_type === "personal" && formData.user_id ? Number(formData.user_id) : null,
+        user_id:
+          formData.target_type === "personal" && formData.user_id ? Number(formData.user_id) : null,
         month: formData.month,
         title: formData.title,
         amount: Number(formData.amount),
@@ -90,7 +86,7 @@ export function AllowanceActions({ actionState, onClose }: AllowanceActionsProps
         onSuccess: () => {
           onClose();
         },
-      }
+      },
     );
   };
 
@@ -102,7 +98,10 @@ export function AllowanceActions({ actionState, onClose }: AllowanceActionsProps
         id: actionState.allowance.id,
         data: {
           target_type: formData.target_type,
-          user_id: formData.target_type === "personal" && formData.user_id ? Number(formData.user_id) : null,
+          user_id:
+            formData.target_type === "personal" && formData.user_id
+              ? Number(formData.user_id)
+              : null,
           month: formData.month,
           title: formData.title,
           amount: Number(formData.amount),
@@ -113,7 +112,7 @@ export function AllowanceActions({ actionState, onClose }: AllowanceActionsProps
         onSuccess: () => {
           onClose();
         },
-      }
+      },
     );
   };
 

@@ -3,7 +3,8 @@ export const INACTIVITY_TIMEOUT_MS = 3 * 60 * 60 * 1000; // 3 Jam
 let lastThrottleTime = 0;
 export const updateLastActivity = (force = false) => {
   const now = Date.now();
-  if (force || now - lastThrottleTime > 15000) { // Throttle tiap 15 detik
+  if (force || now - lastThrottleTime > 15000) {
+    // Throttle tiap 15 detik
     lastThrottleTime = now;
     localStorage.setItem("last_activity_time", now.toString());
   }
@@ -98,7 +99,7 @@ export const getUser = (): DecodedUser | null => {
       atob(base64)
         .split("")
         .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
-        .join("")
+        .join(""),
     );
 
     return JSON.parse(jsonPayload);

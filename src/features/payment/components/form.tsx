@@ -1,5 +1,11 @@
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import type { User } from "@/lib/api/users";
 import type { WifiPackage } from "@/lib/api/wifi_package";
@@ -37,8 +43,11 @@ export function PaymentForm({
   const customerId = initialData.customer_id ? Number(initialData.customer_id) : null;
 
   // Fetch subscription dan payments secara dinamis saat customer_id dipilih
-  const { subscription, isLoading: isSubLoading } = useCustomerSubscription(customerId ?? undefined);
-  const { data: customerPayments = [], isLoading: isPaymentsLoading } = useCustomerPayments(customerId);
+  const { subscription, isLoading: isSubLoading } = useCustomerSubscription(
+    customerId ?? undefined,
+  );
+  const { data: customerPayments = [], isLoading: isPaymentsLoading } =
+    useCustomerPayments(customerId);
 
   // Auto-fill paket WiFi berdasarkan langganan aktif pelanggan
   useEffect(() => {
@@ -51,7 +60,7 @@ export function PaymentForm({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subscription, isEdit]);
 
-  const selectedService = packages.find(s => s.id.toString() === initialData.wifi_package_id);
+  const selectedService = packages.find((s) => s.id.toString() === initialData.wifi_package_id);
   const totalAmount = selectedService ? selectedService.price : 0;
   const ppn = totalAmount * 0.11;
   const packagePrice = totalAmount - ppn;
@@ -65,7 +74,8 @@ export function PaymentForm({
       lockMessage = "Memeriksa status pelanggan...";
       isLocked = true;
     } else if (!subscription) {
-      lockMessage = "Pelanggan ini belum terdaftar di langganan aktif. Silakan tambahkan data langganan pelanggan terlebih dahulu.";
+      lockMessage =
+        "Pelanggan ini belum terdaftar di langganan aktif. Silakan tambahkan data langganan pelanggan terlebih dahulu.";
       isLocked = true;
     } else if (subscription.status !== "active") {
       lockMessage = `Langganan pelanggan saat ini ditangguhkan/berhenti (Status: ${subscription.status}). Aktifkan kembali langganan di tab Data Langganan.`;
@@ -74,7 +84,7 @@ export function PaymentForm({
       const latestPayment = customerPayments[0];
       const latestPaymentDate = new Date(latestPayment.created_at);
       const now = new Date();
-      
+
       const diffTime = now.getTime() - latestPaymentDate.getTime();
       const diffDays = diffTime / (1000 * 60 * 60 * 24);
 
@@ -91,17 +101,23 @@ export function PaymentForm({
       <div className="space-y-2">
         <label className="text-sm font-medium">Nama Pelanggan</label>
         {isEdit ? (
-          <Input 
-            value={customers.find(c => c.id.toString() === initialData.customer_id)?.name || "Unknown"} 
-            readOnly 
+          <Input
+            value={
+              customers.find((c) => c.id.toString() === initialData.customer_id)?.name || "Unknown"
+            }
+            readOnly
             className="bg-muted text-foreground cursor-default"
           />
         ) : (
-          <Select 
-            value={initialData.customer_id} 
+          <Select
+            value={initialData.customer_id}
             onValueChange={(val) => {
-              onChange({ ...initialData, customer_id: val, wifi_package_id: "" });
-            }} 
+              onChange({
+                ...initialData,
+                customer_id: val,
+                wifi_package_id: "",
+              });
+            }}
             required
           >
             <SelectTrigger>
@@ -117,19 +133,25 @@ export function PaymentForm({
           </Select>
         )}
       </div>
-      
+
       <div className="space-y-2">
         <label className="text-sm font-medium">Paket Langganan</label>
         {!isEdit ? (
-          <Input 
-            value={isSubLoading ? "Memuat paket langganan..." : selectedService ? `${selectedService.name} - Rp ${selectedService.price.toLocaleString("id-ID")}` : "Belum Berlangganan"} 
-            readOnly 
+          <Input
+            value={
+              isSubLoading
+                ? "Memuat paket langganan..."
+                : selectedService
+                  ? `${selectedService.name} - Rp ${selectedService.price.toLocaleString("id-ID")}`
+                  : "Belum Berlangganan"
+            }
+            readOnly
             className="bg-muted text-foreground cursor-default"
           />
         ) : (
-          <Select 
-            value={initialData.wifi_package_id} 
-            onValueChange={(val) => onChange({ ...initialData, wifi_package_id: val })} 
+          <Select
+            value={initialData.wifi_package_id}
+            onValueChange={(val) => onChange({ ...initialData, wifi_package_id: val })}
             required
           >
             <SelectTrigger>
@@ -148,9 +170,9 @@ export function PaymentForm({
 
       <div className="space-y-2">
         <label className="text-sm font-medium">Metode Bayar</label>
-        <Select 
-          value={initialData.payment_method} 
-          onValueChange={(val) => onChange({ ...initialData, payment_method: val })} 
+        <Select
+          value={initialData.payment_method}
+          onValueChange={(val) => onChange({ ...initialData, payment_method: val })}
           required
         >
           <SelectTrigger>
@@ -166,7 +188,9 @@ export function PaymentForm({
       </div>
 
       {lockMessage && (
-        <div className={`p-4 rounded-lg text-xs border ${isLocked && !isSubLoading && !isPaymentsLoading ? "bg-red-50 text-red-700 border-red-200" : "bg-muted/50 text-muted-foreground"}`}>
+        <div
+          className={`p-4 rounded-lg text-xs border ${isLocked && !isSubLoading && !isPaymentsLoading ? "bg-red-50 text-red-700 border-red-200" : "bg-muted/50 text-muted-foreground"}`}
+        >
           {lockMessage}
         </div>
       )}
@@ -189,7 +213,16 @@ export function PaymentForm({
       )}
 
       <div className="flex justify-end pt-2">
-        <Button type="submit" disabled={isSubmitting || isLocked || !initialData.customer_id || !initialData.wifi_package_id || !initialData.payment_method}>
+        <Button
+          type="submit"
+          disabled={
+            isSubmitting ||
+            isLocked ||
+            !initialData.customer_id ||
+            !initialData.wifi_package_id ||
+            !initialData.payment_method
+          }
+        >
           {isSubmitting ? "Loading..." : submitLabel}
         </Button>
       </div>

@@ -28,11 +28,9 @@ export function OvertimeDetail({ overtime, isOpen, onOpenChange }: OvertimeDetai
       <SheetContent className="w-[400px] sm:w-[540px] overflow-y-auto no-scrollbar">
         <SheetHeader>
           <SheetTitle>Detail Kerja Lembur</SheetTitle>
-          <SheetDescription>
-            Informasi lengkap kerja lembur karyawan.
-          </SheetDescription>
+          <SheetDescription>Informasi lengkap kerja lembur karyawan.</SheetDescription>
         </SheetHeader>
-        
+
         <div className="mt-6 space-y-4">
           <div className="space-y-1">
             <Label className="text-muted-foreground">Karyawan</Label>
@@ -51,9 +49,7 @@ export function OvertimeDetail({ overtime, isOpen, onOpenChange }: OvertimeDetai
 
           <div className="space-y-1">
             <Label className="text-muted-foreground">Waktu Lembur</Label>
-            <div className="font-medium">
-              {formatFullDate(overtime.date)}
-            </div>
+            <div className="font-medium">{formatFullDate(overtime.date)}</div>
             <div className="font-medium">
               {formatLocalTime(overtime.start_time)} - {formatLocalTime(overtime.end_time)}
             </div>

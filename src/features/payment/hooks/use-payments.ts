@@ -58,7 +58,14 @@ export function usePaymentMutations() {
   const updateMutation = useMutation<
     Payment,
     AxiosError<ApiErrorResponse>,
-    { id: number; data: { customer_id: number; wifi_package_id: number; payment_method: string } }
+    {
+      id: number;
+      data: {
+        customer_id: number;
+        wifi_package_id: number;
+        payment_method: string;
+      };
+    }
   >({
     mutationFn: ({ id, data }) => paymentApi.updatePayment(id, data),
     onSuccess: () => {
@@ -70,11 +77,7 @@ export function usePaymentMutations() {
     },
   });
 
-  const deleteMutation = useMutation<
-    void,
-    AxiosError<ApiErrorResponse>,
-    number
-  >({
+  const deleteMutation = useMutation<void, AxiosError<ApiErrorResponse>, number>({
     mutationFn: paymentApi.deletePayment,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["payments"] });

@@ -4,11 +4,21 @@ import { useOvertimes } from "@/features/overtime/hooks/use-overtimes";
 import { getUserData } from "@/lib/auth-utils";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Download, CalendarCheck, TrendingUp, DollarSign, Clock } from "lucide-react";
 import { format } from "date-fns";
-import { generateAttendanceReportPDF, type AttendanceReportItem } from "@/features/attendance/utils/generate-report-pdf";
+import {
+  generateAttendanceReportPDF,
+  type AttendanceReportItem,
+} from "@/features/attendance/utils/generate-report-pdf";
 import { toast } from "sonner";
 import { extractLocalDate, formatLocalTime } from "@/lib/date-utils";
 
@@ -194,9 +204,12 @@ export default function AdminAttendanceReportPage() {
       {/* Page Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight text-foreground">Laporan Rekap Absensi & Lembur</h2>
+          <h2 className="text-2xl font-bold tracking-tight text-foreground">
+            Laporan Rekap Absensi & Lembur
+          </h2>
           <p className="text-muted-foreground text-sm">
-            Analisis rekap kehadiran harian (dailywork), lemburan (overtime) karyawan, dan ekspor laporan PDF.
+            Analisis rekap kehadiran harian (dailywork), lemburan (overtime) karyawan, dan ekspor
+            laporan PDF.
           </p>
         </div>
       </div>
@@ -312,7 +325,8 @@ export default function AdminAttendanceReportPage() {
               ) : !isFilterActive ? (
                 <TableRow>
                   <td colSpan={7} className="px-6 py-10 text-center text-muted-foreground italic">
-                    Silakan pilih tanggal mulai dan tanggal akhir terlebih dahulu untuk melihat data laporan.
+                    Silakan pilih tanggal mulai dan tanggal akhir terlebih dahulu untuk melihat data
+                    laporan.
                   </td>
                 </TableRow>
               ) : reportItems.length === 0 ? (
@@ -325,15 +339,21 @@ export default function AdminAttendanceReportPage() {
                 <>
                   {reportItems.map((item) => (
                     <TableRow key={item.id} className="border-b border-border/50 hover:bg-muted/20">
-                      <TableCell className="font-semibold text-foreground py-3.5">{item.employeeName}</TableCell>
+                      <TableCell className="font-semibold text-foreground py-3.5">
+                        {item.employeeName}
+                      </TableCell>
                       <TableCell>{format(new Date(item.dateStr), "dd MMM yyyy")}</TableCell>
-                      <TableCell className="text-center">{getWorkTypeBadge(item.workType)}</TableCell>
+                      <TableCell className="text-center">
+                        {getWorkTypeBadge(item.workType)}
+                      </TableCell>
                       <TableCell className="text-center font-medium">{item.clockIn}</TableCell>
                       <TableCell className="text-center font-medium">{item.clockOut}</TableCell>
                       <TableCell className="text-right font-bold text-blue-600 dark:text-blue-400">
                         Rp {item.tariff.toLocaleString("id-ID")}
                       </TableCell>
-                      <TableCell className="text-center">{getStatusBadge(item.status, item.workType)}</TableCell>
+                      <TableCell className="text-center">
+                        {getStatusBadge(item.status, item.workType)}
+                      </TableCell>
                     </TableRow>
                   ))}
 

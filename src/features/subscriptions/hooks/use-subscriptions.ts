@@ -68,11 +68,7 @@ export function useSubscriptionMutations() {
     },
   });
 
-  const deleteMutation = useMutation<
-    { message?: string },
-    AxiosError<ApiErrorResponse>,
-    number
-  >({
+  const deleteMutation = useMutation<{ message?: string }, AxiosError<ApiErrorResponse>, number>({
     mutationFn: subscriptionApi.deleteSubscription,
     onSuccess: (response) => {
       toast.success(response.message || "Data langganan berhasil dihapus");

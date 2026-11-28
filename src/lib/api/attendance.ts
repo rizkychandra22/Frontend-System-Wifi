@@ -21,19 +21,26 @@ export interface AttendanceActionResponse {
   message: string;
 }
 
-
 export const clockInApi = async (lat: number, lng: number): Promise<AttendanceActionResponse> => {
-  const response = await apiClient.post<AttendanceActionResponse>("/employee/attendance/clock-in", { lat, lng });
+  const response = await apiClient.post<AttendanceActionResponse>("/employee/attendance/clock-in", {
+    lat,
+    lng,
+  });
   return response.data;
 };
 
 export const clockOutApi = async (lat: number, lng: number): Promise<AttendanceActionResponse> => {
-  const response = await apiClient.post<AttendanceActionResponse>("/employee/attendance/clock-out", { lat, lng });
+  const response = await apiClient.post<AttendanceActionResponse>(
+    "/employee/attendance/clock-out",
+    { lat, lng },
+  );
   return response.data;
 };
 
 export const requestIzinApi = async (notes: string): Promise<AttendanceActionResponse> => {
-  const response = await apiClient.post<AttendanceActionResponse>("/employee/attendance/izin", { notes });
+  const response = await apiClient.post<AttendanceActionResponse>("/employee/attendance/izin", {
+    notes,
+  });
   return response.data;
 };
 

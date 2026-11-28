@@ -16,18 +16,18 @@ import { toast } from "sonner";
 
 // Custom Label Dictionary (Opsional untuk nama khusus)
 const customLabels: Record<string, string> = {
-  "users": "Data Pengguna",
-  "attendance": "Data Absensi",
+  users: "Data Pengguna",
+  attendance: "Data Absensi",
   "wifi-packages": "Paket WiFi",
-  "record": "Rekap Absensi",
-  "history": "Riwayat Absensi",
-  "subscriptions": "Paket Layanan",
+  record: "Rekap Absensi",
+  history: "Riwayat Absensi",
+  subscriptions: "Paket Layanan",
   "billing-history": "Pembayaran",
   "add-customers": "Data Pelanggan",
-  "payments": "Pembayaran",
-  "overtime": "Kerja Lembur",
+  payments: "Pembayaran",
+  overtime: "Kerja Lembur",
   "payroll-slip": "Slip Gaji",
-  "allowances": "Tunjangan & Bonus"
+  allowances: "Tunjangan & Bonus",
 };
 
 export function Header() {
@@ -56,7 +56,7 @@ export function Header() {
     const cleanParent = parentPath?.toLowerCase() || "";
 
     if (cleanSegment === "report") {
-      if (cleanParent.includes("payments") || (cleanParent.includes("attendance"))) {
+      if (cleanParent.includes("payments") || cleanParent.includes("attendance")) {
         return "Laporan";
       }
     }
@@ -76,7 +76,7 @@ export function Header() {
       <div className="flex items-center gap-2">
         <SidebarTrigger className="-ml-2 rounded-xl" />
         <div className="mx-2 h-4 w-px bg-border/40 md:block" />
- 
+
         <div className="md:block">
           <Breadcrumb>
             <BreadcrumbList>
@@ -95,18 +95,25 @@ export function Header() {
 
               {/* Looping Segments Bertingkat */}
               {routeSegments.map((segment, index) => {
-                if (segment === "attendance" && (routeSegments[index + 1] === "record" || routeSegments[index + 1] === "history")) {
-                  return null;
-                }
-                if (segment === "employee" && (
-                  routeSegments[index + 1] === "add-customers" ||
-                  routeSegments[index + 1] === "payroll-slip" ||
-                  routeSegments[index + 1] === "payments" ||
-                  routeSegments[index + 1] === "allowances")
+                if (
+                  segment === "attendance" &&
+                  (routeSegments[index + 1] === "record" || routeSegments[index + 1] === "history")
                 ) {
                   return null;
                 }
-                if ((segment === "employee" || segment === "admin") && routeSegments[index + 1] === "overtime") {
+                if (
+                  segment === "employee" &&
+                  (routeSegments[index + 1] === "add-customers" ||
+                    routeSegments[index + 1] === "payroll-slip" ||
+                    routeSegments[index + 1] === "payments" ||
+                    routeSegments[index + 1] === "allowances")
+                ) {
+                  return null;
+                }
+                if (
+                  (segment === "employee" || segment === "admin") &&
+                  routeSegments[index + 1] === "overtime"
+                ) {
                   return null;
                 }
 

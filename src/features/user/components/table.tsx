@@ -1,5 +1,12 @@
 import { type User } from "@/lib/api/users";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Edit, Trash2, ShieldAlert, Eye } from "lucide-react";
 
@@ -12,7 +19,14 @@ interface UserTableProps {
   isEmployeeView?: boolean;
 }
 
-export function UserTable({ users, onView, onEdit, onResetIP, onDelete, isEmployeeView = false }: UserTableProps) {
+export function UserTable({
+  users,
+  onView,
+  onEdit,
+  onResetIP,
+  onDelete,
+  isEmployeeView = false,
+}: UserTableProps) {
   return (
     <div className="rounded-xl border bg-card overflow-hidden shadow-sm">
       <Table>
@@ -54,8 +68,8 @@ export function UserTable({ users, onView, onEdit, onResetIP, onDelete, isEmploy
                 <TableCell>{user.address || "-"}</TableCell>
                 {!isEmployeeView && (
                   <TableCell>
-                    {user.registered_by 
-                      ? `${user.registered_by.role === 'admin' ? 'Admin' : 'Karyawan'} - ${user.registered_by.name}` 
+                    {user.registered_by
+                      ? `${user.registered_by.role === "admin" ? "Admin" : "Karyawan"} - ${user.registered_by.name}`
                       : "-"}
                   </TableCell>
                 )}

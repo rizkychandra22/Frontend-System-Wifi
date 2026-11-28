@@ -25,12 +25,29 @@ export const paymentApi = {
     const response = await apiClient.get<{ data: Payment[] }>("/payments/invoice");
     return response.data.data;
   },
-  createPayment: async (data: { customer_id: number; wifi_package_id: number; payment_method: string }): Promise<Payment> => {
-    const response = await apiClient.post<{ message: string; data: Payment }>("/payments/invoice", data);
+  createPayment: async (data: {
+    customer_id: number;
+    wifi_package_id: number;
+    payment_method: string;
+  }): Promise<Payment> => {
+    const response = await apiClient.post<{ message: string; data: Payment }>(
+      "/payments/invoice",
+      data,
+    );
     return response.data.data;
   },
-  updatePayment: async (id: number, data: { customer_id: number; wifi_package_id: number; payment_method: string }): Promise<Payment> => {
-    const response = await apiClient.put<{ message: string; data: Payment }>(`/payments/invoice/${id}`, data);
+  updatePayment: async (
+    id: number,
+    data: {
+      customer_id: number;
+      wifi_package_id: number;
+      payment_method: string;
+    },
+  ): Promise<Payment> => {
+    const response = await apiClient.put<{ message: string; data: Payment }>(
+      `/payments/invoice/${id}`,
+      data,
+    );
     return response.data.data;
   },
   deletePayment: async (id: number): Promise<void> => {
@@ -39,5 +56,5 @@ export const paymentApi = {
   getCustomerPayments: async (customerId: number | string): Promise<Payment[]> => {
     const response = await apiClient.get<{ data: Payment[] }>(`/payments/history/${customerId}`);
     return response.data.data;
-  }
+  },
 };

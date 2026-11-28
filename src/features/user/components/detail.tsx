@@ -15,15 +15,18 @@ interface UserDetailProps {
   isEmployeeView?: boolean;
 }
 
-export function UserDetail({ user, isOpen, onOpenChange, isEmployeeView = false }: UserDetailProps) {
+export function UserDetail({
+  user,
+  isOpen,
+  onOpenChange,
+  isEmployeeView = false,
+}: UserDetailProps) {
   return (
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
       <SheetContent className="w-[400px] sm:w-[540px] overflow-y-auto no-scrollbar">
         <SheetHeader>
           <SheetTitle>Detail Pengguna</SheetTitle>
-          <SheetDescription>
-            Informasi lengkap pengguna.
-          </SheetDescription>
+          <SheetDescription>Informasi lengkap pengguna.</SheetDescription>
         </SheetHeader>
         <div className="mt-6 space-y-4">
           <div className="space-y-1">

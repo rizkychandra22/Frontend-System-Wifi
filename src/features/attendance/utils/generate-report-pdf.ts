@@ -17,7 +17,7 @@ export async function generateAttendanceReportPDF(
   items: AttendanceReportItem[],
   startDate: string,
   endDate: string,
-  operatorName: string
+  operatorName: string,
 ): Promise<void> {
   // Format Date helpers (Indonesian Format)
   const formatDateIndo = (dateStr: string) => {
@@ -27,27 +27,29 @@ export async function generateAttendanceReportPDF(
   const formatDateTimeIndo = (dateStr: string) => {
     if (!dateStr) return "-";
     const date = new Date(dateStr);
-    return date.toLocaleDateString("id-ID", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-    }).replace(/\./g, ":");
+    return date
+      .toLocaleDateString("id-ID", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      })
+      .replace(/\./g, ":");
   };
 
   // Calculate totals
   const totalDailyworkTariff = Math.round(
     items
       .filter((item) => item.workType === "Dailywork")
-      .reduce((sum, item) => sum + item.tariff, 0)
+      .reduce((sum, item) => sum + item.tariff, 0),
   );
 
   const totalOvertimeTariff = Math.round(
     items
       .filter((item) => item.workType === "Overtime")
-      .reduce((sum, item) => sum + item.tariff, 0)
+      .reduce((sum, item) => sum + item.tariff, 0),
   );
 
   const totalPayout = totalDailyworkTariff + totalOvertimeTariff;
@@ -84,13 +86,14 @@ export async function generateAttendanceReportPDF(
         ? `<span style="padding: 2px 6px; border-radius: 4px; font-size: 9px; font-weight: bold; background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd;">DAILYWORK</span>`
         : `<span style="padding: 2px 6px; border-radius: 4px; font-size: 9px; font-weight: bold; background: #f3e8ff; color: #6b21a8; border: 1px solid #e9d5ff;">OVERTIME</span>`;
 
-      const statusBadge = item.workType === "Overtime"
-        ? `<span style="padding: 2px 6px; border-radius: 4px; font-size: 9px; font-weight: bold; background: #ffedd5; color: #c2410c; border: 1px solid #fed7aa;">HADIR</span>`
-        : item.status === "Hadir"
-        ? `<span style="padding: 2px 6px; border-radius: 4px; font-size: 9px; font-weight: bold; background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0;">HADIR</span>`
-        : item.status === "Halfday"
-        ? `<span style="padding: 2px 6px; border-radius: 4px; font-size: 9px; font-weight: bold; background: #fef3c7; color: #d97706; border: 1px solid #fde68a;">HALFDAY</span>`
-        : `<span style="padding: 2px 6px; border-radius: 4px; font-size: 9px; font-weight: bold; background: #f3f4f6; color: #374151; border: 1px solid #e5e7eb;">${item.status.toUpperCase()}</span>`;
+      const statusBadge =
+        item.workType === "Overtime"
+          ? `<span style="padding: 2px 6px; border-radius: 4px; font-size: 9px; font-weight: bold; background: #ffedd5; color: #c2410c; border: 1px solid #fed7aa;">HADIR</span>`
+          : item.status === "Hadir"
+            ? `<span style="padding: 2px 6px; border-radius: 4px; font-size: 9px; font-weight: bold; background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0;">HADIR</span>`
+            : item.status === "Halfday"
+              ? `<span style="padding: 2px 6px; border-radius: 4px; font-size: 9px; font-weight: bold; background: #fef3c7; color: #d97706; border: 1px solid #fde68a;">HALFDAY</span>`
+              : `<span style="padding: 2px 6px; border-radius: 4px; font-size: 9px; font-weight: bold; background: #f3f4f6; color: #374151; border: 1px solid #e5e7eb;">${item.status.toUpperCase()}</span>`;
 
       rowsHtml += `
         <tr>

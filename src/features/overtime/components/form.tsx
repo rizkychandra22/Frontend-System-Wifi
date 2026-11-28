@@ -2,7 +2,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import type { User } from "@/lib/api/users";
 import { getUserData } from "@/lib/auth-utils";
 
@@ -30,7 +36,7 @@ export function OvertimeForm({
   onSubmit,
   isSubmitting,
   submitLabel,
-  employees
+  employees,
 }: OvertimeFormProps) {
   const user = getUserData();
   const isAdmin = user?.role === "admin";

@@ -1,5 +1,11 @@
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import type { User } from "@/lib/api/users";
 import type { WifiPackage } from "@/lib/api/wifi_package";
@@ -48,7 +54,7 @@ function calculateNextDueDate(billingDay: number): string {
   const day = Math.min(billingDay, maxDays);
 
   const targetDate = new Date(targetYear, targetMonth, day);
-  
+
   // Format ke YYYY-MM-DD
   const yyyy = targetDate.getFullYear();
   const mm = String(targetDate.getMonth() + 1).padStart(2, "0");
@@ -66,22 +72,24 @@ export function SubscriptionForm({
   packages,
   isEdit = false,
 }: SubscriptionFormProps) {
-  const selectedCustomer = customers.find(c => c.id.toString() === initialData.customer_id);
+  const selectedCustomer = customers.find((c) => c.id.toString() === initialData.customer_id);
 
   return (
     <form onSubmit={onSubmit} className="space-y-5">
       <div className="space-y-2">
         <label className="text-sm font-medium text-foreground">Nama Pelanggan</label>
         {isEdit ? (
-          <Input 
-            value={selectedCustomer ? `${selectedCustomer.name} - ${selectedCustomer.phone}` : "Unknown"} 
-            readOnly 
+          <Input
+            value={
+              selectedCustomer ? `${selectedCustomer.name} - ${selectedCustomer.phone}` : "Unknown"
+            }
+            readOnly
             className="bg-muted text-foreground cursor-default"
           />
         ) : (
-          <Select 
-            value={initialData.customer_id} 
-            onValueChange={(val) => onChange({ ...initialData, customer_id: val })} 
+          <Select
+            value={initialData.customer_id}
+            onValueChange={(val) => onChange({ ...initialData, customer_id: val })}
             required
           >
             <SelectTrigger>
@@ -97,12 +105,12 @@ export function SubscriptionForm({
           </Select>
         )}
       </div>
-      
+
       <div className="space-y-2">
         <label className="text-sm font-medium text-foreground">Paket Layanan</label>
-        <Select 
-          value={initialData.wifi_package_id} 
-          onValueChange={(val) => onChange({ ...initialData, wifi_package_id: val })} 
+        <Select
+          value={initialData.wifi_package_id}
+          onValueChange={(val) => onChange({ ...initialData, wifi_package_id: val })}
           required
         >
           <SelectTrigger>
@@ -120,7 +128,7 @@ export function SubscriptionForm({
 
       <div className="space-y-2">
         <label className="text-sm font-medium text-foreground">Tanggal Pembayaran</label>
-        <Input 
+        <Input
           type="number"
           min="1"
           max="31"
@@ -135,10 +143,10 @@ export function SubscriptionForm({
               nextDate = calculateNextDueDate(dayNum);
             }
 
-            onChange({ 
-              ...initialData, 
+            onChange({
+              ...initialData,
               billing_day: dayVal,
-              next_due_date: nextDate
+              next_due_date: nextDate,
             });
           }}
           placeholder="Contoh: 10"
@@ -147,9 +155,9 @@ export function SubscriptionForm({
 
       <div className="space-y-2">
         <label className="text-sm font-medium text-foreground">Status Layanan</label>
-        <Select 
-          value={initialData.status} 
-          onValueChange={(val) => onChange({ ...initialData, status: val })} 
+        <Select
+          value={initialData.status}
+          onValueChange={(val) => onChange({ ...initialData, status: val })}
           required
         >
           <SelectTrigger>
@@ -164,7 +172,16 @@ export function SubscriptionForm({
       </div>
 
       <div className="flex justify-end pt-2">
-        <Button type="submit" disabled={isSubmitting || !initialData.customer_id || !initialData.wifi_package_id || !initialData.billing_day || !initialData.next_due_date}>
+        <Button
+          type="submit"
+          disabled={
+            isSubmitting ||
+            !initialData.customer_id ||
+            !initialData.wifi_package_id ||
+            !initialData.billing_day ||
+            !initialData.next_due_date
+          }
+        >
           {isSubmitting ? "Menyimpan..." : submitLabel}
         </Button>
       </div>

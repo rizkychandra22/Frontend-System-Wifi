@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useSearchParams, Navigate } from "react-router-dom";
 import { toast } from "sonner";
+import packageJson from "../../../package.json";
 import { LoginForm } from "@/features/auth/components/login-form";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import logo from "@/assets/logo.png";
@@ -12,7 +13,9 @@ export default function LoginPage() {
   useEffect(() => {
     const reason = searchParams.get("reason");
     if (reason === "inactivity") {
-      toast.warning("Sesi Anda telah berakhir karena tidak ada aktivitas selama 3 jam. Silakan login kembali.");
+      toast.warning(
+        "Sesi Anda telah berakhir karena tidak ada aktivitas selama 3 jam. Silakan login kembali.",
+      );
       setSearchParams({}, { replace: true });
     } else if (reason === "expired") {
       toast.warning("Sesi login Anda telah habis (3 jam). Silakan login kembali.");
@@ -25,8 +28,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-cyan-50 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 p-4">
-      
+    <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-cyan-50 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 p-4 py-8">
       {/* Decorative background elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-indigo-400/10 blur-[100px]" />
@@ -34,9 +36,12 @@ export default function LoginPage() {
       </div>
 
       <div className="w-full max-w-md relative z-10 animate-in fade-in zoom-in-95 duration-500">
-        
-        <div className="flex flex-col items-center justify-center -mt-50 -mb-30">
-          <img src={logo} alt="NetVerse Pro" className="w-100 md:w-100 h-auto object-contain drop-shadow-md" />
+        <div className="flex flex-col items-center justify-center h-20 w-full overflow-hidden mb-10">
+          <img
+            src={logo}
+            alt="NetVerse Pro"
+            className="w-100 h-auto shrink-0 mt-2 object-contain drop-shadow-md"
+          />
         </div>
 
         <Card className="border-0 shadow-2xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl ring-1 ring-slate-200 dark:ring-slate-800">
@@ -60,10 +65,10 @@ export default function LoginPage() {
               rel="noopener noreferrer"
               className="hover:text-primary transition-colors"
             >
-              Rizky Chandra {" "}
+              Rizky Chandra{" "}
             </a>
           </i>
-          &bull; Release v1.2.0
+          &bull; Release v{packageJson.version}
         </p>
       </div>
     </div>

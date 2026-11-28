@@ -43,7 +43,10 @@ export const LoginForm = () => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const data = await login({ phone: values.phone, password: values.password });
+      const data = await login({
+        phone: values.phone,
+        password: values.password,
+      });
       toast.success(data.message || "Login berhasil!");
       navigate("/dashboard");
     } catch (error: unknown) {
@@ -53,7 +56,7 @@ export const LoginForm = () => {
         toast.info("Kata sandi diperlukan untuk akun Admin.");
         return; // Jangan tampilkan toast error
       }
-      
+
       // Jika salah password, reset tampilan ke input HP lagi sesuai request
       if (error instanceof AxiosError && error.response?.status === 401 && showPasswordInput) {
         toast.error("Password salah. Silakan ulangi.");
@@ -62,7 +65,11 @@ export const LoginForm = () => {
         return;
       }
       if (error instanceof Error) {
-        toast.error((error as {response?: {data?: {error?: string}}}).response?.data?.error || error.message || "Terjadi kesalahan saat login.");
+        toast.error(
+          (error as { response?: { data?: { error?: string } } }).response?.data?.error ||
+            error.message ||
+            "Terjadi kesalahan saat login.",
+        );
       } else {
         toast.error("Terjadi kesalahan saat login.");
       }
@@ -72,7 +79,6 @@ export const LoginForm = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        
         {!showPasswordInput ? (
           <FormField
             control={form.control}
@@ -83,10 +89,10 @@ export const LoginForm = () => {
                 <FormControl>
                   <div className="relative">
                     <Phone className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
-                    <Input 
-                      placeholder="Contoh: 08123456789" 
-                      className="pl-10 h-11 rounded-xl" 
-                      {...field} 
+                    <Input
+                      placeholder="Contoh: 08123456789"
+                      className="pl-10 h-11 rounded-xl"
+                      {...field}
                     />
                   </div>
                 </FormControl>
@@ -104,18 +110,18 @@ export const LoginForm = () => {
                 <FormControl>
                   <div className="relative">
                     <KeyRound className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
-                    <Input 
+                    <Input
                       type="password"
-                      placeholder="Masukkan kata sandi..." 
-                      className="pl-10 h-11 rounded-xl" 
-                      {...field} 
+                      placeholder="Masukkan kata sandi..."
+                      className="pl-10 h-11 rounded-xl"
+                      {...field}
                     />
                   </div>
                 </FormControl>
                 <FormMessage />
-                <Button 
-                  type="button" 
-                  variant="link" 
+                <Button
+                  type="button"
+                  variant="link"
                   className="px-0 text-xs h-auto rounded-xl"
                   onClick={() => {
                     setShowPasswordInput(false);
@@ -128,11 +134,11 @@ export const LoginForm = () => {
             )}
           />
         )}
-        
+
         <div className="space-y-3">
-          <Button 
-            type="submit" 
-            className="w-full h-11 text-base font-semibold shadow-md transition-all hover:shadow-lg rounded-xl" 
+          <Button
+            type="submit"
+            className="w-full h-11 text-base font-semibold shadow-md transition-all hover:shadow-lg rounded-xl"
             disabled={isLoading}
           >
             {isLoading ? (
@@ -140,8 +146,10 @@ export const LoginForm = () => {
                 <Loader2 className="mr-2 h-5 w-5 animate-spin" />
                 Memproses...
               </>
+            ) : showPasswordInput ? (
+              "Login sebagai Admin"
             ) : (
-              showPasswordInput ? "Login sebagai Admin" : "Login & Masuk"
+              "Login & Masuk"
             )}
           </Button>
 
@@ -160,4 +168,3 @@ export const LoginForm = () => {
     </Form>
   );
 };
-

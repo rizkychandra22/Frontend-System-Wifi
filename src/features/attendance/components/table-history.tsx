@@ -1,7 +1,13 @@
 import { useAttendanceHistory } from "@/features/attendance/hooks/use-attendance";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export function AttendanceHistory() {
   const { history } = useAttendanceHistory();
@@ -132,19 +138,29 @@ export function AttendanceHistory() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap font-medium">
                       {record.status === "Izin"
-                        ? (!record.clock_in ? "Fullday Permission" : `Hadir (${new Date(record.clock_in).toLocaleTimeString("id-ID", { hour: '2-digit', minute: '2-digit' })})`)
-                        : record.clock_in 
-                          ? `Hadir (${new Date(record.clock_in).toLocaleTimeString("id-ID", { hour: '2-digit', minute: '2-digit' })})` 
-                          : record.status === "Libur" ? "Tidak Ada Absen" : "-"}
+                        ? !record.clock_in
+                          ? "Fullday Permission"
+                          : `Hadir (${new Date(record.clock_in).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })})`
+                        : record.clock_in
+                          ? `Hadir (${new Date(record.clock_in).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })})`
+                          : record.status === "Libur"
+                            ? "Tidak Ada Absen"
+                            : "-"}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap font-medium">
                       {record.status === "Izin"
-                        ? (!record.clock_in ? "Fullday Permission" : "Halfday Permission")
-                        : record.clock_out 
-                          ? `Pulang (${new Date(record.clock_out).toLocaleTimeString("id-ID", { hour: '2-digit', minute: '2-digit' })})` 
-                          : record.status === "Libur" ? "Tidak Ada Absen" : "-"}
+                        ? !record.clock_in
+                          ? "Fullday Permission"
+                          : "Halfday Permission"
+                        : record.clock_out
+                          ? `Pulang (${new Date(record.clock_out).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })})`
+                          : record.status === "Libur"
+                            ? "Tidak Ada Absen"
+                            : "-"}
                     </td>
-                    <td className={`px-6 py-4 whitespace-nowrap font-medium ${getGradeColor(record.grade)}`}>
+                    <td
+                      className={`px-6 py-4 whitespace-nowrap font-medium ${getGradeColor(record.grade)}`}
+                    >
                       {record.grade || "-"}
                     </td>
                     <td className="px-6 py-4">
@@ -155,7 +171,9 @@ export function AttendanceHistory() {
                       )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-2.5 py-1 rounded-full text-xs font-medium border ${getStatusBadgeColor(record.status)}`}>
+                      <span
+                        className={`px-2.5 py-1 rounded-full text-xs font-medium border ${getStatusBadgeColor(record.status)}`}
+                      >
                         {record.status}
                       </span>
                     </td>

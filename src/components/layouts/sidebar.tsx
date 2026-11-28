@@ -47,7 +47,7 @@ import {
   Briefcase,
   CalendarDays,
   Calculator,
-  Gift
+  Gift,
 } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { getUserData, removeToken } from "@/lib/auth-utils";
@@ -76,7 +76,7 @@ export function AppSidebar() {
   const hasRole = (roleNames: string | string[]) => {
     if (!role) return false;
     if (Array.isArray(roleNames)) {
-      return roleNames.map(r => r.toLowerCase()).includes(role);
+      return roleNames.map((r) => r.toLowerCase()).includes(role);
     }
     return role === roleNames.toLowerCase();
   };
@@ -145,7 +145,11 @@ export function AppSidebar() {
       });
 
       toast.success("Password berhasil diperbarui!");
-      setPasswordData({ oldPassword: "", newPassword: "", confirmPassword: "" });
+      setPasswordData({
+        oldPassword: "",
+        newPassword: "",
+        confirmPassword: "",
+      });
       setIsProfileModalOpen(false);
     } catch (error: unknown) {
       const err = error as { response?: { data?: { error?: string } } };
@@ -520,11 +524,18 @@ export function AppSidebar() {
         <div className="w-full flex items-center gap-2.5 p-1.5 h-auto">
           <Avatar className="h-8 w-8">
             <AvatarFallback className="bg-primary/10 text-xs font-semibold text-primary uppercase">
-              {user?.name ? (user.name.charAt(0) + (user.name.split(" ").pop()?.charAt(0) || "")).substring(0, 2) : "US"}
+              {user?.name
+                ? (user.name.charAt(0) + (user.name.split(" ").pop()?.charAt(0) || "")).substring(
+                    0,
+                    2,
+                  )
+                : "US"}
             </AvatarFallback>
           </Avatar>
           <div className="flex flex-col flex-1 text-left overflow-hidden">
-            <span className="text-[13px] font-medium truncate capitalize">{user?.name || "Akun User"}</span>
+            <span className="text-[13px] font-medium truncate capitalize">
+              {user?.name || "Akun User"}
+            </span>
             <span className="text-[10px] text-muted-foreground truncate uppercase">
               {user?.phone || ""}
             </span>
@@ -545,7 +556,6 @@ export function AppSidebar() {
                   <DialogTitle>Pengaturan Akun</DialogTitle>
                 </DialogHeader>
                 <div className="flex flex-col gap-6 py-4 max-h-[75vh] overflow-y-auto no-scrollbar px-1">
-
                   {/* Form Profil Utama */}
                   <form onSubmit={onSubmitProfile} className="flex flex-col gap-4">
                     <h3 className="text-sm font-semibold text-primary">Informasi Profil</h3>
@@ -591,7 +601,12 @@ export function AppSidebar() {
                           id="oldPassword"
                           type="password"
                           value={passwordData.oldPassword}
-                          onChange={(e) => setPasswordData({ ...passwordData, oldPassword: e.target.value })}
+                          onChange={(e) =>
+                            setPasswordData({
+                              ...passwordData,
+                              oldPassword: e.target.value,
+                            })
+                          }
                           required
                         />
                       </div>
@@ -601,7 +616,12 @@ export function AppSidebar() {
                           id="newPassword"
                           type="password"
                           value={passwordData.newPassword}
-                          onChange={(e) => setPasswordData({ ...passwordData, newPassword: e.target.value })}
+                          onChange={(e) =>
+                            setPasswordData({
+                              ...passwordData,
+                              newPassword: e.target.value,
+                            })
+                          }
                           required
                         />
                       </div>
@@ -611,7 +631,12 @@ export function AppSidebar() {
                           id="confirmPassword"
                           type="password"
                           value={passwordData.confirmPassword}
-                          onChange={(e) => setPasswordData({ ...passwordData, confirmPassword: e.target.value })}
+                          onChange={(e) =>
+                            setPasswordData({
+                              ...passwordData,
+                              confirmPassword: e.target.value,
+                            })
+                          }
                           required
                         />
                       </div>
