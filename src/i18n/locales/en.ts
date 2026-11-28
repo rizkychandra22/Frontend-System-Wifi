@@ -58,7 +58,34 @@ export default {
   },
 
   AboutPage: {
-
+    header: {
+      title: "About NetVerse Fiber",
+      description: "We are a trusted broadband internet service provider fully committed to delivering the best services for Indonesian families. With modern fiber optic infrastructure, we guarantee stability and data transfer speeds for your productivity.",
+    },
+    pillars: {
+      pillar1: {
+        title: "100% Fiber Optic",
+        description: "Stable internet connection straight from optical fiber cable to your home router without weather disruptions.",
+      },
+      pillar2: {
+        title: "Unlimited Quota",
+        description: "Enjoy surfing as much as you want without worrying about running out of quota or drastic speed drops.",
+      },
+      pillar3: {
+        title: "24/7 Technical Support",
+        description: "Our professional technical support team is ready to serve and resolve your issues whenever needed.",
+      },
+      pillar4: {
+        title: "Secure Connection",
+        description: "Equipped with advanced network security to keep your personal data traffic private and secure.",
+      },
+    },
+    banner: {
+      title: "Connecting Your Digital Future",
+      description: "With continually expanding residential coverage, NetVerse Fiber delivers a barrier-free internet experience for your entertainment, education, and online business.",
+      btnExplore: "Explore Service Packages",
+      btnContact: "Contact Our Services",
+    },
   },
 
   SubscriptionPage: {

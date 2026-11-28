@@ -2,36 +2,33 @@ import { Link } from "react-router-dom";
 import { Zap, Wifi, Clock, ShieldCheck, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardTitle } from "@/components/ui/card";
+import { useTranslation, type TFunction } from "@/i18n";
 
-const corePillars = [
+const getCorePillars = (t: TFunction) => [
   {
-    title: "100% Fiber Optic",
-    description:
-      "Koneksi internet stabil langsung dari kabel serat optik ke router rumah Anda tanpa gangguan cuaca.",
+    title: t("pillars.pillar1.title"),
+    description: t("pillars.pillar1.description"),
     icon: Zap,
     iconBgClass: "bg-blue/10 text-primary",
     hoverBorderClass: "hover:border-primary/40",
   },
   {
-    title: "Kuota Unlimited",
-    description:
-      "Nikmati berselancar sepuasnya tanpa khawatir kehabisan kuota atau penurunan kecepatan yang drastis.",
+    title: t("pillars.pillar2.title"),
+    description: t("pillars.pillar2.description"),
     icon: Wifi,
     iconBgClass: "bg-green-100 text-green-700 dark:bg-green-950/40 dark:text-green-400",
     hoverBorderClass: "hover:border-green-500/40",
   },
   {
-    title: "Layanan Teknis 24/7",
-    description:
-      "Tim dukungan teknis profesional kami siap melayani dan mengatasi kendala Anda kapan pun dibutuhkan.",
+    title: t("pillars.pillar3.title"),
+    description: t("pillars.pillar3.description"),
     icon: Clock,
     iconBgClass: "bg-amber-100 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400",
     hoverBorderClass: "hover:border-amber-500/40",
   },
   {
-    title: "Koneksi Aman",
-    description:
-      "Dilengkapi keamanan jaringan mutakhir untuk menjaga lalu lintas data pribadi Anda tetap privat dan aman.",
+    title: t("pillars.pillar4.title"),
+    description: t("pillars.pillar4.description"),
     icon: ShieldCheck,
     iconBgClass: "bg-red-100 text-red-700 dark:bg-red-950/40 dark:text-red-400",
     hoverBorderClass: "hover:border-red-500/40",
@@ -39,6 +36,9 @@ const corePillars = [
 ];
 
 export default function AboutPage() {
+  const { t } = useTranslation("AboutPage");
+  const corePillars = getCorePillars(t);
+
   return (
     <div className="flex flex-col">
       {/* Main Viewport Section: Header + 4 Core Pillars */}
@@ -47,11 +47,11 @@ export default function AboutPage() {
           {/* Page Header */}
           <div className="max-w-3xl mx-auto text-center space-y-4 mb-10 md:mb-12">
             <h1 className="text-3xl md:text-5xl font-bold font-display tracking-tight text-foreground">
-              Tentang NetVerse Fiber
+              {t("header.title")}
             </h1>
             <div className="h-1 w-20 bg-primary mx-auto rounded-full"></div>
             <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
-              Kami adalah penyedia jasa layanan internet broadband terpercaya yang berkomitmen penuh dalam memberikan layanan terbaik bagi keluarga Indonesia. Dengan infrastruktur fiber optik modern, kami menjamin kestabilan dan kecepatan transfer data untuk produktivitas Anda.
+              {t("header.description")}
             </p>
           </div>
 
@@ -90,20 +90,20 @@ export default function AboutPage() {
           <Card className="max-w-4xl mx-auto rounded-2xl bg-muted/40 shadow-none">
             <CardContent className="p-8 md:p-12 text-center space-y-6">
               <CardTitle className="text-2xl font-bold font-display text-foreground">
-                Menghubungkan Masa Depan Digital Anda
+                {t("banner.title")}
               </CardTitle>
               <CardDescription className="text-muted-foreground text-sm leading-relaxed max-w-2xl mx-auto">
-                Dengan cakupan wilayah perumahan yang terus meluas, NetVerse Fiber hadir memberikan pengalaman berinternet yang bebas hambatan untuk hiburan, pendidikan, maupun bisnis online Anda.
+                {t("banner.description")}
               </CardDescription>
               <div className="pt-2 flex flex-wrap justify-center gap-4">
                 <Link to="/subscription">
                   <Button className="group bg-gradient-blue text-primary-foreground font-semibold shadow-blue hover:opacity-90 transition-opacity">
-                    Eksplorasi Paket Layanan
+                    {t("banner.btnExplore")}
                     <ArrowRight className="h-4 w-4 ml-1.5 transition-transform duration-300 group-hover:translate-x-1" />
                   </Button>
                 </Link>
                 <Link to="/contact">
-                  <Button variant="outline">Hubungi Layanan Kami</Button>
+                  <Button variant="outline">{t("banner.btnContact")}</Button>
                 </Link>
               </div>
             </CardContent>

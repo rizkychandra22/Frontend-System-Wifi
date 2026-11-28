@@ -58,7 +58,34 @@ export default {
   },
 
   AboutPage: {
-
+    header: {
+      title: "Tentang NetVerse Fiber",
+      description: "Kami adalah penyedia jasa layanan internet broadband terpercaya yang berkomitmen penuh dalam memberikan layanan terbaik bagi keluarga Indonesia. Dengan infrastruktur fiber optik modern, kami menjamin kestabilan dan kecepatan transfer data untuk produktivitas Anda.",
+    },
+    pillars: {
+      pillar1: {
+        title: "100% Fiber Optic",
+        description: "Koneksi internet stabil langsung dari kabel serat optik ke router rumah Anda tanpa gangguan cuaca.",
+      },
+      pillar2: {
+        title: "Kuota Unlimited",
+        description: "Nikmati berselancar sepuasnya tanpa khawatir kehabisan kuota atau penurunan kecepatan yang drastis.",
+      },
+      pillar3: {
+        title: "Layanan Teknis 24/7",
+        description: "Tim dukungan teknis profesional kami siap melayani dan mengatasi kendala Anda kapan pun dibutuhkan.",
+      },
+      pillar4: {
+        title: "Koneksi Aman",
+        description: "Dilengkapi keamanan jaringan mutakhir untuk menjaga lalu lintas data pribadi Anda tetap privat dan aman.",
+      },
+    },
+    banner: {
+      title: "Menghubungkan Masa Depan Digital Anda",
+      description: "Dengan cakupan wilayah perumahan yang terus meluas, NetVerse Fiber hadir memberikan pengalaman berinternet yang bebas hambatan untuk hiburan, pendidikan, maupun bisnis online Anda.",
+      btnExplore: "Eksplorasi Paket Layanan",
+      btnContact: "Hubungi Layanan Kami",
+    },
   },
 
   SubscriptionPage: {
