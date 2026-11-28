@@ -23,6 +23,15 @@ export default tseslint.config(
       "@typescript-eslint/ban-ts-comment": "off",
       "react-hooks/purity": "off",
       "prettier/prettier": "off",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          caughtErrorsIgnorePattern: "^_",
+          ignoreRestSiblings: true,
+        },
+      ],
     },
   },
 );
