@@ -3,35 +3,33 @@ import { Zap, Wifi, ArrowRight, ShieldCheck, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardTitle } from "@/components/ui/card";
+import { useTranslation, type TFunction } from "@/i18n";
 import logoImg from "@/assets/logo.png";
 
-const featureHighlights = [
+const getFeatureHighlights = (t: TFunction) => [
   {
-    title: "Teknologi Fiber Optic",
-    description:
-      "Jaringan transmisi kabel optik murni dengan redaman minim untuk koneksi tanpa lag.",
+    title: t("features.feature1.title"),
+    description: t("features.feature1.description"),
     to: "/about",
-    linkLabel: "Pelajari Tentang Kami",
+    linkLabel: t("features.feature1.linkLabel"),
     icon: Zap,
     iconBgClass: "bg-blue/10 text-primary",
     hoverBorderClass: "hover:border-primary/40",
   },
   {
-    title: "Paket Fleksibel & Terjangkau",
-    description:
-      "Pilihan kecepatan mulai 15 Mbps hingga 50+ Mbps sesuai kebutuhan keluarga Anda.",
+    title: t("features.feature2.title"),
+    description: t("features.feature2.description"),
     to: "/subscription",
-    linkLabel: "Lihat Daftar Paket",
+    linkLabel: t("features.feature2.linkLabel"),
     icon: ShieldCheck,
     iconBgClass: "bg-emerald-500/10 text-emerald-500",
     hoverBorderClass: "hover:border-emerald-500/40",
   },
   {
-    title: "Respon Layanan Cepat",
-    description:
-      "Tim teknisi lapangan dan customer care kami siap membantu pemasangan dan kendala.",
+    title: t("features.feature3.title"),
+    description: t("features.feature3.description"),
     to: "/contact",
-    linkLabel: "Hubungi Bantuan",
+    linkLabel: t("features.feature3.linkLabel"),
     icon: Clock,
     iconBgClass: "bg-purple-500/10 text-purple-500",
     hoverBorderClass: "hover:border-purple-500/40",
@@ -40,6 +38,9 @@ const featureHighlights = [
 ];
 
 export default function HomePage() {
+  const { t } = useTranslation("HomePage");
+  const featureHighlights = getFeatureHighlights(t);
+
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
@@ -52,24 +53,24 @@ export default function HomePage() {
               className="gap-2 px-3 py-1 rounded-full border-primary/20 bg-primary/10 text-primary text-xs font-semibold uppercase tracking-wider"
             >
               <Zap className="h-3 w-3" />
-              100% Serat Optik Murni
+              {t("hero.badge")}
             </Badge>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-display tracking-tight text-foreground leading-[1.1]">
-              Koneksi Internet <span className="text-gradient-blue">Cepat, Stabil & Tanpa Batas</span>
+              {t("hero.title_start")}<span className="text-gradient-blue">{t("hero.title_gradient")}</span>
             </h1>
             <p className="text-muted-foreground text-base sm:text-lg leading-relaxed max-w-lg">
-              NetVerse Fiber menghadirkan layanan internet rumah super cepat menggunakan kabel serat optik terbaik. Aktivitas streaming, kerja jarak jauh, hingga gaming lancar bebas hambatan dengan harga terjangkau.
+              {t("hero.description")}
             </p>
             <div className="flex flex-row items-center gap-3 pt-2">
               <Link to="/subscription" className="flex-1 sm:flex-initial">
                 <Button size="lg" className="group w-full sm:w-auto px-4 sm:px-8 bg-gradient-blue text-primary-foreground font-semibold shadow-blue hover:opacity-90 transition-all">
-                  Pilih Paket WiFi
+                  {t("hero.btnChoosePackage")}
                   <ArrowRight className="h-4 w-4 ml-1.5 transition-transform duration-300 group-hover:translate-x-1" />
                 </Button>
               </Link>
               <Link to="/contact" className="flex-1 sm:flex-initial">
                 <Button size="lg" variant="outline" className="w-full sm:w-auto px-4 sm:px-8 font-medium hover:bg-muted transition-colors">
-                  Hubungi Kami
+                  {t("hero.btnContact")}
                 </Button>
               </Link>
             </div>
@@ -82,7 +83,7 @@ export default function HomePage() {
               <div className="w-full h-full rounded-lg overflow-hidden bg-muted shadow-sm">
                 <img
                   src={logoImg}
-                  alt="Infrastruktur Internet NetVerse"
+                  alt={t("hero.cardAlt")}
                   className="w-full h-full object-cover scale-115 -translate-y-4 animate-pulse-subtle"
                 />
               </div>
@@ -92,8 +93,8 @@ export default function HomePage() {
                     <Wifi className="h-5 w-5" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-sm">Internet Rumah Andalan</h4>
-                    <p className="text-xs text-white/80">Kestabilan koneksi up to 99.9% uptime</p>
+                    <h4 className="font-semibold text-sm">{t("hero.cardTitle")}</h4>
+                    <p className="text-xs text-white/80">{t("hero.cardSubtitle")}</p>
                   </div>
                 </div>
               </div>
