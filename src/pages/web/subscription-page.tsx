@@ -12,14 +12,16 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { useTranslation } from "@/i18n";
 import { useWifiPackages } from "@/features/wifi-package/hooks/use-wifi-packages";
 import { formatWifiPackages } from "@/components/wifi-package";
 
 export default function SubscriptionPage() {
+  const { t } = useTranslation("SubscriptionPage");
   const navigate = useNavigate();
   const { query: wifiPackagesQuery } = useWifiPackages();
   const dbPackages = wifiPackagesQuery.data ?? [];
-  const formattedPackages = formatWifiPackages(dbPackages);
+  const formattedPackages = formatWifiPackages(dbPackages, t);
   const displayPackages = formattedPackages.length > 0 ? formattedPackages : [];
 
   const getPackageStyles = (speedStr: string) => {
@@ -69,7 +71,7 @@ export default function SubscriptionPage() {
   };
 
   const handleSelectPackage = (packageName: string) => {
-    toast.info(`Mengalihkan ke formulir pemesanan paket wifi ${packageName}.`);
+    toast.info(t("card.toastRedirect", { name: packageName }));
     navigate(`/contact?package=${encodeURIComponent(packageName)}`);
   };
 
@@ -79,11 +81,11 @@ export default function SubscriptionPage() {
         {/* Page Header */}
         <div className="max-w-3xl mx-auto text-center space-y-4 mb-10 md:mb-12">
           <h1 className="text-3xl md:text-5xl font-bold font-display tracking-tight text-foreground">
-            Pilih Paket Langganan
+            {t("header.title")}
           </h1>
           <div className="h-1 w-20 bg-primary mx-auto rounded-full"></div>
           <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
-            Temukan variasi paket kecepatan yang paling sesuai dengan kebutuhan harian rumah Anda. Harga jujur, pas di kantong.
+            {t("header.description")}
           </p>
         </div>
 
@@ -103,7 +105,7 @@ export default function SubscriptionPage() {
                     variant="outline"
                     className={`pointer-events-none absolute top-0 right-1/2 translate-x-1/2 -translate-y-1/2 px-3 py-1 rounded-full text-[10px] font-bold tracking-wider text-white shadow-sm uppercase border-transparent ${styles.badgeBg}`}
                   >
-                    Paling Populer
+                    {t("card.popularBadge")}
                   </Badge>
                 )}
 
@@ -144,7 +146,7 @@ export default function SubscriptionPage() {
                         : styles.buttonOutlineClass
                     }`}
                   >
-                    Pesan Paket
+                    {t("card.btnOrder")}
                   </Button>
                 </CardFooter>
               </Card>

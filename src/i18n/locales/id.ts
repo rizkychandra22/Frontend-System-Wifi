@@ -89,7 +89,57 @@ export default {
   },
 
   SubscriptionPage: {
-
+    header: {
+      title: "Pilih Paket Langganan",
+      description: "Temukan variasi paket kecepatan yang paling sesuai dengan kebutuhan harian rumah Anda. Harga jujur, pas di kantong.",
+    },
+    card: {
+      popularBadge: "Paling Populer",
+      period: "/ bulan",
+      btnOrder: "Pesan Paket",
+      toastRedirect: "Mengalihkan ke formulir pemesanan paket wifi {{name}}.",
+    },
+    tiers: {
+      speed15: {
+        desc: "Cocok untuk kebutuhan internet harian ringan seperti browsing, chatting, dan media sosial.",
+        features: [
+          "Unlimited Quota (FUP Bebas)",
+          "Ideal untuk 1 - 3 perangkat",
+          "Kecepatan stabil hingga 15 Mbps",
+          "Instalasi gratis"
+        ]
+      },
+      speed20: {
+        desc: "Pilihan terbaik untuk keluarga kecil dengan aktivitas streaming video HD lancar.",
+        features: [
+          "Unlimited Quota (FUP Bebas)",
+          "Ideal untuk 3 - 5 perangkat",
+          "Lancar streaming video HD & gaming",
+          "Dukungan teknis prioritas",
+          "Instalasi gratis"
+        ]
+      },
+      speed35: {
+        desc: "Koneksi kencang untuk kerja remote, streaming 4K, kelas online, dan gaming tanpa hambatan.",
+        features: [
+          "Unlimited Quota (FUP Bebas)",
+          "Ideal untuk 5 - 8 perangkat",
+          "Sangat lancar video conference & gaming 4K",
+          "Dukungan teknis 24/7",
+          "Instalasi gratis"
+        ]
+      },
+      speedHigh: {
+        desc: "Super cepat {{speed}} Mbps tanpa hambatan untuk smart home dan bisnis skala kecil.",
+        features: [
+          "Unlimited Quota (FUP Bebas)",
+          "Ideal untuk 8+ perangkat",
+          "Tanpa lag untuk gaming berat & download file besar",
+          "Prioritas penanganan gangguan utama",
+          "Instalasi gratis"
+        ]
+      }
+    }
   },
 
   ActivityPage: {

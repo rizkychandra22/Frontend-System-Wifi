@@ -89,7 +89,57 @@ export default {
   },
 
   SubscriptionPage: {
-
+    header: {
+      title: "Choose Subscription Package",
+      description: "Find the speed package variety best suited to your home's daily needs. Honest pricing that fits your budget.",
+    },
+    card: {
+      popularBadge: "Most Popular",
+      period: "/ month",
+      btnOrder: "Order Package",
+      toastRedirect: "Redirecting to order form for {{name}} wifi package.",
+    },
+    tiers: {
+      speed15: {
+        desc: "Suitable for light daily internet needs like browsing, messaging, and social media.",
+        features: [
+          "Unlimited Quota (No FUP)",
+          "Ideal for 1 - 3 devices",
+          "Stable speed up to 15 Mbps",
+          "Free installation"
+        ]
+      },
+      speed20: {
+        desc: "Best choice for small families with smooth HD video streaming activities.",
+        features: [
+          "Unlimited Quota (No FUP)",
+          "Ideal for 3 - 5 devices",
+          "Smooth HD video streaming & gaming",
+          "Priority technical support",
+          "Free installation"
+        ]
+      },
+      speed35: {
+        desc: "High-speed connection for remote work, 4K streaming, online classes, and lag-free gaming.",
+        features: [
+          "Unlimited Quota (No FUP)",
+          "Ideal for 5 - 8 devices",
+          "Ultra-smooth video conferences & 4K gaming",
+          "24/7 technical support",
+          "Free installation"
+        ]
+      },
+      speedHigh: {
+        desc: "Super-fast {{speed}} Mbps barrier-free internet for smart homes and small businesses.",
+        features: [
+          "Unlimited Quota (No FUP)",
+          "Ideal for 8+ devices",
+          "No lag for heavy gaming & large file downloads",
+          "Top-priority issue resolution",
+          "Free installation"
+        ]
+      }
+    }
   },
 
   ActivityPage: {
