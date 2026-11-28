@@ -14,11 +14,20 @@ export const wifiPackageApi = {
     return response.data.data;
   },
   createWifiPackage: async (data: { name: string; price: number }): Promise<WifiPackage> => {
-    const response = await apiClient.post<{ message: string; data: WifiPackage }>("/admin/wifi-packages", data);
+    const response = await apiClient.post<{
+      message: string;
+      data: WifiPackage;
+    }>("/admin/wifi-packages", data);
     return response.data.data;
   },
-  updateWifiPackage: async (id: number, data: { name?: string; price?: number }): Promise<WifiPackage> => {
-    const response = await apiClient.put<{ message: string; data: WifiPackage }>(`/admin/wifi-packages/${id}`, data);
+  updateWifiPackage: async (
+    id: number,
+    data: { name?: string; price?: number },
+  ): Promise<WifiPackage> => {
+    const response = await apiClient.put<{
+      message: string;
+      data: WifiPackage;
+    }>(`/admin/wifi-packages/${id}`, data);
     return response.data.data;
   },
   deleteWifiPackage: async (id: number): Promise<void> => {

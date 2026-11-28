@@ -1,7 +1,13 @@
-
 import { Eye, Edit, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import type { Overtime } from "@/lib/api/overtime";
 import { getUserData } from "@/lib/auth-utils";
 import { formatShortDate, formatLocalTime } from "@/lib/date-utils";
@@ -33,19 +39,18 @@ export function OvertimeTable({ overtimes, onView, onEdit, onDelete }: OvertimeT
         <TableBody>
           {overtimes.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={isAdmin ? 6 : 4} className="text-center py-6 text-muted-foreground">
+              <TableCell
+                colSpan={isAdmin ? 6 : 4}
+                className="text-center py-6 text-muted-foreground"
+              >
                 Belum ada data lembur
               </TableCell>
             </TableRow>
           ) : (
             overtimes.map((ot) => (
               <TableRow key={ot.id}>
-                {isAdmin && (
-                  <TableCell className="font-medium">{ot.user?.name}</TableCell>
-                )}
-                <TableCell className="whitespace-nowrap">
-                  {formatShortDate(ot.date)}
-                </TableCell>
+                {isAdmin && <TableCell className="font-medium">{ot.user?.name}</TableCell>}
+                <TableCell className="whitespace-nowrap">{formatShortDate(ot.date)}</TableCell>
                 <TableCell className="max-w-[200px] truncate" title={ot.title}>
                   {ot.title}
                 </TableCell>

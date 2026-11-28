@@ -71,7 +71,9 @@ export default function AboutPage() {
                       >
                         <Icon className="h-6 w-6" />
                       </div>
-                      <CardTitle className="font-bold text-lg font-display leading-snug">{pillar.title}</CardTitle>
+                      <CardTitle className="font-bold text-lg font-display leading-snug">
+                        {pillar.title}
+                      </CardTitle>
                     </div>
                     <CardDescription className="text-muted-foreground text-sm leading-relaxed">
                       {pillar.description}

@@ -2,7 +2,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import type { User } from "@/lib/api/users";
 import { Users, User as UserIcon } from "lucide-react";
 
@@ -103,7 +109,8 @@ export function AllowanceForm({
         <div className="rounded-lg bg-blue-50/70 border border-blue-200/80 p-3 text-xs text-blue-800 flex items-center gap-2 animate-in fade-in-50 duration-200">
           <Users className="w-4 h-4 shrink-0 text-blue-600" />
           <span>
-            Tunjangan ini akan otomatis diberikan ke <strong>seluruh karyawan</strong> pada bulan penggajian yang dipilih.
+            Tunjangan ini akan otomatis diberikan ke <strong>seluruh karyawan</strong> pada bulan
+            penggajian yang dipilih.
           </span>
         </div>
       )}

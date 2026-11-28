@@ -29,15 +29,20 @@ export const subscriptionApi = {
     next_due_date: string;
     status: string;
   }) => {
-    const response = await apiClient.post<{ message?: string; data: Subscription }>("/subscriptions", data);
+    const response = await apiClient.post<{
+      message?: string;
+      data: Subscription;
+    }>("/subscriptions", data);
     return response.data;
   },
   getSubscriptionByCustomerID: async (customerId: number | string) => {
-    const response = await apiClient.get<{ data: Subscription }>(`/subscriptions/customer/${customerId}`);
+    const response = await apiClient.get<{ data: Subscription }>(
+      `/subscriptions/customer/${customerId}`,
+    );
     return response.data.data;
   },
   deleteSubscription: async (id: number) => {
     const response = await apiClient.delete<{ message?: string }>(`/subscriptions/${id}`);
     return response.data;
-  }
+  },
 };

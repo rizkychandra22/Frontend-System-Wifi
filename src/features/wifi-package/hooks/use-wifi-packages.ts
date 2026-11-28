@@ -30,11 +30,7 @@ export function useWifiPackages() {
     },
   });
 
-  const deleteMutation = useMutation<
-    void,
-    AxiosError<ApiErrorResponse>,
-    number
-  >({
+  const deleteMutation = useMutation<void, AxiosError<ApiErrorResponse>, number>({
     mutationFn: wifiPackageApi.deleteWifiPackage,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["wifi-packages"] });

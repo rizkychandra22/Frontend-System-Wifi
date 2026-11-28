@@ -12,7 +12,11 @@ export interface FormattedWifiPackage {
   popular: boolean;
 }
 
-export function formatWifiPackage(pkg: WifiPackage, idx: number, t?: TFunction): FormattedWifiPackage {
+export function formatWifiPackage(
+  pkg: WifiPackage,
+  idx: number,
+  t?: TFunction,
+): FormattedWifiPackage {
   // Ambil angka Mbps saja dari nama di database
   let speedMbps = 15;
   const speedMatch = pkg.name.match(/(\d+)\s*Mbps/i);
@@ -21,7 +25,7 @@ export function formatWifiPackage(pkg: WifiPackage, idx: number, t?: TFunction):
   }
 
   const speed = `${speedMbps} Mbps`;
-  
+
   // Label populer diberikan pada data dengan index 0 (seperti data awal) atau yang bernilai 15 Mbps
   const popular = speedMbps === 15 || idx === 0;
 
@@ -49,39 +53,46 @@ export function formatWifiPackage(pkg: WifiPackage, idx: number, t?: TFunction):
       features = (t("tiers.speedHigh.features") as unknown as string[]) || [];
     }
   } else {
-    desc = speedMbps <= 15
-      ? "Cocok untuk kebutuhan internet harian ringan seperti browsing, chatting, dan media sosial."
-      : speedMbps <= 20
-      ? "Pilihan terbaik untuk keluarga kecil dengan aktivitas streaming video HD lancar."
-      : speedMbps <= 35
-      ? "Koneksi kencang untuk kerja remote, streaming 4K, kelas online, dan gaming tanpa hambatan."
-      : `Super cepat ${speedMbps} Mbps tanpa hambatan untuk smart home dan bisnis skala kecil.`;
+    desc =
+      speedMbps <= 15
+        ? "Cocok untuk kebutuhan internet harian ringan seperti browsing, chatting, dan media sosial."
+        : speedMbps <= 20
+          ? "Pilihan terbaik untuk keluarga kecil dengan aktivitas streaming video HD lancar."
+          : speedMbps <= 35
+            ? "Koneksi kencang untuk kerja remote, streaming 4K, kelas online, dan gaming tanpa hambatan."
+            : `Super cepat ${speedMbps} Mbps tanpa hambatan untuk smart home dan bisnis skala kecil.`;
 
-    features = speedMbps <= 15
-      ? ["Unlimited Quota (FUP Bebas)", "Ideal untuk 1 - 3 perangkat", "Kecepatan stabil hingga 15 Mbps", "Instalasi gratis"]
-      : speedMbps <= 20
-      ? [
-          "Unlimited Quota (FUP Bebas)",
-          "Ideal untuk 3 - 5 perangkat",
-          "Lancar streaming video HD & gaming",
-          "Dukungan teknis prioritas",
-          "Instalasi gratis"
-        ]
-      : speedMbps <= 35
-      ? [
-          "Unlimited Quota (FUP Bebas)",
-          "Ideal untuk 5 - 8 perangkat",
-          "Sangat lancar video conference & gaming 4K",
-          "Dukungan teknis 24/7",
-          "Instalasi gratis"
-        ]
-      : [
-          "Unlimited Quota (FUP Bebas)",
-          "Ideal untuk 8+ perangkat",
-          "Tanpa lag untuk gaming berat & download file besar",
-          "Prioritas penanganan gangguan utama",
-          "Instalasi gratis"
-        ];
+    features =
+      speedMbps <= 15
+        ? [
+            "Unlimited Quota (FUP Bebas)",
+            "Ideal untuk 1 - 3 perangkat",
+            "Kecepatan stabil hingga 15 Mbps",
+            "Instalasi gratis",
+          ]
+        : speedMbps <= 20
+          ? [
+              "Unlimited Quota (FUP Bebas)",
+              "Ideal untuk 3 - 5 perangkat",
+              "Lancar streaming video HD & gaming",
+              "Dukungan teknis prioritas",
+              "Instalasi gratis",
+            ]
+          : speedMbps <= 35
+            ? [
+                "Unlimited Quota (FUP Bebas)",
+                "Ideal untuk 5 - 8 perangkat",
+                "Sangat lancar video conference & gaming 4K",
+                "Dukungan teknis 24/7",
+                "Instalasi gratis",
+              ]
+            : [
+                "Unlimited Quota (FUP Bebas)",
+                "Ideal untuk 8+ perangkat",
+                "Tanpa lag untuk gaming berat & download file besar",
+                "Prioritas penanganan gangguan utama",
+                "Instalasi gratis",
+              ];
   }
 
   return {

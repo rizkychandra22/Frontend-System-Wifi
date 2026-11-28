@@ -1,7 +1,13 @@
 import { type AttendanceRecord } from "@/lib/api/attendance";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -184,8 +190,12 @@ export function AdminAttendanceTable({ attendances }: AdminAttendanceTableProps)
                 filteredAttendances.map((record) => (
                   <tr key={record.id} className="border-b last:border-0 hover:bg-muted/30">
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="font-medium text-foreground">{record.user?.name || "Unknown"}</div>
-                      <div className="text-xs text-muted-foreground">{record.user?.phone || "-"}</div>
+                      <div className="font-medium text-foreground">
+                        {record.user?.name || "Unknown"}
+                      </div>
+                      <div className="text-xs text-muted-foreground">
+                        {record.user?.phone || "-"}
+                      </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {new Date(record.date).toLocaleDateString("id-ID", {
@@ -197,19 +207,29 @@ export function AdminAttendanceTable({ attendances }: AdminAttendanceTableProps)
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap font-medium">
                       {record.status === "Izin"
-                        ? (!record.clock_in ? "Fullday Permission" : `Hadir (${new Date(record.clock_in).toLocaleTimeString("id-ID", { hour: '2-digit', minute: '2-digit' })})`)
-                        : record.clock_in 
-                          ? `Hadir (${new Date(record.clock_in).toLocaleTimeString("id-ID", { hour: '2-digit', minute: '2-digit' })})` 
-                          : record.status === "Libur" ? "Tidak Ada Absen" : "-"}
+                        ? !record.clock_in
+                          ? "Fullday Permission"
+                          : `Hadir (${new Date(record.clock_in).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })})`
+                        : record.clock_in
+                          ? `Hadir (${new Date(record.clock_in).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })})`
+                          : record.status === "Libur"
+                            ? "Tidak Ada Absen"
+                            : "-"}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap font-medium">
                       {record.status === "Izin"
-                        ? (!record.clock_in ? "Fullday Permission" : "Halfday Permission")
-                        : record.clock_out 
-                          ? `Pulang (${new Date(record.clock_out).toLocaleTimeString("id-ID", { hour: '2-digit', minute: '2-digit' })})` 
-                          : record.status === "Libur" ? "Tidak Ada Absen" : "-"}
+                        ? !record.clock_in
+                          ? "Fullday Permission"
+                          : "Halfday Permission"
+                        : record.clock_out
+                          ? `Pulang (${new Date(record.clock_out).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })})`
+                          : record.status === "Libur"
+                            ? "Tidak Ada Absen"
+                            : "-"}
                     </td>
-                    <td className={`px-6 py-4 whitespace-nowrap font-medium ${getGradeColor(record.grade)}`}>
+                    <td
+                      className={`px-6 py-4 whitespace-nowrap font-medium ${getGradeColor(record.grade)}`}
+                    >
                       {record.grade || "-"}
                     </td>
                     <td className="px-6 py-4">
@@ -220,7 +240,9 @@ export function AdminAttendanceTable({ attendances }: AdminAttendanceTableProps)
                       )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-2.5 py-1 rounded-full text-xs font-medium border ${getStatusBadgeColor(record.status)}`}>
+                      <span
+                        className={`px-2.5 py-1 rounded-full text-xs font-medium border ${getStatusBadgeColor(record.status)}`}
+                      >
                         {record.status}
                       </span>
                     </td>
@@ -249,7 +271,8 @@ export function AdminAttendanceTable({ attendances }: AdminAttendanceTableProps)
           <DialogHeader>
             <DialogTitle>Ubah Jam Kehadiran Karyawan</DialogTitle>
             <DialogDescription>
-              Sesuaikan jam absen masuk dan pulang karyawan jika terjadi server down atau kendala teknis.
+              Sesuaikan jam absen masuk dan pulang karyawan jika terjadi server down atau kendala
+              teknis.
             </DialogDescription>
           </DialogHeader>
 
@@ -259,11 +282,15 @@ export function AdminAttendanceTable({ attendances }: AdminAttendanceTableProps)
               <div className="bg-muted/40 border border-border/60 rounded-xl p-3.5 space-y-1.5 text-xs">
                 <div className="flex justify-between items-center">
                   <span className="text-muted-foreground">Karyawan:</span>
-                  <span className="font-bold text-foreground">{editingRecord.user?.name || "Unknown"}</span>
+                  <span className="font-bold text-foreground">
+                    {editingRecord.user?.name || "Unknown"}
+                  </span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-muted-foreground">No. Telepon:</span>
-                  <span className="font-medium text-foreground">{editingRecord.user?.phone || "-"}</span>
+                  <span className="font-medium text-foreground">
+                    {editingRecord.user?.phone || "-"}
+                  </span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-muted-foreground">Tanggal Absensi:</span>
@@ -291,9 +318,7 @@ export function AdminAttendanceTable({ attendances }: AdminAttendanceTableProps)
                     onChange={(e) => setClockInTime(e.target.value)}
                     className="h-9 text-xs"
                   />
-                  <p className="text-[11px] text-muted-foreground">
-                    Format: HH:mm (contoh: 08:00)
-                  </p>
+                  <p className="text-[11px] text-muted-foreground">Format: HH:mm (contoh: 08:00)</p>
                 </div>
 
                 <div className="space-y-1.5">
@@ -307,9 +332,7 @@ export function AdminAttendanceTable({ attendances }: AdminAttendanceTableProps)
                     onChange={(e) => setClockOutTime(e.target.value)}
                     className="h-9 text-xs"
                   />
-                  <p className="text-[11px] text-muted-foreground">
-                    Format: HH:mm (contoh: 17:00)
-                  </p>
+                  <p className="text-[11px] text-muted-foreground">Format: HH:mm (contoh: 17:00)</p>
                 </div>
               </div>
 

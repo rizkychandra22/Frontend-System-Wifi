@@ -45,12 +45,18 @@ export const allowanceApi = {
   },
 
   createAllowance: async (data: AllowanceInput): Promise<Allowance> => {
-    const response = await apiClient.post<{ message: string; data: Allowance }>("/allowances", data);
+    const response = await apiClient.post<{ message: string; data: Allowance }>(
+      "/allowances",
+      data,
+    );
     return response.data.data;
   },
 
   updateAllowance: async (id: number | string, data: AllowanceInput): Promise<Allowance> => {
-    const response = await apiClient.put<{ message: string; data: Allowance }>(`/allowances/${id}`, data);
+    const response = await apiClient.put<{ message: string; data: Allowance }>(
+      `/allowances/${id}`,
+      data,
+    );
     return response.data.data;
   },
 

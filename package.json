@@ -2,7 +2,7 @@
   "name": "frontend-system-wifi",
   "private": true,
   "packageManager": "npm@12.2.1",
-  "version": "0.0.0",
+  "version": "1.2.1",
   "type": "module",
   "scripts": {
     "dev": "vite --host",
@@ -11,6 +11,8 @@
     "typecheck": "tsc -b",
     "lint": "turbo run lint:task",
     "lint:task": "eslint .",
+    "prettier": "prettier --write .",
+    "prettier:check": "prettier --check .",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -88,6 +90,7 @@
     "eslint-plugin-react-refresh": "^0.5.3",
     "globals": "^17.9.0",
     "postcss": "^8.5.26",
+    "prettier": "^3.10.1",
     "tailwindcss": "^4.3.3",
     "turbo": "^2.11.13",
     "typescript": "~6.0.2",

@@ -10,7 +10,9 @@ interface PageLoaderProps {
  */
 function WebLayoutSkeleton({ className = "" }: { className?: string }) {
   return (
-    <div className={`web-layout min-h-screen bg-background flex flex-col font-sans animate-in fade-in-50 duration-300 ${className}`}>
+    <div
+      className={`web-layout min-h-screen bg-background flex flex-col font-sans animate-in fade-in-50 duration-300 ${className}`}
+    >
       {/* 1. Header Navbar Skeleton */}
       <header className="sticky top-0 z-50 w-full border-b border-border bg-background/85 backdrop-blur-md">
         <div className="container mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
@@ -113,7 +115,9 @@ function WebLayoutSkeleton({ className = "" }: { className?: string }) {
  */
 function DashboardLayoutSkeleton({ className = "" }: { className?: string }) {
   return (
-    <div className={`min-h-screen bg-background flex w-full animate-in fade-in-50 duration-300 ${className}`}>
+    <div
+      className={`min-h-screen bg-background flex w-full animate-in fade-in-50 duration-300 ${className}`}
+    >
       {/* 1. Sidebar Skeleton */}
       <div className="hidden md:flex w-64 border-r border-border bg-sidebar flex-col p-4 space-y-6 shrink-0">
         <div className="flex items-center gap-3">
@@ -187,7 +191,10 @@ function DashboardLayoutSkeleton({ className = "" }: { className?: string }) {
               <Skeleton className="h-4 w-16 ml-auto rounded" />
             </div>
             {Array.from({ length: 5 }).map((_, i) => (
-              <div key={i} className="grid grid-cols-5 gap-4 items-center py-2.5 border-b border-border/40 last:border-0">
+              <div
+                key={i}
+                className="grid grid-cols-5 gap-4 items-center py-2.5 border-b border-border/40 last:border-0"
+              >
                 <div className="flex items-center gap-2.5">
                   <Skeleton className="h-8 w-8 rounded-full shrink-0" />
                   <Skeleton className="h-4 w-20 rounded" />

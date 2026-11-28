@@ -7,7 +7,7 @@ export async function generatePaymentsReportPDF(
   payments: Payment[],
   startDate: string,
   endDate: string,
-  operatorName: string
+  operatorName: string,
 ): Promise<void> {
   // Format Date helpers (Indonesian Format)
   const formatDateIndo = (dateStr: string) => {
@@ -17,14 +17,16 @@ export async function generatePaymentsReportPDF(
   const formatDateTimeIndo = (dateStr: string) => {
     if (!dateStr) return "-";
     const date = new Date(dateStr);
-    return date.toLocaleDateString("id-ID", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-    }).replace(/\./g, ":");
+    return date
+      .toLocaleDateString("id-ID", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      })
+      .replace(/\./g, ":");
   };
 
   // Calculate totals
@@ -64,7 +66,9 @@ export async function generatePaymentsReportPDF(
       const packageInfo = `${p.wifi_package?.name || "-"}<br/><span style="color: #64748b; font-size: 8px;">Rp ${p.package_price.toLocaleString("id-ID")}</span>`;
       const payMethod = p.payment_method?.toUpperCase() || "-";
       const statusText = p.status?.toUpperCase() || "SUCCESS";
-      const createdByText = p.created_by ? `${p.created_by.role === "admin" ? "Admin" : "Karyawan"} - ${p.created_by.name}` : "-";
+      const createdByText = p.created_by
+        ? `${p.created_by.role === "admin" ? "Admin" : "Karyawan"} - ${p.created_by.name}`
+        : "-";
 
       rowsHtml += `
         <tr>

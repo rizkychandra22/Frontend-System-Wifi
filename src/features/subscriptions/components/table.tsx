@@ -1,5 +1,12 @@
 import { type Subscription } from "@/lib/api/subscription";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Edit, Trash2 } from "lucide-react";
 import { format } from "date-fns";
@@ -18,13 +25,29 @@ export function SubscriptionTable({ subscriptions, onEdit, onDelete }: Subscript
   const getStatusBadge = (status: string) => {
     switch (status?.toLowerCase()) {
       case "active":
-        return <span className="px-2.5 py-0.5 rounded-full text-[11px] font-medium border bg-green-50 text-green-700 border-green-200">Aktif</span>;
+        return (
+          <span className="px-2.5 py-0.5 rounded-full text-[11px] font-medium border bg-green-50 text-green-700 border-green-200">
+            Aktif
+          </span>
+        );
       case "suspended":
-        return <span className="px-2.5 py-0.5 rounded-full text-[11px] font-medium border bg-amber-50 text-amber-700 border-amber-200">Tangguhkan</span>;
+        return (
+          <span className="px-2.5 py-0.5 rounded-full text-[11px] font-medium border bg-amber-50 text-amber-700 border-amber-200">
+            Tangguhkan
+          </span>
+        );
       case "cancelled":
-        return <span className="px-2.5 py-0.5 rounded-full text-[11px] font-medium border bg-red-50 text-red-700 border-red-200">Berhenti</span>;
+        return (
+          <span className="px-2.5 py-0.5 rounded-full text-[11px] font-medium border bg-red-50 text-red-700 border-red-200">
+            Berhenti
+          </span>
+        );
       default:
-        return <span className="px-2.5 py-0.5 rounded-full text-[11px] font-medium border bg-gray-50 text-gray-700 border-gray-200">{status || "-"}</span>;
+        return (
+          <span className="px-2.5 py-0.5 rounded-full text-[11px] font-medium border bg-gray-50 text-gray-700 border-gray-200">
+            {status || "-"}
+          </span>
+        );
     }
   };
 
@@ -53,11 +76,15 @@ export function SubscriptionTable({ subscriptions, onEdit, onDelete }: Subscript
           ) : (
             subscriptions.map((sub) => (
               <TableRow key={sub.id}>
-                <TableCell className="font-semibold text-foreground">{sub.customer?.name || "-"}</TableCell>
+                <TableCell className="font-semibold text-foreground">
+                  {sub.customer?.name || "-"}
+                </TableCell>
                 <TableCell>{sub.customer?.phone || "-"}</TableCell>
                 <TableCell>
                   <div className="font-medium text-foreground">{sub.wifi_package?.name || "-"}</div>
-                  <div className="text-xs text-muted-foreground">Rp {sub.wifi_package?.price.toLocaleString("id-ID")}/bln</div>
+                  <div className="text-xs text-muted-foreground">
+                    Rp {sub.wifi_package?.price.toLocaleString("id-ID")}/bln
+                  </div>
                 </TableCell>
                 <TableCell>Tanggal {sub.billing_day} </TableCell>
                 <TableCell className="font-medium text-foreground">
@@ -65,8 +92,8 @@ export function SubscriptionTable({ subscriptions, onEdit, onDelete }: Subscript
                 </TableCell>
                 <TableCell>{getStatusBadge(sub.status)}</TableCell>
                 <TableCell>
-                  {sub.created_by 
-                    ? `${sub.created_by.role === 'admin' ? 'Admin' : 'Karyawan'} - ${sub.created_by.name}` 
+                  {sub.created_by
+                    ? `${sub.created_by.role === "admin" ? "Admin" : "Karyawan"} - ${sub.created_by.name}`
                     : "-"}
                 </TableCell>
                 <TableCell className="text-right">

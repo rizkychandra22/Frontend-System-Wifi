@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { type User } from "@/lib/api/users";
-import { useCreateUser, useUpdateUser, useDeleteUser, useResetUserIP } from "@/features/user/hooks/use-users";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  useCreateUser,
+  useUpdateUser,
+  useDeleteUser,
+  useResetUserIP,
+} from "@/features/user/hooks/use-users";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -20,7 +20,7 @@ import { UserForm, type UserFormData } from "./form";
 import { UserDetail } from "./detail";
 
 export type ActionState = {
-  type: 'add' | 'edit' | 'view' | 'delete' | 'reset' | null;
+  type: "add" | "edit" | "view" | "delete" | "reset" | null;
   user: User | null;
   role?: string;
 };
@@ -47,14 +47,14 @@ export function UserActions({ actionState, onClose, isEmployeeView = false }: Us
   const [prevActionState, setPrevActionState] = useState(actionState);
   if (actionState !== prevActionState) {
     setPrevActionState(actionState);
-    if (actionState.type === 'edit' && actionState.user) {
+    if (actionState.type === "edit" && actionState.user) {
       setFormData({
         name: actionState.user.name,
         phone: actionState.user.phone,
         role: actionState.user.role,
         address: actionState.user.address || "",
       });
-    } else if (actionState.type === 'add') {
+    } else if (actionState.type === "add") {
       setFormData({
         name: "",
         phone: "",
@@ -69,18 +69,21 @@ export function UserActions({ actionState, onClose, isEmployeeView = false }: Us
     createUser(formData, {
       onSuccess: () => {
         onClose();
-      }
+      },
     });
   };
 
   const handleEditSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!actionState.user) return;
-    updateUser({ id: actionState.user.id, data: formData }, {
-      onSuccess: () => {
-        onClose();
-      }
-    });
+    updateUser(
+      { id: actionState.user.id, data: formData },
+      {
+        onSuccess: () => {
+          onClose();
+        },
+      },
+    );
   };
 
   const handleDelete = () => {
@@ -88,7 +91,7 @@ export function UserActions({ actionState, onClose, isEmployeeView = false }: Us
     deleteUser(actionState.user.id, {
       onSuccess: () => {
         onClose();
-      }
+      },
     });
   };
 
@@ -97,19 +100,21 @@ export function UserActions({ actionState, onClose, isEmployeeView = false }: Us
     resetIP(actionState.user.id, {
       onSuccess: () => {
         onClose();
-      }
+      },
     });
   };
 
   return (
     <>
       {/* Dialog Tambah User */}
-      <Dialog open={actionState.type === 'add'} onOpenChange={(open) => !open && onClose()}>
+      <Dialog open={actionState.type === "add"} onOpenChange={(open) => !open && onClose()}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Tambah {formData.role === "employee" ? "Karyawan" : "Pelanggan"} Baru</DialogTitle>
+            <DialogTitle>
+              Tambah {formData.role === "employee" ? "Karyawan" : "Pelanggan"} Baru
+            </DialogTitle>
           </DialogHeader>
-          <UserForm 
+          <UserForm
             initialData={formData}
             onChange={setFormData}
             onSubmit={handleAddSubmit}
@@ -121,20 +126,20 @@ export function UserActions({ actionState, onClose, isEmployeeView = false }: Us
       </Dialog>
 
       {/* Sheet Lihat Data User */}
-      <UserDetail 
-        user={actionState.user} 
-        isOpen={actionState.type === 'view'} 
-        onOpenChange={(open) => !open && onClose()} 
+      <UserDetail
+        user={actionState.user}
+        isOpen={actionState.type === "view"}
+        onOpenChange={(open) => !open && onClose()}
         isEmployeeView={isEmployeeView}
       />
 
       {/* Dialog Edit User */}
-      <Dialog open={actionState.type === 'edit'} onOpenChange={(open) => !open && onClose()}>
+      <Dialog open={actionState.type === "edit"} onOpenChange={(open) => !open && onClose()}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Edit Data Pelanggan</DialogTitle>
           </DialogHeader>
-          <UserForm 
+          <UserForm
             initialData={formData}
             onChange={setFormData}
             onSubmit={handleEditSubmit}
@@ -146,17 +151,26 @@ export function UserActions({ actionState, onClose, isEmployeeView = false }: Us
       </Dialog>
 
       {/* Alert Dialog Delete */}
-      <AlertDialog open={actionState.type === 'delete'} onOpenChange={(open) => !open && onClose()}>
+      <AlertDialog open={actionState.type === "delete"} onOpenChange={(open) => !open && onClose()}>
         <AlertDialogContent className="w-[90%] max-w-[360px] rounded-md p-6">
           <AlertDialogHeader>
-            <AlertDialogTitle className="text-center text-lg font-semibold">Hapus Pengguna?</AlertDialogTitle>
+            <AlertDialogTitle className="text-center text-lg font-semibold">
+              Hapus Pengguna?
+            </AlertDialogTitle>
             <AlertDialogDescription className="text-center text-[15px] mt-2 mb-4 text-foreground/80">
-              Tindakan ini tidak dapat dibatalkan. Data {actionState.user?.name} akan dihapus secara permanen dari sistem.
+              Tindakan ini tidak dapat dibatalkan. Data {actionState.user?.name} akan dihapus secara
+              permanen dari sistem.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <div className="flex flex-row justify-center gap-3 mt-2">
-            <AlertDialogCancel className="w-24 mt-0 border border-border bg-background hover:bg-muted text-foreground rounded-lg h-8 text-[13px] font-medium">Batal</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDelete} disabled={isDeleting} className="w-24 h-8 text-[13px] font-medium rounded-lg bg-destructive hover:bg-destructive/90 text-destructive-foreground">
+            <AlertDialogCancel className="w-24 mt-0 border border-border bg-background hover:bg-muted text-foreground rounded-lg h-8 text-[13px] font-medium">
+              Batal
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDelete}
+              disabled={isDeleting}
+              className="w-24 h-8 text-[13px] font-medium rounded-lg bg-destructive hover:bg-destructive/90 text-destructive-foreground"
+            >
               {isDeleting ? "Menghapus..." : "Ya, Hapus"}
             </AlertDialogAction>
           </div>
@@ -164,17 +178,26 @@ export function UserActions({ actionState, onClose, isEmployeeView = false }: Us
       </AlertDialog>
 
       {/* Alert Dialog Reset Perangkat */}
-      <AlertDialog open={actionState.type === 'reset'} onOpenChange={(open) => !open && onClose()}>
+      <AlertDialog open={actionState.type === "reset"} onOpenChange={(open) => !open && onClose()}>
         <AlertDialogContent className="sm:max-w-[425px]">
           <AlertDialogHeader>
-            <AlertDialogTitle className="text-center text-lg font-semibold">Reset Perangkat?</AlertDialogTitle>
+            <AlertDialogTitle className="text-center text-lg font-semibold">
+              Reset Perangkat?
+            </AlertDialogTitle>
             <AlertDialogDescription className="text-center text-[15px] mt-2 mb-4 text-foreground/80">
-              Anda akan mereset kunci perangkat untuk {actionState.user?.name}. Pengguna ini akan dapat login kembali dari perangkat baru.
+              Anda akan mereset kunci perangkat untuk {actionState.user?.name}. Pengguna ini akan
+              dapat login kembali dari perangkat baru.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <div className="flex flex-row justify-center gap-3 mt-2">
-            <AlertDialogCancel className="w-24 mt-0 border border-border bg-background hover:bg-muted text-foreground rounded-lg h-8 text-[13px] font-medium">Batal</AlertDialogCancel>
-            <AlertDialogAction onClick={handleResetIP} disabled={isResetting} className="w-24 h-8 text-[13px] font-medium rounded-lg bg-amber-500 hover:bg-amber-600 text-white">
+            <AlertDialogCancel className="w-24 mt-0 border border-border bg-background hover:bg-muted text-foreground rounded-lg h-8 text-[13px] font-medium">
+              Batal
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleResetIP}
+              disabled={isResetting}
+              className="w-24 h-8 text-[13px] font-medium rounded-lg bg-amber-500 hover:bg-amber-600 text-white"
+            >
               {isResetting ? "Mereset..." : "Ya, Reset"}
             </AlertDialogAction>
           </div>

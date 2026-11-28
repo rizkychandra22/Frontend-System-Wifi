@@ -35,9 +35,7 @@ export default function ContactPage() {
     name: "",
     email: "",
     phone: "",
-    message: paketParam
-      ? t("form.defaultPackageMessage", { package: paketParam })
-      : "",
+    message: paketParam ? t("form.defaultPackageMessage", { package: paketParam }) : "",
   }));
 
   const handleFormSubmit = (e: React.FormEvent) => {
@@ -104,67 +102,70 @@ ${contactForm.message}`;
           </p>
         </div>
 
-        <h3 className="font-bold text-xl font-display text-foreground mb-4">
-          {t("info.title")}
-        </h3>
+        <h3 className="font-bold text-xl font-display text-foreground mb-4">{t("info.title")}</h3>
 
         <div className="grid lg:grid-cols-5 gap-8 lg:gap-12 w-full items-stretch">
           {/* Left Contact Info */}
           <div className="lg:col-span-2 flex flex-col gap-6">
-            <p className="text-muted-foreground text-xs leading-relaxed">
-              {t("info.description")}
-            </p>
+            <p className="text-muted-foreground text-xs leading-relaxed">{t("info.description")}</p>
 
             <div className="flex-1 flex flex-col justify-between gap-6 pt-2">
-                <div className="flex items-start gap-4">
-                  <div className="h-10 w-10 rounded-lg bg-blue/10 text-primary flex items-center justify-center shrink-0">
-                    <Phone className="h-5 w-5" />
-                  </div>
-                  <div className="space-y-0.5">
-                    <h4 className="font-semibold text-sm">{t("info.phone.title")}</h4>
-                    {adminContact ? (
-                      <>
-                        <p className="text-xs text-muted-foreground">{adminContact.name} ({adminContact.phone})</p>
-                        <p className="text-xs text-muted-foreground">+62 821-2221-9332 {t("info.phone.service2")}</p>
-                      </>
-                    ) : (
-                      <>
-                        <p className="text-xs text-muted-foreground">+62 821-2221-9332</p>
-                        <p className="text-xs text-muted-foreground">+62 821-7813-1581</p>
-                      </>
-                    )}
-                  </div>
+              <div className="flex items-start gap-4">
+                <div className="h-10 w-10 rounded-lg bg-blue/10 text-primary flex items-center justify-center shrink-0">
+                  <Phone className="h-5 w-5" />
                 </div>
+                <div className="space-y-0.5">
+                  <h4 className="font-semibold text-sm">{t("info.phone.title")}</h4>
+                  {adminContact ? (
+                    <>
+                      <p className="text-xs text-muted-foreground">
+                        {adminContact.name} ({adminContact.phone})
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        +62 821-2221-9332 {t("info.phone.service2")}
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <p className="text-xs text-muted-foreground">+62 821-2221-9332</p>
+                      <p className="text-xs text-muted-foreground">+62 821-7813-1581</p>
+                    </>
+                  )}
+                </div>
+              </div>
 
-                <div className="flex items-start gap-4">
-                  <div className="h-10 w-10 rounded-lg bg-blue/10 text-primary flex items-center justify-center shrink-0">
-                    <Mail className="h-5 w-5" />
-                  </div>
-                  <div className="space-y-0.5">
-                    <h4 className="font-semibold text-sm">{t("info.email.title")}</h4>
-                    <p className="text-xs text-muted-foreground">support@netversefiber.net</p>
-                    <p className="text-xs text-muted-foreground">info@netversefiber.net</p>
-                  </div>
+              <div className="flex items-start gap-4">
+                <div className="h-10 w-10 rounded-lg bg-blue/10 text-primary flex items-center justify-center shrink-0">
+                  <Mail className="h-5 w-5" />
                 </div>
+                <div className="space-y-0.5">
+                  <h4 className="font-semibold text-sm">{t("info.email.title")}</h4>
+                  <p className="text-xs text-muted-foreground">support@netversefiber.net</p>
+                  <p className="text-xs text-muted-foreground">info@netversefiber.net</p>
+                </div>
+              </div>
 
-                <div className="flex items-start gap-4">
-                  <div className="h-10 w-10 rounded-lg bg-blue/10 text-primary flex items-center justify-center shrink-0">
-                    <MapPin className="h-5 w-5" />
-                  </div>
-                  <div className="space-y-0.5">
-                    <h4 className="font-semibold text-sm">{t("info.office.title")}</h4>
-                    <p className="text-xs text-muted-foreground">{t("info.office.building")}</p>
-                    <p className="text-xs text-muted-foreground">{t("info.office.address")}</p>
-                  </div>
+              <div className="flex items-start gap-4">
+                <div className="h-10 w-10 rounded-lg bg-blue/10 text-primary flex items-center justify-center shrink-0">
+                  <MapPin className="h-5 w-5" />
                 </div>
+                <div className="space-y-0.5">
+                  <h4 className="font-semibold text-sm">{t("info.office.title")}</h4>
+                  <p className="text-xs text-muted-foreground">{t("info.office.building")}</p>
+                  <p className="text-xs text-muted-foreground">{t("info.office.address")}</p>
+                </div>
+              </div>
             </div>
 
             <Card className="bg-muted/40 shadow-none">
               <CardContent className="p-4 text-xs text-muted-foreground flex gap-3">
                 <Clock className="h-5 w-5 text-primary shrink-0" />
                 <div>
-                  <span className="font-semibold text-foreground block mb-0.5">{t("info.hours.title")}</span>
-                  <span>{t("info.hours.time")}</span><br />
+                  <span className="font-semibold text-foreground block mb-0.5">
+                    {t("info.hours.title")}
+                  </span>
+                  <span>{t("info.hours.time")}</span>
+                  <br />
                   <span>{t("info.hours.support")}</span>
                 </div>
               </CardContent>
@@ -174,10 +175,15 @@ ${contactForm.message}`;
           {/* Right Contact Form */}
           <Card className="lg:col-span-3 border-border/80 rounded-2xl shadow-sm flex flex-col">
             <CardContent className="p-6 flex-1 flex flex-col">
-              <form onSubmit={handleFormSubmit} className="space-y-3.5 flex-1 flex flex-col justify-between">
+              <form
+                onSubmit={handleFormSubmit}
+                className="space-y-3.5 flex-1 flex flex-col justify-between"
+              >
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <Label htmlFor="name" className="text-xs font-semibold text-muted-foreground">{t("form.nameLabel")}</Label>
+                    <Label htmlFor="name" className="text-xs font-semibold text-muted-foreground">
+                      {t("form.nameLabel")}
+                    </Label>
                     <Input
                       id="name"
                       type="text"
@@ -188,13 +194,20 @@ ${contactForm.message}`;
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <Label htmlFor="phone" className="text-xs font-semibold text-muted-foreground">{t("form.phoneLabel")}</Label>
+                    <Label htmlFor="phone" className="text-xs font-semibold text-muted-foreground">
+                      {t("form.phoneLabel")}
+                    </Label>
                     <Input
                       id="phone"
                       type="tel"
                       placeholder={t("form.phonePlaceholder")}
                       value={contactForm.phone}
-                      onChange={(e) => setContactForm({ ...contactForm, phone: e.target.value })}
+                      onChange={(e) =>
+                        setContactForm({
+                          ...contactForm,
+                          phone: e.target.value,
+                        })
+                      }
                       className="h-9 text-xs focus:ring-primary focus:border-primary shadow-none"
                     />
                   </div>
@@ -202,22 +215,36 @@ ${contactForm.message}`;
 
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <Label htmlFor="email" className="text-xs font-semibold text-muted-foreground">{t("form.emailLabel")}</Label>
+                    <Label htmlFor="email" className="text-xs font-semibold text-muted-foreground">
+                      {t("form.emailLabel")}
+                    </Label>
                     <Input
                       id="email"
                       type="email"
                       placeholder={t("form.emailPlaceholder")}
                       value={contactForm.email}
-                      onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
+                      onChange={(e) =>
+                        setContactForm({
+                          ...contactForm,
+                          email: e.target.value,
+                        })
+                      }
                       className="h-9 text-xs focus:ring-primary focus:border-primary shadow-none"
                     />
                   </div>
 
                   <div className="space-y-1.5">
-                    <Label htmlFor="package" className="text-xs font-semibold text-muted-foreground">{t("form.packageLabel")}</Label>
+                    <Label
+                      htmlFor="package"
+                      className="text-xs font-semibold text-muted-foreground"
+                    >
+                      {t("form.packageLabel")}
+                    </Label>
                     <Select
                       value={selectedPackage || "__none__"}
-                      onValueChange={(value) => setSelectedPackage(value === "__none__" ? "" : value)}
+                      onValueChange={(value) =>
+                        setSelectedPackage(value === "__none__" ? "" : value)
+                      }
                     >
                       <SelectTrigger id="package" className="h-9 text-xs shadow-none">
                         <SelectValue placeholder={t("form.packagePlaceholder")} />
@@ -243,13 +270,20 @@ ${contactForm.message}`;
                 </div>
 
                 <div className="space-y-1.5">
-                  <Label htmlFor="message" className="text-xs font-semibold text-muted-foreground">{t("form.messageLabel")}</Label>
+                  <Label htmlFor="message" className="text-xs font-semibold text-muted-foreground">
+                    {t("form.messageLabel")}
+                  </Label>
                   <Textarea
                     id="message"
                     rows={4}
                     placeholder={t("form.messagePlaceholder")}
                     value={contactForm.message}
-                    onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
+                    onChange={(e) =>
+                      setContactForm({
+                        ...contactForm,
+                        message: e.target.value,
+                      })
+                    }
                     className="text-xs focus:ring-primary focus:border-primary shadow-none resize-none"
                   />
                 </div>

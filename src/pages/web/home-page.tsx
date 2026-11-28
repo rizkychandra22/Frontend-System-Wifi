@@ -56,20 +56,28 @@ export default function HomePage() {
               {t("hero.badge")}
             </Badge>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-display tracking-tight text-foreground leading-[1.1]">
-              {t("hero.title_start")}<span className="text-gradient-blue">{t("hero.title_gradient")}</span>
+              {t("hero.title_start")}
+              <span className="text-gradient-blue">{t("hero.title_gradient")}</span>
             </h1>
             <p className="text-muted-foreground text-base sm:text-lg leading-relaxed max-w-lg">
               {t("hero.description")}
             </p>
             <div className="flex flex-row items-center gap-3 pt-2">
               <Link to="/subscription" className="flex-1 sm:flex-initial">
-                <Button size="lg" className="group w-full sm:w-auto px-4 sm:px-8 bg-gradient-blue text-primary-foreground font-semibold shadow-blue hover:opacity-90 transition-all">
+                <Button
+                  size="lg"
+                  className="group w-full sm:w-auto px-4 sm:px-8 bg-gradient-blue text-primary-foreground font-semibold shadow-blue hover:opacity-90 transition-all"
+                >
                   {t("hero.btnChoosePackage")}
                   <ArrowRight className="h-4 w-4 ml-1.5 transition-transform duration-300 group-hover:translate-x-1" />
                 </Button>
               </Link>
               <Link to="/contact" className="flex-1 sm:flex-initial">
-                <Button size="lg" variant="outline" className="w-full sm:w-auto px-4 sm:px-8 font-medium hover:bg-muted transition-colors">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="w-full sm:w-auto px-4 sm:px-8 font-medium hover:bg-muted transition-colors"
+                >
                   {t("hero.btnContact")}
                 </Button>
               </Link>
@@ -121,7 +129,9 @@ export default function HomePage() {
                       >
                         <Icon className="h-5 w-5" />
                       </div>
-                      <CardTitle className="font-bold text-base font-display leading-snug">{item.title}</CardTitle>
+                      <CardTitle className="font-bold text-base font-display leading-snug">
+                        {item.title}
+                      </CardTitle>
                     </div>
                     <CardDescription className="text-xs text-muted-foreground leading-relaxed">
                       {item.description}

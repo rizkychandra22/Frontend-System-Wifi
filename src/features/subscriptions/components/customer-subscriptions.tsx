@@ -11,14 +11,17 @@ interface CustomerSubscriptionsProps {
   availablePackages: WifiPackage[];
 }
 
-export function CustomerSubscriptions({ subscription, availablePackages }: CustomerSubscriptionsProps) {
+export function CustomerSubscriptions({
+  subscription,
+  availablePackages,
+}: CustomerSubscriptionsProps) {
   const { data: adminContact } = useAdminContact();
 
   let waNumber = "6281234567890"; // Fallback
   if (adminContact?.phone) {
     waNumber = adminContact.phone;
-    if (waNumber.startsWith('0')) {
-      waNumber = '62' + waNumber.substring(1);
+    if (waNumber.startsWith("0")) {
+      waNumber = "62" + waNumber.substring(1);
     }
   }
 
@@ -39,7 +42,7 @@ export function CustomerSubscriptions({ subscription, availablePackages }: Custo
             <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
               <Wifi className="w-48 h-48" />
             </div>
-            
+
             <div className="relative z-10 space-y-6">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
@@ -57,24 +60,41 @@ export function CustomerSubscriptions({ subscription, availablePackages }: Custo
                 <div className="space-y-1">
                   <p className="text-sm text-muted-foreground">Harga Paket</p>
                   <p className="text-xl font-semibold">
-                    Rp {subscription.wifi_package?.price.toLocaleString("id-ID")} <span className="text-sm font-normal text-muted-foreground">/ bulan</span>
+                    Rp {subscription.wifi_package?.price.toLocaleString("id-ID")}{" "}
+                    <span className="text-sm font-normal text-muted-foreground">/ bulan</span>
                   </p>
                 </div>
-                
+
                 <div className="space-y-1">
-                  <p className="text-sm text-muted-foreground">Jadwal Penagihan Setiap tanggal {subscription.billing_day}</p>
+                  <p className="text-sm text-muted-foreground">
+                    Jadwal Penagihan Setiap tanggal {subscription.billing_day}
+                  </p>
                   <div className="flex items-center gap-2">
                     <CalendarDays className="w-4 h-4 text-muted-foreground" />
                     <p className="font-medium text-xs sm:text-sm">
-                      Pembayaran berikutnya: {new Date(subscription.next_due_date).toLocaleDateString("id-ID", { day: 'numeric', month: 'long', year: 'numeric' })}
+                      Pembayaran berikutnya:{" "}
+                      {new Date(subscription.next_due_date).toLocaleDateString("id-ID", {
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric",
+                      })}
                     </p>
                   </div>
                 </div>
               </div>
-              
+
               <div className="pt-4 mt-4 border-t border-border">
                 <p className="text-sm text-muted-foreground">
-                  Jika Anda ingin mengubah paket langganan, silakan <a href={waLink} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-medium">hubungi admin melalui WhatsApp</a>.
+                  Jika Anda ingin mengubah paket langganan, silakan{" "}
+                  <a
+                    href={waLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:underline font-medium"
+                  >
+                    hubungi admin melalui WhatsApp
+                  </a>
+                  .
                 </p>
               </div>
             </div>
@@ -83,16 +103,14 @@ export function CustomerSubscriptions({ subscription, availablePackages }: Custo
       ) : (
         <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-6 text-center shadow-sm">
           <Wifi className="w-12 h-12 text-blue-500 mx-auto mb-3" />
-          <h3 className="font-bold text-lg text-blue-900 dark:text-blue-100">Anda Belum Berlangganan</h3>
+          <h3 className="font-bold text-lg text-blue-900 dark:text-blue-100">
+            Anda Belum Berlangganan
+          </h3>
           <p className="text-blue-700 dark:text-blue-300 mt-1 mb-4">
             Pilih salah satu paket di bawah ini dan hubungi admin kami untuk mulai berlangganan.
           </p>
           <Button asChild size="sm">
-            <a 
-              href={waLink}
-              target="_blank" 
-              rel="noopener noreferrer" 
-            >
+            <a href={waLink} target="_blank" rel="noopener noreferrer">
               Hubungi Admin (WhatsApp)
             </a>
           </Button>
@@ -102,32 +120,39 @@ export function CustomerSubscriptions({ subscription, availablePackages }: Custo
       <div className="space-y-4 pt-4">
         <h2 className="text-lg font-semibold border-b pb-2">Pilihan Paket Tersedia</h2>
         {displayedPackages.length === 0 ? (
-           <p className="text-muted-foreground text-center py-8 border border-dashed rounded-xl">Belum ada paket lain yang tersedia saat ini.</p>
+          <p className="text-muted-foreground text-center py-8 border border-dashed rounded-xl">
+            Belum ada paket lain yang tersedia saat ini.
+          </p>
         ) : (
-           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-             {displayedPackages.map((pkg) => (
-               <Card key={pkg.id} className="relative overflow-hidden hover:border-primary/50 transition-colors border-t-4 border-t-primary">
-                 <CardHeader className="pb-4">
-                    <CardTitle className="text-xl">{pkg.name}</CardTitle>
-                    <CardDescription>{pkg.desc}</CardDescription>
-                 </CardHeader>
-                 <CardContent className="space-y-6">
-                    <div className="text-3xl font-bold">
-                      {pkg.price}
-                      <span className="text-lg font-normal text-muted-foreground ml-1">{pkg.period}</span>
-                    </div>
-                    <ul className="space-y-3 text-sm text-muted-foreground">
-                      {pkg.features.map((feature, idx) => (
-                        <li key={idx} className="flex items-center gap-2">
-                          <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0" />
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                 </CardContent>
-               </Card>
-             ))}
-           </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {displayedPackages.map((pkg) => (
+              <Card
+                key={pkg.id}
+                className="relative overflow-hidden hover:border-primary/50 transition-colors border-t-4 border-t-primary"
+              >
+                <CardHeader className="pb-4">
+                  <CardTitle className="text-xl">{pkg.name}</CardTitle>
+                  <CardDescription>{pkg.desc}</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="text-3xl font-bold">
+                    {pkg.price}
+                    <span className="text-lg font-normal text-muted-foreground ml-1">
+                      {pkg.period}
+                    </span>
+                  </div>
+                  <ul className="space-y-3 text-sm text-muted-foreground">
+                    {pkg.features.map((feature, idx) => (
+                      <li key={idx} className="flex items-center gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0" />
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         )}
       </div>
     </>

@@ -3,16 +3,19 @@
   "ui": "tui",
   "tasks": {
     "typecheck": {
-      "inputs": [
-        "src/**/*.ts",
-        "src/**/*.tsx",
-        "tsconfig*.json"
-      ],
+      "inputs": ["src/**/*.ts", "src/**/*.tsx", "tsconfig*.json"],
       "outputs": ["**/*.tsbuildinfo", "node_modules/.tmp/**"]
     },
     "build:vite": {
       "dependsOn": ["typecheck"],
-      "inputs": ["src/**/*", "public/**/*", "index.html", "vite.config.*", "tailwind.config.*", "postcss.config.*"],
+      "inputs": [
+        "src/**/*",
+        "public/**/*",
+        "index.html",
+        "vite.config.*",
+        "tailwind.config.*",
+        "postcss.config.*"
+      ],
       "outputs": ["dist/**"]
     },
     "lint:task": {

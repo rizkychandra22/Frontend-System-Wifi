@@ -168,7 +168,9 @@ export default function ActivityPage() {
                 <CardTitle className="font-bold text-sm text-foreground line-clamp-1 group-hover:text-primary transition-colors">
                   {item.title}
                 </CardTitle>
-                <CardDescription className="text-xs text-muted-foreground line-clamp-2">{item.description}</CardDescription>
+                <CardDescription className="text-xs text-muted-foreground line-clamp-2">
+                  {item.description}
+                </CardDescription>
               </CardContent>
             </Card>
           ))}

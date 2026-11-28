@@ -3,7 +3,14 @@ import { useAllPayments } from "@/features/payment/hooks/use-payments";
 import { getUserData } from "@/lib/auth-utils";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DollarSign, Percent, TrendingUp, Receipt, Download } from "lucide-react";
 import { format } from "date-fns";
@@ -23,7 +30,7 @@ export default function PaymentsReportPage() {
     if (!startDate || !endDate) return false; // Jangan berikan data dulu jika belum memilih tanggal nya
 
     const paymentDate = new Date(payment.created_at);
-    
+
     const start = new Date(startDate);
     start.setHours(0, 0, 0, 0);
 
@@ -43,7 +50,7 @@ export default function PaymentsReportPage() {
 
   const handleExportPDF = async () => {
     if (!isFilterActive) return;
-    
+
     setIsExporting(true);
     const operatorName = currentUser
       ? `${currentUser.role === "admin" ? "Admin" : "Karyawan"} - ${currentUser.name}`
@@ -63,15 +70,35 @@ export default function PaymentsReportPage() {
   const getPaymentMethodBadge = (method?: string) => {
     switch (method?.toLowerCase()) {
       case "cash":
-        return <span className="px-2.5 py-1 rounded-full text-xs font-semibold border bg-emerald-50 text-emerald-700 border-emerald-200">Cash</span>;
+        return (
+          <span className="px-2.5 py-1 rounded-full text-xs font-semibold border bg-emerald-50 text-emerald-700 border-emerald-200">
+            Cash
+          </span>
+        );
       case "bca":
-        return <span className="px-2.5 py-1 rounded-full text-xs font-semibold border bg-blue-50 text-blue-700 border-blue-200">BCA</span>;
+        return (
+          <span className="px-2.5 py-1 rounded-full text-xs font-semibold border bg-blue-50 text-blue-700 border-blue-200">
+            BCA
+          </span>
+        );
       case "qris":
-        return <span className="px-2.5 py-1 rounded-full text-xs font-semibold border bg-rose-50 text-rose-700 border-rose-200">QRIS</span>;
+        return (
+          <span className="px-2.5 py-1 rounded-full text-xs font-semibold border bg-rose-50 text-rose-700 border-rose-200">
+            QRIS
+          </span>
+        );
       case "dana":
-        return <span className="px-2.5 py-1 rounded-full text-xs font-semibold border bg-sky-50 text-sky-600 border-sky-200">DANA</span>;
+        return (
+          <span className="px-2.5 py-1 rounded-full text-xs font-semibold border bg-sky-50 text-sky-600 border-sky-200">
+            DANA
+          </span>
+        );
       default:
-        return <span className="px-2.5 py-1 rounded-full text-xs font-semibold border bg-gray-50 text-gray-600 border-gray-200">{method || "-"}</span>;
+        return (
+          <span className="px-2.5 py-1 rounded-full text-xs font-semibold border bg-gray-50 text-gray-600 border-gray-200">
+            {method || "-"}
+          </span>
+        );
     }
   };
 
@@ -80,9 +107,12 @@ export default function PaymentsReportPage() {
       {/* Page Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight text-foreground">Laporan Transaksi Pembayaran</h2>
+          <h2 className="text-2xl font-bold tracking-tight text-foreground">
+            Laporan Transaksi Pembayaran
+          </h2>
           <p className="text-muted-foreground text-sm">
-            Analisis data transaksi bulanan pelanggan, filter rentang tanggal, dan ekspor laporan PDF.
+            Analisis data transaksi bulanan pelanggan, filter rentang tanggal, dan ekspor laporan
+            PDF.
           </p>
         </div>
       </div>
@@ -118,7 +148,9 @@ export default function PaymentsReportPage() {
             <Button
               size="sm"
               onClick={handleExportPDF}
-              disabled={!isFilterActive || isExporting || isLoading || filteredPayments.length === 0}
+              disabled={
+                !isFilterActive || isExporting || isLoading || filteredPayments.length === 0
+              }
               className="h-8 px-3.5 rounded-lg text-[13px] font-medium shrink-0 shadow-sm w-full sm:w-auto flex-none flex items-center justify-center gap-1.5"
             >
               <Download className="h-3.5 w-3.5" />
@@ -146,7 +178,9 @@ export default function PaymentsReportPage() {
               <TrendingUp className="h-4 w-4 text-green-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">Rp {totalPackagePrice.toLocaleString("id-ID")}</div>
+              <div className="text-2xl font-bold">
+                Rp {totalPackagePrice.toLocaleString("id-ID")}
+              </div>
               <p className="text-xs text-muted-foreground">Sesudah potongan PPN</p>
             </CardContent>
           </Card>
@@ -200,7 +234,8 @@ export default function PaymentsReportPage() {
               ) : !isFilterActive ? (
                 <TableRow>
                   <td colSpan={9} className="px-6 py-10 text-center text-muted-foreground italic">
-                    Silakan pilih tanggal mulai dan tanggal akhir terlebih dahulu untuk melihat data laporan.
+                    Silakan pilih tanggal mulai dan tanggal akhir terlebih dahulu untuk melihat data
+                    laporan.
                   </td>
                 </TableRow>
               ) : filteredPayments.length === 0 ? (
@@ -212,27 +247,44 @@ export default function PaymentsReportPage() {
               ) : (
                 <>
                   {filteredPayments.map((p) => {
-                    const invoiceNumber = p.invoice_number || `INV-${p.id.toString().padStart(4, "0")}`;
+                    const invoiceNumber =
+                      p.invoice_number || `INV-${p.id.toString().padStart(4, "0")}`;
                     return (
                       <TableRow key={p.id} className="border-b border-border/50 hover:bg-muted/20">
-                        <TableCell className="font-semibold text-foreground py-3.5">{invoiceNumber}</TableCell>
+                        <TableCell className="font-semibold text-foreground py-3.5">
+                          {invoiceNumber}
+                        </TableCell>
                         <TableCell>{format(new Date(p.created_at), "dd MMM yyyy")}</TableCell>
                         <TableCell>
-                          <div className="font-semibold text-foreground">{p.customer?.name || "-"}</div>
-                          <div className="text-xs text-muted-foreground">{p.customer?.phone || "-"}</div>
+                          <div className="font-semibold text-foreground">
+                            {p.customer?.name || "-"}
+                          </div>
+                          <div className="text-xs text-muted-foreground">
+                            {p.customer?.phone || "-"}
+                          </div>
                         </TableCell>
                         <TableCell>
-                          <div className="font-medium text-foreground">{p.wifi_package?.name || "-"}</div>
-                          <div className="text-xs text-muted-foreground">Rp {p.package_price.toLocaleString("id-ID")}</div>
+                          <div className="font-medium text-foreground">
+                            {p.wifi_package?.name || "-"}
+                          </div>
+                          <div className="text-xs text-muted-foreground">
+                            Rp {p.package_price.toLocaleString("id-ID")}
+                          </div>
                         </TableCell>
-                        <TableCell className="text-center">{getPaymentMethodBadge(p.payment_method)}</TableCell>
+                        <TableCell className="text-center">
+                          {getPaymentMethodBadge(p.payment_method)}
+                        </TableCell>
                         <TableCell className="text-center">
                           <span className="px-2.5 py-1 rounded-full text-xs font-semibold border bg-emerald-50 text-emerald-700 border-emerald-200 uppercase">
                             {p.status || "paid"}
                           </span>
                         </TableCell>
-                        <TableCell className="text-right font-bold text-foreground">Rp {p.ppn.toLocaleString("id-ID")}</TableCell>
-                        <TableCell className="text-right font-bold text-blue-600 dark:text-blue-400">Rp {p.total_amount.toLocaleString("id-ID")}</TableCell>
+                        <TableCell className="text-right font-bold text-foreground">
+                          Rp {p.ppn.toLocaleString("id-ID")}
+                        </TableCell>
+                        <TableCell className="text-right font-bold text-blue-600 dark:text-blue-400">
+                          Rp {p.total_amount.toLocaleString("id-ID")}
+                        </TableCell>
                         <TableCell className="text-xs">
                           {p.created_by
                             ? `${p.created_by.role === "admin" ? "Admin" : "Karyawan"} - ${p.created_by.name}`

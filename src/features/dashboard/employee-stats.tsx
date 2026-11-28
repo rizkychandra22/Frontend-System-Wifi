@@ -1,6 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Fingerprint, CalendarCheck, FileText } from "lucide-react";
-import { useTodayAttendance, useAttendanceHistory } from "@/features/attendance/hooks/use-attendance";
+import {
+  useTodayAttendance,
+  useAttendanceHistory,
+} from "@/features/attendance/hooks/use-attendance";
 
 export function EmployeeDashboardStats() {
   const { todayAttendance } = useTodayAttendance();
@@ -9,19 +12,21 @@ export function EmployeeDashboardStats() {
   const currentMonth = new Date().getMonth();
   const currentYear = new Date().getFullYear();
 
-  const thisMonthHistory = history.filter(record => {
+  const thisMonthHistory = history.filter((record) => {
     const recordDate = new Date(record.date);
     return recordDate.getMonth() === currentMonth && recordDate.getFullYear() === currentYear;
   });
 
-  const totalHadir = thisMonthHistory.filter(r => r.status === "Hadir" || r.status === "Proses").length;
-  const totalIzin = thisMonthHistory.filter(r => r.status === "Izin").length;
+  const totalHadir = thisMonthHistory.filter(
+    (r) => r.status === "Hadir" || r.status === "Proses",
+  ).length;
+  const totalIzin = thisMonthHistory.filter((r) => r.status === "Izin").length;
 
   const todayDate = new Date();
   todayDate.setHours(0, 0, 0, 0);
 
   const liburRecords = [...history]
-    .filter(r => r.status === "Libur")
+    .filter((r) => r.status === "Libur")
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   const latestLibur = liburRecords.length > 0 ? liburRecords[0] : null;
@@ -52,7 +57,9 @@ export function EmployeeDashboardStats() {
     if (latestLibur) {
       const liburDate = new Date(latestLibur.date);
       liburDate.setHours(0, 0, 0, 0);
-      const diffDays = Math.floor((todayDate.getTime() - liburDate.getTime()) / (1000 * 60 * 60 * 24));
+      const diffDays = Math.floor(
+        (todayDate.getTime() - liburDate.getTime()) / (1000 * 60 * 60 * 24),
+      );
       if (diffDays === 0) {
         isLibur = true;
       }
@@ -90,7 +97,9 @@ export function EmployeeDashboardStats() {
           <CalendarCheck className="h-4 w-4 text-green-500" />
         </CardHeader>
         <CardContent>
-          <div className="text-xl font-bold">{totalHadir} Hadir — {totalIzin} Izin</div>
+          <div className="text-xl font-bold">
+            {totalHadir} Hadir — {totalIzin} Izin
+          </div>
           <p className="text-xs text-muted-foreground">Bulan ini</p>
         </CardContent>
       </Card>
@@ -101,8 +110,12 @@ export function EmployeeDashboardStats() {
           <FileText className="h-4 w-4 text-orange-500" />
         </CardHeader>
         <CardContent>
-          <div className="text-lg font-bold truncate" title={liburText}>{liburText}</div>
-          <p className="text-xs text-muted-foreground truncate" title={liburSubtext}>{liburSubtext}</p>
+          <div className="text-lg font-bold truncate" title={liburText}>
+            {liburText}
+          </div>
+          <p className="text-xs text-muted-foreground truncate" title={liburSubtext}>
+            {liburSubtext}
+          </p>
         </CardContent>
       </Card>
     </div>

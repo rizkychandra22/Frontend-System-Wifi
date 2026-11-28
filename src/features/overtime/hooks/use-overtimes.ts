@@ -33,7 +33,8 @@ export function useOvertimeMutations() {
   });
 
   const updateMutation = useMutation({
-    mutationFn: ({ id, data }: { id: number; data: UpdateOvertimeData }) => overtimeApi.update(id, data),
+    mutationFn: ({ id, data }: { id: number; data: UpdateOvertimeData }) =>
+      overtimeApi.update(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: OVERTIMES_QUERY_KEY });
       toast.success("Data lembur berhasil diperbarui");

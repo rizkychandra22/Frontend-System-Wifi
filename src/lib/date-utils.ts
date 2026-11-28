@@ -1,13 +1,41 @@
-const MONTHS_SHORT = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agt", "Sep", "Okt", "Nov", "Des"];
+const MONTHS_SHORT = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "Mei",
+  "Jun",
+  "Jul",
+  "Agt",
+  "Sep",
+  "Okt",
+  "Nov",
+  "Des",
+];
 const MONTHS_FULL = [
-  "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-  "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+  "Januari",
+  "Februari",
+  "Maret",
+  "April",
+  "Mei",
+  "Juni",
+  "Juli",
+  "Agustus",
+  "September",
+  "Oktober",
+  "November",
+  "Desember",
 ];
 
 /**
  * Extracts normalized local YYYY-MM-DD from any date string (ISO timestamp, UTC, or YYYY-MM-DD).
  */
-export function extractLocalDate(dateStr: string): { year: number; month: number; day: number; dateString: string } {
+export function extractLocalDate(dateStr: string): {
+  year: number;
+  month: number;
+  day: number;
+  dateString: string;
+} {
   if (!dateStr) return { year: 0, month: 0, day: 0, dateString: "" };
 
   // If it's an ISO timestamp with time/UTC indicator

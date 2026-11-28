@@ -1,6 +1,11 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { updateLastActivity, isSessionInactive, removeToken, isAuthenticated } from "@/lib/auth-utils";
+import {
+  updateLastActivity,
+  isSessionInactive,
+  removeToken,
+  isAuthenticated,
+} from "@/lib/auth-utils";
 
 /**
  * Hook to automatically track user activity and log out if idle for 3 hours.

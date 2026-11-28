@@ -37,10 +37,10 @@ Frontend-System/
 │   │   ├── layouts/     # Global Layouts (Sidebar, Header, Base App)
 │   │   └── ui/          # Standardized UI elements (Buttons, Inputs, Cards)
 │   ├── features/        # Business Logic Grouped by Feature
-│   │   ├── attendance/  
-│   │   ├── auth/        
-│   │   ├── billing/     
-│   │   └── users/       
+│   │   ├── attendance/
+│   │   ├── auth/
+│   │   ├── billing/
+│   │   └── users/
 │   ├── hooks/           # Custom React Hooks
 │   ├── lib/             # Third-party configurations (e.g., Axios setup)
 │   ├── pages/           # Role-based Routing (Admin, Employee, Customer)
@@ -51,10 +51,12 @@ Frontend-System/
 ## 🛠️ Quick Start
 
 ### 1. Prerequisites
+
 - Node.js (v18 or higher recommended)
 - npm, yarn, pnpm, or bun
 
 ### 2. Run the Application
+
 1. Install dependencies:
    ```bash
    npm install
@@ -66,4 +68,5 @@ Frontend-System/
 3. Open your browser and navigate to the localhost URL provided in the terminal (usually `http://localhost:5173`).
 
 ---
-*Built for Modern ISP & Workforce Management.*
+
+_Built for Modern ISP & Workforce Management._

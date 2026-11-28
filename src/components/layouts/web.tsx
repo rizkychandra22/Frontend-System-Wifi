@@ -10,12 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { isAuthenticated } from "@/lib/auth-utils";
-import {
-  useTranslation,
-  changeLanguage,
-  LANGUAGE_LABELS,
-  type SupportedLanguage,
-} from "@/i18n";
+import { useTranslation, changeLanguage, LANGUAGE_LABELS, type SupportedLanguage } from "@/i18n";
 import logoImg from "@/assets/logo.png";
 import flagId from "@/assets/flag-id.png";
 import flagEn from "@/assets/flag-en.png";
@@ -73,7 +68,11 @@ export function WebLayout() {
             onClick={() => setMobileMenuOpen(false)}
             className="flex items-center gap-2.5 h-16 overflow-hidden hover:opacity-90 transition-opacity"
           >
-            <img src={logoImg} alt="NetVerse Logo" className="h-50 w-auto object-contain -ml-6 md:-ml-8 mt-2" />
+            <img
+              src={logoImg}
+              alt="NetVerse Logo"
+              className="h-50 w-auto object-contain -ml-6 md:-ml-8 mt-2"
+            />
           </Link>
 
           {/* Desktop Nav Links */}
@@ -212,7 +211,9 @@ export function WebLayout() {
           {/* Logo Brand Footer */}
           <div className="space-y-4 md:col-span-2">
             <div className="flex items-center gap-2.5">
-              <span className="text-xl font-bold font-display text-white">{t("footer.brandName")}</span>
+              <span className="text-xl font-bold font-display text-white">
+                {t("footer.brandName")}
+              </span>
             </div>
             <p className="text-white/60 text-xs max-w-sm leading-relaxed">
               {t("footer.brandDesc")}
@@ -236,12 +237,14 @@ export function WebLayout() {
           {/* Legal / Social */}
           <div className="space-y-4">
             <h4 className="font-bold text-sm text-white font-display">{t("footer.adminAccess")}</h4>
-            <p className="text-white/60 text-xs leading-relaxed">
-              {t("footer.adminDesc")}
-            </p>
+            <p className="text-white/60 text-xs leading-relaxed">{t("footer.adminDesc")}</p>
             <div>
               <Link to={isLoggedIn ? "/dashboard" : "/login"}>
-                <Button size="sm" variant="ghost" className="text-xs border border-white/20 text-white hover:bg-white/10 hover:text-white shadow-none cursor-pointer">
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className="text-xs border border-white/20 text-white hover:bg-white/10 hover:text-white shadow-none cursor-pointer"
+                >
                   {t("footer.employeeLogin")}
                   <ExternalLink className="h-3 w-3 ml-1" />
                 </Button>
@@ -253,7 +256,20 @@ export function WebLayout() {
         <div className="border-t border-white/5 py-6">
           <div className="container mx-auto px-4 md:px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-[10px] text-white/50">
             <p>© 2026 PT NetVerse Fiber Indonesia. All rights reserved.</p>
-            <p>{t("footer.createdBy")} <i><a href="https://rizkychandra.dev" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Rizky Chandra</a></i> &bull; {t("footer.systemSubtitle")}</p>
+            <p>
+              {t("footer.createdBy")}{" "}
+              <i>
+                <a
+                  href="https://rizkychandra.dev"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white transition-colors"
+                >
+                  Rizky Chandra
+                </a>
+              </i>{" "}
+              &bull; {t("footer.systemSubtitle")}
+            </p>
           </div>
         </div>
       </footer>

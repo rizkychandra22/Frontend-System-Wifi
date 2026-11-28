@@ -18,18 +18,23 @@ export function AdminDashboardStats() {
   const totalCustomers = users.filter((u) => u.role === "customer").length;
 
   // Simplified today logic:
-  const today = new Date().toISOString().split('T')[0];
-  const todayAttendances = attendances.filter(a => a.date.startsWith(today));
-  const presentUserIds = new Set(todayAttendances.filter(a => ["Proses", "Hadir"].includes(a.status)).map(a => a.user_id));
+  const today = new Date().toISOString().split("T")[0];
+  const todayAttendances = attendances.filter((a) => a.date.startsWith(today));
+  const presentUserIds = new Set(
+    todayAttendances.filter((a) => ["Proses", "Hadir"].includes(a.status)).map((a) => a.user_id),
+  );
   const totalPresent = presentUserIds.size;
-  
-  const pendingPayments = payments.filter(p => p.status.toLowerCase() !== "paid" && p.status.toLowerCase() !== "lunas").length;
+
+  const pendingPayments = payments.filter(
+    (p) => p.status.toLowerCase() !== "paid" && p.status.toLowerCase() !== "lunas",
+  ).length;
 
   return (
     <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
       {errorMessage && (
         <div className="col-span-full bg-red-50 text-red-600 p-4 rounded-lg text-sm font-medium border border-red-200 mb-4">
-          Error Backend: {errorMessage}. (Hint: Pastikan Golang Backend sudah di-restart agar Endpoint & Database Migration terbaru berjalan!)
+          Error Backend: {errorMessage}. (Hint: Pastikan Golang Backend sudah di-restart agar
+          Endpoint & Database Migration terbaru berjalan!)
         </div>
       )}
       <Card className="border-t-4 border-t-blue-500">
@@ -68,7 +73,9 @@ export function AdminDashboardStats() {
           <UserCheck className="h-4 w-4 text-purple-500" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{totalPresent} / {totalEmployees}</div>
+          <div className="text-2xl font-bold">
+            {totalPresent} / {totalEmployees}
+          </div>
           <p className="text-xs text-muted-foreground">Karyawan hadir</p>
         </CardContent>
       </Card>

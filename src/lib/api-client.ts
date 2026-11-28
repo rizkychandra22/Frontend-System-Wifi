@@ -2,11 +2,11 @@ import axios, { type AxiosError } from "axios";
 import axiosRetry from "axios-retry";
 import { getToken, removeToken } from "./auth-utils";
 
-const LOCAL_URL  = import.meta.env.VITE_API_URL_LOCAL;
-const DEV_URL    = import.meta.env.VITE_API_URL_DEV;
-const PROD_URL   = import.meta.env.VITE_API_URL;
+const LOCAL_URL = import.meta.env.VITE_API_URL_LOCAL;
+const DEV_URL = import.meta.env.VITE_API_URL_DEV;
+const PROD_URL = import.meta.env.VITE_API_URL;
 
-// Detect Environment 
+// Detect Environment
 function detectEnv(): "local" | "dev" | "prod" {
   if (typeof window === "undefined") return "prod";
   const hostname = window.location.hostname;
@@ -19,7 +19,7 @@ function detectEnv(): "local" | "dev" | "prod" {
 // Resolve URL environment
 function getInitialUrl(): string {
   const env = detectEnv();
-  if (env === "local") return LOCAL_URL; 
+  if (env === "local") return LOCAL_URL;
   if (env === "dev") return DEV_URL;
   return PROD_URL;
 }
@@ -46,10 +46,7 @@ axiosRetry(apiClient, {
   retries: 2,
   retryDelay: axiosRetry.exponentialDelay,
   retryCondition: (error) => {
-    return (
-      axiosRetry.isNetworkOrIdempotentRequestError(error) ||
-      error.code === "ECONNABORTED"
-    );
+    return axiosRetry.isNetworkOrIdempotentRequestError(error) || error.code === "ECONNABORTED";
   },
 });
 
@@ -57,7 +54,11 @@ apiClient.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
     if (error.response?.data) {
-      const data = error.response.data as { message?: string; msg?: string; error?: string };
+      const data = error.response.data as {
+        message?: string;
+        msg?: string;
+        error?: string;
+      };
       const serverMessage = data.message || data.msg || data.error;
       if (serverMessage) {
         error.message = serverMessage;

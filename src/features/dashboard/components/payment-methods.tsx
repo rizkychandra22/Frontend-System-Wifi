@@ -1,6 +1,12 @@
 import { useRef, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, Copy, Download, CreditCard, Wallet } from "lucide-react";
 import { toast } from "sonner";
@@ -15,7 +21,7 @@ const danaAccount = "085722232852";
 
 export function CustomerPaymentMethods() {
   const scrollRef = useRef<HTMLDivElement>(null);
-  
+
   const [bcaModalOpen, setBcaModalOpen] = useState(false);
   const [qrisModalOpen, setQrisModalOpen] = useState(false);
   const [danaModalOpen, setDanaModalOpen] = useState(false);
@@ -23,7 +29,10 @@ export function CustomerPaymentMethods() {
   const scroll = (direction: "left" | "right") => {
     if (scrollRef.current) {
       const scrollAmount = scrollRef.current.offsetWidth;
-      scrollRef.current.scrollBy({ left: direction === "left" ? -scrollAmount : scrollAmount, behavior: "smooth" });
+      scrollRef.current.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth",
+      });
     }
   };
 
@@ -47,22 +56,32 @@ export function CustomerPaymentMethods() {
         <h2 className="text-xl font-semibold tracking-tight">Metode Pembayaran</h2>
         {/* Navigation buttons for mobile */}
         <div className="flex gap-2 md:hidden">
-          <Button variant="outline" size="icon" className="h-8 w-8 rounded-full" onClick={() => scroll("left")}>
+          <Button
+            variant="outline"
+            size="icon"
+            className="h-8 w-8 rounded-full"
+            onClick={() => scroll("left")}
+          >
             <ChevronLeft className="h-4 w-4" />
           </Button>
-          <Button variant="outline" size="icon" className="h-8 w-8 rounded-full" onClick={() => scroll("right")}>
+          <Button
+            variant="outline"
+            size="icon"
+            className="h-8 w-8 rounded-full"
+            onClick={() => scroll("right")}
+          >
             <ChevronRight className="h-4 w-4" />
           </Button>
         </div>
       </div>
 
-      <div 
+      <div
         ref={scrollRef}
         className="flex md:grid md:grid-cols-3 gap-4 overflow-x-auto snap-x snap-mandatory pb-2 scrollbar-hide"
-        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {/* BCA Card */}
-        <Card 
+        <Card
           className="min-w-full md:min-w-0 snap-center cursor-pointer transition-all hover:border-blue-800 hover:shadow-md flex-shrink-0"
           onClick={() => setBcaModalOpen(true)}
         >
@@ -78,7 +97,7 @@ export function CustomerPaymentMethods() {
         </Card>
 
         {/* QRIS Card */}
-        <Card 
+        <Card
           className="min-w-full md:min-w-0 snap-center cursor-pointer transition-all hover:border-red-600 hover:shadow-md flex-shrink-0"
           onClick={() => setQrisModalOpen(true)}
         >
@@ -94,7 +113,7 @@ export function CustomerPaymentMethods() {
         </Card>
 
         {/* DANA Card */}
-        <Card 
+        <Card
           className="min-w-full md:min-w-0 snap-center cursor-pointer transition-all hover:border-blue-500 hover:shadow-md flex-shrink-0"
           onClick={() => setDanaModalOpen(true)}
         >
@@ -114,7 +133,9 @@ export function CustomerPaymentMethods() {
       <Dialog open={bcaModalOpen} onOpenChange={setBcaModalOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2"><CreditCard className="w-5 h-5"/> Transfer Bank BCA</DialogTitle>
+            <DialogTitle className="flex items-center gap-2">
+              <CreditCard className="w-5 h-5" /> Transfer Bank BCA
+            </DialogTitle>
             <DialogDescription>
               Silakan transfer pembayaran Anda ke nomor rekening berikut:
             </DialogDescription>
@@ -125,7 +146,11 @@ export function CustomerPaymentMethods() {
               <p className="text-2xl font-bold tracking-widest text-blue-900">{bcaAccount}</p>
               <p className="text-sm font-medium mt-1 uppercase">a.n. Muhammad Taufik Hidayat</p>
             </div>
-            <Button size="icon" variant="outline" onClick={() => copyToClipboard(bcaAccount, "BCA")}>
+            <Button
+              size="icon"
+              variant="outline"
+              onClick={() => copyToClipboard(bcaAccount, "BCA")}
+            >
               <Copy className="h-4 w-4" />
             </Button>
           </div>
@@ -138,11 +163,16 @@ export function CustomerPaymentMethods() {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">Scan QRIS</DialogTitle>
             <DialogDescription>
-              Scan kode QR di bawah ini menggunakan aplikasi M-Banking atau E-Wallet Anda (Gopay, OVO, Dana, dll).
+              Scan kode QR di bawah ini menggunakan aplikasi M-Banking atau E-Wallet Anda (Gopay,
+              OVO, Dana, dll).
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col items-center justify-center mt-4">
-            <img src={ImageQris} alt="QRIS Code" className="w-full max-w-[250px] object-contain rounded-lg mb-4" />
+            <img
+              src={ImageQris}
+              alt="QRIS Code"
+              className="w-full max-w-[250px] object-contain rounded-lg mb-4"
+            />
             <Button className="w-full" onClick={downloadQris}>
               <Download className="h-4 w-4 mr-2" />
               Unduh QRIS
@@ -155,7 +185,9 @@ export function CustomerPaymentMethods() {
       <Dialog open={danaModalOpen} onOpenChange={setDanaModalOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2"><Wallet className="w-5 h-5"/> Transfer DANA</DialogTitle>
+            <DialogTitle className="flex items-center gap-2">
+              <Wallet className="w-5 h-5" /> Transfer DANA
+            </DialogTitle>
             <DialogDescription>
               Silakan transfer pembayaran Anda ke nomor dana berikut:
             </DialogDescription>
@@ -166,7 +198,11 @@ export function CustomerPaymentMethods() {
               <p className="text-2xl font-bold tracking-widest text-blue-600">{danaAccount}</p>
               <p className="text-sm font-medium mt-1 uppercase">a.n. Muhammad Taufik Hidayat</p>
             </div>
-            <Button size="icon" variant="outline" onClick={() => copyToClipboard(danaAccount, "DANA")}>
+            <Button
+              size="icon"
+              variant="outline"
+              onClick={() => copyToClipboard(danaAccount, "DANA")}
+            >
               <Copy className="h-4 w-4" />
             </Button>
           </div>

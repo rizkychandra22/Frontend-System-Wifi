@@ -38,7 +38,8 @@ export default function SubscriptionPage() {
         textClass: "text-emerald-500",
         hoverShadow: "hover:shadow-emerald-500/10",
         buttonClass: "bg-emerald-500 hover:bg-emerald-600 text-white shadow-emerald-500/20",
-        buttonOutlineClass: "hover:text-emerald-500 hover:border-emerald-500 hover:bg-emerald-50/50",
+        buttonOutlineClass:
+          "hover:text-emerald-500 hover:border-emerald-500 hover:bg-emerald-50/50",
       };
     } else if (speedMbps <= 20) {
       return {
@@ -118,7 +119,9 @@ export default function SubscriptionPage() {
 
                 <CardContent className="p-0 flex-1 flex flex-col">
                   <div className="flex items-baseline gap-1 pb-5">
-                    <span className={`text-3xl font-extrabold tracking-tight font-display ${styles.textClass}`}>
+                    <span
+                      className={`text-3xl font-extrabold tracking-tight font-display ${styles.textClass}`}
+                    >
                       {pkg.price}
                     </span>
                     <span className="text-xs text-muted-foreground font-medium">{pkg.period}</span>
@@ -141,9 +144,7 @@ export default function SubscriptionPage() {
                     onClick={() => handleSelectPackage(pkg.name)}
                     variant={pkg.popular ? "default" : "outline"}
                     className={`w-full font-semibold h-9 text-xs rounded-xl transition-colors cursor-pointer ${
-                      pkg.popular
-                        ? styles.buttonClass
-                        : styles.buttonOutlineClass
+                      pkg.popular ? styles.buttonClass : styles.buttonOutlineClass
                     }`}
                   >
                     {t("card.btnOrder")}
