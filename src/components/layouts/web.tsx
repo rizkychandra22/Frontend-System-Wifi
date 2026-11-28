@@ -150,7 +150,7 @@ export function WebLayout() {
         {mobileMenuOpen && (
           <div className="absolute left-4 right-4 top-[calc(100%+0.5rem)] md:hidden z-50 animate-in fade-in-0 zoom-in-95 duration-150">
             <Card className="border border-border bg-card shadow-2xl rounded-2xl overflow-hidden">
-              <CardContent className="flex flex-col p-4">
+              <CardContent className="flex flex-col p-3">
                 <nav className="flex flex-col gap-1">
                   {navLinks.map((link) => (
                     <NavLink
@@ -159,7 +159,7 @@ export function WebLayout() {
                       end={link.to === "/"}
                       onClick={() => setMobileMenuOpen(false)}
                       className={({ isActive }) =>
-                        `text-left text-sm py-2.5 px-3.5 rounded-xl transition-colors ${
+                        `text-left text-sm py-1.5 px-3 rounded-md transition-colors ${
                           isActive
                             ? "text-primary font-semibold"
                             : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
@@ -171,7 +171,7 @@ export function WebLayout() {
                   ))}
                 </nav>
 
-                <div className="mt-3 flex gap-2.5 pt-3 border-t border-border/60">
+                <div className="mt-2.5 flex gap-2.5 pt-2.5 border-t border-border/60">
                   {languages.map((lang) => (
                     <Button
                       key={lang}
@@ -180,7 +180,7 @@ export function WebLayout() {
                         handleLanguageChange(lang);
                         setMobileMenuOpen(false);
                       }}
-                      className={`flex-1 h-10 flex items-center justify-center gap-2 rounded-xl text-xs font-semibold cursor-pointer shadow-none ${
+                      className={`flex-1 h-9 flex items-center justify-center gap-2 rounded-md text-xs font-semibold cursor-pointer shadow-none ${
                         currentLang === lang
                           ? "bg-primary text-primary-foreground"
                           : "border-border bg-card text-muted-foreground hover:bg-muted hover:text-foreground"

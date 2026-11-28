@@ -2,7 +2,7 @@ export default {
   Layouts: {
     nav: {
       home: "Beranda",
-      about: "Tentang Kami",
+      about: "Tentang",
       subscription: "Langganan",
       activity: "Aktivitas",
       contact: "Kontak",

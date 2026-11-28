@@ -2,7 +2,7 @@ export default {
   Layouts: {
     nav: {
       home: "Home",
-      about: "About Us",
+      about: "About",
       subscription: "Subscription",
       activity: "Activity",
       contact: "Contact",
