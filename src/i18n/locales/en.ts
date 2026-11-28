@@ -143,7 +143,42 @@ export default {
   },
 
   ActivityPage: {
-
+    header: {
+      title: "Activity & Event Gallery",
+      description: "Operational documentation of NetVerse internet network installations alongside our official digital payment system interface.",
+    },
+    categories: {
+      all: "All",
+      infrastruktur: "Infrastructure",
+      tim: "Employee Team",
+      pelanggan: "Our Client",
+    },
+    items: {
+      item1: {
+        title: "Fiber Optic Distribution Center",
+        description: "NetVerse fiber optic cable distribution infrastructure designed to deliver high-speed internet to every residential area.",
+      },
+      item2: {
+        title: "Central Server & WiFi Transmitter",
+        description: "Main server equipment and wifi monitoring system ensuring connection stability up to 99.9% uptime.",
+      },
+      item3: {
+        title: "NetVerse Technical & Field Team",
+        description: "NetVerse employees and expert technician team performing cable installation and router configuration in the field.",
+      },
+      item4: {
+        title: "Employees & Office Staff",
+        description: "Administrative services, payment verification, and NetVerse customer support team ready to serve customers.",
+      },
+      item5: {
+        title: "Customer Billing Interface",
+        description: "Dedicated customer dashboard interface to monitor active wifi subscription status and monthly billing history.",
+      },
+      item6: {
+        title: "QRIS Self-Payment Method",
+        description: "Convenience of self-service wifi billing payments for customers using automatically verified QRIS codes.",
+      },
+    },
   },
 
   ContactPage: {

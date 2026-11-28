@@ -11,6 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { useTranslation, type TFunction } from "@/i18n";
 import logoImg from "@/assets/logo.png";
 import heroImg from "@/assets/hero.png";
 import qrisLogo from "@/assets/logo-qris.png";
@@ -27,78 +28,79 @@ interface GalleryItem {
   description: string;
 }
 
-const categoryLabels: Record<GalleryCategory, string> = {
-  infrastruktur: "Infrastruktur",
-  tim: "Tim Karyawan",
-  pelanggan: "Customer / Pelanggan",
-};
-
-const galleryFilters: { value: GalleryFilter; label: string }[] = [
-  { value: "all", label: "Semua" },
-  { value: "infrastruktur", label: "Infrastruktur" },
-  { value: "tim", label: "Tim Karyawan" },
-  { value: "pelanggan", label: "Customer / Pelanggan" },
-];
-
-const galleryItems: GalleryItem[] = [
+const getGalleryItems = (t: TFunction): GalleryItem[] => [
   {
     id: 1,
-    title: "Pusat Distribusi Fiber Optik",
+    title: t("items.item1.title"),
     category: "infrastruktur",
     image: heroImg,
-    description:
-      "Infrastruktur distribusi kabel fiber optik NetVerse yang dirancang untuk menyalurkan internet berkecepatan tinggi ke setiap perumahan.",
+    description: t("items.item1.description"),
   },
   {
     id: 2,
-    title: "Sentral Server & Pemancar WiFi",
+    title: t("items.item2.title"),
     category: "infrastruktur",
     image: logoImg,
-    description:
-      "Perangkat server utama dan sistem monitoring wifi yang menjamin kestabilan koneksi uptime hingga 99.9%.",
+    description: t("items.item2.description"),
   },
   {
     id: 3,
-    title: "Tim Teknis & Lapangan NetVerse",
+    title: t("items.item3.title"),
     category: "tim",
     image: heroImg,
-    description:
-      "Karyawan dan tim teknisi ahli NetVerse saat melakukan pemasangan kabel dan konfigurasi router di lapangan.",
+    description: t("items.item3.description"),
   },
   {
     id: 4,
-    title: "Karyawan & Staff Kantor",
+    title: t("items.item4.title"),
     category: "tim",
     image: logoImg,
-    description:
-      "Layanan administrasi, verifikasi pembayaran, serta tim customer support NetVerse yang siap melayani pelanggan.",
+    description: t("items.item4.description"),
   },
   {
     id: 5,
-    title: "Antarmuka Billing Customer",
+    title: t("items.item5.title"),
     category: "pelanggan",
     image: qrisFull,
-    description:
-      "Antarmuka dashboard khusus pelanggan untuk memantau status langganan wifi aktif dan riwayat tagihan bulanan.",
+    description: t("items.item5.description"),
   },
   {
     id: 6,
-    title: "Metode Bayar Mandiri QRIS",
+    title: t("items.item6.title"),
     category: "pelanggan",
     image: qrisLogo,
-    description:
-      "Kemudahan pembayaran wifi tagihan mandiri bagi pelanggan menggunakan kode QRIS terverifikasi otomatis.",
+    description: t("items.item6.description"),
   },
 ];
 
 export default function ActivityPage() {
+  const { t } = useTranslation("ActivityPage");
   const [lightboxItem, setLightboxItem] = useState<GalleryItem | null>(null);
   const [galleryFilter, setGalleryFilter] = useState<GalleryFilter>("all");
+
+  const galleryItems = getGalleryItems(t);
+
+  const categoryLabels: Record<GalleryCategory, string> = {
+    infrastruktur: t("categories.infrastruktur"),
+    tim: t("categories.tim"),
+    pelanggan: t("categories.pelanggan"),
+  };
+
+  const galleryFilters: { value: GalleryFilter; label: string }[] = [
+    { value: "all", label: t("categories.all") },
+    { value: "infrastruktur", label: t("categories.infrastruktur") },
+    { value: "tim", label: t("categories.tim") },
+    { value: "pelanggan", label: t("categories.pelanggan") },
+  ];
 
   const filteredGallery =
     galleryFilter === "all"
       ? galleryItems
       : galleryItems.filter((item) => item.category === galleryFilter);
+
+  const activeLightboxItem = lightboxItem
+    ? galleryItems.find((item) => item.id === lightboxItem.id) || lightboxItem
+    : null;
 
   return (
     <div className="min-h-[calc(100vh-4rem)] pt-10 pb-12 md:pt-12 md:pb-16">
@@ -106,11 +108,11 @@ export default function ActivityPage() {
         {/* Page Header */}
         <div className="max-w-3xl mx-auto text-center space-y-4 mb-8 md:mb-10">
           <h1 className="text-3xl md:text-5xl font-bold font-display tracking-tight text-foreground">
-            Galeri Kegiatan & Sistem
+            {t("header.title")}
           </h1>
           <div className="h-1 w-20 bg-primary mx-auto rounded-full"></div>
           <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
-            Dokumentasi operasional pemasangan jaringan internet NetVerse beserta tampilan integrasi sistem pembayaran digital resmi kami.
+            {t("header.description")}
           </p>
         </div>
 
@@ -175,18 +177,18 @@ export default function ActivityPage() {
 
       {/* Lightbox Dialog for Gallery */}
       <Dialog
-        open={Boolean(lightboxItem)}
+        open={Boolean(activeLightboxItem)}
         onOpenChange={(open) => {
           if (!open) setLightboxItem(null);
         }}
       >
         <DialogContent className="max-w-3xl p-0 overflow-hidden rounded-2xl bg-card gap-0 [&>button]:bg-black/60 [&>button]:text-white [&>button]:p-2 [&>button]:rounded-full [&>button]:opacity-100 [&>button:hover]:bg-black/80">
-          {lightboxItem && (
+          {activeLightboxItem && (
             <>
               <AspectRatio ratio={16 / 9} className="w-full bg-black">
                 <img
-                  src={lightboxItem.image}
-                  alt={lightboxItem.title}
+                  src={activeLightboxItem.image}
+                  alt={activeLightboxItem.title}
                   className="w-full h-full object-contain"
                 />
               </AspectRatio>
@@ -196,14 +198,14 @@ export default function ActivityPage() {
                     variant="secondary"
                     className="text-[10px] uppercase font-bold tracking-wider text-primary bg-primary/10 hover:bg-primary/10 px-2 py-0.5 rounded"
                   >
-                    {categoryLabels[lightboxItem.category]}
+                    {categoryLabels[activeLightboxItem.category]}
                   </Badge>
                 </div>
                 <DialogTitle className="font-bold text-lg font-display text-foreground">
-                  {lightboxItem.title}
+                  {activeLightboxItem.title}
                 </DialogTitle>
                 <DialogDescription className="text-xs text-muted-foreground leading-relaxed">
-                  {lightboxItem.description}
+                  {activeLightboxItem.description}
                 </DialogDescription>
               </DialogHeader>
             </>
