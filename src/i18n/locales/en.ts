@@ -182,6 +182,54 @@ export default {
   },
 
   ContactPage: {
-    
-  }
+    header: {
+      title: "Contact Our Service",
+      description: "Have questions about our internet packages? Need registration assistance? Send a message directly below.",
+    },
+    info: {
+      title: "Contact Information",
+      description: "Contact us anytime through the channels below. We will be happy to help you install your ideal wifi.",
+      phone: {
+        title: "Phone & WhatsApp",
+        service2: "(WA Service 2)",
+      },
+      email: {
+        title: "Email Address",
+      },
+      office: {
+        title: "Operational Office Address",
+        building: "NetVerse IT Center Building, 3rd Floor",
+        address: "Jl. Jenderal Sudirman No. 45, South Jakarta",
+      },
+      hours: {
+        title: "Office Operating Hours",
+        time: "Monday - Saturday: 08:00 - 17:00 WIB",
+        support: "24/7 emergency technical support available via WA.",
+      },
+    },
+    form: {
+      nameLabel: "Full Name",
+      namePlaceholder: "Enter your name",
+      phoneLabel: "Phone / WA Number",
+      phonePlaceholder: "e.g. 08123456789",
+      emailLabel: "Email Address (Optional)",
+      emailPlaceholder: "name@email.com",
+      packageLabel: "Interested Package (Optional)",
+      packagePlaceholder: "-- Select Internet Package --",
+      month: "month",
+      messageLabel: "Message / Inquiry",
+      messagePlaceholder: "Write your message here...",
+      submit: "Send Service Message",
+      submitting: "Sending Message...",
+      validationError: "Name, Phone Number, and Message are required.",
+      redirectToast: "Valid form! Redirecting to WhatsApp...",
+      defaultPackageMessage: "Hello Netverse, I am interested in subscribing to the {{package}} wifi package. Please inform me about the installation schedule.",
+      waGreeting: "Hello NetVerse Fiber, I would like to inquire/subscribe. Here are my details:",
+      waName: "Name",
+      waPhone: "Phone Number",
+      waEmail: "Email",
+      waPackage: "Interested Package",
+      waMessage: "Message",
+    },
+  },
 }

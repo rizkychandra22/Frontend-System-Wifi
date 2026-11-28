@@ -14,11 +14,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { useTranslation } from "@/i18n";
 import { useAdminContact } from "@/features/user/hooks/use-users";
 import { useWifiPackages } from "@/features/wifi-package/hooks/use-wifi-packages";
 import { formatWifiPackages } from "@/components/wifi-package";
 
 export default function ContactPage() {
+  const { t } = useTranslation("ContactPage");
   const [searchParams] = useSearchParams();
   const { data: adminContact } = useAdminContact();
   const { query: wifiPackagesQuery } = useWifiPackages();
@@ -34,14 +36,14 @@ export default function ContactPage() {
     email: "",
     phone: "",
     message: paketParam
-      ? `Halo Netverse, saya tertarik untuk berlangganan paket wifi ${paketParam}. Mohon informasikan jadwal pemasangannya.`
+      ? t("form.defaultPackageMessage", { package: paketParam })
       : "",
   }));
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!contactForm.name || !contactForm.phone || !contactForm.message) {
-      toast.error("Nama, Nomor HP, dan Pesan wajib diisi.");
+      toast.error(t("form.validationError"));
       return;
     }
 
@@ -60,13 +62,13 @@ export default function ContactPage() {
     const emailStr = contactForm.email ? contactForm.email : "-";
     const packageStr = selectedPackage ? selectedPackage : "-";
 
-    const waMessage = `Halo NetVerse Fiber, saya ingin bertanya/berlangganan. Berikut detail informasi saya:
+    const waMessage = `${t("form.waGreeting")}
 
-*Nama*: ${contactForm.name}
-*Nomor HP*: ${contactForm.phone}
-*Email*: ${emailStr}
-*Paket yang Diminati*: ${packageStr}
-*Pesan*: 
+*${t("form.waName")}*: ${contactForm.name}
+*${t("form.waPhone")}*: ${contactForm.phone}
+*${t("form.waEmail")}*: ${emailStr}
+*${t("form.waPackage")}*: ${packageStr}
+*${t("form.waMessage")}*: 
 ${contactForm.message}`;
 
     const encodedMessage = encodeURIComponent(waMessage);
@@ -74,7 +76,7 @@ ${contactForm.message}`;
 
     setTimeout(() => {
       setFormLoading(false);
-      toast.success("Form valid! Mengalihkan ke WhatsApp...");
+      toast.success(t("form.redirectToast"));
 
       window.open(waUrl, "_blank");
 
@@ -94,21 +96,23 @@ ${contactForm.message}`;
         {/* Page Header */}
         <div className="max-w-3xl mx-auto text-center space-y-4 mb-10 md:mb-12">
           <h1 className="text-3xl md:text-5xl font-bold font-display tracking-tight text-foreground">
-            Hubungi Layanan Kami
+            {t("header.title")}
           </h1>
           <div className="h-1 w-20 bg-primary mx-auto rounded-full"></div>
           <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
-            Punya pertanyaan mengenai paket internet kami? Butuh bantuan pendaftaran? Kirim pesan langsung di bawah ini.
+            {t("header.description")}
           </p>
         </div>
 
-        <h3 className="font-bold text-xl font-display text-foreground mb-4">Informasi Kontak</h3>
+        <h3 className="font-bold text-xl font-display text-foreground mb-4">
+          {t("info.title")}
+        </h3>
 
         <div className="grid lg:grid-cols-5 gap-8 lg:gap-12 w-full items-stretch">
           {/* Left Contact Info */}
           <div className="lg:col-span-2 flex flex-col gap-6">
             <p className="text-muted-foreground text-xs leading-relaxed">
-              Hubungi kami kapan saja melalui saluran kontak di bawah ini. Kami akan dengan senang hati membantu Anda memasang wifi idaman.
+              {t("info.description")}
             </p>
 
             <div className="flex-1 flex flex-col justify-between gap-6 pt-2">
@@ -117,11 +121,11 @@ ${contactForm.message}`;
                     <Phone className="h-5 w-5" />
                   </div>
                   <div className="space-y-0.5">
-                    <h4 className="font-semibold text-sm">Telepon & WhatsApp</h4>
+                    <h4 className="font-semibold text-sm">{t("info.phone.title")}</h4>
                     {adminContact ? (
                       <>
                         <p className="text-xs text-muted-foreground">{adminContact.name} ({adminContact.phone})</p>
-                        <p className="text-xs text-muted-foreground">+62 821-2221-9332 (Layanan WA 2)</p>
+                        <p className="text-xs text-muted-foreground">+62 821-2221-9332 {t("info.phone.service2")}</p>
                       </>
                     ) : (
                       <>
@@ -137,7 +141,7 @@ ${contactForm.message}`;
                     <Mail className="h-5 w-5" />
                   </div>
                   <div className="space-y-0.5">
-                    <h4 className="font-semibold text-sm">Alamat Email</h4>
+                    <h4 className="font-semibold text-sm">{t("info.email.title")}</h4>
                     <p className="text-xs text-muted-foreground">support@netversefiber.net</p>
                     <p className="text-xs text-muted-foreground">info@netversefiber.net</p>
                   </div>
@@ -148,9 +152,9 @@ ${contactForm.message}`;
                     <MapPin className="h-5 w-5" />
                   </div>
                   <div className="space-y-0.5">
-                    <h4 className="font-semibold text-sm">Alamat Kantor Operasional</h4>
-                    <p className="text-xs text-muted-foreground">Gedung NetVerse IT Center, Lt. 3</p>
-                    <p className="text-xs text-muted-foreground">Jl. Jenderal Sudirman No. 45, Jakarta Selatan</p>
+                    <h4 className="font-semibold text-sm">{t("info.office.title")}</h4>
+                    <p className="text-xs text-muted-foreground">{t("info.office.building")}</p>
+                    <p className="text-xs text-muted-foreground">{t("info.office.address")}</p>
                   </div>
                 </div>
             </div>
@@ -159,9 +163,9 @@ ${contactForm.message}`;
               <CardContent className="p-4 text-xs text-muted-foreground flex gap-3">
                 <Clock className="h-5 w-5 text-primary shrink-0" />
                 <div>
-                  <span className="font-semibold text-foreground block mb-0.5">Jam Operasional Kantor</span>
-                  <span>Senin - Sabtu: 08.00 - 17.00 WIB</span><br />
-                  <span>Dukungan teknis darurat via WA aktif 24 jam.</span>
+                  <span className="font-semibold text-foreground block mb-0.5">{t("info.hours.title")}</span>
+                  <span>{t("info.hours.time")}</span><br />
+                  <span>{t("info.hours.support")}</span>
                 </div>
               </CardContent>
             </Card>
@@ -173,22 +177,22 @@ ${contactForm.message}`;
               <form onSubmit={handleFormSubmit} className="space-y-3.5 flex-1 flex flex-col justify-between">
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <Label htmlFor="name" className="text-xs font-semibold text-muted-foreground">Nama Lengkap</Label>
+                    <Label htmlFor="name" className="text-xs font-semibold text-muted-foreground">{t("form.nameLabel")}</Label>
                     <Input
                       id="name"
                       type="text"
-                      placeholder="Masukkan nama Anda"
+                      placeholder={t("form.namePlaceholder")}
                       value={contactForm.name}
                       onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
                       className="h-9 text-xs focus:ring-primary focus:border-primary shadow-none"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <Label htmlFor="phone" className="text-xs font-semibold text-muted-foreground">Nomor Telepon / WA</Label>
+                    <Label htmlFor="phone" className="text-xs font-semibold text-muted-foreground">{t("form.phoneLabel")}</Label>
                     <Input
                       id="phone"
                       type="tel"
-                      placeholder="Contoh: 08123456789"
+                      placeholder={t("form.phonePlaceholder")}
                       value={contactForm.phone}
                       onChange={(e) => setContactForm({ ...contactForm, phone: e.target.value })}
                       className="h-9 text-xs focus:ring-primary focus:border-primary shadow-none"
@@ -198,11 +202,11 @@ ${contactForm.message}`;
 
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <Label htmlFor="email" className="text-xs font-semibold text-muted-foreground">Alamat Email (Opsional)</Label>
+                    <Label htmlFor="email" className="text-xs font-semibold text-muted-foreground">{t("form.emailLabel")}</Label>
                     <Input
                       id="email"
                       type="email"
-                      placeholder="nama@email.com"
+                      placeholder={t("form.emailPlaceholder")}
                       value={contactForm.email}
                       onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
                       className="h-9 text-xs focus:ring-primary focus:border-primary shadow-none"
@@ -210,17 +214,17 @@ ${contactForm.message}`;
                   </div>
 
                   <div className="space-y-1.5">
-                    <Label htmlFor="package" className="text-xs font-semibold text-muted-foreground">Paket yang Diminati (Opsional)</Label>
+                    <Label htmlFor="package" className="text-xs font-semibold text-muted-foreground">{t("form.packageLabel")}</Label>
                     <Select
                       value={selectedPackage || "__none__"}
                       onValueChange={(value) => setSelectedPackage(value === "__none__" ? "" : value)}
                     >
                       <SelectTrigger id="package" className="h-9 text-xs shadow-none">
-                        <SelectValue placeholder="-- Pilih Paket Internet --" />
+                        <SelectValue placeholder={t("form.packagePlaceholder")} />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="__none__" className="text-xs text-muted-foreground">
-                          -- Pilih Paket Internet --
+                          {t("form.packagePlaceholder")}
                         </SelectItem>
                         {selectedPackage &&
                           !displayPackages.some((pkg) => pkg.name === selectedPackage) && (
@@ -230,7 +234,7 @@ ${contactForm.message}`;
                           )}
                         {displayPackages.map((pkg, idx) => (
                           <SelectItem key={idx} value={pkg.name} className="text-xs">
-                            {pkg.name} ({pkg.price} / bulan)
+                            {pkg.name} ({pkg.price} / {t("form.month")})
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -239,11 +243,11 @@ ${contactForm.message}`;
                 </div>
 
                 <div className="space-y-1.5">
-                  <Label htmlFor="message" className="text-xs font-semibold text-muted-foreground">Pesan / Pertanyaan</Label>
+                  <Label htmlFor="message" className="text-xs font-semibold text-muted-foreground">{t("form.messageLabel")}</Label>
                   <Textarea
                     id="message"
                     rows={4}
-                    placeholder="Tulis pesan Anda di sini..."
+                    placeholder={t("form.messagePlaceholder")}
                     value={contactForm.message}
                     onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
                     className="text-xs focus:ring-primary focus:border-primary shadow-none resize-none"
@@ -258,12 +262,12 @@ ${contactForm.message}`;
                   {formLoading ? (
                     <>
                       <Loader2 className="h-4 w-4 animate-spin" />
-                      Mengirimkan Pesan...
+                      {t("form.submitting")}
                     </>
                   ) : (
                     <>
                       <Send className="h-4 w-4" />
-                      Kirim Pesan Layanan
+                      {t("form.submit")}
                     </>
                   )}
                 </Button>

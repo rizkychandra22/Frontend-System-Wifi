@@ -182,6 +182,54 @@ export default {
     },
 
     ContactPage: {
-
-    }
+        header: {
+            title: "Hubungi Layanan Kami",
+            description: "Punya pertanyaan mengenai paket internet kami? Butuh bantuan pendaftaran? Kirim pesan langsung di bawah ini.",
+        },
+        info: {
+            title: "Informasi Kontak",
+            description: "Hubungi kami kapan saja melalui saluran kontak di bawah ini. Kami akan dengan senang hati membantu Anda memasang wifi idaman.",
+            phone: {
+                title: "Telepon & WhatsApp",
+                service2: "(Layanan WA 2)",
+            },
+            email: {
+                title: "Alamat Email",
+            },
+            office: {
+                title: "Alamat Kantor Operasional",
+                building: "Gedung NetVerse IT Center, Lt. 3",
+                address: "Jl. Jenderal Sudirman No. 45, Jakarta Selatan",
+            },
+            hours: {
+                title: "Jam Operasional Kantor",
+                time: "Senin - Sabtu: 08.00 - 17.00 WIB",
+                support: "Dukungan teknis darurat via WA aktif 24 jam.",
+            },
+        },
+        form: {
+            nameLabel: "Nama Lengkap",
+            namePlaceholder: "Masukkan nama Anda",
+            phoneLabel: "Nomor Telepon / WA",
+            phonePlaceholder: "Contoh: 08123456789",
+            emailLabel: "Alamat Email (Opsional)",
+            emailPlaceholder: "nama@email.com",
+            packageLabel: "Paket yang Diminati (Opsional)",
+            packagePlaceholder: "-- Pilih Paket Internet --",
+            month: "bulan",
+            messageLabel: "Pesan / Pertanyaan",
+            messagePlaceholder: "Tulis pesan Anda di sini...",
+            submit: "Kirim Pesan Layanan",
+            submitting: "Mengirimkan Pesan...",
+            validationError: "Nama, Nomor HP, dan Pesan wajib diisi.",
+            redirectToast: "Form valid! Mengalihkan ke WhatsApp...",
+            defaultPackageMessage: "Halo Netverse, saya tertarik untuk berlangganan paket wifi {{package}}. Mohon informasikan jadwal pemasangannya.",
+            waGreeting: "Halo NetVerse Fiber, saya ingin bertanya/berlangganan. Berikut detail informasi saya:",
+            waName: "Nama",
+            waPhone: "Nomor HP",
+            waEmail: "Email",
+            waPackage: "Paket yang Diminati",
+            waMessage: "Pesan",
+        },
+    },
 }
